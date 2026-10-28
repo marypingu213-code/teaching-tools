@@ -1,8 +1,11 @@
 # 教學設計工具箱
 
-給臺灣特教老師用的靜態小網站。第一個工具是「分層學習單產生器」：貼上課文或生字，也可以上傳課本頁面，做出低、中、高三份學習單，再下載成 Word。
+給臺灣特教老師用的靜態小網站。目前有兩個工具：
 
-網站不用安裝、不用編譯。題目由你自己的 AI 金鑰直接從瀏覽器送出，課文和金鑰不會存到這個 GitHub 倉庫。
+- **分層學習單產生器**：貼上課文或生字，也可以上傳課本頁面，做出低、中、高三份學習單，再下載成 Word。
+- **練字卡修改工具**：開啟練字卡截圖，自動去掉藍色筆順數字、把右邊格子整理成白底置中的注音，再用筆刷、框選或整格清空擦掉筆畫，然後下載或列印。
+
+網站不用安裝、不用編譯。學習單的題目由你自己的 AI 金鑰直接從瀏覽器送出，課文和金鑰不會存到這個 GitHub 倉庫。練字卡只在這台瀏覽器裡改圖，圖片不會上傳。
 
 ## 開啟 GitHub Pages
 
@@ -13,7 +16,9 @@
 5. 按 **Save**。
 6. 等一兩分鐘，打開：<https://marypingu213-code.github.io/teaching-tools/>
 
-首頁是工具箱，學習單在：<https://marypingu213-code.github.io/teaching-tools/worksheet-generator/>
+首頁是工具箱。學習單在：<https://marypingu213-code.github.io/teaching-tools/worksheet-generator/>
+
+練字卡在：<https://marypingu213-code.github.io/teaching-tools/practice-card/>
 
 若網址顯示 404，請確認 `main` 分支根目錄已經有 `index.html`，而且 Pages 的來源是 **main / root**。公開倉庫可以直接開 Pages；私有倉庫需要 GitHub 方案支援 Pages。
 
@@ -43,6 +48,15 @@ Word 為 A4。字型是標楷體（DFKai-SB），東亞字型設成標楷體。�
 
 不想先用金鑰時，可以按「看示例版面（不呼叫 AI）」，先看 Word 長什麼樣子。那份是網站內建的短例，不是你的課文。
 
+## 怎麼改練字卡
+
+1. 打開練字卡修改工具，把練字卡截圖拖進去，或按「開啟圖片」，也可以 Ctrl+V 貼上。
+2. 開圖後會自動去掉藍色筆順數字，右邊格子只留注音（白底、置中）。這兩項可以關掉，或用目前選項重新整理。
+3. 用左邊的工具修改：筆畫擦除刪最後一畫，框選擦除去部首或部件，整格清空讓學生自己寫獨體字，修復筆刷把擦過頭的地方畫回來。
+4. 可只擦筆畫、保留米字格虛線和框線。改完下載圖片或列印。
+
+圖片只留在這台瀏覽器，不會上傳。
+
 ## 新增一個工具
 
 1. 在倉庫根目錄建資料夾，例如 `reading-log/`，裡面放 `index.html`。
@@ -71,6 +85,7 @@ Word 為 A4。字型是標楷體（DFKai-SB），東亞字型設成標楷體。�
 | `js/tools.js` | 工具清單 |
 | `css/site.css` | 全站樣式 |
 | `worksheet-generator/` | 分層學習單產生器 |
+| `practice-card/` | 練字卡修改工具 |
 | `vendor/docx.js` | 在瀏覽器產生 Word（docx，MIT） |
 | `vendor/jszip.min.js` | 把三份 Word 包成壓縮檔（JSZip，MIT） |
 
