@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>分層學習單產生器｜教學設計工具箱</title>
+  <meta name="description" content="貼上課文或生字、上傳課本頁面，產生低、中、高三份學習單，並下載成 Word。">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="../">
+        <span class="seal" aria-hidden="true">箱</span>
+        <span>教學設計工具箱</span>
+      </a>
+      <p class="crumb">分層學習單產生器</p>
+    </div>
+  </header>
+  <main>
+    <div class="wrap">
+      <section class="page-intro">
+        <p class="eyebrow">國語文</p>
+        <h1>分層學習單產生器</h1>
+        <p class="lede">同一份課文，做出低、中、高三種程度。低程度字大、問表面的事實；高程度才問想法和修辭。題目只應來自你提供的材料。</p>
+        <ol class="steps">
+          <li><strong>1</strong>貼上自己的 Gemini 金鑰</li>
+          <li><strong>2</strong>貼課文、生字，或上傳課本頁面</li>
+          <li><strong>3</strong>看過三份預覽，不對的直接改</li>
+          <li><strong>4</strong>下載 Word，最後一頁是答案</li>
+        </ol>
+      </section>
+
+      <details class="settings" id="settings">
+        <summary>AI 設定 <span id="settings-status">尚未儲存金鑰</span></summary>
+        <p class="note">金鑰只存在這台瀏覽器的 localStorage，不會送到這個教學網站。你按下產生時，課文、生字和圖片會從這台電腦直接傳給你選的 AI 服務。共用電腦請用完按「清除金鑰」。</p>
+        <div class="provider-row">
+          <label class="choice"><input type="radio" name="provider" value="gemini" checked> Google Gemini（預設，有免費額度）</label>
+          <label class="choice"><input type="radio" name="provider" value="openai"> OpenAI（選用）</label>
+        </div>
+        <div class="settings-grid two" id="gemini-fields">
+          <label class="field">模型
+            <input id="gemini-model" type="text" value="gemini-2.5-flash" autocomplete="off" spellcheck="false">
+            <small>預設 gemini-2.5-flash。若名稱失效，可改成 AI Studio 裡看得到的模型。</small>
+          </label>
+          <label class="field">Gemini API 金鑰
+            <input id="gemini-key" type="password" autocomplete="off" spellcheck="false" placeholder="貼上 AI Studio 的金鑰">
+            <small><a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">到 Google AI Studio 取得金鑰</a></small>
+          </label>
+        </div>
+        <div class="settings-grid two" id="openai-fields" hidden>
+          <label class="field">模型
+            <input id="openai-model" type="text" value="gpt-4o-mini" autocomplete="off" spellcheck="false">
+          </label>
+          <label class="field">OpenAI API 金鑰
+            <input id="openai-key" type="password" autocomplete="off" spellcheck="false" placeholder="貼上 OpenAI 的金鑰">
+            <small>從網頁直接呼叫 OpenAI，常會被瀏覽器擋住。若失敗，請改回 Gemini。<a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer">OpenAI 金鑰頁</a></small>
+          </label>
+        </div>
+        <div class="inline-actions">
+          <button type="button" class="btn small" id="save-settings">儲存金鑰</button>
+          <button type="button" class="btn secondary small" id="toggle-key">顯示金鑰</button>
+          <button type="button" class="btn secondary small" id="clear-settings">清除金鑰</button>
+        </div>
+      </details>
+
+      <section class="form-panel" aria-labelledby="form-heading">
+        <h2 id="form-heading">材料與題目</h2>
+        <div class="form-grid two">
+          <label class="field span-2">年級與課題
+            <input id="title" type="text" maxlength="80" placeholder="四上國語 第1~6課 複習">
+            <small>下載時會變成「四上國語 第1~6課 複習學習單（低）」這樣的檔名。</small>
+          </label>
+          <fieldset class="span-2">
+            <legend>題型</legend>
+            <div class="choice-row">
+              <label class="choice"><input type="radio" name="qtype" value="choice" checked> 選擇題（三選一）</label>
+              <label class="choice"><input type="radio" name="qtype" value="cloze"> 填空</label>
+              <label class="choice"><input type="radio" name="qtype" value="word"> 造詞／造句</label>
+              <label class="choice"><input type="radio" name="qtype" value="short"> 簡答</label>
+            </div>
+            <p id="type-hint" class="hint">三個選項，學生把①②③寫在（　）裡。</p>
+          </fieldset>
+          <label class="field">每一程度的題數
+            <input id="count" type="number" min="1" max="30" value="14" inputmode="numeric">
+            <small>低、中、高都會各出這個題數。預設 14。</small>
+          </label>
+          <p id="vocab-warn" class="banner warn span-2" hidden>目前只有生字、沒有課文。選擇題容易考到課外的字義，建議改成「造詞／造句」，或再貼上課文、上傳課本頁面。</p>
+          <label class="field span-2">課文
+            <textarea id="passage" maxlength="20000" placeholder="把課文貼在這裡。可以是一整課，也可以是幾課的重點。"></textarea>
+            <small id="passage-count">已貼 0 字</small>
+          </label>
+          <label class="field span-2">生字（選填）
+            <textarea id="vocab" maxlength="2000" placeholder="一行一個，或用頓號分開。例如：澆、盆、香味"></textarea>
+          </label>
+          <div class="span-2">
+            <div class="drop" id="drop">
+              <p class="field-label">課本頁面（選填）</p>
+              <input id="images" class="file-input" type="file" accept="image/*" multiple>
+              <button type="button" class="btn secondary small" id="pick-images">選擇圖片</button>
+              <p class="hint">可一次選多張，或把圖片拖到這裡。圖片只在這次產生時送給 AI，用來讀課文，不會另外保存。最多 6 張。</p>
+              <div id="thumbs" class="thumbs"></div>
+            </div>
+          </div>
+        </div>
+        <p id="form-error" class="banner error" hidden></p>
+        <p id="form-status" class="banner ok" hidden></p>
+        <div class="actions">
+          <button type="button" class="btn" id="generate">產生三份學習單</button>
+          <button type="button" class="btn secondary" id="fill-sample">看示例版面（不呼叫 AI）</button>
+        </div>
+      </section>
+
+      <section class="preview-panel" id="preview-section" aria-labelledby="preview-heading" hidden>
+        <div class="section-row">
+          <h2 id="preview-heading">預覽</h2>
+          <div class="toolbar">
+            <button type="button" class="btn" id="download-all">一次下載三份（壓縮檔）</button>
+          </div>
+        </div>
+        <p class="hint">淡黃底是答案，只會出現在 Word 的最後一頁，不會印在題目頁。選項在 Word 裡會排成同一行。請老師看過：題目應只來自你提供的課文和圖片，不對的句子直接改掉再下載。</p>
+        <p id="preview-note" class="banner warn" hidden></p>
+        <div id="papers" class="papers"></div>
+      </section>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>課文不會留在這個網站。金鑰只留在你的瀏覽器。</p>
+    </div>
+  </footer>
+  <script src="../vendor/docx.js"></script>
+  <script src="../vendor/jszip.min.js"></script>
+  <script src="docx-export.js"></script>
+  <script src="sample.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
