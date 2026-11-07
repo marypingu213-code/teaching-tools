@@ -22,4 +22,12 @@ window.TOOLBOX_TOOLS = [
     subject: "國語文",
     status: "ready",
   },
+  {
+    id: "g2-chinese",
+    href: "g2-chinese/",
+    title: "2上國語課文大廳",
+    summary: "二年級上學期的國語課文動起來。目前有第七課到第十二課。",
+    subject: "國語文",
+    status: "ready",
+  },
 ];
