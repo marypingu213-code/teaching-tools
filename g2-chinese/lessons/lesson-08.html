@@ -3,394 +3,226 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>第八課 四季的頭髮｜課文動起來</title>
+<title>二上第八課 角和腳｜課文動起來</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --kai:"LXGW WenKai TC","BiauKai","DFKai-SB","標楷體","Kaiti TC","Noto Serif TC","Noto Serif CJK TC","PMingLiU",serif;
-  --bg:#D7ECE8; --panel:#FFFFFF; --ink:#1E2D2B; --soft:#56706B;
-  --teal:#2F7F76; --su:#2E7FC1; --au:#C4862E; --wi:#5A7FA8; --sp:#4E9E3A; --gold:#E8A33A;
-  --sea:var(--teal);
+  --bg:#EAEEDD; --panel:#FFFFFF; --ink:#2A2A1F; --soft:#66654F;
+  --deer:#B8743A; --leaf:#4A8A3C; --water:#3E8FB0; --gold:#E8A33A; --red:#C8362B;
   color-scheme:light;
 }
 @media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){ --bg:#142321; --panel:#1E302D; --ink:#EAF4F2; --soft:#A7C1BC; color-scheme:dark; }
+  :root:not([data-theme="light"]){ --bg:#1B1C14; --panel:#27281D; --ink:#F1F0E6; --soft:#BDBBA4; color-scheme:dark; }
 }
 *{box-sizing:border-box}
 html,body{margin:0;height:100%}
 body{font-family:var(--kai);background:var(--bg);color:var(--ink);display:grid;grid-template-rows:auto 1fr;overflow:hidden;
   padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-header{display:flex;align-items:center;gap:1.4vw;padding:1vh 1.6vw .8vh;flex-wrap:wrap}
-h1{margin:0;font-size:4.4vh;color:var(--teal);letter-spacing:.12em;white-space:nowrap}
+header{display:flex;align-items:center;gap:1.2vw;padding:1vh 1.6vw .8vh;flex-wrap:wrap}
+h1{margin:0;font-size:4.4vh;color:var(--deer);letter-spacing:.12em;white-space:nowrap}
 h1 small{font-size:.5em;color:var(--soft);letter-spacing:.05em;margin-right:.4em}
-h1 em{font-style:normal;font-size:.45em;color:var(--soft);margin-left:.5em;letter-spacing:0}
-nav{display:flex;gap:.4vw;flex-wrap:wrap;align-items:center}
-nav button{font:inherit;font-size:2.4vh;padding:.5vh 1vw;border-radius:10px;border:2px solid transparent;background:transparent;color:var(--ink);cursor:pointer}
-nav button.on{background:var(--panel);border-color:var(--c,var(--teal));color:var(--c,var(--teal));font-weight:700}
+nav{display:flex;gap:.25vw;flex-wrap:wrap;align-items:center}
+nav button{font:inherit;font-size:2.4vh;padding:.5vh .7vw;border-radius:10px;border:2px solid transparent;background:transparent;color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:.3em}
+nav button i{font-style:normal;display:inline-grid;place-items:center;width:2.7vh;height:2.7vh;border-radius:50%;background:var(--deer);color:#fff;font-size:1.7vh}
+nav button.on{background:var(--panel);border-color:var(--deer);color:var(--deer);font-weight:700}
 nav .sep{color:var(--soft)}
-main{display:grid;grid-template-columns:1fr 52vh;gap:1.2vw;padding:0 1.6vw 1.4vh;min-height:0}
+main{display:grid;grid-template-columns:1fr 46vh;gap:1.2vw;padding:0 1.6vw 1.4vh;min-height:0}
 .stagewrap{display:grid;grid-template-rows:1fr auto;gap:1vh;min-height:0}
-.stage{position:relative;border-radius:20px;overflow:hidden;background:#CFE6E2;min-height:0}
+.stage{position:relative;border-radius:20px;overflow:hidden;background:#DCE7C8;min-height:0}
 .scene{position:absolute;inset:0;display:none}
 .scene.on{display:block}
 .scene>svg{width:100%;height:100%;display:block}
-#ov{position:absolute;inset:0;pointer-events:none;z-index:5}
+#ov{position:absolute;inset:0;pointer-events:none;z-index:7}
 .acts{display:flex;flex-wrap:wrap;gap:.7vw;min-height:6vh;align-items:center}
-.acts button{font:inherit;font-size:2.6vh;padding:.9vh 1.4vw;border-radius:999px;border:3px solid var(--sea);background:var(--panel);color:var(--ink);cursor:pointer}
-.acts button:hover{background:var(--sea);color:#fff}
-.acts button.main{background:var(--sea);color:#fff;font-weight:700}
-button:focus-visible,.v:focus-visible,.ln:focus-visible,.cell:focus-visible{outline:4px solid var(--gold);outline-offset:2px}
+.acts button{font:inherit;font-size:2.7vh;padding:.9vh 1.4vw;border-radius:999px;border:3px solid var(--deer);background:var(--panel);color:var(--ink);cursor:pointer}
+.acts button:hover{background:var(--deer);color:#fff}
+.acts button.main{background:var(--deer);color:#fff;font-weight:700}
+.acts .hint{font-size:2.3vh;color:var(--soft)}
+button:focus-visible,.v:focus-visible,.ln:focus-visible{outline:4px solid var(--gold);outline-offset:2px}
 aside{background:var(--panel);border-radius:20px;padding:1.6vh 1.4vh;display:grid;grid-template-rows:auto minmax(0,1fr) auto;grid-template-columns:minmax(0,1fr);gap:1vh;min-height:0}
 .ptitle{display:flex;justify-content:space-between;align-items:center;font-size:2.6vh;color:var(--soft)}
-.ptitle b{color:var(--sea);font-size:1.15em}
-.txt{writing-mode:vertical-rl;font-size:3.9vh;line-height:1.5;letter-spacing:.06em;width:100%;height:100%;min-height:0;overflow:auto;display:block}
-.ln{display:block;cursor:pointer;border-radius:10px;padding:.3vh 0;transition:background .3s}
+.ptitle b{color:var(--deer);font-size:1.15em}
+.txt{writing-mode:vertical-rl;font-size:4.5vh;line-height:1.7;letter-spacing:.08em;width:100%;height:100%;min-height:0;overflow:auto;display:block}
+.txt.long{font-size:3.5vh}
+.ln{cursor:pointer;border-radius:8px;transition:background .3s;padding:.1em 0}
 .ln:hover{background:rgba(0,0,0,.05)}
-.ln.on{background:#FFF0B8;color:#1E2D2B}
+.ln.on{background:#FFE7A8;color:#2A2A1F}
 .ln.done{color:var(--soft)}
-.txt.guide .ln{cursor:default}
+.guide .ln{cursor:default;display:block;font-size:.85em}
 .v{border:2px solid var(--gold);border-radius:6px;cursor:pointer;color:#1F6FA0;padding:.1em 0}
-.v.x{border-style:dashed;border-color:#9AA6B5;color:inherit}
-@media (prefers-color-scheme: dark){ .v{color:#86C9F0} .ln.on .v{color:#1F6FA0} }
+.v.b{border-color:transparent;color:#1F6FA0}
+@media (prefers-color-scheme: dark){ .v,.v.b{color:#86C9F0} .ln.on .v{color:#1F6FA0} }
 .pnav{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:.8vh}
 .pnav button{font:inherit;font-size:2.6vh;padding:1vh 0;border-radius:12px;border:2px solid var(--soft);background:transparent;color:var(--ink);cursor:pointer}
-.pnav .say{background:var(--sea);border-color:var(--sea);color:#fff;font-weight:700}
+.pnav .say{background:var(--deer);border-color:var(--deer);color:#fff;font-weight:700}
 .pnav button:disabled{opacity:.35}
-#pop{position:fixed;left:3vw;bottom:13vh;max-width:48vw;background:#fff;color:#1E2D2B;border:4px solid var(--gold);border-radius:16px;padding:1.4vh 1.6vw;font-size:3vh;line-height:1.6;box-shadow:0 8px 24px rgba(0,0,0,.25);display:none;z-index:20}
+#pop{position:fixed;left:3vw;bottom:13vh;max-width:48vw;background:#fff;color:#2A2A1F;border:4px solid var(--gold);border-radius:16px;padding:1.4vh 1.6vw;font-size:3.2vh;line-height:1.6;box-shadow:0 8px 24px rgba(0,0,0,.25);display:none;z-index:20}
 #pop.on{display:block;animation:pop .3s}
-#pop h3{margin:0 0 .4vh;color:#2F7F76;font-size:1.25em}
+#pop h3{margin:0 0 .4vh;color:#9A5A20;font-size:1.3em}
 #pop .row{display:flex;gap:1vw;margin-top:.8vh}
-#pop button{font:inherit;font-size:.85em;border-radius:10px;border:2px solid #2F7F76;background:#fff;color:#2F7F76;padding:.3vh 1vw;cursor:pointer}
+#pop button{font:inherit;font-size:.85em;border-radius:10px;border:2px solid #9A5A20;background:#fff;color:#9A5A20;padding:.3vh 1vw;cursor:pointer}
 
-.badge{position:absolute;background:#fff;color:#1E2D2B;border:4px solid var(--sea);border-radius:14px;padding:.6vh 1.1vw;font-size:3vh;font-weight:700;animation:pop .45s cubic-bezier(.3,1.6,.6,1);white-space:nowrap}
-.badge small{display:block;font-weight:400;font-size:.78em;color:#4B5B58}
-.bub{position:absolute;font-size:5vh;font-weight:700;color:#fff;-webkit-text-stroke:2px var(--sea);paint-order:stroke fill;animation:floatup 1.9s ease-out forwards}
+.badge{position:absolute;background:#fff;color:#2A2A1F;border:4px solid var(--deer);border-radius:14px;padding:.6vh 1.2vw;font-size:3.2vh;font-weight:700;animation:pop .45s cubic-bezier(.3,1.6,.6,1);white-space:nowrap;z-index:8}
+.badge.gold{border-color:var(--gold)}.badge.red{border-color:var(--red)}.badge.green{border-color:#2E8B57}
+.bubble{position:absolute;background:#fff;color:#2A2A1F;border:4px solid #2A2A1F;border-radius:18px;padding:.8vh 1.2vw;font-size:3vh;line-height:1.5;max-width:46%;animation:pop .3s cubic-bezier(.3,1.6,.6,1);z-index:8}
+.bubble b{display:block;font-size:.8em;color:#9A5A20}
+.bub{position:absolute;font-size:5.4vh;font-weight:700;color:#fff;-webkit-text-stroke:2px #9A5A20;paint-order:stroke fill;animation:floatup 1.9s ease-out forwards;z-index:8}
 @keyframes floatup{from{transform:translateY(0) scale(.6);opacity:0}20%{opacity:1;transform:translateY(-10px) scale(1)}to{transform:translateY(-90px);opacity:0}}
-.huge{position:absolute;left:50%;top:40%;transform:translate(-50%,-50%);font-size:16vh;font-weight:700;color:#fff;-webkit-text-stroke:4px var(--sea);paint-order:stroke fill;animation:ahh 1.8s ease-out forwards;white-space:nowrap}
-@keyframes ahh{0%{transform:translate(-50%,-50%) scale(.3);opacity:0}25%{transform:translate(-50%,-50%) scale(1.1);opacity:1}80%{opacity:1}100%{transform:translate(-50%,-50%) scale(1);opacity:0}}
-.qm{position:absolute;font-size:9vh;font-weight:700;color:var(--sea);animation:qbob 1s ease-in-out 3 alternate}
-@keyframes qbob{from{transform:translateY(0) rotate(-10deg)}to{transform:translateY(-16px) rotate(10deg)}}
-.lens{position:absolute;font-size:9vh;animation:search 3s ease-in-out forwards}
-@keyframes search{0%{left:10%;top:60%}25%{left:70%;top:20%}50%{left:20%;top:20%}75%{left:75%;top:60%}100%{left:45%;top:35%;opacity:0}}
-.flash{position:absolute;inset:0;background:#fff;animation:flash .8s ease-out forwards}
-@keyframes flash{0%,40%{opacity:0}45%{opacity:.85}60%{opacity:0}70%{opacity:.6}100%{opacity:0}}
+.huge{position:absolute;left:40%;top:30%;transform:translate(-50%,-50%);font-size:12vh;font-weight:700;color:#FFE45C;-webkit-text-stroke:5px #C8362B;paint-order:stroke fill;animation:ahh 1.6s ease-out forwards;white-space:nowrap;z-index:8}
+@keyframes ahh{0%{transform:translate(-50%,-50%) scale(.3);opacity:0}25%{transform:translate(-50%,-50%) scale(1.15);opacity:1}80%{opacity:1}100%{transform:translate(-50%,-50%) scale(1);opacity:0}}
 @keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
 .lbl{font-family:var(--kai);font-weight:700}
 
-/* compass */
-#compass{position:absolute;right:2%;top:3%;width:19vh;z-index:4;display:none;text-align:center}
-#compass.on{display:block;animation:pop .4s}
-#compass svg{width:100%;height:auto;display:block}
-#compass .cl{font-size:2.8vh;font-weight:700;color:#1E2D2B;background:#fff;border-radius:10px;margin-top:.4vh;padding:.2vh 0;border:3px solid var(--sea)}
-.carr{animation:blowin 1.6s ease-in-out infinite}
-@keyframes blowin{from{transform:translateY(-34px);opacity:0}30%{opacity:1}to{transform:translateY(0);opacity:.2}}
+/* scene */
+#riverSet,#forestSet{transition:opacity .6s}
+#forestSet{opacity:0}
+.inforest #forestSet{opacity:1}.inforest #riverSet{opacity:0}
+#refl{opacity:0;transition:opacity 1s}.refl #refl{opacity:.45}
+.rip{transform-box:fill-box;transform-origin:center;animation:rip 1.6s ease-out infinite}
+@keyframes rip{from{transform:scale(.3);opacity:.9}to{transform:scale(1.6);opacity:0}}
+#ripples{display:none}.drinkfx #ripples{display:inline}
+.dhead{transform-box:view-box;transform-origin:-45px -105px;transition:transform .8s}
+.drink .dhead{transform:rotate(-62deg)}
+.leg{transform-box:fill-box;transform-origin:50% 0}
+.run .leg.a{animation:legA .22s ease-in-out infinite alternate}
+.run .leg.b{animation:legB .22s ease-in-out infinite alternate}
+.fast .leg.a,.fast .leg.b{animation-duration:.12s}
+@keyframes legA{from{transform:rotate(-30deg)}to{transform:rotate(30deg)}}
+@keyframes legB{from{transform:rotate(30deg)}to{transform:rotate(-30deg)}}
+.run .dbody{animation:bob .22s ease-in-out infinite alternate}
+.fast .dbody{animation-duration:.12s}
+@keyframes bob{to{transform:translateY(-8px)}}
+.stuck .dbody{animation:tug .3s ease-in-out infinite alternate}
+@keyframes tug{from{transform:translateX(0)}to{transform:translateX(10px)}}
+.tears{display:none}.cry .tears{display:inline}
+.tear{animation:tear 1s ease-in infinite}
+@keyframes tear{from{transform:translateY(0);opacity:1}to{transform:translateY(30px);opacity:0}}
+.pant .dbody{animation:pant .6s ease-in-out infinite alternate}
+@keyframes pant{to{transform:scaleY(1.04)}}
+.puff{display:none}.pant .puff{display:inline}
+.puffc{animation:puff 1.2s ease-out infinite}
+@keyframes puff{from{transform:translate(0,0);opacity:.9}to{transform:translate(-40px,-20px);opacity:0}}
+.ant path{transition:stroke .5s}
+.glowA .ant path{stroke:#F2B33A;filter:drop-shadow(0 0 6px #FFD23F)}
+.badA .ant path{stroke:#C8362B;filter:drop-shadow(0 0 6px #FF6A5A)}
+.badL .leg line{stroke:#C8362B}
+.goodL .leg line{stroke:#2E8B57;filter:drop-shadow(0 0 5px #6AD38A)}
+#tangle{opacity:0;transition:opacity .4s}.tangled #tangle{opacity:1}
+.lrun .lleg{animation:legA .2s ease-in-out infinite alternate}
+.lrun .lleg.b{animation-name:legB}
+.lrun .lbody{animation:bob .2s ease-in-out infinite alternate}
+.lleg,.lbody{transform-box:fill-box;transform-origin:50% 0}
 
-/* faces */
-.face .mo,.face .eb{display:none}
-.wow .face .mo,.wow .face .eb{display:inline}
-.wow .face .ms,.wow .face .en{display:none}
-.look .face .pup{animation:look 1.1s ease-in-out 2}
-@keyframes look{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-.wind{display:none}
-.a1 .wind{display:inline}
-.wl{animation:windgo 2s linear infinite}
-@keyframes windgo{from{transform:translateX(-300px);opacity:0}30%{opacity:.9}to{transform:translateX(900px);opacity:0}}
-.gust .wl{animation-duration:.8s}
-
-/* summer */
-#suSky{fill:#8FD0F0;transition:fill 1.5s}
-.a5 #suSky{fill:#4E5B68}
-#suSun{transition:opacity 1s}
-.a3 #suSun{opacity:.35}.a5 #suSun{opacity:0}
-#suCloud{opacity:0;transform:translateY(-220px);transition:transform 1.6s ease-out,opacity 1s;transform-box:view-box;transform-origin:500px 110px}
-.a3 #suCloud{opacity:1;transform:translateY(0)}
-.a5 #suCloud{transform:scale(2.7,1.6)}
-.rain{display:none}
-.rain line{stroke:#D6ECFF;stroke-width:2.5;stroke-dasharray:34 20;animation:fall .6s linear infinite}
-@keyframes fall{to{stroke-dashoffset:-108}}
-.a3 #suRain{display:inline}
-.a4 .rain line{animation-duration:.28s;stroke-width:3}
-.a5 #suRain2{display:inline}
-#suTears,#suPud{display:none}
-.a6 #suTears,.a6 #suPud{display:inline}
-.tear{animation:tear 1.1s ease-in infinite}
-@keyframes tear{from{transform:translateY(0);opacity:1}to{transform:translateY(60px);opacity:0}}
-#suBolt{opacity:0}
-.bolt #suBolt{animation:bolt .8s}
-@keyframes bolt{0%,40%{opacity:0}45%,58%{opacity:1}60%{opacity:0}70%,80%{opacity:1}100%{opacity:0}}
-.a6 .face .ms{display:none}.a6 .face .sad{display:inline}
-.face .sad{display:none}
-.wet{display:none}.a6 .wet{display:inline}
-
-/* autumn */
-#auSkyFace{opacity:0;transition:opacity 1.2s}
-.a6 #auSkyFace,.a7 #auSkyFace{opacity:1}
-.pl{transform-box:fill-box;transform-origin:50% 100%;transform:scaleY(0);transition:transform .9s cubic-bezier(.3,1.5,.6,1)}
-.a3 .pl{transform:scaleY(1)}
-.pls{transform-box:fill-box;transform-origin:50% 100%}
-.a5 .pls{animation:sway 1.3s ease-in-out infinite alternate}
-@keyframes sway{from{transform:rotate(-9deg)}to{transform:rotate(9deg)}}
-.cloud{transform-box:fill-box;transform-origin:center}
-.a5 .cloud{animation:cdance 2.6s ease-in-out infinite alternate}
-@keyframes cdance{from{transform:translateX(-30px) rotate(-4deg)}to{transform:translateX(30px) rotate(4deg)}}
-#auKiss{opacity:0}
-.kiss #auKiss{animation:kiss 2.2s ease-out}
-@keyframes kiss{0%{opacity:0;transform:translateY(10px) scale(.5)}30%{opacity:1;transform:translateY(0) scale(1.2)}80%{opacity:1}100%{opacity:0;transform:translateY(-40px)}}
-#auKiss{transform-box:fill-box;transform-origin:center}
-
-/* winter */
-#wiSky{fill:#C9D6E3;transition:fill 1.5s}
-.a4 #wiSky{fill:#A9C3E0}
-#wiCap{transform-box:fill-box;transform-origin:50% 0;transform:scaleY(0);transition:transform 1.8s ease-out}
-.a3 #wiCap{transform:scaleY(1)}
-#wiSnow{display:none}.a3 #wiSnow{display:inline}
-.flake{animation:snow 5s linear infinite}
-@keyframes snow{from{transform:translate(0,-40px)}to{transform:translate(30px,600px)}}
-.shiver #wiMt{animation:shake .12s 14}
-@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-#wiFrost{display:none}.a4 #wiFrost{display:inline}
-#wiSkier{display:none}.a5 #wiSkier{display:inline}
-.braid path{fill:none;stroke:#7FA7D6;stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset 2.6s ease-in-out}
-.a4 .face .ms{display:none}.a4 .face .cold{display:inline}
-.face .cold{display:none}
-.wow .face .cold{display:none}
-
-/* spring */
-#spHills{fill:#D8D2B4;transition:fill 2s}
-.a5 #spHills{fill:#9ACF74}
-.gw{transform-box:fill-box;transform-origin:50% 100%;transform:scaleY(0);transition:transform .6s cubic-bezier(.3,1.6,.6,1)}
-.a3 #spGrass .gw{transform:scaleY(1)}
-.a5 #spField .gw{transform:scaleY(1)}
-.gs{transform-box:fill-box;transform-origin:50% 100%;transition:transform .8s cubic-bezier(.3,1.8,.6,1)}
-.a4 .gs{transform:scaleY(1.4) translateY(-2px)}
-.a6 .gs{animation:wig .6s ease-in-out infinite alternate}
-@keyframes wig{from{transform:scaleY(1.4) rotate(-6deg)}to{transform:scaleY(1.4) rotate(6deg)}}
-#spSay{display:none}.a7 #spSay{display:inline}
-#spEar{display:none}.a6 #spEar{display:inline}
-.bfly{animation:bfly 6s ease-in-out infinite}
-@keyframes bfly{0%{transform:translate(0,0)}25%{transform:translate(120px,-40px)}50%{transform:translate(240px,10px)}75%{transform:translate(120px,40px)}100%{transform:translate(0,0)}}
-#spBf{display:none}.a7 #spBf{display:inline}
-.a7 .face .ms{display:none}.a7 .face .grin{display:inline}
-.face .grin{display:none}
-
-/* html scenes */
-.html{background:linear-gradient(#E3F2EF,#F5FBFA)}
-.tiles{position:absolute;inset:4%;display:grid;grid-template-columns:1fr 1fr;gap:2.4vh}
-.tile{font:inherit;border:0;border-radius:22px;color:#fff;font-size:5vh;font-weight:700;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1vh;box-shadow:inset 0 -8px 0 rgba(0,0,0,.15)}
-.tile span{font-size:11vh;line-height:1}
-.tile small{font-size:2.8vh;font-weight:400;opacity:.95}
-.tq{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#fff;color:#2F7F76;border-radius:50%;width:24vh;height:24vh;display:flex;align-items:center;justify-content:center;text-align:center;font-size:3.4vh;font-weight:700;box-shadow:0 6px 20px rgba(0,0,0,.2);line-height:1.4;pointer-events:none}
-.wind2{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:3%}
-.wind2 svg{width:100%;height:auto;max-height:88%}
-.wq{text-align:center;color:#1E2D2B}
-.wq .q{font-size:5vh;font-weight:700;margin-bottom:3vh}
-.wq .opts{display:grid;grid-template-columns:1fr 1fr;gap:1.6vh;max-width:40vh;margin:0 auto}
-.wq .opts button{font:inherit;font-size:4.4vh;padding:1.6vh 0;border-radius:16px;border:4px solid #2F7F76;background:#fff;color:#2F7F76;cursor:pointer}
-.wq .fb{font-size:3.4vh;min-height:5vh;margin-top:2.4vh}
-.wtable{position:absolute;inset:4%;display:grid;grid-template-columns:12% 14% 22% 1fr;grid-template-rows:auto repeat(4,1fr);gap:1vh;font-size:2.8vh;color:#1E2D2B}
-.wtable .h{background:#2F7F76;color:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:700;padding:.6vh}
-.wtable .s{border-radius:12px;color:#fff;display:flex;align-items:center;justify-content:center;font-size:5vh;font-weight:700}
-.cell{position:relative;background:#fff;border-radius:12px;padding:.6vh 1vw;display:flex;align-items:center;cursor:pointer;line-height:1.4;overflow:hidden}
-.cell .cover{position:absolute;inset:0;background:#F2C14E;display:flex;align-items:center;justify-content:center;font-size:2.6vh;color:#6A4A00;transition:transform .45s}
-.cell.open .cover{transform:translateY(-102%)}
-.writer{position:absolute;inset:3%;display:grid;grid-template-columns:1fr 1fr;gap:2vw;color:#1E2D2B}
-.wpanel{display:flex;flex-direction:column;gap:1.4vh;overflow:auto}
-.wpanel h4{margin:0;font-size:2.8vh;color:#2F7F76}
-.chips{display:flex;flex-wrap:wrap;gap:.8vh}
-.chips button{font:inherit;font-size:2.7vh;padding:.6vh 1.2vw;border-radius:999px;border:3px solid #2F7F76;background:#fff;color:#1E2D2B;cursor:pointer}
-.chips button.on{background:#2F7F76;color:#fff}
-.wpanel input{font:inherit;font-size:2.8vh;padding:.8vh 1vw;border-radius:12px;border:3px solid #9AA6B5;width:100%}
-.poem{background:#fff;border-radius:20px;padding:2vh 2vw;writing-mode:vertical-rl;font-size:4.2vh;line-height:1.7;letter-spacing:.06em;border:4px dashed #E8A33A;overflow:auto}
-.poem .blank{color:#B0B8B6}
+/* html pages */
+.html{background:linear-gradient(#F3F0E2,#FCFBF6)}
+.tl{position:absolute;inset:3%;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:auto 1fr;gap:1.2vh 1vw}
+.arrowbar{grid-column:1/-1;height:4.4vh;background:linear-gradient(90deg,#9A7A4A,#C9A06A);border-radius:999px;position:relative;display:flex;align-items:center;justify-content:space-around;color:#fff;font-size:2.8vh;font-weight:700}
+.arrowbar:after{content:"";position:absolute;right:-2.2vh;top:-1vh;border:3.2vh solid transparent;border-left:3.2vh solid #C9A06A;border-right:0}
+.tcard{background:#fff;border-radius:18px;border:4px solid var(--c);padding:1.2vh .9vw;display:flex;flex-direction:column;gap:.8vh;color:#2A2A1F;overflow:auto}
+.tcard h4{margin:0;font-size:3.2vh;color:#fff;background:var(--c);border-radius:12px;padding:.3vh .8vw;align-self:flex-start}
+.tcard .q{font-size:2.8vh;font-weight:700;line-height:1.4}
+.tcard .a{font-size:2.6vh;line-height:1.5;background:#FFF2D6;border-radius:12px;padding:.6vh .7vw;display:none}
+.tcard .a.on{display:block;animation:pop .4s}
+.tcard .row{display:flex;gap:.5vw;flex-wrap:wrap;margin-top:auto}
+.tcard button{font:inherit;font-size:2.3vh;border-radius:999px;border:3px solid var(--c);background:#fff;color:#2A2A1F;padding:.3vh .8vw;cursor:pointer}
+.idi{position:absolute;inset:3%;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:auto 1fr;gap:1.2vh 1vw}
+.icard{font:inherit;background:#fff;border:4px solid var(--c);border-radius:18px;padding:1vh .6vw;cursor:pointer;color:#2A2A1F;display:flex;flex-direction:column;align-items:center;gap:.4vh}
+.icard .em{font-size:6vh;line-height:1}
+.icard b{font-size:3.8vh;color:var(--c)}
+.icard.on{background:color-mix(in srgb,var(--c) 14%,#fff)}
+.idet{grid-column:1/-1;background:#fff;border-radius:18px;padding:2vh 2vw;color:#2A2A1F;font-size:3.1vh;line-height:1.7;overflow:auto}
+.idet h3{margin:0 0 .6vh;font-size:4.4vh}
+.idet .mean{background:#EEF6E8;border-radius:12px;padding:.8vh 1vw}
+.idet .ex{background:#FFF2D6;border-radius:12px;padding:.8vh 1vw;margin-top:1vh}
+.idet .lk{background:#FDE7DA;border-radius:12px;padding:.8vh 1vw;margin-top:1vh;font-weight:700;color:#B5481F}
+.idet .opts{display:flex;gap:1vw;flex-wrap:wrap;margin-top:1.4vh}
+.idet .opts button{font:inherit;font-size:3.2vh;padding:1vh 1.6vw;border-radius:14px;border:3px solid #9A5A20;background:#fff;color:#2A2A1F;cursor:pointer;font-weight:700}
+.idet .fb{min-height:4.5vh;margin-top:1.2vh}
+.idet .tg{font-size:2.1vh;color:#fff;border-radius:6px;padding:.1vh .6vw;margin-right:.6vw}
+.blank{display:inline-block;min-width:6em;border-bottom:4px solid #E8762A;text-align:center;color:#E8762A}
+.sp{position:absolute;inset:3%;display:grid;grid-template-columns:1fr 1.1fr;gap:1.4vw;color:#2A2A1F}
+.spl,.spr{background:#fff;border-radius:18px;padding:1.4vh 1.2vw;display:flex;flex-direction:column;gap:.8vh;overflow:auto}
+.spl h4,.spr h4{margin:0;font-size:3.2vh;color:#9A5A20}
+.ex4{display:grid;grid-template-columns:1fr 1fr;gap:.8vh}
+.ex4 div{background:#F6F1E4;border-radius:12px;padding:.8vh .6vw;font-size:3vh;text-align:center;cursor:pointer}
+.ex4 em,.sent em{font-style:normal;color:#2E8B57;font-weight:700}
+.ex4 .a1{color:#C8362B;font-weight:700}.ex4 .a2{color:#2E6FB3;font-weight:700}
+.note{font-size:2.6vh;background:#FFF2D6;border-radius:12px;padding:.8vh .8vw;line-height:1.5}
+.sent{font-size:2.9vh;line-height:1.5;border-radius:12px;padding:.8vh .8vw;background:#F6F1E4;cursor:pointer}
+.slot h5{margin:.3vh 0;font-size:2.5vh;color:#66654F}
+.chips{display:flex;flex-wrap:wrap;gap:.6vh}
+.chips button{font:inherit;font-size:2.6vh;padding:.4vh 1vw;border-radius:999px;border:3px solid #E8762A;background:#fff;color:#2A2A1F;cursor:pointer}
+.chips button.on{background:#E8762A;color:#fff}
+.spr input{font:inherit;font-size:2.6vh;padding:.5vh .8vw;border-radius:10px;border:3px solid #C9C2B0;width:100%}
+.mysent{font-size:3.8vh;font-weight:700;background:#FFF8E6;border:4px dashed #E8A33A;border-radius:14px;padding:1vh 1vw;line-height:1.5}
+.mysent .g{color:#2E8B57}.mysent .bl{color:#B9B2A0}
 
 @media (max-width:820px), (max-aspect-ratio:1/1){
   body{overflow:auto;display:block}
   main{grid-template-columns:1fr}
-  .stage{height:58vh}
-  .txt{writing-mode:horizontal-tb;height:auto;font-size:21px}
+  .stage{height:60vh}
+  .txt,.txt.long{writing-mode:horizontal-tb;height:auto;font-size:22px}
   .acts button,.pnav button,nav button{font-size:16px}
   h1{font-size:26px}
-  .writer{grid-template-columns:1fr}
+  .tl{grid-template-columns:1fr 1fr;overflow:auto}.sp{grid-template-columns:1fr;overflow:auto}
 }
-@media (prefers-reduced-motion: reduce){ .wl,.flake,.bfly,.rain line{animation:none} }
-
-/* ===== 修辭 ===== */
-:root{--c-p:#2E8B57;--c-m:#8E5AD6;--c-e:#D9342B;--c-q:#2E6FB3}
-#rhBtn{font:inherit;font-size:2.2vh;border-radius:999px;border:2px solid #8E5AD6;background:transparent;color:var(--ink);padding:.3vh .8vw;cursor:pointer}
-#rhBtn.on{background:#8E5AD6;color:#fff}
-.rh{border-radius:6px;transition:background .3s}
-.rhon .rh{cursor:pointer;background:color-mix(in srgb,var(--rc) 18%,transparent);box-shadow:inset -3px 0 0 var(--rc)}
-.rhon .rh::before{content:attr(data-l);font-size:.5em;background:var(--rc);color:#fff;border-radius:4px;padding:.1em .15em;margin-bottom:.2em;font-weight:700;letter-spacing:0}
-.rhleg{grid-column:1/-1;display:none;gap:.4vw;font-size:2vh;flex-wrap:wrap;align-items:center}
-.rhleg.legon{display:flex}
-.rhleg span{color:#fff;border-radius:6px;padding:.1vh .5vw}
-.rhleg small{color:var(--soft)}
-#pop .why{background:#F3EEFF;border-radius:10px;padding:.6vh .8vw;margin-top:.6vh;font-size:.92em}
-.rcards{position:absolute;inset:3% 3% auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1.2vw}
-.rcard{background:#fff;border-radius:16px;border:4px solid var(--rc);padding:1.2vh .8vw;color:#222;cursor:pointer;font:inherit;text-align:left}
-.rcard h4{margin:0 0 .6vh;color:var(--rc);font-size:3.6vh}
-.rcard p{margin:0;font-size:2.3vh;line-height:1.5}
-.rcard.on{background:color-mix(in srgb,var(--rc) 12%,#fff)}
-.rex{position:absolute;left:3%;right:3%;top:42%;bottom:4%;background:#fff;border-radius:16px;padding:2vh 2vw;color:#222;font-size:3vh;line-height:1.7;overflow:auto}
-.rex .q{font-size:3.8vh;font-weight:700;margin:1vh 0 2vh}
-.rex .opts{display:flex;gap:1vw;flex-wrap:wrap}
-.rex .opts button{font:inherit;font-size:3.6vh;padding:1vh 2vw;border-radius:16px;border:4px solid var(--rc);background:#fff;color:var(--rc);cursor:pointer;font-weight:700}
-.rex .fb{font-size:3vh;min-height:4.5vh;margin-top:1.6vh}
-.rex .tagq{font-size:2.2vh;color:#fff;border-radius:6px;padding:.1vh .6vw;margin-right:.6vw}
-@media (max-width:820px), (max-aspect-ratio:1/1){.rcards{grid-template-columns:repeat(2,1fr)}.rex{top:52%}}
 a.hall-back{position:fixed;z-index:40;top:0;right:0;font-family:var(--kai);font-size:1.7vh;line-height:1.2;padding:.45vh .8vw;white-space:nowrap;background:var(--panel);color:var(--soft);text-decoration:none;border:1px solid var(--soft);border-top:0;border-right:0;border-bottom-left-radius:12px}a.hall-back:hover,a.hall-back:focus-visible{color:var(--ink)}
 </style>
 </head>
 <body>
 <a class="hall-back" href="../">← 回課文大廳</a>
 <header>
-  <h1><small>第八課</small>四季的頭髮<em>林世仁</em></h1>
+  <h1><small>二上第八課</small>角和腳</h1>
   <nav id="tabs"></nav>
 </header>
 
 <main>
   <div class="stagewrap">
     <div class="stage" id="stage">
-
-      <!-- cover -->
-      <div class="scene html" id="sc-cover">
-        <div class="tiles">
-          <button class="tile" style="background:#2E7FC1" data-go="1"><span>⛈️</span>夏天<small>南風吹來</small></button>
-          <button class="tile" style="background:#C4862E" data-go="2"><span>🌾</span>秋天<small>西風吹來</small></button>
-          <button class="tile" style="background:#5A7FA8" data-go="3"><span>🏔️</span>冬天<small>北風吹來</small></button>
-          <button class="tile" style="background:#4E9E3A" data-go="4"><span>🌱</span>春天<small>東風吹來</small></button>
-        </div>
-        <div class="tq">四季的頭髮<br>在哪裡？</div>
-      </div>
-
-      <!-- summer -->
-      <div class="scene" id="sc-su">
-        <svg id="su" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet">
-          <rect id="suSky" width="1000" height="560"/>
-          <g id="suSun"><circle cx="150" cy="110" r="52" fill="#FFD43B"/><g stroke="#FFD43B" stroke-width="6" stroke-linecap="round"><line x1="150" y1="36" x2="150" y2="18"/><line x1="76" y1="110" x2="58" y2="110"/><line x1="224" y1="110" x2="242" y2="110"/><line x1="98" y1="58" x2="85" y2="45"/><line x1="202" y1="58" x2="215" y2="45"/></g></g>
-          <path d="M0,400 Q150,330 300,380 T600,370 T1000,360 L1000,560 L0,560Z" fill="#6FAF5C"/>
-          <g id="suRain2" class="rain"></g>
-          <g id="suCloud"></g>
-          <g id="suRain" class="rain"></g>
-          <path id="suBolt" d="M610,190 L570,280 L605,280 L560,380 L650,260 L612,260 L650,190Z" fill="#FFE45C" stroke="#fff" stroke-width="3"/>
-          <ellipse cx="500" cy="660" rx="520" ry="260" fill="#79B35F"/>
-          <g id="suFace"></g>
-          <g id="suPud" fill="#9FD3F0" opacity=".8"><ellipse cx="260" cy="520" rx="70" ry="12"/><ellipse cx="740" cy="530" rx="90" ry="14"/><ellipse cx="500" cy="548" rx="60" ry="9"/></g>
-          <g class="wind" transform="rotate(-70 500 280)"><g stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none" opacity=".9"><path class="wl" d="M0,200 q60,-22 120,0 t120,0"/><path class="wl" d="M0,300 q50,-16 100,0" style="animation-delay:.6s"/><path class="wl" d="M0,380 q60,-20 120,0" style="animation-delay:1.2s"/></g></g>
+      <div class="scene" id="sc-world">
+        <svg id="W" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet">
+          <defs><clipPath id="waterClip"><path d="M0,440 L560,440 Q600,500 540,560 L0,560Z"/></clipPath></defs>
+          <g id="riverSet">
+            <rect width="1000" height="560" fill="#CFE7F2"/>
+            <path d="M0,300 Q200,230 420,280 T1000,260 L1000,460 L0,460Z" fill="#A9CF7E"/>
+            <g fill="#6E9E5A"><circle cx="90" cy="250" r="40"/><circle cx="140" cy="232" r="34"/><circle cx="880" cy="240" r="46"/><circle cx="940" cy="256" r="34"/></g>
+            <rect y="430" width="1000" height="130" fill="#C2D88E"/>
+            <path d="M0,440 L560,440 Q600,500 540,560 L0,560Z" fill="#5FA8C8"/>
+            <g id="refl" clip-path="url(#waterClip)"><g id="reflDeer" transform="translate(600,444) scale(1,-1)"></g></g>
+            <g id="ripples" fill="none" stroke="#fff" stroke-width="3"><ellipse class="rip" cx="510" cy="462" rx="30" ry="8"/><ellipse class="rip" cx="510" cy="462" rx="30" ry="8" style="animation-delay:.8s"/></g>
+            <path d="M80,480 q20,-6 40,0 M260,510 q20,-6 40,0 M140,535 q20,-6 40,0" stroke="#BFE6F5" stroke-width="3" fill="none"/>
+          </g>
+          <g id="forestSet">
+            <rect width="1000" height="560" fill="#E8EFD8"/>
+            <g id="trees"></g>
+            <rect y="455" width="1000" height="105" fill="#C9B98A"/>
+            <path d="M360,250 C400,236 440,232 500,228 M420,236 l20,-24 M470,230 l14,22 M390,244 l-12,-20" stroke="#7A5A3A" stroke-width="10" fill="none" stroke-linecap="round"/>
+            <g id="tangle" stroke="#5A4A2A" stroke-width="5" stroke-linecap="round"><path d="M372,214 l22,22 M398,206 l-10,30 M360,232 l30,-6"/></g>
+          </g>
+          <g id="lionPos" transform="translate(1250,455)"><g id="lion"></g></g>
+          <g id="deerPos" transform="translate(1150,444)"><g id="deer"></g></g>
         </svg>
       </div>
 
-      <!-- autumn -->
-      <div class="scene" id="sc-au">
-        <svg id="au" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet">
-          <rect width="1000" height="560" fill="#CFE6F0"/>
-          <g id="auSkyFace">
-            <circle cx="520" cy="66" r="62" fill="#FFF3D1" stroke="#F0C97A" stroke-width="3"/>
-            <path d="M494,60 q8,-8 16,0 M530,60 q8,-8 16,0" stroke="#8A5A20" stroke-width="3" fill="none" stroke-linecap="round"/>
-            <path d="M505,84 q15,12 30,0" stroke="#8A5A20" stroke-width="3" fill="none" stroke-linecap="round"/>
-            <circle cx="486" cy="80" r="8" fill="#F7A9A0" opacity=".7"/><circle cx="554" cy="80" r="8" fill="#F7A9A0" opacity=".7"/>
-            <text x="620" y="40" font-size="22" fill="#8A5A20" class="lbl">天空的臉龐</text>
-          </g>
-          <g id="auClouds"></g>
-          <path d="M0,560 L0,420 Q120,330 220,380 L1000,380 L1000,560Z" fill="#D9B46A" opacity=".6"/>
-          <path d="M40,560 Q300,240 500,236 Q700,240 960,560Z" fill="#C98B3C"/>
-          <g id="auPlumes"></g>
-          <g id="auFace"></g>
-          <g id="auKiss"><path d="M600,118 c-10,-12 -30,0 -18,16 l18,16 l18,-16 c12,-16 -8,-28 -18,-16Z" fill="#F2557A"/><text x="626" y="118" font-size="28" fill="#F2557A" class="lbl">啾～</text></g>
-          <g class="wind"><g stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none" opacity=".9"><path class="wl" d="M0,180 q60,-22 120,0 t120,0"/><path class="wl" d="M0,260 q50,-16 100,0" style="animation-delay:.6s"/><path class="wl" d="M0,330 q60,-20 120,0" style="animation-delay:1.2s"/></g></g>
-        </svg>
-      </div>
+      <div class="scene html" id="sc-map"><div class="tl" id="tl"></div></div>
+      <div class="scene html" id="sc-idiom"><div class="idi" id="idi"></div></div>
+      <div class="scene html" id="sc-yy"><div class="sp"><div class="spl" id="yyl"></div><div class="spr" id="yyr"></div></div></div>
+      <div class="scene html" id="sc-que"><div class="sp"><div class="spl" id="qul"></div><div class="spr" id="qur"></div></div></div>
 
-      <!-- winter -->
-      <div class="scene" id="sc-wi">
-        <svg id="wi" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet">
-          <rect id="wiSky" width="1000" height="560"/>
-          <path d="M0,560 L0,380 L140,260 L260,380 L340,320 L420,400 L1000,400 L1000,560Z" fill="#A9B6C6"/>
-          <path d="M600,400 L760,250 L900,370 L1000,300 L1000,560 L600,560Z" fill="#A9B6C6"/>
-          <g id="wiMt">
-            <path id="wiMtBody" d="M120,540 L500,140 L880,540Z" fill="#7E8FA6"/>
-            <path id="wiCap" d="M500,140 L720,372 q-31,24 -63,0 q-31,24 -63,0 q-31,24 -63,0 q-31,24 -63,0 q-31,24 -63,0 q-31,24 -63,0 q-31,24 -63,0 L500,140Z" fill="#FFFFFF"/>
-            <g id="wiBraids" class="braid"></g>
-            <g id="wiFace"></g>
-          </g>
-          <rect y="530" width="1000" height="30" fill="#EEF3F8"/>
-          <g id="wiFrost" fill="#fff"></g>
-          <path id="wiSlope" d="M500,175 C480,230 520,280 500,350" fill="none"/>
-          <g id="wiSkier">
-            <g>
-              <line x1="-20" y1="8" x2="22" y2="2" stroke="#D9342B" stroke-width="5" stroke-linecap="round"/>
-              <rect x="-7" y="-22" width="14" height="24" rx="5" fill="#2E7FC1"/>
-              <circle cx="0" cy="-30" r="9" fill="#F6CFA8"/><path d="M-9,-33 q9,-14 18,0Z" fill="#D9342B"/>
-              <line x1="-6" y1="-16" x2="-18" y2="4" stroke="#555" stroke-width="2"/><line x1="6" y1="-16" x2="18" y2="4" stroke="#555" stroke-width="2"/>
-              <animateMotion id="skiAnim" dur="3s" begin="indefinite" fill="freeze" rotate="0"><mpath href="#wiSlope"/></animateMotion>
-            </g>
-          </g>
-          <g id="wiSnow"></g>
-          <g class="wind" transform="rotate(70 500 280)"><g stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none" opacity=".9"><path class="wl" d="M0,200 q60,-22 120,0 t120,0"/><path class="wl" d="M0,300 q50,-16 100,0" style="animation-delay:.6s"/><path class="wl" d="M0,380 q60,-20 120,0" style="animation-delay:1.2s"/></g></g>
-        </svg>
-      </div>
-
-      <!-- spring -->
-      <div class="scene" id="sc-sp">
-        <svg id="sp" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet">
-          <rect width="1000" height="560" fill="#BFE6F5"/>
-          <g><circle cx="860" cy="100" r="48" fill="#FFD43B"/><path d="M842,104 q18,16 36,0" stroke="#A05A00" stroke-width="3" fill="none"/><circle cx="846" cy="92" r="3.5" fill="#A05A00"/><circle cx="874" cy="92" r="3.5" fill="#A05A00"/></g>
-          <path id="spHills" d="M0,560 L0,350 Q160,280 320,340 T640,330 T1000,320 L1000,560Z"/>
-          <g id="spField"></g>
-          <ellipse cx="500" cy="660" rx="460" ry="300" fill="#B9905E"/>
-          <g id="spGrass"></g>
-          <g id="spFace"></g>
-          <g id="spEar"><text x="140" y="150" font-size="70">👂</text><text x="220" y="140" font-size="34" fill="#2F7F76" class="lbl">聽……</text></g>
-          <g id="spSay">
-            <g><path d="M560,240 h300 a20,20 0 0 1 20,20 v50 a20,20 0 0 1 -20,20 h-230 l-40,30 l8,-30 h-38 a20,20 0 0 1 -20,-20 v-50 a20,20 0 0 1 20,-20Z" fill="#fff" stroke="#4E9E3A" stroke-width="4"/>
-            <text x="710" y="296" text-anchor="middle" font-size="32" fill="#2E6A20" class="lbl">短短的頭髮最好看！</text></g>
-          </g>
-          <g id="spBf">
-            <g class="bfly"><g transform="translate(200,230)"><ellipse cx="-10" cy="0" rx="12" ry="16" fill="#F7B731"/><ellipse cx="10" cy="0" rx="12" ry="16" fill="#F7B731"/><rect x="-2" y="-10" width="4" height="20" fill="#5A3A20"/></g></g>
-            <g class="bfly" style="animation-delay:-3s"><g transform="translate(320,190)"><ellipse cx="-9" cy="0" rx="10" ry="14" fill="#8EC5F5"/><ellipse cx="9" cy="0" rx="10" ry="14" fill="#8EC5F5"/><rect x="-2" y="-9" width="4" height="18" fill="#5A3A20"/></g></g>
-          </g>
-          <g class="wind" transform="rotate(180 500 280)"><g stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none" opacity=".9"><path class="wl" d="M0,250 q60,-22 120,0 t120,0"/><path class="wl" d="M0,330 q50,-16 100,0" style="animation-delay:.6s"/><path class="wl" d="M0,400 q60,-20 120,0" style="animation-delay:1.2s"/></g></g>
-        </svg>
-      </div>
-
-      <!-- wind game -->
-      <div class="scene html" id="sc-wind">
-        <div class="wind2">
-          <svg viewBox="0 0 400 400" id="bigCompass"></svg>
-          <div class="wq"><div class="q" id="wq"></div><div class="opts" id="wopts"></div><div class="fb" id="wfb"></div></div>
-        </div>
-      </div>
-
-      <!-- table -->
-      <div class="scene html" id="sc-table"><div class="wtable" id="wtable"></div></div>
-
-      <!-- writer -->
-      <div class="scene html" id="sc-write">
-        <div class="writer">
-          <div class="wpanel">
-            <h4>1. 選一個季節</h4><div class="chips" id="cSeason"></div>
-            <h4>2. 它的頭髮是什麼？（點一個，或自己寫）</h4><div class="chips" id="cHair"></div><input id="iHair" placeholder="自己寫：例如 飄落的楓葉">
-            <h4>3. 頭髮的樣子（點一個，或自己寫）</h4><div class="chips" id="cLook"></div><input id="iLook" placeholder="自己寫：例如 紅紅黃黃，飄呀飄">
-          </div>
-          <div class="poem" id="poem"></div>
-        </div>
-      </div>
-
-      <div id="compass"><svg viewBox="0 0 200 200" id="cSvg"></svg><div class="cl" id="cLabel"></div></div>
-      <div class="scene html" id="sc-rh"><div class="rcards" id="rcards"></div><div class="rex" id="rex"></div></div>
       <div id="ov"></div>
     </div>
     <div class="acts" id="acts"></div>
   </div>
 
   <aside>
-    <div class="ptitle"><span id="ptag"></span><button id="rhBtn" aria-pressed="false">🔍 修辭</button><b id="pno"></b></div>
+    <div class="ptitle"><span id="ptag"></span><b id="pno"></b></div>
     <div class="txt" id="txt"></div>
-    <div class="pnav"><div class="rhleg" id="rhleg"><span style="background:var(--c-p)">擬人</span><span style="background:var(--c-m)">譬喻</span><span style="background:var(--c-e)">感嘆</span><span style="background:var(--c-q)">設問</span><small>點有顏色的句子看說明</small></div>
+    <div class="pnav">
       <button id="prev">◀ 上一頁</button>
-      <button id="say" class="say">🔊 念整段</button>
+      <button id="say" class="say">🔊 念給我聽</button>
       <button id="next">下一頁 ▶</button>
     </div>
   </aside>
@@ -403,267 +235,220 @@ const $=s=>document.querySelector(s);
 const $$=s=>[...document.querySelectorAll(s)];
 const NS="http://www.w3.org/2000/svg";
 function el(tag,attrs={},parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;}
-let timers=[];let autoOn=false;
+let timers=[],raf=[];let autoOn=false;
 function later(fn,ms){const t=setTimeout(fn,ms);timers.push(t);return t;}
-function stopAll(){timers.forEach(clearTimeout);timers=[];autoOn=false;try{speechSynthesis.cancel()}catch(e){};$('#ov').innerHTML='';$('#pop').classList.remove('on');}
+function stopAll(){timers.forEach(clearTimeout);timers=[];raf.forEach(cancelAnimationFrame);raf=[];autoOn=false;try{speechSynthesis.cancel()}catch(e){};$('#ov').innerHTML='';$('#pop').classList.remove('on');}
 function ov(html,style,cls='badge'){const d=document.createElement('div');d.className=cls;d.innerHTML=html;Object.assign(d.style,style||{});$('#ov').appendChild(d);return d;}
 function temp(html,style,cls,ms=2000){const d=ov(html,style,cls);setTimeout(()=>d.remove(),ms);return d;}
-function clearBadges(){$('#ov').querySelectorAll('.badge').forEach(b=>b.remove())}
-function bubbles(words,area){words.forEach((w,i)=>later(()=>temp(w,{left:(area.x+Math.random()*area.w)+'%',top:(area.y+Math.random()*area.h)+'%'},'bub',1950),i*280))}
-const clean=t=>rhStrip(t).replace(/\[\[|\]\]|\{\{|\}\}/g,'');
-function speak(text,onend){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(clean(text));u.lang='zh-TW';u.rate=.75;const v=speechSynthesis.getVoices().find(v=>/zh[-_]TW/i.test(v.lang));if(v)u.voice=v;if(onend)u.onend=onend;speechSynthesis.speak(u);return true}catch(e){return false}}
-function replay(node,cls,ms){node.classList.remove(cls);void node.getBoundingClientRect();node.classList.add(cls);if(ms)later(()=>node.classList.remove(cls),ms);}
+function say1(html,cls=''){$('#ov').querySelectorAll('.badge').forEach(b=>b.remove());return ov(html,{left:'3%',top:'4%'},'badge '+cls)}
+function bubbles(words,area){words.forEach((w,i)=>later(()=>temp(w,{left:(area.x+Math.random()*area.w)+'%',top:(area.y+Math.random()*area.h)+'%'},'bub',1950),i*(area.gap||300)))}
+const clean=t=>t.replace(/\[\[|\]\]|\{\{|\}\}/g,'');
+function speak(text,onend){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(clean(text));u.lang='zh-TW';u.rate=.72;const v=speechSynthesis.getVoices().find(v=>/zh[-_]TW/i.test(v.lang));if(v)u.voice=v;if(onend)u.onend=onend;speechSynthesis.speak(u);}catch(e){onend&&setTimeout(onend,1500)}}
+function bubbleNear(id,who,text,ms=4200){later(()=>{const b=$('#'+id).getBoundingClientRect(),s=$('#stage').getBoundingClientRect();const d=ov(`<b>${who}</b>${text}`,{},'bubble');const W=d.offsetWidth,H=d.offsetHeight;let x=b.left-s.left+b.width/2-W/2,y=b.top-s.top-H-10;x=Math.max(8,Math.min(s.width-W-8,x));if(y<8)y=8;d.style.left=x+'px';d.style.top=y+'px';later(()=>d.remove(),ms)},60)}
 
-/* face */
-function face(parent,cx,cy,s=1,col='#4A3A2A'){
-  const g=el('g',{class:'face',transform:`translate(${cx},${cy}) scale(${s})`},parent);
-  g.innerHTML=`<g class="en"><circle cx="-34" cy="0" r="13" fill="#fff"/><circle cx="34" cy="0" r="13" fill="#fff"/><g class="pup"><circle cx="-34" cy="2" r="7" fill="${col}"/><circle cx="34" cy="2" r="7" fill="${col}"/></g></g>
-  <g class="eb"><circle cx="-34" cy="-2" r="19" fill="#fff" stroke="${col}" stroke-width="2"/><circle cx="34" cy="-2" r="19" fill="#fff" stroke="${col}" stroke-width="2"/><circle cx="-34" cy="-2" r="8" fill="${col}"/><circle cx="34" cy="-2" r="8" fill="${col}"/></g>
-  <circle cx="-56" cy="24" r="10" fill="#F7A9A0" opacity=".6"/><circle cx="56" cy="24" r="10" fill="#F7A9A0" opacity=".6"/>
-  <path class="ms" d="M-16,26 q16,16 32,0" stroke="${col}" stroke-width="4" fill="none" stroke-linecap="round"/>
-  <ellipse class="mo" cx="0" cy="34" rx="12" ry="15" fill="${col}"/>
-  <path class="sad" d="M-16,38 q16,-14 32,0" stroke="${col}" stroke-width="4" fill="none" stroke-linecap="round"/>
-  <path class="cold" d="M-18,32 l6,-6 l6,6 l6,-6 l6,6 l6,-6" stroke="${col}" stroke-width="3" fill="none" stroke-linecap="round"/>
-  <path class="grin" d="M-22,22 q22,26 44,0Z" fill="${col}"/>
-  <g class="wet"><path d="M-48,-4 q14,10 28,0" stroke="#5BB4E8" stroke-width="4" fill="none"/><path d="M20,-4 q14,10 28,0" stroke="#5BB4E8" stroke-width="4" fill="none"/></g>`;
-  return g;
-}
-
-/* ---------- build ---------- */
+/* ---------- drawings ---------- */
+function deerArt(){return `
+ <g class="dbody">
+  <g class="leg b"><line x1="34" y1="-74" x2="34" y2="0" stroke="#8A5228" stroke-width="7" stroke-linecap="round"/></g>
+  <g class="leg a"><line x1="-36" y1="-74" x2="-36" y2="0" stroke="#8A5228" stroke-width="7" stroke-linecap="round"/></g>
+  <path d="M54,-100 q16,-10 10,-22 q-8,8 -16,12Z" fill="#9A5A28"/>
+  <ellipse cx="0" cy="-90" rx="60" ry="27" fill="#B8743A"/>
+  <g fill="#F7E6CC"><circle cx="-14" cy="-98" r="4"/><circle cx="6" cy="-104" r="4"/><circle cx="24" cy="-96" r="4"/><circle cx="-2" cy="-88" r="3.5"/><circle cx="36" cy="-104" r="3.5"/></g>
+  <g class="leg a"><line x1="42" y1="-74" x2="42" y2="0" stroke="#A0602E" stroke-width="7" stroke-linecap="round"/></g>
+  <g class="leg b"><line x1="-26" y1="-74" x2="-26" y2="0" stroke="#A0602E" stroke-width="7" stroke-linecap="round"/></g>
+  <path d="M-40,-104 L-60,-150 L-44,-156 L-24,-110Z" fill="#B8743A"/>
+  <g class="dhead">
+   <g class="ant" fill="none" stroke="#7A4A1E" stroke-width="6" stroke-linecap="round"><path d="M-64,-172 L-58,-210 L-44,-246 M-58,-210 L-80,-232 M-50,-232 L-30,-250 M-62,-196 L-84,-204"/><path d="M-56,-170 L-40,-200 L-20,-226 M-40,-200 L-38,-232 M-30,-214 L-8,-218"/></g>
+   <ellipse cx="-70" cy="-160" rx="24" ry="15" fill="#B8743A"/>
+   <ellipse cx="-90" cy="-156" rx="10" ry="8" fill="#A0602E"/><circle cx="-97" cy="-158" r="3" fill="#333"/>
+   <path d="M-56,-170 q14,-10 18,4 q-10,2 -18,-4Z" fill="#A0602E"/>
+   <circle cx="-74" cy="-164" r="3.5" fill="#222"/>
+   <g class="tears"><path class="tear" d="M-76,-158 q4,8 0,12 q-4,-4 0,-12Z" fill="#5BB4E8"/><path class="tear" d="M-76,-158 q4,8 0,12 q-4,-4 0,-12Z" fill="#5BB4E8" style="animation-delay:.5s"/></g>
+   <g class="puff" fill="#fff"><circle class="puffc" cx="-104" cy="-152" r="8"/><circle class="puffc" cx="-104" cy="-152" r="6" style="animation-delay:.6s"/></g>
+  </g>
+ </g>`;}
+function lionArt(){return `<g class="lbody">
+  <path d="M60,-70 q50,-10 50,30 q-4,8 -10,4" stroke="#C9893A" stroke-width="8" fill="none"/><circle cx="100" cy="-38" r="8" fill="#7A4A1E"/>
+  <g class="lleg"><rect x="-40" y="-40" width="18" height="40" rx="8" fill="#D99A4A"/></g><g class="lleg b"><rect x="30" y="-40" width="18" height="40" rx="8" fill="#D99A4A"/></g>
+  <ellipse cx="10" cy="-62" rx="66" ry="32" fill="#E8B05A"/>
+  <g class="lleg b"><rect x="-20" y="-40" width="18" height="40" rx="8" fill="#E8B05A"/></g><g class="lleg"><rect x="48" y="-40" width="18" height="40" rx="8" fill="#E8B05A"/></g>
+  <circle cx="-62" cy="-92" r="48" fill="#8A4A1E"/><g fill="#8A4A1E">${Array.from({length:12},(_,i)=>{const a=i*Math.PI/6;return `<circle cx="${-62+Math.cos(a)*44}" cy="${-92+Math.sin(a)*44}" r="14"/>`}).join('')}</g>
+  <circle cx="-66" cy="-90" r="32" fill="#E8B05A"/><circle cx="-78" cy="-98" r="4" fill="#222"/><circle cx="-56" cy="-98" r="4" fill="#222"/>
+  <path d="M-74,-86 h16 l-8,8Z" fill="#7A3A1A"/><path d="M-82,-74 q16,12 32,0 q-16,4 -32,0Z" fill="#B8262E"/><path d="M-78,-74 l4,6 l4,-6 M-60,-74 l4,6 l4,-6" fill="#fff"/></g>`;}
 (function(){
-  // summer
-  const c=$('#suCloud');
-  [[380,120,70],[460,90,85],[560,95,80],[640,125,65],[500,140,90],[420,150,60],[600,150,60]].forEach(([x,y,r])=>el('circle',{cx:x,cy:y,r,fill:'#5F6C79'},c));
-  const cf=el('g',{transform:'translate(510,130) scale(.7)'},c);cf.innerHTML='<path d="M-40,0 q10,-10 20,0 M20,0 q10,-10 20,0" stroke="#2C333B" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M-12,22 q12,10 24,0" stroke="#2C333B" stroke-width="5" fill="none"/>';
-  const r1=$('#suRain');for(let x=330;x<=690;x+=14)el('line',{x1:x,y1:190,x2:x-14,y2:460,style:`animation-delay:${-Math.random()}s`},r1);
-  const r2=$('#suRain2');for(let x=-20;x<=1020;x+=16)el('line',{x1:x,y1:20,x2:x-16,y2:470,style:`animation-delay:${-Math.random()}s`},r2);
-  face($('#suFace'),500,470,1.3);
-  const tg=el('g',{id:'suTears'},$('#suFace'));[[-44*1.3+500,490],[44*1.3+500,490]].forEach(([x,y],i)=>{for(let k=0;k<2;k++)el('path',{class:'tear',d:`M${x},${y} q7,12 0,18 q-7,-6 0,-18Z`,fill:'#5BB4E8',style:`animation-delay:${k*.55+i*.2}s`},tg)});
-  // autumn
-  const ac=$('#auClouds');[[180,110],[800,150],[340,190]].forEach(([x,y],i)=>{const g=el('g',{class:'cloud',style:`animation-delay:${-i*.9}s`},ac);[[0,0,34],[34,-12,40],[70,0,32]].forEach(([dx,dy,r])=>el('circle',{cx:x+dx,cy:y+dy,r,fill:'#fff'},g));});
-  const ap=$('#auPlumes');
-  const topY=x=>{const t=(x-40)/920;return 560*(1-t)*(1-t)+2*(1-t)*t*240+t*t*560;}; // approx along quad (y)
-  const pts=[];for(let i=0;i<19;i++){pts.push(250+i*28)}
-  pts.forEach((x,i)=>{
-    const tt=(x-40)/920; const qx=(1-tt)*(1-tt)*40+2*(1-tt)*tt*500+tt*tt*960; // not exact; use simple curve instead
-    const y=236+Math.pow((x-500)/460,2)*324+6;
-    const tall=(x===502);
-    const h=tall?38:46+((i*37)%5)*10;
-    const g=el('g',{transform:`translate(${x},${y})`},ap);
-    const pl=el('g',{class:'pl',id:tall?'auTall':'',style:`transition-delay:${(i%7)*.08}s`},g);
-    const ps=el('g',{class:'pls',style:`animation-delay:${-i*.17}s`},pl);
-    el('line',{x1:0,y1:0,x2:0,y2:-h,stroke:'#A88A4A','stroke-width':3},ps);
-    el('path',{d:`M0,${-h} c14,-20 10,-56 -6,-76 c-10,24 -12,52 6,76Z`,fill:'#F3ECD8',stroke:'#C9B78E','stroke-width':2},ps);
-    el('path',{d:`M-1,${-h-10} l-10,-10 M1,${-h-26} l10,-10 M-2,${-h-42} l-9,-9`,stroke:'#C9B78E','stroke-width':1.5},ps);
-  });
-  face($('#auFace'),500,410,1.2);
-  // winter
-  face($('#wiFace'),500,450,1.2,'#2E3A4A');
-  const br=$('#wiBraids');
-  [[[478,180],[420,355]],[[500,180],[500,358]],[[522,180],[580,355]]].forEach(([p0,p1])=>{
-    for(const ph of [0,Math.PI]){let d='';for(let t=0;t<=1.0001;t+=.02){const x=p0[0]+(p1[0]-p0[0])*t,y=p0[1]+(p1[1]-p0[1])*t;const dx=p1[0]-p0[0],dy=p1[1]-p0[1],L=Math.hypot(dx,dy);const nx=-dy/L,ny=dx/L;const a=7*Math.sin(t*Math.PI*8+ph);d+=(t?'L':'M')+(x+nx*a).toFixed(1)+','+(y+ny*a).toFixed(1);}
-      const p=el('path',{d},br);}
-  });
-  $$('#wiBraids path').forEach(p=>{const L=p.getTotalLength?p.getTotalLength():400;p.style.strokeDasharray=L;p.style.strokeDashoffset=L;p.dataset.len=L;});
-  const sn=$('#wiSnow');for(let k=0;k<60;k++)el('circle',{class:'flake',cx:Math.random()*1000,cy:Math.random()*-60,r:2+Math.random()*3,fill:'#fff',style:`animation-delay:${-Math.random()*5}s;animation-duration:${4+Math.random()*3}s`},sn);
-  const fr=$('#wiFrost');for(let k=0;k<14;k++){const x=40+Math.random()*920,y=40+Math.random()*200;el('path',{d:`M${x},${y-10} V${y+10} M${x-9},${y-5} L${x+9},${y+5} M${x-9},${y+5} L${x+9},${y-5}`,stroke:'#fff','stroke-width':2.5,'stroke-linecap':'round'},fr);}
-  // spring
-  const sg=$('#spGrass');
-  for(let x=250;x<=750;x+=11){const y=660-300*Math.sqrt(Math.max(0,1-Math.pow((x-500)/460,2)))+4;
-    const g=el('g',{transform:`translate(${x},${y})`},sg);const gw=el('g',{class:'gw',style:`transition-delay:${Math.abs(x-500)/250*.6}s`},g);const gs=el('g',{class:'gs',style:`animation-delay:${-x%7*.1}s`},gw);
-    el('path',{d:`M-6,0 q1,-22 6,-36 q4,16 6,36Z`,fill:['#5DB047','#4E9E3A','#72C25A'][x%3]},gs);}
-  const sf=$('#spField');
-  for(let k=0;k<260;k++){const x=Math.random()*1000,y=330+Math.random()*230;const g=el('g',{transform:`translate(${x.toFixed(0)},${y.toFixed(0)})`},sf);const gw=el('g',{class:'gw',style:`transition-delay:${(Math.abs(x-500)/500*2).toFixed(2)}s`},g);el('path',{d:`M-4,0 q1,-12 4,-20 q3,9 4,20Z`,fill:['#5DB047','#4E9E3A','#72C25A'][k%3]},gw);}
-  face($('#spFace'),500,470,1.3);
-  // compass small
-  const cs=$('#cSvg');cs.innerHTML=`<circle cx="100" cy="100" r="92" fill="#fff" stroke="#2F7F76" stroke-width="5"/>
-  <text x="100" y="34" text-anchor="middle" font-size="28" class="lbl" fill="#1E2D2B">北</text><text x="100" y="186" text-anchor="middle" font-size="28" class="lbl" fill="#1E2D2B">南</text>
-  <text x="178" y="110" text-anchor="middle" font-size="28" class="lbl" fill="#1E2D2B">東</text><text x="22" y="110" text-anchor="middle" font-size="28" class="lbl" fill="#1E2D2B">西</text>
-  <g id="cRot"><g class="carr"><path d="M100,150 L100,72 M100,60 L88,80 L112,80Z" stroke="#E8473A" stroke-width="7" fill="#E8473A" stroke-linecap="round"/></g></g>`;
+  $('#deer').innerHTML=deerArt();$('#reflDeer').innerHTML=deerArt();$('#lion').innerHTML=lionArt();
+  const tr=$('#trees');[[60,1],[180,.9],[300,1.1],[560,.95],[680,1.05],[820,.9],[940,1]].forEach(([x,s])=>{tr.insertAdjacentHTML('beforeend',`<g transform="translate(${x},455) scale(${s})"><path d="M-18,0 C-14,-120 -22,-220 -10,-330 L14,-330 C10,-220 18,-120 22,0Z" fill="#8A6A4A"/><g fill="#7FA66A" opacity=".85"><circle cx="0" cy="-360" r="70"/><circle cx="-60" cy="-320" r="50"/><circle cx="60" cy="-320" r="54"/></g></g>`)});
 })();
 
 /* ---------- vocabulary ---------- */
 const VOC={
- "西北雨":"夏天午後突然下的大雷雨，來得快，去得也快。",
- "陣陣":"一陣接著一陣。",
- "披":"把頭髮或衣服搭在肩背上，垂下來。",
- "嚇":"讓人害怕、吃了一驚。",
- "眼眶":"眼睛的四周。「溼了眼眶」就是眼睛溼溼的，好像要哭了。",
- "芒草":"秋天會開出白色、像羽毛一樣花穗的草，常長滿山坡。",
- "乘":"坐、搭。「乘著風」就是搭著風。",
- "臉龐":"臉。",
- "冷絲絲":"一絲一絲的冷，涼涼冷冷的感覺。",
- "滑雪板":"綁在腳上，在雪地上滑行的長板子。",
- "梳":"用梳子整理頭髮。",
- "辮子":"把頭髮分成幾股，交叉編起來的長條。",
- "冒":"往外、往上透出來。",
- "踮":"抬起腳跟，只用腳尖站著。",
- "挺":"把身體伸直。",
- "一散千里":"一下子散開，散到很遠、很遠的地方。"
+ "口渴":"嘴巴很乾，想喝水。","花鹿":"身上有白色斑點的鹿，公鹿頭上有角。","喝水":"把水喝下去。","倒影":"東西倒映在水面或鏡子裡的影子。",
+ "瘦":"不胖，細細的。","滿意":"覺得很好，心裡很高興。","卻":"表示意思轉過來，和前面的想法不一樣。","對":"成雙的東西，「一對角」就是兩支角。",
+ "獅子":"很兇猛的大型動物，公獅子脖子上有長長的鬃毛。","嚇":"讓人害怕、吃了一驚。","被":"表示受到別的東西的影響，像「被樹枝卡住」。","樹枝":"樹木長出來的枝條。",
+ "卡住":"被夾著、勾著，動不了。","花":"用掉。「花了好大的力氣」就是用了很多力氣。","力氣":"身體的力量。","掙脫":"用力擺脫束縛，逃出來。",
+ "速度":"跑得快或慢的程度。","直到":"一直到（某個時候）。","救":"幫助別人脫離危險。","小看":"看不起，覺得它沒什麼用。"
 };
 function showVocab(w){const p=$('#pop');p.innerHTML=`<h3>${w}</h3><div>${VOC[w]||''}</div><div class="row"><button id="pSay">🔊 念</button><button id="pClose">關閉</button></div>`;p.classList.add('on');$('#pSay').onclick=()=>speak(w+'。'+VOC[w]);$('#pClose').onclick=()=>p.classList.remove('on');}
 
-/* ---------- common fx ---------- */
-const DIRROT={'南':0,'北':180,'東':-90,'西':90};
-function fxAsk(svg,season){replay(svg,'look',2400);temp('？',{left:'30%',top:'28%'},'qm',3000);temp('？',{left:'62%',top:'22%',animationDelay:'.3s'},'qm',3000);}
-function fxWind(svg,dir){const c=$('#compass');$('#cRot').setAttribute('transform',`rotate(${DIRROT[dir]} 100 100)`);$('#cLabel').textContent=dir+'風：從'+dir+'邊吹來';c.classList.add('on');temp('🔍',{},'lens',3000);}
-function fxAh(svg){replay(svg,'wow',1900);temp('啊——',{},'huge',1900);}
+/* ---------- motion ---------- */
+const cur_={deer:[1150,444,1],lion:[1250,455,0]};
+function setT(id,[x,y,f]){$('#'+id).setAttribute('transform',`translate(${x},${y}) scale(${f||1},1)`)}
+function tween(id,from,to,ms){const t0=performance.now();const step=now=>{const p=Math.min(1,(now-t0)/ms);const e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;const v=[from[0]+(to[0]-from[0])*e,from[1]+(to[1]-from[1])*e,to[2]];setT(id,v);if(p<1)raf.push(requestAnimationFrame(step))};raf.push(requestAnimationFrame(step));}
+function lionShow(on){$('#lionPos').style.opacity=on?1:0}
+/* positions: [deer x,y,flip], [lion x,y,visible], extra classes on svg, deer classes, duration, optional start override */
+const D0=[600,444,1],DF=[440,455,1];
+const PLAN=[
+ [ {d:[600,444,1],l:[1250,455,0],w:'',c:'run',dur:2600,start:{d:[1150,444,1]}},
+   {d:[600,444,1],l:[1250,455,0],w:'drinkfx',c:'drink',dur:0} ],
+ [ {d:D0,l:[1250,455,0],w:'refl',c:'',dur:0},
+   {d:D0,l:[1250,455,0],w:'refl',c:'badL',dur:0},
+   {d:D0,l:[1250,455,0],w:'refl',c:'glowA',dur:0} ],
+ [ {d:D0,l:[1250,455,0],w:'refl',c:'glowA',dur:0},
+   {d:D0,l:[880,455,1],w:'',c:'',dur:1500,lrun:1,start:{l:[1250,455,1]}},
+   {d:[620,455,1],l:[1150,455,1],w:'inforest',c:'run fast',dur:1800,lrun:1,start:{d:[1150,455,1],l:[1350,455,1]}},
+   {d:[440,455,1],l:[1050,455,1],w:'inforest tangled',c:'stuck',dur:700,lrun:1},
+   {d:[440,455,1],l:[900,455,1],w:'inforest tangled',c:'stuck cry',dur:2200,lrun:1},
+   {d:[380,455,1],l:[800,455,1],w:'inforest',c:'',dur:600,lrun:1},
+   {d:[-300,455,1],l:[420,455,1],w:'inforest',c:'run fast',dur:1800,lrun:1},
+   {d:[420,455,1],l:[1300,455,0],w:'inforest',c:'run',dur:2400,start:{d:[1150,455,1]},endc:''} ],
+ [ {d:[420,455,1],l:[1300,455,0],w:'inforest',c:'pant',dur:0},
+   {d:[420,455,-1],l:[1300,455,0],w:'inforest',c:'pant',dur:0},
+   {d:[420,455,-1],l:[1300,455,0],w:'inforest',c:'pant badA',dur:0},
+   {d:[420,455,-1],l:[1300,455,0],w:'inforest',c:'pant badA goodL',dur:0},
+   {d:[420,455,-1],l:[1300,455,0],w:'inforest',c:'goodL',dur:0} ]
+];
+function applyStep(s,k,instant){
+  const P=PLAN[s][k];$('#W').setAttribute('class',P.w);$('#deerPos').setAttribute('class',P.c);$('#lionPos').setAttribute('class',P.lrun?'lrun':'');
+  lionShow(P.l[2]);
+  if(instant||!P.dur){setT('deerPos',P.d);setT('lionPos',[P.l[0],P.l[1],1]);return}
+  const prev=k>0?PLAN[s][k-1]:null;
+  const fd=(P.start&&P.start.d)||(prev?prev.d:P.d),fl=(P.start&&P.start.l)||(prev?[prev.l[0],prev.l[1],1]:[P.l[0],P.l[1],1]);
+  setT('deerPos',fd);setT('lionPos',fl);tween('deerPos',fd,P.d,P.dur);tween('lionPos',fl,[P.l[0],P.l[1],1],P.dur);
+  later(()=>{if(P.endc!==undefined)$('#deerPos').setAttribute('class',P.endc);else if(/run/.test(P.c)&&s===0)$('#deerPos').setAttribute('class','');},P.dur);
+}
 
-/* ---------- seasons ---------- */
-const SEA={
- su:{name:'夏天',color:'#2E7FC1',dir:'南',svg:()=>$('#su'),lines:[
-   '(@設問,擬人|q1|夏天的頭髮在哪裡？@)','南風吹來，找哇找……','(@感嘆|e1|啊——@)','(@譬喻,感嘆|m1|夏天的頭髮是[[西北雨]]！@)','又急又長，響聲[[陣陣]]。','一[[披]]下來，就遮住天空，','(@擬人|p1|[[嚇]]得大地一下溼了[[眼眶]]。@)'],
-   fx:[s=>fxAsk(s),s=>fxWind(s,'南'),s=>fxAh(s),
-       s=>{clearBadges();ov('夏天的頭髮：西北雨 ⛈️',{left:'3%',top:'4%'})},
-       s=>{replay(s,'bolt',900);temp('',{},'flash',900);bubbles(['轟隆隆！','嘩啦啦！','轟隆隆！','嘩啦啦！'],{x:15,y:20,w:55,h:30});later(()=>{replay(s,'bolt',900);temp('',{},'flash',900)},1400)},
-       s=>{clearBadges();ov('像長長的頭髮披下來，遮住了天空',{left:'3%',top:'4%'})},
-       s=>{clearBadges();ov('大地嚇了一跳，眼眶都溼了 😢',{left:'3%',top:'4%'})}]},
- au:{name:'秋天',color:'#C4862E',dir:'西',svg:()=>$('#au'),lines:[
-   '(@設問,擬人|q1|秋天的頭髮在哪裡？@)','西風吹來，找哇找……','(@感嘆|e1|啊——@)','(@譬喻,感嘆|m1|秋天的頭髮是滿山的[[芒草]]！@)','「咻！咻！咻！」','(@擬人|p2|[[乘]]著風搖，學著雲舞，@)','(@擬人|p2|一根根在比高、比美，@)','(@擬人|p2|比誰先親到天空的[[臉龐]]。@)'],
-   fx:[s=>fxAsk(s),s=>fxWind(s,'西'),s=>fxAh(s),
-       s=>{clearBadges();ov('秋天的頭髮：滿山的芒草 🌾',{left:'3%',top:'4%'})},
-       s=>{replay(s,'gust',2500);bubbles(['咻！','咻！','咻！'],{x:15,y:30,w:60,h:20})},
-       s=>{clearBadges();ov('跟著風搖一搖，學著雲跳跳舞',{left:'3%',top:'4%'})},
-       s=>{$$('#auPlumes .pl').forEach((p,i)=>{if(p.id!=='auTall')p.style.transform=`scaleY(${(0.85+((i*53)%40)/100).toFixed(2)})`});bubbles(['我最高！','我最美！','看我！','我比較高！'],{x:20,y:30,w:55,h:15})},
-       s=>{$('#auTall').style.transform='scaleY(1.55)';later(()=>replay(s,'kiss',2300),900)}]},
- wi:{name:'冬天',color:'#5A7FA8',dir:'北',svg:()=>$('#wi'),lines:[
-   '(@設問,擬人|q1|冬天的頭髮在哪裡？@)','北風吹來，找哇找……','(@感嘆|e1|啊——@)','(@譬喻,感嘆|m1|冬天的頭髮是山頂上的白雪！@)','冰涼涼、[[冷絲絲]]，','(@擬人|p3|最愛[[滑雪板]]來幫它@)','(@擬人|p3|[[梳]]出一條一條長[[辮子]]。@)'],
-   fx:[s=>fxAsk(s),s=>fxWind(s,'北'),s=>fxAh(s),
-       s=>{clearBadges();ov('冬天的頭髮：山頂上的白雪 🏔️',{left:'3%',top:'4%'})},
-       s=>{replay(s,'shiver',1800);bubbles(['好冷～','冷絲絲','冰涼涼','ㄏㄨ～'],{x:10,y:20,w:65,h:25})},
-       s=>{try{$('#skiAnim').beginElement()}catch(e){}clearBadges();ov('滑雪板從山頂滑下來',{left:'3%',top:'4%'})},
-       s=>{try{$('#skiAnim').beginElement()}catch(e){}$$('#wiBraids path').forEach((p,i)=>{p.style.transitionDelay=(Math.floor(i/2)*.7)+'s';p.style.strokeDashoffset=0});clearBadges();later(()=>ov('梳出一條一條長辮子',{left:'3%',top:'4%'}),1200)}]},
- sp:{name:'春天',color:'#4E9E3A',dir:'東',svg:()=>$('#sp'),lines:[
-   '(@設問,擬人|q1|春天的頭髮在哪裡？@)','東風吹來，找哇找……','(@感嘆|e1|啊——@)','(@譬喻,感嘆|m1|春天的頭髮是[[冒]]出來的小青草！@)','(@擬人|p4|[[踮]]起腳尖，[[挺]]起腰，@)','[[一散千里]]……','(@擬人|p5|聽，它們在說：@)','(@擬人,感嘆|p5|「短短的頭髮最好看！」@)'],
-   fx:[s=>fxAsk(s),s=>fxWind(s,'東'),s=>fxAh(s),
-       s=>{clearBadges();ov('春天的頭髮：冒出來的小青草 🌱',{left:'3%',top:'4%'})},
-       s=>{clearBadges();ov('小青草踮起腳尖、挺起腰',{left:'3%',top:'4%'})},
-       s=>{clearBadges();ov('一下子散到好遠好遠的地方',{left:'3%',top:'4%'})},
-       s=>{clearBadges()},
-       s=>{clearBadges()}]}
-};
-function wipeSeason(k){const s=SEA[k].svg();s.setAttribute('class','');if(k==='au'){$$('#auPlumes .pl').forEach(p=>p.style.transform='')}if(k==='wi'){$$('#wiBraids path').forEach(p=>{p.style.transitionDelay='0s';p.style.strokeDashoffset=p.dataset.len})}}
+/* ---------- text ---------- */
+const ST=[
+ {lines:['有一隻[[口渴]]的[[花鹿]]，','到河邊[[喝水]]。'],
+  fx:[()=>say1('一隻口渴的花鹿 🦌'),()=>say1('到河邊喝水 💧')]},
+ {lines:['花鹿看見自己在水中的[[倒影]]，','對四隻又{{瘦}}又長的腳很不[[滿意]]，','{{卻}}十分喜歡頭上長得又大又漂亮的角。'],
+  fx:[()=>say1('水裡有花鹿的倒影'),()=>{say1('👎 又瘦又長的腳，很不滿意','red');bubbleNear('deer','花鹿心想','我的腳又瘦又長，真難看……',3800)},()=>{say1('❤️ 又大又漂亮的角，十分喜歡','gold');bubbleNear('deer','花鹿心想','我的角又大又漂亮，好喜歡！',3800)}]},
+ {long:1,lines:['當花鹿看著頭上那[[對]]漂亮的角時，','一隻[[獅子]]追了過來，','他{{嚇}}得跑進樹林，','但是頭上的角{{被}}[[樹枝]][[卡住]]了。','花鹿急得哭了起來，','他[[花]]了好大的[[力氣]]，角才從卡住的樹枝中[[掙脫]]。','眼看獅子快追上了，花鹿加快[[速度]]向前跑，','跑了好久，[[直到]]看不見獅子，才停下來。'],
+  fx:[()=>say1('花鹿還在看他漂亮的角……'),()=>{say1('一隻獅子追過來了！','red');bubbles(['吼——！'],{x:70,y:30,w:10,h:5})},()=>say1('嚇得跑進樹林'),()=>{say1('角被樹枝卡住了！','red');temp('卡住了！',{},'huge',1500)},()=>{say1('急得哭了起來 😭');bubbles(['怎麼辦？','救命啊！'],{x:30,y:20,w:15,h:10})},()=>{temp('掙脫！',{},'huge',1500);say1('花了好大的力氣，才掙脫','gold')},()=>say1('加快速度向前跑！'),()=>say1('跑了好久，看不見獅子了，才停下來')]},
+ {lines:['花鹿一邊大口呼著氣，','一邊回頭看了看樹林，','說：「沒想到漂亮的角害了我，','瘦長的腳{{卻}}{{救}}了我，','不能[[小看]]這四隻腳哇！」'],
+  fx:[()=>say1('花鹿大口大口的呼氣'),()=>say1('回頭看了看樹林'),()=>{say1('❌ 漂亮的角，害了我','red');bubbleNear('deer','花鹿','沒想到漂亮的角害了我，',3500)},()=>{say1('✅ 瘦長的腳，救了我','green');bubbleNear('deer','花鹿','瘦長的腳卻救了我，',3500)},()=>{say1('不能小看這四隻腳！','green');bubbleNear('deer','花鹿','不能小看這四隻腳哇！',4000)}]}
+];
 let lineIdx=-1;
-function playLine(k,{speakIt=true,onend}={}){
-  const st=S[cur];if(!st.season)return;const se=SEA[st.season],svg=se.svg();
-  lineIdx=k;
-  const keep=[...svg.classList].filter(c=>!/^a\d$/.test(c));svg.setAttribute('class',keep.join(' '));
-  for(let i=0;i<=k;i++)svg.classList.add('a'+i);
-  se.fx[k](svg);
+function playLine(k,{onend}={}){
+  const st=S[cur];if(st.st===undefined)return;const S_=ST[st.st];
+  stopTimersKeep();lineIdx=k;$('#ov').innerHTML='';
+  applyStep(st.st,k,false);S_.fx[k]();
   $$('#txt .ln').forEach((l,i)=>{l.classList.toggle('on',i===k);l.classList.toggle('done',i<k)});
-  $('#lineNo')&&($('#lineNo').textContent=`第 ${k+1} 句／共 ${se.lines.length} 句`);
-  if(speakIt){const txt=se.lines[k];let done=false;const fin=()=>{if(done)return;done=true;onend&&onend()};
-    speak(txt.replace('啊——','啊'),()=>later(fin,700));later(fin,Math.max(2600,clean(txt).length*480+1400));}
+  $('#lineNo').textContent=`第 ${k+1} 句／共 ${S_.lines.length} 句`;
+  let done=false;const fin=()=>{if(done)return;done=true;onend&&onend()};
+  speak(S_.lines[k],()=>later(fin,700));later(fin,Math.max(2800,clean(S_.lines[k]).length*520+1500));
 }
-function nextLine(){const st=S[cur];if(!st.season)return;const n=SEA[st.season].lines.length;if(lineIdx<n-1)playLine(lineIdx+1);else{temp('這一段念完了！',{left:'50%',top:'45%',transform:'translateX(-50%)'},'badge',1800)}}
-function autoPlay(){const st=S[cur];if(!st.season)return;stopAll();wipeSeason(st.season);$('#compass').classList.remove('on');autoOn=true;const n=SEA[st.season].lines.length;
-  const step=i=>{if(!autoOn||i>=n){autoOn=false;return}playLine(i,{onend:()=>{if(autoOn)step(i+1)}})};later(()=>step(0),300);}
-function restart(){const st=S[cur];stopAll();wipeSeason(st.season);$('#compass').classList.remove('on');lineIdx=-1;$$('#txt .ln').forEach(l=>l.classList.remove('on','done'));}
+function stopTimersKeep(){timers.forEach(clearTimeout);timers=[];raf.forEach(cancelAnimationFrame);raf=[];try{speechSynthesis.cancel()}catch(e){}}
+function resetStanza(s){lineIdx=-1;if(s===0){applyStep(0,0,true);setT('deerPos',[1150,444,1]);$('#deerPos').setAttribute('class','')}else if(s===2){applyStep(1,0,true);$('#deerPos').setAttribute('class','')}else{applyStep(s,0,true);if(s===1)$('#deerPos').setAttribute('class','');if(s===3)$('#deerPos').setAttribute('class','pant')}}
+function nextLine(){const st=S[cur];if(st.st===undefined)return;const n=ST[st.st].lines.length;if(lineIdx<n-1)playLine(lineIdx+1);else temp('這一段念完了！按「下一頁」繼續',{left:'50%',top:'45%',transform:'translateX(-50%)'},'badge',2000)}
+function autoPlay(){const st=S[cur];stopAll();resetStanza(st.st);autoOn=true;const n=ST[st.st].lines.length;const step=i=>{if(!autoOn||i>=n){autoOn=false;return}playLine(i,{onend:()=>{if(autoOn)step(i+1)}})};later(()=>step(0),300);}
 
-/* ---------- wind game ---------- */
-const WMAP=[['春天','東'],['夏天','南'],['秋天','西'],['冬天','北']];
-let wQ=[];
-(function(){const s=$('#bigCompass');s.innerHTML=`<circle cx="200" cy="200" r="180" fill="#fff" stroke="#2F7F76" stroke-width="8"/>
-  <text x="200" y="62" text-anchor="middle" font-size="44" class="lbl" fill="#1E2D2B">北</text><text x="200" y="372" text-anchor="middle" font-size="44" class="lbl" fill="#1E2D2B">南</text>
-  <text x="352" y="215" text-anchor="middle" font-size="44" class="lbl" fill="#1E2D2B">東</text><text x="48" y="215" text-anchor="middle" font-size="44" class="lbl" fill="#1E2D2B">西</text>
-  <g id="bigLbls" font-size="26" class="lbl"></g>
-  <g id="bigRot" style="display:none"><g class="carr"><path d="M200,300 L200,150 M200,128 L180,164 L220,164Z" stroke="#E8473A" stroke-width="12" fill="#E8473A" stroke-linecap="round"/></g></g>`;})();
-function windAsk(){const q=wQ.shift();if(!q){$('#wq').textContent='全部答對了！🎉';$('#wopts').innerHTML='';speak('全部答對了，你好棒');return}
-  const [s,d]=q;$('#wq').textContent=`${s}吹什麼風？`;speak(`${s}吹什麼風`);$('#wfb').textContent='';const o=$('#wopts');o.innerHTML='';
-  ['東','南','西','北'].forEach(x=>{const b=document.createElement('button');b.textContent=x+'風';b.onclick=()=>{if(x===d){$('#wfb').textContent=`答對了！${s}吹${d}風，從${d}邊吹來 ⭐`;$('#wfb').style.color='#2F7F76';const r=$('#bigRot');r.style.display='';r.setAttribute('transform',`rotate(${DIRROT[d]} 200 200)`);speak('答對了，'+s+'吹'+d+'風');later(windAsk,2200)}else{$('#wfb').textContent='再想想看，回去課文找一找！';$('#wfb').style.color='#B5482F'}};o.appendChild(b)});}
-function windStart(){wQ=[...WMAP].sort(()=>Math.random()-.5);$('#bigRot').style.display='none';$('#bigLbls').innerHTML='';windAsk();}
-function windAnswer(){const g=$('#bigLbls');g.innerHTML=`<text x="200" y="100" text-anchor="middle" fill="#5A7FA8">冬天</text><text x="200" y="320" text-anchor="middle" fill="#2E7FC1">夏天</text><text x="300" y="250" text-anchor="middle" fill="#4E9E3A">春天</text><text x="100" y="250" text-anchor="middle" fill="#C4862E">秋天</text>`;}
+/* ---------- story map ---------- */
+const TL=[
+ ['主角','#9A5A20',[['主角是誰？','花鹿。']],0],
+ ['開始','#2E8B57',[['主角對角和腳的看法是什麼？','對又瘦又長的腳很不滿意，卻十分喜歡又大又漂亮的角。']],1],
+ ['經過','#E8762A',[['主角遇到什麼困難？','獅子追過來，他跑進樹林，角被樹枝卡住了。'],['他怎麼解決困難？','花了好大的力氣掙脫，再加快速度向前跑，直到看不見獅子。']],2],
+ ['結果','#2E6FB3',[['主角對角和腳的看法有什麼改變？','漂亮的角害了他，瘦長的腳卻救了他，不能小看這四隻腳。']],3]];
+function buildTL(all){const t=$('#tl');t.innerHTML='<div class="arrowbar"><span>主角</span><span>開始</span><span>經過</span><span>結果</span></div>';
+  TL.forEach(([h,c,qs,st])=>{const d=document.createElement('div');d.className='tcard';d.style.setProperty('--c',c);d.innerHTML=`<h4>${h}</h4>`+qs.map(([q,a])=>`<div class="q">● ${q}</div><div class="a${all?' on':''}">${a}</div>`).join('')+`<div class="row"><button class="sh">看答案</button><button class="gv">🎬 看動畫</button></div>`;
+    d.querySelector('.sh').onclick=()=>{d.querySelectorAll('.a').forEach(a=>a.classList.add('on'));speak(qs.map(x=>x[1]).join(''))};d.querySelector('.gv').onclick=()=>{go(st);later(autoPlay,400)};t.appendChild(d)});}
 
-/* ---------- table ---------- */
-const TB=[['夏','#2E7FC1','南風','西北雨','又急又長，響聲陣陣；一披下來就遮住天空'],['秋','#C4862E','西風','滿山的芒草','咻咻咻，乘著風搖，學著雲舞，比高、比美'],['冬','#5A7FA8','北風','山頂上的白雪','冰涼涼、冷絲絲；滑雪板梳出長辮子'],['春','#4E9E3A','東風','冒出來的小青草','踮起腳尖、挺起腰，一散千里；短短的頭髮最好看']];
-(function(){const t=$('#wtable');t.innerHTML='<div class="h">季節</div><div class="h">什麼風</div><div class="h">頭髮是</div><div class="h">頭髮的樣子</div>';
-  TB.forEach(r=>{t.insertAdjacentHTML('beforeend',`<div class="s" style="background:${r[1]}">${r[0]}</div>`);[2,3,4].forEach(c=>{const d=document.createElement('div');d.className='cell';d.tabIndex=0;d.innerHTML=`${r[c]}<div class="cover">點我</div>`;d.onclick=()=>{d.classList.toggle('open');if(d.classList.contains('open'))speak(r[c])};d.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();d.click()}};t.appendChild(d)})});})();
+/* ---------- idioms ---------- */
+const ID=[
+ {n:'七手八腳',e:'🙌🦶',c:'#E8762A',m:'形容人多，動作紛亂又沒條理。',x:'媽媽忽然頭暈，我們七手八腳的把她扶回屋內休息。',lk:'成語裡有課文的「腳」字！'},
+ {n:'河東獅吼',e:'🦁',c:'#C8362B',m:'比喻妻子凶悍發威。',x:'宋太太的河東獅吼，讓宋先生不敢說話。',lk:'成語裡有課文的「獅」字！'},
+ {n:'理直氣壯',e:'💪',c:'#2E6FB3',m:'理由正當、充分，無所畏懼。',x:'他做錯事還理直氣壯，讓媽媽火冒三丈。'}];
+const IQ=[['媽媽忽然頭暈，我們＿＿的把她扶回屋內休息。','七手八腳',1],['宋太太的＿＿，讓宋先生不敢說話。','河東獅吼',1],['他做錯事還＿＿，讓媽媽火冒三丈。','理直氣壯',1],
+ ['搬家那天，大家＿＿的把箱子搬上車。','七手八腳',0],['我沒有拿他的東西，所以＿＿的說出真相。','理直氣壯',0],['爸爸忘了倒垃圾，媽媽一個＿＿，爸爸馬上跑去倒。','河東獅吼',0]];
+let iq=[],iqi=0;
+function buildIdiom(sel){const box=$('#idi');box.innerHTML='';ID.forEach((d,i)=>{const b=document.createElement('button');b.className='icard'+(i===sel?' on':'');b.style.setProperty('--c',d.c);b.innerHTML=`<span class="em">${d.e}</span><b>${d.n}</b>`;b.onclick=()=>buildIdiom(i);box.appendChild(b)});
+  const det=document.createElement('div');det.className='idet';det.id='idet';box.appendChild(det);
+  if(sel===undefined){det.innerHTML='<div style="color:#66654F">點上面的成語卡，看看意思和例句；或按下方「考考你」練習。</div>';return}
+  const d=ID[sel];det.innerHTML=`<h3 style="color:${d.c}">${d.e} ${d.n}</h3><div class="mean"><b>意思：</b>${d.m}</div><div class="ex"><b>例句：</b>${d.x}</div>${d.lk?`<div class="lk">${d.lk}</div>`:''}`;speak(d.n+'。'+d.m+'。例句：'+d.x);}
+function idiomQuiz(){iq=[...IQ].sort(()=>Math.random()-.5);iqi=0;buildIdiom();askIdiom();}
+function askIdiom(){const det=$('#idet');if(iqi>=iq.length){det.innerHTML='<h3>全部完成！🎉</h3>';speak('全部完成，你好棒');return}
+  const [s,a,b]=iq[iqi];det.innerHTML=`<div><span class="tg" style="background:${b?'#9A5A20':'#9AA6B5'}">${b?'課本例句':'練習題'}</span>第 ${iqi+1}／${iq.length} 題：空格要填哪個成語？</div><div style="font-size:3.8vh;font-weight:700;margin-top:1vh">${s.replace('＿＿','<span class="blank">？</span>')}</div><div class="opts"></div><div class="fb"></div>`;speak(s.replace('＿＿','什麼'));
+  ID.forEach(d=>{const x=document.createElement('button');x.textContent=d.n;x.onclick=()=>{const fb=det.querySelector('.fb');if(d.n===a){det.querySelector('.blank').textContent=a;fb.textContent='答對了！⭐';fb.style.color='#2E8B57';speak('答對了，'+s.replace('＿＿',a));iqi++;later(askIdiom,2600)}else{fb.textContent='再想想看：「'+d.n+'」的意思是'+d.m;fb.style.color='#C8362B'}};det.querySelector('.opts').appendChild(x)});}
 
-/* ---------- writer ---------- */
-const WR={
- 春:{w:'東',hair:['枝頭的花朵','飛舞的蝴蝶','細細的春雨'],look:['五顏六色，香香甜甜','輕輕飄呀飄，飛呀飛']},
- 夏:{w:'南',hair:['大大的荷葉','樹上的蟬聲','長長的瀑布'],look:['綠綠的、圓圓的','唧唧唧，唱個不停']},
- 秋:{w:'西',hair:['飄落的楓葉','金黃的稻穗','圓圓的月光'],look:['紅紅黃黃，飄呀飄','一粒一粒，彎下了腰']},
- 冬:{w:'北',hair:['屋簷的冰柱','屋頂的白霜','暖暖的圍巾'],look:['白白亮亮，冷冰冰','一閃一閃，亮晶晶']}};
-let wSea='秋',wHair='',wLook='';
-function chips(box,list,cur,fn){box.innerHTML='';list.forEach(x=>{const b=document.createElement('button');b.textContent=x;if(x===cur)b.classList.add('on');b.onclick=()=>fn(x);box.appendChild(b)});}
-function renderWriter(){
-  chips($('#cSeason'),Object.keys(WR),wSea,x=>{wSea=x;wHair='';wLook='';$('#iHair').value='';$('#iLook').value='';renderWriter()});
-  chips($('#cHair'),WR[wSea].hair,wHair,x=>{wHair=x;$('#iHair').value='';renderWriter()});
-  chips($('#cLook'),WR[wSea].look,wLook,x=>{wLook=x;$('#iLook').value='';renderWriter()});
-  const h=$('#iHair').value.trim()||wHair,l=$('#iLook').value.trim()||wLook;const B=t=>t?t:'<span class="blank">＿＿＿＿</span>';
-  $('#poem').innerHTML=`${wSea}天的頭髮在哪裡？<br>${WR[wSea].w}風吹來，找哇找……<br>啊——<br>${wSea}天的頭髮是${B(h)}！<br>${B(l)}。`;
-}
-$('#iHair').oninput=renderWriter;$('#iLook').oninput=renderWriter;
-function readPoem(){speak($('#poem').innerText.replace(/＿+/g,'').replace('啊——','啊'));}
+/* ---------- 又……又…… ---------- */
+const YY=[['大','漂亮','角'],['圓','亮','月亮'],['香','甜','水果'],['高','瘦','姐姐']];
+const YN={'角':['大','漂亮','硬','尖'],'腳':['瘦','長','細','有力'],'月亮':['圓','亮','大','白'],'水果':['香','甜','大','紅'],'姐姐':['高','瘦','溫柔','可愛'],'獅子':['大','兇','壯','可怕']};
+let yN='腳',y1='',y2='';
+function buildYY(){$('#yyl').innerHTML='<h4>句子練習：又……又……的……</h4><div class="note">用「又……又……」可以一次說出東西的<b>兩個樣子</b>。點一點，聽聽看！</div><div class="ex4">'+YY.map(([a,b,n])=>`<div data-t="又${a}又${b}的${n}"><em>又</em><span class="a1">${a}</span><em>又</em><span class="a2">${b}</span>的${n}</div>`).join('')+'</div><div class="note">課文裡：四隻<b>又瘦又長</b>的腳、<b>又大又漂亮</b>的角。</div>';
+  $$('#yyl .ex4 div').forEach(d=>d.onclick=()=>speak(d.dataset.t));renderYY();}
+function renderYY(){const r=$('#yyr');r.innerHTML=`<h4>我來說說看</h4><div class="slot"><h5>1. 選一樣東西</h5><div class="chips" id="yN">${Object.keys(YN).map(n=>`<button class="${n===yN?'on':''}">${n}</button>`).join('')}</div></div>
+   <div class="slot"><h5>2. 選兩個樣子（點兩個）</h5><div class="chips" id="yA">${YN[yN].map(a=>`<button class="${a===y1||a===y2?'on':''}">${a}</button>`).join('')}</div></div>
+   <div class="slot"><h5>或自己寫</h5><div style="display:flex;gap:.6vw"><input id="yi1" placeholder="第一個樣子"><input id="yi2" placeholder="第二個樣子"></div></div>
+   <div class="mysent" id="ysent"></div>`;
+  $$('#yN button').forEach(b=>b.onclick=()=>{yN=b.textContent;y1=y2='';renderYY()});
+  $$('#yA button').forEach(b=>b.onclick=()=>{const a=b.textContent;if(a===y1){y1=y2;y2=''}else if(a===y2){y2=''}else if(!y1)y1=a;else if(!y2)y2=a;else{y1=y2;y2=a}renderYY()});
+  ['yi1','yi2'].forEach(i=>$('#'+i).oninput=updYY);updYY();}
+function updYY(){const a=$('#yi1').value.trim()||y1,b=$('#yi2').value.trim()||y2;const B=x=>x?x:'<span class="bl">＿＿</span>';$('#ysent').innerHTML=`<span class="g">又</span>${B(a)}<span class="g">又</span>${B(b)}的${yN}`;}
+
+/* ---------- ……卻…… ---------- */
+const QU=['漂亮的角害了花鹿，瘦長的腳卻救了他。','這件外套看起來很薄，卻很保暖。','那棟矮小的石屋已有百年歷史，卻還是很堅固。'];
+const QC={A:['妹妹個子小小的','妹妹年紀最小','妹妹看起來很害怕'],B:['力氣卻很大','卻很會照顧大家','卻勇敢的去打針']};
+let qa='',qb='';
+function buildQU(){$('#qul').innerHTML='<h4>句子練習：……卻……</h4><div class="note">「卻」前面和後面的意思<b>相反</b>，或是和我們想的<b>不一樣</b>。點一點，聽聽看！</div>'+QU.map(s=>`<div class="sent">${s.replace('卻','<em>卻</em>')}</div>`).join('');
+  $$('#qul .sent').forEach((d,i)=>d.onclick=()=>speak(QU[i]));qa=qb='';renderQU();}
+function renderQU(){const r=$('#qur');r.innerHTML=`<h4>我來描述妹妹</h4><div class="note">看課本的圖，用「……卻……」說說妹妹。點一點，或自己寫！</div>
+   <div class="slot"><h5>前面：妹妹的樣子</h5><div class="chips" id="qA">${QC.A.map(x=>`<button class="${x===qa?'on':''}">${x}</button>`).join('')}</div><input id="qi1" placeholder="自己寫"></div>
+   <div class="slot"><h5>後面：意想不到的事（要有「卻」）</h5><div class="chips" id="qB">${QC.B.map(x=>`<button class="${x===qb?'on':''}">${x}</button>`).join('')}</div><input id="qi2" placeholder="自己寫，記得用「卻」"></div>
+   <div class="mysent" id="qsent"></div>`;
+  $$('#qA button').forEach(b=>b.onclick=()=>{qa=b.textContent;renderQU()});$$('#qB button').forEach(b=>b.onclick=()=>{qb=b.textContent;renderQU()});
+  ['qi1','qi2'].forEach(i=>$('#'+i).oninput=updQU);updQU();}
+function updQU(){const a=$('#qi1').value.trim()||qa,b=$('#qi2').value.trim()||qb;const B=x=>x?x:'<span class="bl">＿＿＿</span>';$('#qsent').innerHTML=`${B(a)}，${b?b.replace('卻','<span class="g">卻</span>'):B('')}。`;}
 
 /* ---------- steps ---------- */
 const S=[
- {sc:'cover',tag:'四季的頭髮',no:'開始',guide:1,lines:['春天、夏天、秋天、冬天，','四季都有自己的頭髮喔！','它們的頭髮在哪裡呢？','點一點左邊的季節，','一起去找一找！'],
-  acts:[['⛈️ 夏天',()=>go(1)],['🌾 秋天',()=>go(2)],['🏔️ 冬天',()=>go(3)],['🌱 春天',()=>go(4)]]},
- {sc:'su',season:'su',tag:'夏天',no:'第一段'},
- {sc:'au',season:'au',tag:'秋天',no:'第二段'},
- {sc:'wi',season:'wi',tag:'冬天',no:'第三段'},
- {sc:'sp',season:'sp',tag:'春天',no:'第四段'},
- {sc:'wind',tag:'風從哪裡來',no:'統整一',guide:1,lines:['每一段都有一陣風，','吹來找頭髮。','夏天吹南風，秋天吹西風，','冬天吹北風，春天吹東風。','你記住了嗎？考考你！'],
-  enter(){windStart()},acts:[['🔄 重新考',windStart],['🧭 看答案',windAnswer]]},
- {sc:'table',tag:'四季的頭髮',no:'統整二',guide:1,lines:['四段詩，寫法都一樣：','先問「頭髮在哪裡？」，','再寫哪一種風吹來，','然後說出頭髮是什麼，','最後寫頭髮的樣子。'],
-  enter(){$$('#wtable .cell').forEach(c=>c.classList.remove('open'))},
-  acts:[['📖 全部打開',()=>$$('#wtable .cell').forEach(c=>c.classList.add('open'))],['🙈 全部蓋起來',()=>$$('#wtable .cell').forEach(c=>c.classList.remove('open'))]]},
- {sc:'write',tag:'我來寫詩',no:'仿寫',guide:1,lines:['換你當小詩人！','選一個季節，','想一想它的頭髮是什麼，','再寫出頭髮的樣子，','你的詩就完成了！'],
-  enter(){renderWriter()},acts:[['🔊 念我的詩',readPoem],['🧹 清空重寫',()=>{wHair='';wLook='';$('#iHair').value='';$('#iLook').value='';renderWriter()}]]}
+ {sc:'world',st:0,tag:'第一段',no:'到河邊喝水'},
+ {sc:'world',st:1,tag:'第二段',no:'水中的倒影'},
+ {sc:'world',st:2,tag:'第三段',no:'獅子來了'},
+ {sc:'world',st:3,tag:'第四段',no:'角和腳'},
+ {sc:'map',tag:'故事重點',no:'找出重點',guide:['主角是誰？','開始、經過、結果，','發生了什麼事？','點一點「看答案」，','也可以點「看動畫」。'],enter(){buildTL()},acts:[['📖 全部看答案',()=>buildTL(1)],['🙈 全部蓋起來',()=>buildTL()]]},
+ {sc:'idiom',tag:'成語',no:'認識成語',guide:['認識三個成語：','七手八腳、','河東獅吼、','理直氣壯。','找找看，哪些字','課文裡也有？'],enter(){buildIdiom(0)},acts:[['🎯 考考你',idiomQuiz],['📖 看成語卡',()=>buildIdiom(0)]]},
+ {sc:'yy',tag:'句子練習',no:'又……又……',guide:['四隻又瘦又長的腳，','又大又漂亮的角。','用「又……又……」，','一次說出兩個樣子！'],enter(){buildYY()},acts:[['🔊 念我的句子',()=>speak($('#ysent').innerText.replace(/＿+/g,''))]]},
+ {sc:'que',tag:'句子練習',no:'……卻……',guide:['漂亮的角害了我，','瘦長的腳卻救了我。','「卻」的前後，','意思不一樣喔！'],enter(){buildQU()},acts:[['🔊 念我的句子',()=>speak($('#qsent').innerText.replace(/＿+/g,''))],['🧹 清空重寫',()=>{qa=qb='';renderQU()}]]}
 ];
 
-
-/* ===== 修辭 ===== */
-function rhStrip(t){return String(t).replace(/\(@[^|@]+\|[^|@]+\|/g,'').replace(/@\)/g,'')}
-const RH={'擬人':['p','把不是人的東西，寫得像人一樣：會說話、會感覺、會做事。'],'譬喻':['m','用另一樣相像的東西來比方，常用「像、好像、有如、就像、是」。'],'感嘆':['e','用「！」或「啊、呀、唉、哇……」，表達強烈的感情，像高興、驚訝、難過。'],'設問':['q','用問句引起注意，或說出心裡的疑問；有時自己問、自己答，有時問了不回答。']};
-const RHWHY={"q1": "先用問句「頭髮在哪裡？」引起注意，後面再自己回答，這是設問。季節本來沒有頭髮，把它寫得像人一樣有頭髮，也是擬人。", "e1": "「啊——」表達找到頭髮時驚喜的心情。", "m1": "把西北雨、芒草、白雪、小青草說成季節的「頭髮」，是把兩樣東西拿來比方；句尾的「！」也有感嘆。", "p1": "大地像人一樣會被嚇到，還會溼了眼眶，好像要哭了。", "p2": "芒草像人一樣會跳舞、比高比美，還想親天空的臉龐。", "p3": "白雪像人一樣，最愛讓滑雪板幫它梳辮子。", "p4": "小青草像人一樣會踮腳尖、挺起腰。", "p5": "小青草像人一樣會說話，還覺得自己的短頭髮最好看。"};
-const RQ=[["「夏天的頭髮在哪裡？……啊——夏天的頭髮是西北雨！」（先問再答）", "設問", 1], ["「嚇得大地一下溼了眼眶。」", "擬人", 1], ["「秋天的頭髮是滿山的芒草！」（把芒草說成頭髮）", "譬喻", 1], ["「啊——」", "感嘆", 1], ["「最愛滑雪板來幫它梳出一條一條長辮子。」", "擬人", 1], ["「踮起腳尖，挺起腰。」（小青草）", "擬人", 1]].concat([['「天上的白雲，像一團團棉花糖。」','譬喻',0],['「太陽公公笑咪咪的看著大家。」','擬人',0],['「哇！雪花好美啊！」','感嘆',0],['「冬天為什麼要多穿衣服？因為天氣冷，容易著涼。」','設問',0],['「小雨點在窗戶上跳舞。」','擬人',0],['「雪地白得像鋪了一層糖粉。」','譬喻',0]]);
-let rhOn=false,rqList=[],rqi=0;
-function rhWrap(t){return String(t).replace(/\(@([^|@]+)\|([^|@]+)\|(.+?)@\)/g,(m,types,key,inner)=>{const ts=types.split(',');return `<span class="rh" role="button" tabindex="0" data-t="${types}" data-k="${key}" data-l="${ts.join('＋')}" style="--rc:var(--c-${RH[ts[0]][0]})">${inner}</span>`})}
-function showRh(types,key,text){const p=$('#pop');p.innerHTML=`<h3>修辭：${types.join('＋')}</h3>${types.map(t=>`<div><b style="color:var(--c-${RH[t][0]})">${t}</b>：${RH[t][1]}</div>`).join('')}<div class="why">${RHWHY[key]||''}</div><div class="row"><button id="pSay">🔊 念這句</button><button id="pClose">關閉</button></div>`;p.classList.add('on');$('#pSay').onclick=()=>speak(text);$('#pClose').onclick=()=>p.classList.remove('on');}
-function bindRh(c){c.querySelectorAll('.rh').forEach(r=>{const f=e=>{if(!rhOn)return;e.stopPropagation();showRh(r.dataset.t.split(','),r.dataset.k,r.textContent)};r.addEventListener('click',f);r.addEventListener('keydown',e=>{if(e.key==='Enter')f(e)})});}
-function rhToggle(){rhOn=!rhOn;$('#txt').classList.toggle('rhon',rhOn);$('#rhleg').classList.toggle('legon',rhOn);$('#rhBtn').classList.toggle('on',rhOn);$('#rhBtn').setAttribute('aria-pressed',rhOn);if(rhOn&&!$('#txt .rh')){const d=document.createElement('div');d.className='badge';d.textContent='這一頁沒有標示修辭，換一段看看！';Object.assign(d.style,{left:'50%',top:'45%',transform:'translateX(-50%)'});$('#ov').appendChild(d);setTimeout(()=>d.remove(),2000)}}
-function buildRh(){const c=$('#rcards');c.innerHTML='';Object.entries(RH).forEach(([n,[k,d]])=>{const b=document.createElement('button');b.className='rcard';b.style.setProperty('--rc',`var(--c-${k})`);b.innerHTML=`<h4>${n}</h4><p>${d}</p>`;b.onclick=()=>{$$('.rcard').forEach(x=>x.classList.toggle('on',x===b));const ex=RQ.filter(r=>r[1]===n&&r[2]);const pr=RQ.find(r=>r[1]===n&&!r[2]);$('#rex').innerHTML=ex.length?`<b style="color:var(--c-${k})">課文裡的${n}：</b>${ex.map(e=>`<div class="q">${e[0]}</div>`).join('')}`:`<b style="color:var(--c-${k})">這一課沒有用到「${n}」，看看這個例子：</b><div class="q">${pr[0]}</div>`;speak(n+'。'+d)};c.appendChild(b)});$('#rex').innerHTML='<div style="font-size:3vh;color:#55636A">點上面的卡片，認識四種修辭；或按下方「考考你」來練習。</div>';}
-function rhQuiz(){rqList=[...RQ].sort(()=>Math.random()-.5);rqi=0;rhAsk();}
-function rhAsk(){const ex=$('#rex');if(rqi>=rqList.length){ex.innerHTML='<div class="q">全部完成！🎉</div>';speak('全部完成，你好棒');return}
-  const [s,a,fromText]=rqList[rqi];ex.innerHTML=`<div><span class="tagq" style="background:${fromText?'#2F6F78':'#9AA6B5'}">${fromText?'課文':'練習題'}</span>第 ${rqi+1}／${rqList.length} 題：這句用了什麼修辭？</div><div class="q">${s}</div><div class="opts"></div><div class="fb"></div>`;speak(s);
-  Object.entries(RH).forEach(([n,[k]])=>{const b=document.createElement('button');b.textContent=n;b.style.setProperty('--rc',`var(--c-${k})`);b.onclick=()=>{const fb=ex.querySelector('.fb');if(n===a){fb.textContent='答對了！這是「'+a+'」⭐';fb.style.color='#2E8B57';speak('答對了');rqi++;setTimeout(rhAsk,1500)}else{fb.textContent='再想想看：句子裡有沒有「像」「！」「？」，或是把東西寫成人？';fb.style.color='#C8362B'}};ex.querySelector('.opts').appendChild(b)});}
-$('#rhBtn').onclick=rhToggle;
-S.push({sc:'rh',tag:'修辭小教室',no:'統整',guide:1,lines:['認識四種修辭：','擬人、譬喻、感嘆、設問。','點上面的卡片看說明，','再按「考考你」練習。','回到課文打開「🔍 修辭」，','找找句子藏在哪裡！'],enter(){buildRh()},acts:[['🎯 考考你',rhQuiz],['📖 看說明',buildRh]]});
-
 /* ---------- navigation ---------- */
-const TABS=[['開始',0],['夏',1,'#2E7FC1'],['秋',2,'#C4862E'],['冬',3,'#5A7FA8'],['春',4,'#4E9E3A'],['風從哪裡來',5],['統整表',6],['我來寫詩',7]];
-TABS.push(['修辭小教室',S.length-1]);TABS.forEach(([n,i,c],k)=>{if(k===5)$('#tabs').insertAdjacentHTML('beforeend','<span class="sep">｜</span>');const b=document.createElement('button');b.textContent=n;if(c)b.style.setProperty('--c',c);b.onclick=()=>go(i);b.dataset.i=i;$('#tabs').appendChild(b)});
-$$('.tile').forEach(t=>t.onclick=()=>go(+t.dataset.go));
+const TABS=[['喝水',0,1],['倒影',1,2],['獅子來了',2,3],['角和腳',3,4],['故事重點',4],['成語',5],['又……又……',6],['……卻……',7]];
+TABS.forEach(([n,i,num],k)=>{if(k===4)$('#tabs').insertAdjacentHTML('beforeend','<span class="sep">｜</span>');else if(k>0&&k<4)$('#tabs').insertAdjacentHTML('beforeend','<span class="sep">›</span>');
+  const b=document.createElement('button');b.innerHTML=(num?`<i>${num}</i>`:'')+n;b.onclick=()=>go(i);b.dataset.i=i;$('#tabs').appendChild(b)});
 let cur=0;
-function lineHTML(t){return rhWrap(t).replace(/\[\[(.+?)\]\]/g,(m,w)=>`<span class="v" role="button" tabindex="0" data-w="${w}">${w}</span>`)}
+function lineHTML(t){return t.replace(/\[\[(.+?)\]\]/g,(m,w)=>`<span class="v" role="button" tabindex="0" data-w="${w}">${w}</span>`).replace(/\{\{(.+?)\}\}/g,(m,w)=>`<span class="v b" role="button" tabindex="0" data-w="${w}">${w}</span>`)}
 function go(i){
   stopAll();cur=Math.max(0,Math.min(S.length-1,i));const st=S[cur];
   $$('.scene').forEach(s=>s.classList.toggle('on',s.id==='sc-'+st.sc));
-  $('#compass').classList.remove('on');
-  const color=st.season?SEA[st.season].color:'#2F7F76';document.documentElement.style.setProperty('--sea',color);
   $('#ptag').textContent=st.tag;$('#pno').textContent=st.no;
-  const lines=st.season?SEA[st.season].lines:st.lines;
-  const t=$('#txt');t.classList.toggle('guide',!!st.guide);
-  t.innerHTML=lines.map((l,k)=>`<span class="ln" data-k="${k}" ${st.season?'tabindex="0"':''}>${lineHTML(l)}</span>`).join('');
+  const isT=st.st!==undefined;const lines=isT?ST[st.st].lines:st.guide;
+  const t=$('#txt');t.classList.toggle('guide',!isT);t.classList.toggle('long',isT&&!!ST[st.st].long);
+  t.innerHTML=lines.map((l,k)=>`<span class="ln" data-k="${k}" ${isT?'tabindex="0"':''}>${lineHTML(l)}</span>`).join('');
   t.querySelectorAll('.v').forEach(v=>{v.onclick=e=>{e.stopPropagation();showVocab(v.dataset.w)};v.onkeydown=e=>{if(e.key==='Enter'){e.stopPropagation();showVocab(v.dataset.w)}}});
-  if(st.season){t.querySelectorAll('.ln').forEach(l=>{l.onclick=()=>{autoOn=false;playLine(+l.dataset.k)};l.onkeydown=e=>{if(e.key==='Enter')l.onclick()}});}
-  bindRh(t);t.scrollTop=0;t.scrollLeft=0;
+  if(isT){t.querySelectorAll('.ln').forEach(l=>{l.onclick=()=>{autoOn=false;playLine(+l.dataset.k)};l.onkeydown=e=>{if(e.key==='Enter')l.onclick()}});resetStanza(st.st);}
+  t.scrollTop=0;t.scrollLeft=0;
   const A=$('#acts');A.innerHTML='';
-  let acts=st.acts||[];
-  if(st.season){wipeSeason(st.season);lineIdx=-1;acts=[['▶ 下一句',nextLine,1],['🎬 整段自動播',autoPlay],['🔁 從頭來',restart]];}
+  const acts=isT?[['▶ 下一句',nextLine,1],['🎬 整段自動播',autoPlay],['🔁 從頭來',()=>{stopAll();resetStanza(st.st);$$('#txt .ln').forEach(l=>l.classList.remove('on','done'))}]]:(st.acts||[]);
   acts.forEach(([l,f,m])=>{const b=document.createElement('button');b.textContent=l;if(m)b.className='main';b.onclick=f;A.appendChild(b)});
-  if(st.season)A.insertAdjacentHTML('beforeend','<span id="lineNo" style="font-size:2.4vh;color:var(--soft);margin-left:.6vw">點右邊的詩句，也可以一句一句看</span>');
+  if(isT)A.insertAdjacentHTML('beforeend','<span class="hint" id="lineNo">點右邊的句子，也可以一句一句看</span>');
   let active=0;TABS.forEach(([n,ti])=>{if(cur>=ti)active=ti});
   $$('#tabs button').forEach(b=>b.classList.toggle('on',+b.dataset.i===active));
   $('#prev').disabled=cur===0;$('#next').disabled=cur===S.length-1;
   st.enter&&st.enter();
 }
 $('#prev').onclick=()=>go(cur-1);$('#next').onclick=()=>go(cur+1);
-$('#say').onclick=()=>{const st=S[cur];const lines=st.season?SEA[st.season].lines:st.lines;speak(lines.join('').replace('啊——','啊，'))};
-document.addEventListener('keydown',e=>{if(e.target.closest('input,.v,.ln,.cell'))return;if(e.key==='ArrowRight'||e.key==='PageDown')go(cur+1);if(e.key==='ArrowLeft'||e.key==='PageUp')go(cur-1);if(e.key===' '&&S[cur].season){e.preventDefault();nextLine()}});
+$('#say').onclick=()=>{const st=S[cur];const lines=st.st!==undefined?ST[st.st].lines:st.guide;speak(lines.join(''))};
+document.addEventListener('keydown',e=>{if(e.target.closest('input,.v,.ln'))return;if(e.key===' '&&S[cur].st!==undefined){e.preventDefault();nextLine()}if(e.key==='ArrowRight'||e.key==='PageDown')go(cur+1);if(e.key==='ArrowLeft'||e.key==='PageUp')go(cur-1);});
 try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>{}}catch(e){}
 go(0);
 </script>

@@ -3,242 +3,217 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>第十二課 戴斗笠的地藏｜課文動起來</title>
+<title>二上第十二課 到野外上課｜課文動起來</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --kai:"LXGW WenKai TC","BiauKai","DFKai-SB","標楷體","Kaiti TC","Noto Serif TC","Noto Serif CJK TC","PMingLiU",serif;
-  --bg:#DDE7EA; --panel:#FFFFFF; --ink:#1F2A30; --soft:#5C6C74;
-  --teal:#2F6F78; --straw:#C9A04A; --red:#C8362B; --gold:#E8A33A;
-  --c-p:#2E8B57; --c-m:#8E5AD6; --c-e:#D9342B; --c-q:#2E6FB3;
+  --bg:#E8F1E6; --panel:#FFFFFF; --ink:#22302A; --soft:#5E6E66;
+  --green:#3E9A6A; --gold:#E8A33A; --blue:#2E7FC1; --pink:#E86A8A;
   color-scheme:light;
 }
 @media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){ --bg:#141C20; --panel:#1F2A30; --ink:#EAF1F3; --soft:#A9BAC1; color-scheme:dark; }
+  :root:not([data-theme="light"]){ --bg:#152019; --panel:#202D25; --ink:#EDF5F0; --soft:#AFC3B8; color-scheme:dark; }
 }
 *{box-sizing:border-box}
 html,body{margin:0;height:100%}
 body{font-family:var(--kai);background:var(--bg);color:var(--ink);display:grid;grid-template-rows:auto 1fr;overflow:hidden;
   padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 header{display:flex;align-items:center;gap:1.2vw;padding:1vh 1.6vw .8vh;flex-wrap:wrap}
-h1{margin:0;font-size:4.2vh;color:var(--teal);letter-spacing:.1em;white-space:nowrap}
+h1{margin:0;font-size:4.4vh;color:var(--green);letter-spacing:.12em;white-space:nowrap}
 h1 small{font-size:.5em;color:var(--soft);letter-spacing:.05em;margin-right:.4em}
-h1 em{font-style:normal;font-size:.42em;color:var(--soft);margin-left:.5em;letter-spacing:0}
-nav{display:flex;gap:.1vw;flex-wrap:wrap;align-items:center}
-nav button{font:inherit;font-size:2.1vh;padding:.5vh .5vw;border-radius:10px;border:2px solid transparent;background:transparent;color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:.25em}
-nav button i{font-style:normal;display:inline-grid;place-items:center;width:2.4vh;height:2.4vh;border-radius:50%;background:var(--teal);color:#fff;font-size:1.5vh}
-nav button.on{background:var(--panel);border-color:var(--teal);color:var(--teal);font-weight:700}
-nav .sep{color:var(--soft);font-size:1.6vh}
-main{display:grid;grid-template-columns:1fr 50vh;gap:1.2vw;padding:0 1.6vw 1.4vh;min-height:0}
+h1 em{font-style:normal;font-size:.45em;color:var(--soft);margin-left:.5em;letter-spacing:0}
+nav{display:flex;gap:.25vw;flex-wrap:wrap;align-items:center}
+nav button{font:inherit;font-size:2.4vh;padding:.5vh .7vw;border-radius:10px;border:2px solid transparent;background:transparent;color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:.3em}
+nav button i{font-style:normal;display:inline-grid;place-items:center;width:2.7vh;height:2.7vh;border-radius:50%;background:var(--green);color:#fff;font-size:1.7vh}
+nav button.on{background:var(--panel);border-color:var(--green);color:var(--green);font-weight:700}
+nav .sep{color:var(--soft)}
+main{display:grid;grid-template-columns:1fr 44vh;gap:1.2vw;padding:0 1.6vw 1.4vh;min-height:0}
 .stagewrap{display:grid;grid-template-rows:1fr auto;gap:1vh;min-height:0}
-.stage{position:relative;border-radius:20px;overflow:hidden;background:#D9E4E8;min-height:0}
+.stage{position:relative;border-radius:20px;overflow:hidden;background:#D3E8D6;min-height:0}
 .scene{position:absolute;inset:0;display:none}
 .scene.on{display:block}
 .scene>svg{width:100%;height:100%;display:block}
 #ov{position:absolute;inset:0;pointer-events:none;z-index:7}
-#tchip{position:absolute;right:2%;top:3%;z-index:6;background:#1F2A30;color:#fff;border-radius:999px;padding:.5vh 1.2vw;font-size:2.6vh;font-weight:700;display:none}
-#tchip.on{display:block;animation:pop .4s}
-.acts{display:flex;flex-wrap:wrap;gap:.6vw;min-height:6vh;align-items:center}
-.acts button{font:inherit;font-size:2.5vh;padding:.8vh 1.2vw;border-radius:999px;border:3px solid var(--teal);background:var(--panel);color:var(--ink);cursor:pointer}
-.acts button:hover{background:var(--teal);color:#fff}
-button:focus-visible,.v:focus-visible,.rh:focus-visible,.cell:focus-visible{outline:4px solid var(--gold);outline-offset:2px}
-aside{background:var(--panel);border-radius:20px;padding:1.4vh 1.4vh;display:grid;grid-template-rows:auto minmax(0,1fr) auto;grid-template-columns:minmax(0,1fr);gap:1vh;min-height:0}
-.ptitle{display:flex;justify-content:space-between;align-items:center;font-size:2.5vh;color:var(--soft);gap:.6vw}
-.ptitle b{color:var(--teal);font-size:1.1em}
-#rhBtn{font:inherit;font-size:2.2vh;border-radius:999px;border:2px solid #8E5AD6;background:transparent;color:var(--ink);padding:.3vh .8vw;cursor:pointer}
-#rhBtn.on{background:#8E5AD6;color:#fff}
-.txt{writing-mode:vertical-rl;font-size:3.9vh;line-height:1.9;letter-spacing:.05em;width:100%;height:100%;min-height:0;overflow:auto;display:block}
-.txt.long{font-size:3.3vh}
-.txt.xlong{font-size:3.05vh}
+.acts{display:flex;flex-wrap:wrap;gap:.7vw;min-height:6vh;align-items:center}
+.acts button{font:inherit;font-size:2.7vh;padding:.9vh 1.4vw;border-radius:999px;border:3px solid var(--green);background:var(--panel);color:var(--ink);cursor:pointer}
+.acts button:hover{background:var(--green);color:#fff}
+.acts button.main{background:var(--green);color:#fff;font-weight:700}
+.acts .hint{font-size:2.3vh;color:var(--soft)}
+button:focus-visible,.v:focus-visible,.ln:focus-visible{outline:4px solid var(--gold);outline-offset:2px}
+aside{background:var(--panel);border-radius:20px;padding:1.6vh 1.4vh;display:grid;grid-template-rows:auto minmax(0,1fr) auto;grid-template-columns:minmax(0,1fr);gap:1vh;min-height:0}
+.ptitle{display:flex;justify-content:space-between;align-items:center;font-size:2.6vh;color:var(--soft)}
+.ptitle b{color:var(--green);font-size:1.15em}
+.txt{writing-mode:vertical-rl;font-size:4.6vh;line-height:1.55;letter-spacing:.1em;width:100%;height:100%;min-height:0;overflow:auto;display:block}
+.ln{display:block;cursor:pointer;border-radius:10px;padding:.3vh 0;transition:background .3s}
+.ln:hover{background:rgba(0,0,0,.05)}
+.ln.on{background:#FFE7A8;color:#22302A}
+.ln.done{color:var(--soft)}
+.guide .ln{cursor:default;font-size:.8em}
+.txt.long{font-size:4vh}
 .v{border:2px solid var(--gold);border-radius:6px;cursor:pointer;color:#1F6FA0;padding:.1em 0}
-.v.x{border-style:dashed;border-color:#9AA6B5;color:inherit}
-@media (prefers-color-scheme: dark){ .v{color:#86C9F0} }
-.rh{border-radius:6px;transition:background .3s}
-.rhon .rh{cursor:pointer;background:color-mix(in srgb,var(--rc) 18%,transparent);box-shadow:inset -3px 0 0 var(--rc)}
-.rhon .rh::before{content:attr(data-l);font-size:.5em;background:var(--rc);color:#fff;border-radius:4px;padding:.1em .15em;margin-bottom:.2em;font-weight:700;letter-spacing:0}
-.rhleg{display:none;gap:.4vw;font-size:2vh;flex-wrap:wrap}
-.rhon~.rhleg,.legon{display:flex}
-.rhleg span{color:#fff;border-radius:6px;padding:.1vh .5vw}
+.v.b{border-color:transparent;color:#1F6FA0}
+@media (prefers-color-scheme: dark){ .v,.v.b{color:#86C9F0} .ln.on .v{color:#1F6FA0} }
 .pnav{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:.8vh}
 .pnav button{font:inherit;font-size:2.6vh;padding:1vh 0;border-radius:12px;border:2px solid var(--soft);background:transparent;color:var(--ink);cursor:pointer}
-.pnav .say{background:var(--teal);border-color:var(--teal);color:#fff;font-weight:700}
+.pnav .say{background:var(--green);border-color:var(--green);color:#fff;font-weight:700}
 .pnav button:disabled{opacity:.35}
-.foot{grid-row:3}
-#pop{position:fixed;left:3vw;bottom:13vh;max-width:50vw;background:#fff;color:#1F2A30;border:4px solid var(--gold);border-radius:16px;padding:1.4vh 1.6vw;font-size:3vh;line-height:1.6;box-shadow:0 8px 24px rgba(0,0,0,.25);display:none;z-index:20}
+#pop{position:fixed;left:3vw;bottom:13vh;max-width:48vw;background:#fff;color:#22302A;border:4px solid var(--gold);border-radius:16px;padding:1.4vh 1.6vw;font-size:3.2vh;line-height:1.6;box-shadow:0 8px 24px rgba(0,0,0,.25);display:none;z-index:20}
 #pop.on{display:block;animation:pop .3s}
-#pop h3{margin:0 0 .4vh;color:#2F6F78;font-size:1.25em}
-#pop .why{background:#F3EEFF;border-radius:10px;padding:.6vh .8vw;margin-top:.6vh;font-size:.92em}
+#pop h3{margin:0 0 .4vh;color:#2E7A52;font-size:1.3em}
 #pop .row{display:flex;gap:1vw;margin-top:.8vh}
-#pop button{font:inherit;font-size:.85em;border-radius:10px;border:2px solid #2F6F78;background:#fff;color:#2F6F78;padding:.3vh 1vw;cursor:pointer}
+#pop button{font:inherit;font-size:.85em;border-radius:10px;border:2px solid #2E7A52;background:#fff;color:#2E7A52;padding:.3vh 1vw;cursor:pointer}
 
-.badge{position:absolute;background:#fff;color:#1F2A30;border:4px solid var(--teal);border-radius:14px;padding:.6vh 1.1vw;font-size:2.9vh;font-weight:700;animation:pop .45s cubic-bezier(.3,1.6,.6,1);white-space:nowrap;z-index:8}
-.badge.gold{border-color:var(--gold)}.badge.red{border-color:var(--red)}
-.badge small{display:block;font-weight:400;font-size:.78em;color:#55636A}
-.bubble{position:absolute;background:#fff;color:#1F2A30;border:4px solid #1F2A30;border-radius:18px;padding:.7vh 1vw;font-size:2.7vh;line-height:1.45;max-width:46%;animation:pop .3s cubic-bezier(.3,1.6,.6,1);z-index:8}
-.bubble b{display:block;font-size:.85em;color:#2F6F78}
-.bubble.faint{opacity:.75;border-style:dashed}
-.bub{position:absolute;font-size:4.8vh;font-weight:700;color:#fff;-webkit-text-stroke:2px #2F6F78;paint-order:stroke fill;animation:floatup 1.9s ease-out forwards;z-index:8}
-@keyframes floatup{from{transform:translateY(0) scale(.6);opacity:0}20%{opacity:1;transform:translateY(-10px) scale(1)}to{transform:translateY(-90px);opacity:0}}
-.chain{position:absolute;left:3%;top:4%;display:flex;gap:1vw;align-items:center;z-index:8}
-.chain span{background:#fff;border:4px solid var(--straw);border-radius:14px;padding:.6vh 1vw;font-size:3vh;font-weight:700;animation:pop .4s both}
-.chain i{font-style:normal;font-size:3vh;animation:pop .4s both}
+.badge{position:absolute;background:#fff;color:#22302A;border:4px solid var(--green);border-radius:14px;padding:.6vh 1.2vw;font-size:3.2vh;font-weight:700;animation:pop .45s cubic-bezier(.3,1.6,.6,1);white-space:nowrap;z-index:8}
+.badge.gold{border-color:var(--gold)}.badge.blue{border-color:var(--blue)}
+.badge .eq{color:#C8362B}
+.lens{position:absolute;font-size:9vh;animation:search 3s ease-in-out forwards;z-index:8}
+@keyframes search{0%{left:15%;top:55%}33%{left:60%;top:25%}66%{left:30%;top:20%}100%{left:70%;top:50%;opacity:0}}
 @keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
 .lbl{font-family:var(--kai);font-weight:700}
 
-/* svg anim */
-.mv{transition:transform 1.4s ease-in-out,opacity .8s}
-.bd{transform-box:fill-box;transform-origin:50% 100%;transition:transform .5s}
-.walk .bd{animation:walk .45s ease-in-out infinite alternate}
-@keyframes walk{to{transform:translateY(-6px) rotate(2deg)}}
-.bow .bd{transform:rotate(-18deg)}
-.shake .bd{animation:shk .1s linear 10}
-@keyframes shk{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
-.happy .mS{display:none}.happy .mH{display:inline}.mH{display:none}
-.sad .mS{display:none}.sad .mF{display:inline}.mF{display:none}
-.flake{animation:snow 6s linear infinite}
-@keyframes snow{from{transform:translate(0,-40px)}to{transform:translate(40px,620px)}}
-.heavy .flake{animation-duration:2.6s}
-.hidehat .packH{display:none}
-.noscarf .scarfH{display:none}
-.kasa,.jscarf{display:none}
-.wearhat .kasa,.wearscarf .jscarf{display:inline;animation:pop .5s}
-.jsnow{transition:opacity .8s}.cleared .jsnow{opacity:0}
-.jz{transform-box:fill-box;transform-origin:50% 100%}
-.jz.hi .bd{animation:hop .3s ease-in-out 2 alternate}
-@keyframes hop{to{transform:translateY(-14px)}}
-.sing .bd{animation:hop .4s ease-in-out infinite alternate}
-.stackH{opacity:0;transition:opacity .4s}.stackH.on{opacity:1}
-#v3fog{transition:opacity 4s}
-#dusk5{opacity:0;transition:opacity 3s}.dusk #dusk5{opacity:.55}
-.passer{transition:transform 6s linear}
-.passing .passer{transform:translateX(1300px)}
-.passing .passer.b{transform:translateX(-1300px)}
-#steam5 path{animation:steam 2.4s ease-out infinite}
-@keyframes steam{from{transform:translateY(0);opacity:.9}to{transform:translateY(-60px);opacity:0}}
-#clump{transition:transform 1s cubic-bezier(.5,0,1,1)}
-.dropc #clump{transform:translateY(190px)}
-#notes8 text{animation:noteup 2.4s linear infinite}
-@keyframes noteup{from{transform:translate(0,0);opacity:0}20%{opacity:1}to{transform:translate(-60px,-120px);opacity:0}}
-#notes8,#gifts9 .gift{opacity:0;transition:opacity .6s}
-.music #notes8{opacity:1}
-.gift{transform-box:fill-box;transform-origin:50% 100%}
-.gifts .gift{opacity:1;animation:pop .5s both}
-#door9{transition:transform 1.2s;transform-box:fill-box;transform-origin:0 50%}
-.opened #door9{transform:scaleX(.08)}
-#mapJ{opacity:0;transition:opacity .6s}.showmap #mapJ{opacity:1}
-#heart7{opacity:0;transition:opacity .6s}.love #heart7{opacity:1}
+/* scene */
+.ov{opacity:0;transition:opacity .9s}
+#F.s1.a1 #bookOv,#F.s1.a2 #modelOv,#F.s1.a4 #photos,
+#F.s2.a1 #paperOv,#F.s2.a3 #rainbow,#F.s2.a4 #paletteOv,
+#F.s3.a2 #animals,#F.s3.a5 #homes{opacity:1}
+#F.s2.a3 #drops{opacity:1}
+#insects{display:none}#F.s1.a3 #insects,#F.s2 #insects{display:inline}
+.fly1{animation:fly1 6s ease-in-out infinite}
+.fly2{animation:fly2 7s ease-in-out infinite}
+@keyframes fly1{0%,100%{transform:translate(0,0)}25%{transform:translate(120px,-40px)}50%{transform:translate(220px,10px)}75%{transform:translate(90px,50px)}}
+@keyframes fly2{0%,100%{transform:translate(0,0)}25%{transform:translate(-110px,30px)}50%{transform:translate(-200px,-30px)}75%{transform:translate(-80px,-60px)}}
+.wing{transform-box:fill-box;transform-origin:50% 100%;animation:flap .12s linear infinite alternate}
+@keyframes flap{to{transform:scaleY(.3)}}
+.bwing{transform-box:fill-box;animation:bflap .35s ease-in-out infinite alternate}
+.bwing.l{transform-origin:100% 50%}.bwing.r{transform-origin:0 50%}
+@keyframes bflap{to{transform:scaleX(.35)}}
+.photo{transform-box:fill-box;transform-origin:50% 0;animation:swing 2s ease-in-out infinite alternate}
+@keyframes swing{from{transform:rotate(-5deg)}to{transform:rotate(5deg)}}
+#kids{transform:translateX(420px);transition:transform 2.4s ease-out}
+#F:not(.s1) #kids,#F.s1.a0 #kids{transform:translateX(0)}
+#F.s1.a0:not(.a1) .kid .bd{animation:bob .3s ease-in-out infinite alternate}
+.bd{transform-box:fill-box;transform-origin:50% 100%}
+@keyframes bob{to{transform:translateY(-8px)}}
+#branchTip{fill:#8A6A4A;transition:fill .6s}#F.s2.a2 #branchTip{fill:#E86A8A}
+#stroke{stroke-dasharray:600;stroke-dashoffset:600;transition:stroke-dashoffset 2.5s ease-in-out .3s}
+#F.s2.a2 #stroke{stroke-dashoffset:0}
+#F.s2.a2 #kidB .arm{animation:paint .5s ease-in-out infinite alternate}
+.arm{transform-box:fill-box;transform-origin:50% 100%}
+@keyframes paint{from{transform:rotate(-20deg)}to{transform:rotate(15deg)}}
+.drop{animation:dropf 1.6s ease-in infinite}
+@keyframes dropf{from{transform:translateY(0);opacity:1}to{transform:translateY(120px);opacity:0}}
+#rainbow path{stroke-dasharray:900;stroke-dashoffset:900;transition:stroke-dashoffset 2s}
+#F.s2.a3 #rainbow path{stroke-dashoffset:0}
+#meadow,#forest{transition:opacity 1s}
+#forest{opacity:0}#F.s3 #forest{opacity:1}#F.s3 #meadow{opacity:0}
+#maze{stroke-dasharray:14 10;opacity:0;transition:opacity .6s}#F.s3.a1 #maze{opacity:1;animation:dash 1.5s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-48}}
+#mazeKids{opacity:0}#F.s3.a1 #mazeKids{opacity:1}
+#F.s3.a1 #mazeKids>g{animation:maze 6s ease-in-out infinite}
+@keyframes maze{0%{transform:translate(140px,500px)}25%{transform:translate(320px,430px)}50%{transform:translate(260px,330px)}75%{transform:translate(460px,300px)}100%{transform:translate(620px,250px)}}
+.ani{transform-box:fill-box;transform-origin:50% 100%;transform:scale(0);transition:transform .5s cubic-bezier(.3,1.6,.6,1)}
+#F.s3.a2 .ani{transform:scale(1)}
+.fish{animation:fishj 2.4s ease-in-out infinite}
+@keyframes fishj{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,-14px)}}
 
-/* html */
-.html{background:linear-gradient(#E9F0F2,#F8FBFC)}
-.rcards{position:absolute;inset:3% 3% auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1.2vw}
-.rcard{background:#fff;border-radius:16px;border:4px solid var(--rc);padding:1.2vh .8vw;color:#1F2A30;cursor:pointer;font:inherit;text-align:left}
-.rcard h4{margin:0 0 .6vh;color:var(--rc);font-size:3.6vh}
-.rcard p{margin:0;font-size:2.3vh;line-height:1.5}
-.rcard.on{background:color-mix(in srgb,var(--rc) 12%,#fff)}
-.rex{position:absolute;left:3%;right:3%;top:42%;bottom:4%;background:#fff;border-radius:16px;padding:2vh 2vw;color:#1F2A30;font-size:3vh;line-height:1.7;overflow:auto}
-.rex .q{font-size:4vh;font-weight:700;margin:1vh 0 2vh}
-.rex .opts{display:flex;gap:1vw;flex-wrap:wrap}
-.rex .opts button{font:inherit;font-size:3.6vh;padding:1vh 2vw;border-radius:16px;border:4px solid var(--rc);background:#fff;color:var(--rc);cursor:pointer;font-weight:700}
-.rex .fb{font-size:3vh;min-height:4.5vh;margin-top:1.6vh}
-.rex .tagq{font-size:2.2vh;color:#fff;border-radius:6px;padding:.1vh .6vw;margin-right:.6vw}
-.ce{position:absolute;inset:3%;display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:1.4vw;color:#1F2A30}
-.cebox{background:#fff;border-radius:18px;padding:2vh 1.2vw;text-align:center;font-size:2.8vh;line-height:1.6;display:flex;flex-direction:column;gap:1vh;justify-content:center}
-.cebox .em{font-size:8vh;line-height:1}
-.cebox h4{margin:0;font-size:3.6vh}
-.ceq{display:flex;flex-direction:column;gap:1.2vh;justify-content:center}
-.ceq .q{font-size:3.2vh;font-weight:700;text-align:center;background:#FFF2D6;border-radius:14px;padding:1vh}
-.ceq button{font:inherit;font-size:2.8vh;padding:1.2vh .8vw;border-radius:14px;border:3px solid #2F6F78;background:#fff;color:#1F2A30;cursor:pointer}
-.ceq button.right{background:#2E8B57;color:#fff;border-color:#2E8B57}
-.ceq button.wrong{opacity:.5}
-.ceq .chainr{display:none;font-size:2.6vh;line-height:1.6;background:#E9F6EE;border-radius:14px;padding:1vh 1vw}
-.ceq .chainr.on{display:block;animation:pop .4s}
-.wgrid{position:absolute;inset:4% 4%;display:grid;grid-template-columns:13% 1fr;grid-template-rows:repeat(5,1fr);gap:1.2vh;font-size:3vh;color:#1F2A30}
-.wgrid .k{display:flex;align-items:center;justify-content:center;font-size:5.4vh;font-weight:700;color:#fff;background:#2F6F78;border-radius:14px}
-.cell{position:relative;background:#fff;border-radius:14px;padding:.6vh 1.4vw;display:flex;align-items:center;cursor:pointer;line-height:1.45;overflow:hidden}
-.cell .cover{position:absolute;inset:0;background:#F2C14E;display:flex;align-items:center;justify-content:center;font-size:3vh;color:#6A4A00;transition:transform .45s}
-.cell.open .cover{transform:translateY(-102%)}
-.quiz{position:absolute;inset:0;background:rgba(20,28,32,.84);display:none;align-items:center;justify-content:center;z-index:9}
-.quiz.on{display:flex}
-.qbox{background:#fff;color:#1F2A30;border-radius:20px;padding:3vh 3vw;text-align:center;min-width:55%}
-.qword{font-size:6.6vh;font-weight:700;color:#2F6F78;margin:1vh 0 2vh}
-.qbtns{display:flex;gap:1.2vw;justify-content:center}
-.qbtns button{font:inherit;font-size:5vh;width:11vh;height:11vh;border-radius:50%;border:4px solid #2F6F78;background:#fff;color:#2F6F78;cursor:pointer}
-.qfb{font-size:3.4vh;min-height:5vh;margin-top:2vh}
-.qbox .close{font:inherit;font-size:2.4vh;margin-top:1vh;background:none;border:2px solid #999;border-radius:10px;padding:.4vh 1.2vw;cursor:pointer}
+/* html pages */
+.html{background:linear-gradient(#EEF6EE,#FAFDFA)}
+.dy{position:absolute;inset:3%;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto 1fr;gap:1.2vh 1.2vw;color:#22302A}
+.dcard{background:#fff;border-radius:18px;border:4px solid var(--c);padding:1.2vh 1vw;display:flex;flex-direction:column;gap:.8vh}
+.dcard h4{margin:0;font-size:5vh;color:var(--c);display:flex;align-items:center;gap:.6vw}
+.dcard h4 span{font-size:.55em;background:var(--c);color:#fff;border-radius:10px;padding:.2vh .6vw}
+.dcard .ws{display:flex;gap:.6vw;flex-wrap:wrap}
+.dcard .ws button{font:inherit;font-size:3.2vh;padding:.4vh 1vw;border-radius:12px;border:3px solid var(--c);background:#fff;color:#22302A;cursor:pointer}
+.dsent{grid-column:1/-1;background:#fff;border-radius:16px;padding:1.2vh 1vw;font-size:3.1vh;line-height:1.7;cursor:pointer}
+.dsent .t{color:#E86A8A;font-weight:700}.dsent .d{color:#2E7FC1;font-weight:700}
+.dq{grid-column:1/-1;background:#fff;border-radius:16px;padding:1.4vh 1.2vw;font-size:3.1vh;line-height:1.6}
+.dq .w{font-size:6vh;font-weight:700;margin:.6vh 0}
+.dq .opts{display:flex;gap:1.2vw}
+.dq .opts button{font:inherit;font-size:4vh;padding:.6vh 2vw;border-radius:14px;border:4px solid var(--c);color:var(--c);background:#fff;cursor:pointer;font-weight:700}
+.dq .fb{min-height:4vh}
+.note{font-size:2.6vh;background:#FFF2D6;border-radius:12px;padding:.8vh .8vw;line-height:1.5}
+.ws2{position:absolute;inset:3%;display:grid;grid-template-columns:1fr auto;gap:1.2vw;color:#22302A}
+.sheet{background:#F4FAFB;border:4px solid #9CC3C8;border-radius:18px;padding:1.4vh 1.4vw;writing-mode:vertical-rl;font-size:3.4vh;line-height:2.1;overflow:auto}
+.sheet h3{margin:0 0 0 1.4vw;font-size:4vh;color:#2E7A82;letter-spacing:.3em}
+.sheet .sec{margin-left:1.4vw;padding-left:1.4vw;border-left:3px dashed #9CC3C8}
+.sheet .sec b{color:#E8762A}
+.blankB{display:inline-flex;align-items:center;justify-content:center;writing-mode:horizontal-tb;min-width:6.5vh;min-height:6.5vh;border:3px solid #2E7A82;border-radius:10px;background:#fff;font:inherit;font-size:2.8vh;cursor:pointer;margin:.3vh 0;color:#22302A;vertical-align:middle;padding:.2vh .3vw;position:relative}
+.blankB i{position:absolute;top:-1.2vh;right:-1.2vh;font-style:normal;background:#E8762A;color:#fff;border-radius:50%;width:2.6vh;height:2.6vh;font-size:1.7vh;display:grid;place-items:center}
+.blankB.sel{border-color:#E8762A;box-shadow:0 0 0 4px #FFD9A8}
+.blankB.ok{background:#E9F6EE;border-color:#2E8B57;color:#2E7A52;font-weight:700}
+.bank{background:#fff;border-radius:18px;padding:1.4vh 1vw;display:flex;flex-direction:column;gap:1vh;width:22vh}
+.bank h4{margin:0;font-size:3vh;color:#2E7A82}
+.bank button{font:inherit;font-size:3vh;padding:.6vh 0;border-radius:12px;border:3px solid #E8762A;background:#fff;color:#22302A;cursor:pointer}
+.bank button.used{opacity:.3}
+.sp{position:absolute;inset:3%;display:grid;grid-template-columns:1fr 1fr;gap:1.4vw;color:#22302A}
+.spl,.spr{background:#fff;border-radius:18px;padding:1.4vh 1.2vw;display:flex;flex-direction:column;gap:.8vh;overflow:auto}
+.spl h4,.spr h4{margin:0;font-size:3.2vh;color:#2E7A52}
+.ph{display:flex;gap:.4vw;align-items:center;font-size:3vh;font-weight:700;flex-wrap:wrap}
+.ph .k{color:#22302A}.ph .p{background:#FDE3EA;border-radius:10px;padding:.2vh .6vw;color:#C8466A}.ph .d{background:#DDEFFC;border-radius:10px;padding:.2vh .6vw;color:#2E6FB3}
+.exs{display:flex;flex-direction:column;gap:.5vh}
+.exs div{background:#F6F8F4;border-radius:10px;padding:.4vh .8vw;font-size:2.9vh;cursor:pointer}
+.slot h5{margin:.3vh 0;font-size:2.4vh;color:#5E6E66}
+.chips{display:flex;flex-wrap:wrap;gap:.5vh}
+.chips button{font:inherit;font-size:2.6vh;padding:.3vh .9vw;border-radius:999px;border:3px solid var(--c);background:#fff;color:#22302A;cursor:pointer}
+.chips button.on{background:var(--c);color:#fff}
+.mysent{font-size:3.6vh;font-weight:700;background:#FFF8E6;border:4px dashed #E8A33A;border-radius:14px;padding:.8vh 1vw;line-height:1.5}
+.mysent .bl{color:#B9B2A0}
+.idi{position:absolute;inset:3%;display:grid;grid-template-columns:1fr;grid-template-rows:auto 1fr;gap:1.2vh;color:#22302A}
+.ihead{background:#fff;border:4px solid #2E7FC1;border-radius:18px;padding:1.4vh 1.4vw;font-size:3.1vh;line-height:1.7}
+.ihead h3{margin:0;font-size:5vh;color:#2E7FC1}
+.ihead .mean{background:#EEF6E8;border-radius:12px;padding:.6vh .8vw;margin-top:.6vh}
+.ihead .ex{background:#FFF2D6;border-radius:12px;padding:.6vh .8vw;margin-top:.6vh}
+.ihead .lk{background:#FDE7DA;border-radius:12px;padding:.6vh .8vw;margin-top:.6vh;font-weight:700;color:#B5481F}
+.hz{color:#C8362B;font-size:1.15em}
+.tf{background:#fff;border-radius:18px;padding:1.4vh 1.4vw;font-size:3.1vh;line-height:1.6;overflow:auto}
+.tf .q{font-size:3.8vh;font-weight:700;margin:.8vh 0}
+.tf .opts{display:flex;gap:1.4vw}
+.tf .opts button{font:inherit;font-size:3.6vh;padding:.6vh 2vw;border-radius:14px;border:4px solid #2E7FC1;background:#fff;color:#22302A;cursor:pointer;font-weight:700}
+.tf .fb{min-height:4.5vh;margin-top:.8vh}
 
 @media (max-width:820px), (max-aspect-ratio:1/1){
   body{overflow:auto;display:block}
   main{grid-template-columns:1fr}
-  .stage{height:58vh}
-  .txt,.txt.long{writing-mode:horizontal-tb;height:auto;font-size:21px}
-  .acts button,.pnav button,nav button{font-size:15px}
-  h1{font-size:24px}
-  .rcards{grid-template-columns:repeat(2,1fr)}
-  .rex{top:52%}
-  .ce{grid-template-columns:1fr;overflow:auto}
+  .stage{height:60vh}
+  .txt{writing-mode:horizontal-tb;height:auto;font-size:22px}
+  .acts button,.pnav button,nav button{font-size:16px}
+  h1{font-size:26px}
+  .dy,.sp{grid-template-columns:1fr;overflow:auto}.ws2{grid-template-columns:1fr;overflow:auto}.sheet{writing-mode:horizontal-tb}
 }
-@media (prefers-reduced-motion: reduce){ .flake,#steam5 path{animation:none} }
+@media (prefers-reduced-motion: reduce){ .fly1,.fly2,.wing,.bwing,.photo,.fish{animation:none} }
 a.hall-back{position:fixed;z-index:40;top:0;right:0;font-family:var(--kai);font-size:1.7vh;line-height:1.2;padding:.45vh .8vw;white-space:nowrap;background:var(--panel);color:var(--soft);text-decoration:none;border:1px solid var(--soft);border-top:0;border-right:0;border-bottom-left-radius:12px}a.hall-back:hover,a.hall-back:focus-visible{color:var(--ink)}
 </style>
 </head>
 <body>
 <a class="hall-back" href="../">← 回課文大廳</a>
 <header>
-  <h1><small>第十二課</small>戴斗笠的地藏<em>改寫自日本民間故事</em></h1>
+  <h1><small>二上第十二課</small>到野外上課<em>牧也</em></h1>
   <nav id="tabs"></nav>
 </header>
 
 <main>
   <div class="stagewrap">
     <div class="stage" id="stage">
-      <div class="scene" id="sc-1"><svg id="v1" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet"></svg></div>
-      <div class="scene" id="sc-2"><svg id="v2" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet"></svg></div>
-      <div class="scene" id="sc-3"><svg id="v3" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet"></svg></div>
-      <div class="scene" id="sc-4"><svg id="v4" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet"></svg></div>
-      <div class="scene" id="sc-5"><svg id="v5" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet"></svg></div>
-      <div class="scene" id="sc-6"><svg id="v6" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet"></svg></div>
-      <div class="scene" id="sc-7"><svg id="v7" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet"></svg></div>
-      <div class="scene" id="sc-8"><svg id="v8" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet"></svg></div>
-      <div class="scene" id="sc-9"><svg id="v9" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet"></svg></div>
-
-      <div class="scene html" id="sc-rh">
-        <div class="rcards" id="rcards"></div>
-        <div class="rex" id="rex"></div>
-      </div>
-      <div class="scene html" id="sc-ce">
-        <div class="ce">
-          <div class="cebox"><div class="em">❄️🥺</div><h4>故事開始</h4><div>老夫妻很貧苦。<br>老婆婆想嘗嘗年糕，<br>老爺爺卻一頂斗笠<br>也沒賣出去。</div></div>
-          <div class="ceq" id="ceq"></div>
-          <div class="cebox"><div class="em">🍙🐟🥬🍡</div><h4>故事結局</h4><div>門外堆滿白米、<br>青菜和魚，還有<br>老婆婆想吃的年糕！</div></div>
-        </div>
-      </div>
-      <div class="scene html" id="sc-w">
-        <div class="wgrid" id="wgrid"></div>
-        <div class="quiz" id="quiz"><div class="qbox">
-          <div style="font-size:3vh">這個詞是 人、事、時、地、物 的哪一種？</div>
-          <div class="qword" id="qword"></div><div class="qbtns" id="qbtns"></div><div class="qfb" id="qfb"></div>
-          <button class="close" id="qclose">結束練習</button>
-        </div></div>
-      </div>
-
-      <div id="tchip"></div>
+      <div class="scene" id="sc-f"><svg id="F" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <div class="scene html" id="sc-diao"><div class="dy" id="dy"></div></div>
+      <div class="scene html" id="sc-key"><div class="ws2"><div class="sheet" id="sheet"></div><div class="bank" id="bank"></div></div></div>
+      <div class="scene html" id="sc-ph"><div class="sp"><div class="spl" id="phl"></div><div class="spr" id="phr"></div></div></div>
+      <div class="scene html" id="sc-idiom"><div class="idi" id="idi"></div></div>
       <div id="ov"></div>
     </div>
     <div class="acts" id="acts"></div>
   </div>
 
   <aside>
-    <div class="ptitle"><span id="ptag"></span><button id="rhBtn" aria-pressed="false">🔍 修辭</button><b id="pno"></b></div>
+    <div class="ptitle"><span id="ptag"></span><b id="pno"></b></div>
     <div class="txt" id="txt"></div>
-    <div class="foot">
-      <div class="rhleg" id="rhleg" style="margin-bottom:.8vh"><span style="background:var(--c-p)">擬人</span><span style="background:var(--c-m)">譬喻</span><span style="background:var(--c-e)">感嘆</span><span style="background:var(--c-q)">設問</span><small style="color:var(--soft)">點有顏色的句子看說明</small></div>
-      <div class="pnav">
-        <button id="prev">◀ 上一段</button>
-        <button id="say" class="say">🔊 念給我聽</button>
-        <button id="next">下一段 ▶</button>
-      </div>
+    <div class="pnav">
+      <button id="prev">◀ 上一頁</button>
+      <button id="say" class="say">🔊 念給我聽</button>
+      <button id="next">下一頁 ▶</button>
     </div>
   </aside>
 </main>
@@ -250,250 +225,206 @@ const $=s=>document.querySelector(s);
 const $$=s=>[...document.querySelectorAll(s)];
 const NS="http://www.w3.org/2000/svg";
 function el(tag,attrs={},parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;}
-let timers=[];
+let timers=[];let autoOn=false;
 function later(fn,ms){const t=setTimeout(fn,ms);timers.push(t);return t;}
-function stopAll(){timers.forEach(clearTimeout);timers=[];try{speechSynthesis.cancel()}catch(e){};$('#ov').innerHTML='';$('#pop').classList.remove('on');}
+function stopAll(){timers.forEach(clearTimeout);timers=[];autoOn=false;try{speechSynthesis.cancel()}catch(e){};$('#ov').innerHTML='';$('#pop').classList.remove('on');}
 function ov(html,style,cls='badge'){const d=document.createElement('div');d.className=cls;d.innerHTML=html;Object.assign(d.style,style||{});$('#ov').appendChild(d);return d;}
 function temp(html,style,cls,ms=2000){const d=ov(html,style,cls);setTimeout(()=>d.remove(),ms);return d;}
 function say1(html,cls=''){$('#ov').querySelectorAll('.badge').forEach(b=>b.remove());return ov(html,{left:'3%',top:'4%'},'badge '+cls)}
-function bubbles(words,area){words.forEach((w,i)=>later(()=>temp(w,{left:(area.x+Math.random()*area.w)+'%',top:(area.y+Math.random()*area.h)+'%'},'bub',1950),i*(area.gap||300)))}
-const clean=t=>t.replace(/\(@[^|]+\|/g,'').replace(/@\)/g,'').replace(/\[\[|\]\]|\{\{|\}\}/g,'');
-function speak(text,pitch=1){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(clean(text));u.lang='zh-TW';u.rate=.8;u.pitch=pitch;const v=speechSynthesis.getVoices().find(v=>/zh[-_]TW/i.test(v.lang));if(v)u.voice=v;speechSynthesis.speak(u);}catch(e){}}
-function replay(node,c,ms){node.classList.remove(c);void node.getBoundingClientRect();node.classList.add(c);if(ms)later(()=>node.classList.remove(c),ms);}
-function bubbleAt(id,who,text,ms=3800,cls=''){later(()=>{const n=$('#'+id+' .bd')||$('#'+id);const b=n.getBoundingClientRect(),s=$('#stage').getBoundingClientRect();const d=ov(`<b>${who}</b>${text}`,{},'bubble '+cls);const W=d.offsetWidth,H=d.offsetHeight;let x=b.left-s.left+b.width/2-W/2,y=b.top-s.top-H-12;x=Math.max(8,Math.min(s.width-W-8,x));if(y<8)y=8;d.style.left=x+'px';d.style.top=y+'px';later(()=>d.remove(),ms)},60);}
+const clean=t=>t.replace(/\[\[|\]\]|\{\{|\}\}/g,'');
+function speak(text,onend){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(clean(text));u.lang='zh-TW';u.rate=.72;const v=speechSynthesis.getVoices().find(v=>/zh[-_]TW/i.test(v.lang));if(v)u.voice=v;if(onend)u.onend=onend;speechSynthesis.speak(u);}catch(e){onend&&setTimeout(onend,1500)}}
 
-/* ---------- music ---------- */
-let AC=null;function ac(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();}catch(e){}return AC}
-function song(){const a=ac();if(!a)return;const N=[440,494,523,587,659,784];const m=[2,3,4,4,3,2,1,2,3,3,2,1,0,1,2,2];let t=a.currentTime+.05;m.forEach(n=>{const o=a.createOscillator(),g=a.createGain();o.type='sine';o.frequency.value=N[n];g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.08,t+.05);g.gain.exponentialRampToValueAtTime(.0001,t+.45);o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+.5);t+=.42});}
-
-/* ---------- builders ---------- */
-function charG(parent,id,x,y,s=1){const g=el('g',{transform:`translate(${x},${y}) scale(${s})`},parent);if(id)g.id=id;const mv=el('g',{class:'mv'},g);const bd=el('g',{class:'bd'},mv);return {g,mv,bd};}
-function face(x,y,col='#3A2A1A',r=3){return `<circle cx="${x-9}" cy="${y}" r="${r}" fill="${col}"/><circle cx="${x+9}" cy="${y}" r="${r}" fill="${col}"/><path class="mS" d="M${x-6},${y+10} q6,4 12,0" stroke="${col}" stroke-width="2.5" fill="none"/><path class="mH" d="M${x-8},${y+8} q8,10 16,0Z" fill="${col}"/><path class="mF" d="M${x-6},${y+13} q6,-5 12,0" stroke="${col}" stroke-width="2.5" fill="none"/>`;}
-function kasaPath(w=60,h=24,fill='#D9B25A'){return `<path d="M${-w},0 Q0,${-h*1.6} ${w},0 Q0,${h*.35} ${-w},0Z" fill="${fill}" stroke="#9A7A2A" stroke-width="2"/><path d="M${-w*.6},${-h*.35} Q0,${-h*1.2} ${w*.6},${-h*.35}" stroke="#B8923A" stroke-width="2" fill="none"/>`;}
-function oldman(parent,id,x,y,s=1){const c=charG(parent,id,x,y,s);c.bd.innerHTML=`
-  <g class="packH"><rect x="16" y="-150" width="40" height="110" rx="6" fill="#8A6A3A"/>${[0,1,2,3].map(i=>`<g transform="translate(36,${-150+i*28})">${kasaPath(30,12)}</g>`).join('')}</g>
-  <rect x="-16" y="-24" width="12" height="24" fill="#3A3A3A"/><rect x="4" y="-24" width="12" height="24" fill="#3A3A3A"/>
-  <path d="M-30,-22 L-24,-110 L24,-110 L30,-22Z" fill="#6B5A3A"/><path d="M-24,-110 L0,-70 L24,-110Z" fill="#8A7A5A"/>
-  <circle cx="0" cy="-134" r="25" fill="#E9C29A"/>
-  <path d="M-25,-138 q2,-16 10,-20 M25,-138 q-2,-16 -10,-20" stroke="#D8D8D8" stroke-width="7" fill="none" stroke-linecap="round"/>
-  <path d="M-12,-118 q12,14 24,0" fill="#E0E0E0"/>
-  <g class="scarfH"><path d="M-27,-140 Q0,-178 27,-140 L24,-130 Q0,-150 -24,-130Z" fill="#3E6E8E"/><circle cx="26" cy="-136" r="6" fill="#3E6E8E"/></g>
-  ${face(0,-134,'#3A2A1A',2.8)}`;return c;}
-function oldwoman(parent,id,x,y,s=1){const c=charG(parent,id,x,y,s);c.bd.innerHTML=`
-  <path d="M-36,0 L-28,-100 L28,-100 L36,0Z" fill="#8E3A3A"/><path d="M-28,-100 L0,-60 L28,-100Z" fill="#B85A4A"/><rect x="-30" y="-54" width="60" height="10" fill="#5A3A2A"/>
-  <circle cx="0" cy="-124" r="24" fill="#EAC6A0"/>
-  <path d="M-30,-118 Q-34,-162 0,-162 Q34,-162 30,-118 Q20,-146 0,-146 Q-20,-146 -30,-118Z" fill="#2F7F8A"/><g fill="#BFE3E6"><circle cx="-14" cy="-150" r="3"/><circle cx="6" cy="-154" r="3"/><circle cx="20" cy="-142" r="3"/></g>
-  <path d="M26,-120 l16,14 l-14,4Z" fill="#2F7F8A"/>
-  ${face(0,-124,'#3A2A1A',2.8)}`;return c;}
-function jizo(parent,id,x,y,s=1){const c=charG(parent,id,x,y,s);c.g.classList.add('jz');c.bd.innerHTML=`
-  <path d="M-34,0 Q-40,-70 -22,-92 L22,-92 Q40,-70 34,0Z" fill="#9AA3A8" stroke="#7A8388" stroke-width="2"/>
-  <path d="M-26,-92 Q0,-60 26,-92 L22,-76 Q0,-52 -22,-76Z" fill="#C8362B"/>
-  <circle cx="0" cy="-112" r="26" fill="#A9B1B6" stroke="#7A8388" stroke-width="2"/>
-  <path d="M-12,-114 q5,-5 10,0 M2,-114 q5,-5 10,0" stroke="#4A5358" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M-6,-102 q6,5 12,0" stroke="#4A5358" stroke-width="2.5" fill="none"/>
-  <path class="jsnow" d="M-28,-120 Q-26,-150 0,-152 Q26,-150 28,-120 Q14,-128 0,-126 Q-14,-128 -28,-120Z" fill="#FFFFFF"/>
-  <g class="kasa" transform="translate(0,-128)">${kasaPath(44,18)}</g>
-  <g class="jscarf"><path d="M-28,-118 Q0,-160 28,-118 L24,-108 Q0,-134 -24,-108Z" fill="#3E6E8E"/><circle cx="26" cy="-114" r="6" fill="#3E6E8E"/></g>`;return c;}
-function person(parent,x,y,s,col,cls=''){const c=charG(parent,'',x,y,s);c.g.setAttribute('class','passer '+cls);c.bd.innerHTML=`<path d="M-24,0 L-18,-80 L18,-80 L24,0Z" fill="${col}"/><circle cx="0" cy="-100" r="20" fill="#EAC6A0"/><path d="M-20,-104 q2,-18 20,-18 q18,0 20,18 q-10,-10 -20,-10 q-10,0 -20,10Z" fill="#2A2A2A"/>${face(0,-100,'#3A2A1A',2.4)}`;return c;}
-function snow(parent,n=50){const g=el('g',{},parent);for(let k=0;k<n;k++)el('circle',{class:'flake',cx:Math.random()*1000,cy:Math.random()*-80,r:2+Math.random()*3.5,fill:'#fff',style:`animation-delay:${-Math.random()*6}s`},g);return g;}
-function hutInside(svg){svg.insertAdjacentHTML('beforeend',`<rect width="1000" height="560" fill="#C9B48E"/><rect x="0" y="0" width="1000" height="60" fill="#8A6A3A"/><g stroke="#7A5A2A" stroke-width="8"><line x1="0" y1="60" x2="1000" y2="60"/><line x1="250" y1="60" x2="250" y2="420"/><line x1="750" y1="60" x2="750" y2="420"/></g>
-  <rect x="300" y="110" width="160" height="120" fill="#2B3A56"/><g stroke="#7A5A2A" stroke-width="6"><line x1="353" y1="110" x2="353" y2="230"/><line x1="406" y1="110" x2="406" y2="230"/><rect x="300" y="110" width="160" height="120" fill="none"/></g>
-  <rect y="420" width="1000" height="140" fill="#B9965E"/><rect x="430" y="440" width="140" height="40" fill="#5A4A3A"/><path d="M450,440 q50,-30 100,0" fill="#E8742A" opacity=".8"/>`);}
-
-/* ---------- build scenes ---------- */
+/* ---------- figures ---------- */
+function kid(parent,x,y,s,{shirt,hair,id,bow=false}){const g=el('g',{transform:`translate(${x},${y}) scale(${s})`,class:'kid'},parent);if(id)g.id=id;const bd=el('g',{class:'bd'},g);
+  bd.innerHTML=`<rect x="-12" y="-36" width="9" height="34" fill="#F2C9A0"/><rect x="3" y="-36" width="9" height="34" fill="#F2C9A0"/><ellipse cx="-8" cy="-2" rx="9" ry="4" fill="#5A4A3A"/><ellipse cx="8" cy="-2" rx="9" ry="4" fill="#5A4A3A"/>
+   <path d="M-22,-34 L-17,-80 L17,-80 L22,-34Z" fill="${shirt}"/>
+   <g class="arm"><line x1="16" y1="-74" x2="34" y2="-100" stroke="${shirt}" stroke-width="8" stroke-linecap="round"/><circle cx="35" cy="-103" r="5" fill="#F2C9A0"/></g>
+   <line x1="-16" y1="-74" x2="-28" y2="-46" stroke="${shirt}" stroke-width="8" stroke-linecap="round"/>
+   <circle cx="0" cy="-102" r="22" fill="#FBE0C8"/><path d="M-22,-106 q2,-24 22,-24 q20,0 22,24 q-8,-12 -22,-12 q-14,0 -22,12Z" fill="${hair}"/>
+   ${bow?`<path d="M14,-128 l14,-10 v20Z M14,-128 l-4,-14 l12,6Z" fill="#F7C531"/>`:''}
+   <circle cx="-7" cy="-100" r="2.6" fill="#333"/><circle cx="7" cy="-100" r="2.6" fill="#333"/><path d="M-6,-90 q6,7 12,0" stroke="#A0522D" stroke-width="2" fill="none"/>
+   <circle cx="-14" cy="-94" r="4.5" fill="#F7A9A0" opacity=".7"/><circle cx="14" cy="-94" r="4.5" fill="#F7A9A0" opacity=".7"/>`;return g;}
+function bee(){return `<g><ellipse cx="0" cy="0" rx="16" ry="11" fill="#F7C531"/><path d="M-6,-10 v20 M4,-10 v20" stroke="#333" stroke-width="4"/><circle cx="-16" cy="-2" r="6" fill="#333"/><g class="wing"><ellipse cx="-2" cy="-16" rx="8" ry="11" fill="#E8F4FF" stroke="#BFD6EA"/><ellipse cx="8" cy="-14" rx="7" ry="10" fill="#E8F4FF" stroke="#BFD6EA"/></g></g>`;}
+function bfly(c1,c2){return `<g><g class="bwing l"><path d="M0,0 Q-30,-34 -34,-6 Q-26,16 0,4Z" fill="${c1}"/></g><g class="bwing r"><path d="M0,0 Q30,-34 34,-6 Q26,16 0,4Z" fill="${c2}"/></g><rect x="-2.5" y="-14" width="5" height="26" rx="2" fill="#4A3A2A"/></g>`;}
+function animal(k){return {rab:`<ellipse cx="0" cy="-20" rx="22" ry="18" fill="#F2EDE6" stroke="#CFC6BA" stroke-width="2"/><ellipse cx="-8" cy="-50" rx="6" ry="18" fill="#F2EDE6" stroke="#CFC6BA" stroke-width="2"/><ellipse cx="8" cy="-50" rx="6" ry="18" fill="#F2EDE6" stroke="#CFC6BA" stroke-width="2"/><circle cx="-7" cy="-24" r="2.5" fill="#333"/><circle cx="7" cy="-24" r="2.5" fill="#333"/>`,
+  deer:`<ellipse cx="10" cy="-40" rx="34" ry="18" fill="#C9853A"/><g stroke="#8A5A2A" stroke-width="6"><line x1="-12" y1="-28" x2="-12" y2="0"/><line x1="30" y1="-28" x2="30" y2="0"/></g><circle cx="-24" cy="-66" r="14" fill="#C9853A"/><path d="M-30,-80 l-8,-20 M-20,-80 l6,-20" stroke="#8A5A2A" stroke-width="4"/><circle cx="-28" cy="-68" r="2.5" fill="#333"/>`,
+  sq:`<path d="M20,-10 q40,-30 10,-60 q-10,20 -10,40Z" fill="#B8742A"/><ellipse cx="0" cy="-18" rx="16" ry="18" fill="#C9853A"/><circle cx="-4" cy="-42" r="12" fill="#C9853A"/><circle cx="-8" cy="-44" r="2.2" fill="#333"/>`,
+  bear:`<ellipse cx="0" cy="-28" rx="30" ry="26" fill="#8A5A3A"/><circle cx="0" cy="-66" r="20" fill="#8A5A3A"/><circle cx="-16" cy="-82" r="8" fill="#8A5A3A"/><circle cx="16" cy="-82" r="8" fill="#8A5A3A"/><ellipse cx="0" cy="-60" rx="9" ry="6" fill="#E6C9A8"/><circle cx="-7" cy="-70" r="2.5" fill="#222"/><circle cx="7" cy="-70" r="2.5" fill="#222"/>`}[k];}
 (function(){
-  // v1 deep mountains
-  const v1=$('#v1');
-  v1.innerHTML=`<rect width="1000" height="560" fill="#BCD3DC"/>
-   <path d="M0,320 L150,140 L300,300 L460,110 L640,300 L800,150 L1000,320 L1000,420 L0,420Z" fill="#8FA9A8"/>
-   <path d="M150,140 L190,186 L160,180 L130,196 Z M460,110 L506,164 L470,154 L430,166Z M800,150 L842,198 L808,190 L770,200Z" fill="#fff"/>
-   <rect y="400" width="1000" height="160" fill="#EEF3F5"/>
-   <g><rect x="60" y="430" width="220" height="70" fill="#D9E4DC"/><g stroke="#B9C7BD" stroke-width="3">${[0,1,2,3].map(i=>`<line x1="70" y1="${442+i*16}" x2="270" y2="${442+i*16}"/>`).join('')}</g><text x="170" y="530" text-anchor="middle" font-size="24" fill="#4A5A50" class="lbl">田</text></g>
-   <path d="M420,230 L640,150 L860,230 L840,250 L440,250Z" fill="#B8923A" stroke="#8A6A2A" stroke-width="4"/>
-   <path d="M430,240 Q640,175 850,240" stroke="#fff" stroke-width="10" fill="none" opacity=".9"/>
-   <rect x="460" y="250" width="360" height="200" fill="#C9B48E" stroke="#7A5A2A" stroke-width="4"/>
-   <rect x="480" y="270" width="320" height="170" fill="#9A7A52"/>
-   <g id="stack1"></g><g id="couple1"></g><g id="mapJ"></g>`;
-  snow(v1,40);
-  const st=$('#stack1');for(let i=0;i<6;i++){const g=el('g',{class:'stackH',transform:`translate(${560+(i%2)*16},${430-i*16})`},st);g.innerHTML=kasaPath(46,18);}
-  oldman($('#couple1'),'om1',700,440,.9).g.querySelector('.bd');$('#om1').classList.add('hidehat');
-  oldwoman($('#couple1'),'ow1',620,440,.9);
-  // map
-  const mp=$('#mapJ');const P=(lo,la)=>[(lo-119)*14,(46-la)*16];const poly=a=>a.map(([lo,la])=>P(lo,la).map(v=>v.toFixed(1)).join(',')).join(' ');
-  const g=el('g',{transform:'translate(30,30) scale(.95)'},mp);
-  el('rect',{x:-10,y:-10,width:400,height:400,rx:16,fill:'#CFE6F0',stroke:'#1F2A30','stroke-width':5},g);
-  [[[141,45.5],[145.5,43.5],[143.5,42],[140,41.8],[140.2,43.2]],[[140,41.5],[142,40],[141,38],[140.8,36],[140,35],[139,34.8],[137,34.5],[135.5,33.5],[135,34.6],[133,34.4],[131,34.2],[131.2,35.5],[133.5,35.6],[136,36],[137.5,37],[139.5,38.5],[139.9,40.5]],[[130,33.8],[131.9,33.8],[131.4,31.4],[130.2,31.2],[129.8,32.8]],[[132.5,33.8],[134.6,34.2],[134.6,33.4],[133,32.8]]].forEach(a=>el('polygon',{points:poly(a),fill:'#C98A4A',stroke:'#7A4A1A','stroke-width':2},g));
-  el('polygon',{points:poly([[124.4,39.9],[126.2,37.6],[126.4,34.4],[129.3,35.2],[129.4,37.0],[128.3,38.6],[127.4,40]]),fill:'#E9E2CF',stroke:'#999','stroke-width':2},g);
-  el('polygon',{points:poly([[121.5,25.3],[122.0,25.0],[121.1,22.8],[120.85,22],[120.1,23.0],[121.0,24.8]]),fill:'#2F6F78',stroke:'#1F4F58','stroke-width':2},g);
-  const j=P(136,38.6),t=P(121.6,24);el('text',{x:j[0],y:j[1],'font-size':30,class:'lbl',fill:'#7A4A1A'},g).textContent='日本';el('text',{x:t[0]+16,y:t[1],'font-size':26,class:'lbl',fill:'#2F6F78'},g).textContent='臺灣';
-  // v2 interior
-  const v2=$('#v2');hutInside(v2);v2.insertAdjacentHTML('beforeend','<g id="c2"></g><g id="wish2" style="opacity:0;transition:opacity .6s"><circle cx="300" cy="250" r="9" fill="#fff"/><circle cx="320" cy="215" r="14" fill="#fff"/><ellipse cx="390" cy="160" rx="90" ry="54" fill="#fff" stroke="#2F6F78" stroke-width="3"/><g transform="translate(390,170)"><ellipse cx="0" cy="0" rx="40" ry="18" fill="#F7F3EA" stroke="#CFC6B4" stroke-width="2"/><ellipse cx="0" cy="-16" rx="28" ry="14" fill="#F7F3EA" stroke="#CFC6B4" stroke-width="2"/><circle cx="0" cy="-30" r="8" fill="#F28C28"/></g><text x="390" y="125" text-anchor="middle" font-size="20" class="lbl" fill="#2F6F78">年糕</text></g>');
-  oldwoman($('#c2'),'ow2',250,470,1.1);oldman($('#c2'),'om2',620,470,1.1);
-  // v3 snowstorm path
-  const v3=$('#v3');v3.innerHTML='<rect width="1000" height="560" fill="#C9D6DC"/><path d="M0,300 L200,200 L400,280 L600,180 L800,260 L1000,200 L1000,560 L0,560Z" fill="#E6EDF0"/><path d="M360,560 Q470,420 520,300 L540,300 Q560,420 700,560Z" fill="#D4DDE1"/><g id="c3"></g><rect id="v3fog" width="1000" height="560" fill="#fff" opacity="0"/>';
-  oldman($('#c3'),'om3',540,540,1.3);const s3=snow(v3,90);v3.classList.add('heavy');
-  // v4 roadside jizos
-  const v4=$('#v4');v4.innerHTML='<rect width="1000" height="560" fill="#D3DFE4"/><path d="M0,330 L180,240 L360,320 L560,230 L760,300 L1000,250 L1000,560 L0,560Z" fill="#EAF0F2"/><rect y="440" width="1000" height="120" fill="#F4F7F8"/><g id="jz4"></g><g id="c4"></g>';
-  snow(v4,30);
-  const sizes=[1.0,.9,1.08,.86,.96,.72];sizes.forEach((sz,i)=>jizo($('#jz4'),'j4-'+i,400+i*95,440,sz));
-  oldman($('#c4'),'om4',220,470,1);
-  // v5 town
-  const v5=$('#v5');v5.innerHTML=`<rect width="1000" height="560" fill="#D9E3E8"/><rect id="dusk5" width="1000" height="560" fill="#E8834A"/>
-   <g fill="#C9B48E" stroke="#7A5A2A" stroke-width="3"><rect x="20" y="230" width="220" height="200"/><rect x="760" y="240" width="220" height="190"/></g>
-   <g fill="#6A5A4A"><path d="M0,236 L130,180 L260,236Z"/><path d="M740,246 L870,190 L1000,246Z"/></g>
-   <g id="shop5"><rect x="330" y="200" width="320" height="230" fill="#D9C49A" stroke="#7A5A2A" stroke-width="4"/><path d="M310,206 L490,150 L670,206Z" fill="#5A4A3A"/><rect x="360" y="250" width="260" height="120" fill="#8A6A4A"/>
-    <rect x="600" y="210" width="40" height="110" fill="#fff" stroke="#7A5A2A" stroke-width="3"/><text x="620" y="245" text-anchor="middle" font-size="26" fill="#C8362B" class="lbl">年</text><text x="620" y="290" text-anchor="middle" font-size="26" fill="#C8362B" class="lbl">糕</text>
-    <g>${[0,1,2,3].map(i=>`<g transform="translate(${400+i*55},360)"><ellipse rx="22" ry="10" fill="#F7F3EA" stroke="#CFC6B4"/><ellipse cy="-10" rx="15" ry="8" fill="#F7F3EA" stroke="#CFC6B4"/><circle cy="-18" r="5" fill="#F28C28"/></g>`).join('')}</g>
-    <g id="steam5" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" opacity=".9"><path d="M420,250 q-10,-20 0,-40 q10,-20 0,-40"/><path d="M490,250 q-10,-20 0,-40 q10,-20 0,-40" style="animation-delay:.8s"/><path d="M560,250 q-10,-20 0,-40 q10,-20 0,-40" style="animation-delay:1.6s"/></g></g>
-   <rect y="430" width="1000" height="130" fill="#EEF2F4"/><g id="pp5"></g><g id="c5"></g>`;
-  snow(v5,25);
-  person($('#pp5'),-120,520,.9,'#4A6A8A');person($('#pp5'),-300,530,.9,'#8A4A5A');person($('#pp5'),1120,525,.9,'#5A7A4A','b');person($('#pp5'),1300,520,.9,'#7A6A3A','b');
-  const kp=charG($('#c5'),'keeper',490,340,.75);kp.bd.innerHTML=`<path d="M-24,0 L-18,-80 L18,-80 L24,0Z" fill="#E8E0D0"/><circle cx="0" cy="-100" r="20" fill="#EAC6A0"/><path d="M-22,-108 h44 v-10 h-44Z" fill="#fff"/>${face(0,-100,'#3A2A1A',2.4)}`;
-  oldman($('#c5'),'om5',500,530,1);
-  // v6 jizo snow
-  const v6=$('#v6');v6.innerHTML='<rect width="1000" height="560" fill="#B8C9D9"/><path d="M0,330 L180,240 L360,320 L560,230 L760,300 L1000,250 L1000,560 L0,560Z" fill="#E6EDF0"/><rect y="440" width="1000" height="120" fill="#F4F7F8"/><path d="M60,440 L130,180 L200,440Z" fill="#4E6E5E"/><path d="M80,300 L130,240 L180,300Z" fill="#fff"/><g id="jz6"></g><g id="c6"></g><g id="clump"><circle cx="470" cy="210" r="18" fill="#fff"/><circle cx="486" cy="200" r="12" fill="#fff"/></g>';
-  snow(v6,40);
-  sizes.forEach((sz,i)=>jizo($('#jz6'),'j6-'+i,400+i*95,440,sz));
-  oldman($('#c6'),'om6',230,470,1);
-  // v7 interior
-  const v7=$('#v7');hutInside(v7);v7.insertAdjacentHTML('beforeend','<g id="c7"></g><g id="heart7"><path d="M500,170 c-30,-32 -80,0 -48,40 l48,42 l48,-42 c32,-40 -18,-72 -48,-40Z" fill="#F2557A"/></g>');
-  oldwoman($('#c7'),'ow7',330,470,1.1);oldman($('#c7'),'om7',670,470,1.1);
-  // v8 night
-  const v8=$('#v8');v8.innerHTML=`<rect width="1000" height="560" fill="#1A2440"/><g id="stars8"></g><circle cx="860" cy="90" r="34" fill="#FFF3C4"/>
-   <path d="M180,250 L420,150 L660,250 L640,270 L200,270Z" fill="#6A5A3A"/><path d="M190,260 Q420,170 650,260" stroke="#fff" stroke-width="10" fill="none" opacity=".9"/>
-   <rect x="210" y="270" width="420" height="190" fill="#7A6A4A"/><rect x="270" y="310" width="120" height="90" fill="#FFD77A"/><g stroke="#5A4A2A" stroke-width="5"><line x1="310" y1="310" x2="310" y2="400"/><line x1="350" y1="310" x2="350" y2="400"/></g>
-   <rect x="470" y="320" width="100" height="140" fill="#4A3A2A"/><rect y="460" width="1000" height="100" fill="#DCE4EA"/>
-   <g id="jz8" opacity=".55"></g>
-   <g id="notes8" fill="#FFE27A" font-size="36"><text x="760" y="380">♪</text><text x="820" y="340" style="animation-delay:.8s">♫</text><text x="900" y="390" style="animation-delay:1.6s">♪</text></g>`;
-  const s8=$('#stars8');for(let k=0;k<40;k++)el('circle',{cx:Math.random()*1000,cy:Math.random()*240,r:Math.random()*1.8+.5,fill:'#fff'},s8);
-  [0,1,2,3,4,5].forEach(i=>{const j8=jizo($('#jz8'),'j8-'+i,700+i*48,470,sizes[i]*.55);j8.g.classList.add('wearhat','cleared');if(i===5){j8.g.classList.remove('wearhat');j8.g.classList.add('wearscarf')}});
-  snow(v8,20);
-  // v9 door & gifts
-  const v9=$('#v9');v9.innerHTML=`<rect width="1000" height="560" fill="#3A4A6A"/><path d="M380,560 Q560,380 760,300 L800,300 Q700,420 640,560Z" fill="#DCE4EA"/><rect y="440" width="1000" height="120" fill="#E6EDF0" opacity=".6"/>
-   <g id="far9"></g>
-   <g id="gifts9"></g>
-   <rect x="0" y="0" width="300" height="560" fill="#8A6A4A"/><rect x="300" y="0" width="30" height="560" fill="#5A4A2A"/>
-   <rect id="door9" x="330" y="0" width="420" height="560" fill="#A0805A" stroke="#5A4A2A" stroke-width="6"/>
-   <g id="c9"></g>`;
-  const gf=$('#gifts9');[['M360,470 h90 v60 h-90Z','#E6D7A8','米'],['M470,480 h90 v54 h-90Z','#E6D7A8','米'],['M580,500 h70 v34 h-70Z','#8EBF5A','菜'],['M670,505 h80 v30 h-80Z','#6FA9D6','魚'],['M520,440 h70 v40 h-70Z','#F7F3EA','年糕']].forEach(([d,c,tx],i)=>{const g=el('g',{class:'gift',style:`animation-delay:${i*.25}s`},gf);el('path',{d,fill:c,stroke:'#7A6A4A','stroke-width':3},g);const m=d.match(/M(\d+),(\d+) h(\d+) v(\d+)/);el('text',{x:+m[1]+ +m[3]/2,y:+m[2]+ +m[4]/2+8,'text-anchor':'middle','font-size':tx.length>1?18:24,class:'lbl',fill:'#4A3A2A'},g).textContent=tx;});
-  const fr=$('#far9');[0,1,2,3,4,5].forEach(i=>{const j=jizo(fr,'j9-'+i,700+i*26,330,.3);j.g.classList.add('wearhat','cleared');if(i===5){j.g.classList.remove('wearhat');j.g.classList.add('wearscarf')}});
-  oldman($('#c9'),'om9',160,540,1.1);$('#om9').classList.add('hidehat','noscarf');oldwoman($('#c9'),'ow9',250,545,1.05);
-  snow(v9,20);
+  const F=$('#F');F.innerHTML=`<rect width="1000" height="560" fill="#BFE6F5"/>
+   <g fill="#fff" opacity=".9"><ellipse cx="420" cy="70" rx="70" ry="20"/><ellipse cx="460" cy="56" rx="40" ry="20"/><ellipse cx="820" cy="90" rx="70" ry="20"/></g>
+   <g id="meadow">
+    <path id="hill" d="M40,360 Q200,150 360,360Z" fill="#6FAF6A"/><path d="M260,360 Q380,200 500,360Z" fill="#88C07A"/>
+    <rect y="350" width="1000" height="210" fill="#9CD27A"/>
+    <path d="M610,440 Q780,400 960,440 Q980,520 790,540 Q620,530 610,440Z" fill="#7FC6E0"/>
+    <g id="bookOv" class="ov"><path d="M60,540 Q270,500 500,530 L500,390 Q280,360 90,380Z" fill="#FFFDF4" opacity=".75" stroke="#B9A57A" stroke-width="4"/><path d="M500,530 Q730,500 940,540 L910,380 Q720,360 500,390Z" fill="#FFFDF4" opacity=".75" stroke="#B9A57A" stroke-width="4"/>
+      <g stroke="#C9B994" stroke-width="3">${[0,1,2,3].map(i=>`<line x1="${130}" y1="${410+i*30}" x2="${460}" y2="${416+i*30}"/><line x1="${540}" y1="${416+i*30}" x2="${880}" y2="${410+i*30}"/>`).join('')}</g><text x="500" y="378" text-anchor="middle" font-size="28" class="lbl" fill="#8A6A2A">課本</text></g>
+    <g id="modelOv" class="ov"><path d="M40,360 Q200,150 360,360Z" fill="none" stroke="#E8762A" stroke-width="5" stroke-dasharray="12 8"/><rect x="30" y="358" width="340" height="16" fill="#C9A06A"/><rect x="60" y="210" width="96" height="40" rx="8" fill="#fff" stroke="#E8762A" stroke-width="3"/><text x="108" y="238" text-anchor="middle" font-size="24" class="lbl" fill="#E8762A">模型</text></g>
+    <g id="paperOv" class="ov"><rect x="110" y="380" width="460" height="160" fill="#FFFFFF" opacity=".9" stroke="#DDD" stroke-width="3"/><g fill="#F7E6A8" opacity=".9"><rect x="100" y="372" width="40" height="16" transform="rotate(-20 120 380)"/><rect x="540" y="372" width="40" height="16" transform="rotate(20 560 380)"/></g><text x="340" y="410" text-anchor="middle" font-size="24" class="lbl" fill="#999">畫紙</text>
+      <path id="stroke" d="M150,500 Q220,440 300,490 T460,470 T540,500" fill="none" stroke="#E86A8A" stroke-width="10" stroke-linecap="round"/></g>
+    <g id="tree"><path d="M690,360 C680,300 700,250 690,180 L710,180 C702,250 720,300 712,360Z" fill="#8A6A4A"/><g fill="#5AA05A"><circle cx="700" cy="170" r="60"/><circle cx="650" cy="200" r="40"/><circle cx="752" cy="200" r="42"/></g></g>
+    <g id="paletteOv" class="ov"><path d="M600,440 Q780,370 970,440 Q990,540 790,552 Q600,540 600,440Z M680,470 a14,12 0 1,0 0.1,0Z" fill="none" stroke="#9A6A3A" stroke-width="7"/>${[['#E85D4A',740,440],['#F7C531',810,450],['#6AC25A',880,460],['#3A7BD5',780,500],['#8E5AD6',860,505]].map(([c,x,y])=>`<circle cx="${x}" cy="${y}" r="17" fill="${c}"/>`).join('')}<rect x="700" y="388" width="170" height="38" rx="8" fill="#fff" stroke="#9A6A3A" stroke-width="3"/><text x="785" y="414" text-anchor="middle" font-size="22" class="lbl" fill="#9A6A3A">調色盤</text></g>
+    <g id="rainbow" class="ov" fill="none" stroke-width="16">${['#E85D4A','#F28C28','#F7C531','#6AC25A','#3A9AD6','#3A5AB5','#8E5AD6'].map((c,i)=>`<path d="M${520+i*16},350 A${230-i*16},${200-i*14} 0 0 1 ${980-i*16},350" stroke="${c}"/>`).join('')}</g>
+    <g id="drops" class="ov">${[['#E85D4A',560],['#F7C531',640],['#6AC25A',720],['#3A9AD6',800]].map(([c,x],i)=>`<circle class="drop" cx="${x}" cy="230" r="8" fill="${c}" style="animation-delay:${i*.3}s"/>`).join('')}<rect x="640" y="160" width="120" height="38" rx="8" fill="#fff" stroke="#8E5AD6" stroke-width="3"/><text x="700" y="186" text-anchor="middle" font-size="22" class="lbl" fill="#8E5AD6">顏料</text></g>
+    <g id="kids"></g>
+   </g>
+   <g id="forest">
+    <rect width="1000" height="560" fill="#CFE6C8"/><rect y="380" width="1000" height="180" fill="#A9CF8E"/>
+    <g id="ftrees"></g>
+    <path id="maze" d="M140,500 Q240,470 320,430 Q300,380 260,330 Q360,300 460,300 Q560,290 620,250" fill="none" stroke="#E8762A" stroke-width="6"/>
+    <g id="mazeKids"><g></g></g>
+    <g id="animals" class="ov"><rect x="380" y="40" width="240" height="56" rx="14" fill="#fff" stroke="#C8962A" stroke-width="4"/><text x="500" y="78" text-anchor="middle" font-size="30" class="lbl" fill="#C8962A">👑 動物的王國</text></g>
+    <g id="homes" class="ov"><path d="M780,140 q40,30 80,0 q-10,26 -40,26 q-30,0 -40,-26Z" fill="#B8924F" stroke="#7A5A2A" stroke-width="3"/><g transform="translate(820,128)"><ellipse rx="20" ry="13" fill="#E85D4A"/><circle cx="-16" cy="-6" r="9" fill="#3A9AD6"/><path d="M-24,-6 l-8,3 l8,3Z" fill="#F7C531"/><path d="M12,0 l18,-8 l0,12Z" fill="#6AC25A"/></g>
+      <path d="M560,520 Q760,470 1000,500 L1000,560 L560,560Z" fill="#7FC6E0"/><g class="fish"><path d="M700,520 q20,-14 40,0 q-20,14 -40,0Z M738,520 l14,-10 v20Z" fill="#F28C28"/></g><g class="fish" style="animation-delay:-1.2s"><path d="M820,535 q18,-12 36,0 q-18,12 -36,0Z M854,535 l12,-9 v18Z" fill="#F7C531"/></g>
+      <rect x="680" y="200" width="200" height="40" rx="10" fill="#fff" stroke="#2E7FC1" stroke-width="3"/><text x="780" y="228" text-anchor="middle" font-size="22" class="lbl" fill="#2E7FC1">彩色小鳥的家園</text>
+      <rect x="760" y="448" width="170" height="36" rx="10" fill="#fff" stroke="#2E7FC1" stroke-width="3"/><text x="845" y="474" text-anchor="middle" font-size="22" class="lbl" fill="#2E7FC1">魚兒的家園</text></g>
+   </g>
+   <g id="insects">
+     <g class="fly1"><g transform="translate(320,250)">${bee()}</g></g>
+     <g class="fly2"><g transform="translate(600,220)">${bfly('#F7C531','#F28C28')}</g></g>
+     <g class="fly1" style="animation-delay:-3s"><g transform="translate(450,300)">${bfly('#8EC5F5','#6AA8E8')}</g></g>
+   </g>
+   <g id="photos" class="ov">
+     <g class="photo"><g transform="translate(760,30)"><rect width="100" height="120" fill="#fff" stroke="#CCC" stroke-width="3"/><rect x="10" y="10" width="80" height="80" fill="#E6F4FA"/><g transform="translate(50,50)">${bee()}</g><text x="50" y="112" text-anchor="middle" font-size="16" class="lbl" fill="#555">蜜蜂</text></g></g>
+     <g class="photo" style="animation-delay:-1s"><g transform="translate(880,40)"><rect width="100" height="120" fill="#fff" stroke="#CCC" stroke-width="3"/><rect x="10" y="10" width="80" height="80" fill="#FFF2E6"/><g transform="translate(50,54)">${bfly('#F7C531','#F28C28')}</g><text x="50" y="112" text-anchor="middle" font-size="16" class="lbl" fill="#555">蝴蝶</text></g></g>
+     <rect x="760" y="170" width="220" height="40" rx="10" fill="#fff" stroke="#E8A33A" stroke-width="3"/><text x="870" y="198" text-anchor="middle" font-size="22" class="lbl" fill="#C8762A">活生生的圖片</text>
+   </g>`;
+  const kd=$('#kids');kid(kd,300,540,1.05,{shirt:'#F7C531',hair:'#E8762A',bow:true});kid(kd,400,546,1.1,{shirt:'#6AC25A',hair:'#5A3A20',id:'kidB'});kid(kd,500,540,1,{shirt:'#5A8AD6',hair:'#3A2A1A'});
+  $('#kidB .arm').insertAdjacentHTML('beforeend','<line x1="35" y1="-103" x2="60" y2="-150" stroke="#8A6A4A" stroke-width="5" stroke-linecap="round"/><circle id="branchTip" cx="61" cy="-152" r="7"/>');
+  const ft=$('#ftrees');[[80,380,1],[200,360,.9],[380,370,1.1],[520,350,.95],[700,370,1.05],[880,360,1],[300,250,.6],[600,240,.6],[150,230,.55],[820,220,.6]].forEach(([x,y,s])=>ft.insertAdjacentHTML('beforeend',`<g transform="translate(${x},${y}) scale(${s})"><rect x="-10" y="-60" width="20" height="60" fill="#8A6A4A"/><path d="M0,-200 L60,-60 L-60,-60Z" fill="#3E8A4A"/><path d="M0,-240 L46,-130 L-46,-130Z" fill="#4E9A5A"/></g>`));
+  kid($('#mazeKids>g'),0,0,.6,{shirt:'#F7C531',hair:'#E8762A',bow:true});
+  const an=$('#forest');const ag=el('g',{id:'aniG'},$('#animals'));[['rab',200,520],['deer',440,520],['sq',640,400],['bear',880,520]].forEach(([k,x,y],i)=>{const g=el('g',{transform:`translate(${x},${y})`},ag);const i2=el('g',{class:'ani',style:`transition-delay:${i*.3}s`},g);i2.innerHTML=animal(k);});
 })();
-function pos(id,dx,dy,dur,sc){const m=$('#'+id+' > .mv');if(!m)return;if(dur!==undefined)m.style.transitionDuration=dur+'ms';m.style.transform=`translate(${dx}px,${dy}px)`+(sc?` scale(${sc})`:'');}
-function cl(id,c,on=true){$('#'+id).classList.toggle(c,on)}
-
-/* ---------- rhetoric ---------- */
-const RH={'擬人':['p','把不是人的東西，寫得像人一樣：會說話、會感覺、會做事。'],'譬喻':['m','用另一樣相像的東西來比方，常用「像、好像、像極了、彷彿」。'],'感嘆':['e','用「！」或「啊、呀、好……」，表達強烈的感情，像高興、驚訝、難過。'],'設問':['q','用問句引起注意，或說出心裡的疑問、猜想。']};
-const WHY={
- r1:'老婆婆用了「！」，說出她對新年和年糕的期待，感情很強烈。',
- r2:'老爺爺心裡用問句猜想：地藏的頭是不是凍壞了？這是心裡的疑問。地藏是石像，卻寫得好像會怕冷，所以也有擬人的味道。',
- r3:'地藏菩薩本來是石像，在這裡卻會唱歌、會說話、會覺得暖和，把地藏寫得像人一樣。句子最後用「！」表達開心。',
- r4:'用「像極了」把遠處的身影，和戴斗笠的地藏拿來比方。'};
 
 /* ---------- vocabulary ---------- */
 const VOC={
- "貧苦":"貧窮又辛苦，沒什麼錢。","夫妻":"結了婚的兩個人，丈夫和妻子。","斗笠":"用竹子或草編成的帽子，可以遮陽、擋雨雪。",
- "白茫茫":"一大片白色，看不清楚。","打算":"心裡想好要做的事。","地藏菩薩":"日本隨處可見的小石像，又稱「地藏大佛」，是日本人的守護神。這裡的「地」念ㄉㄧˋ、「藏」念ㄗㄤˋ。",
- "祈求":"誠心的請求、許願。","繼續":"接著做下去，不停下來。","便宜":"價錢低、不貴。","耐用":"用很久也不容易壞。",
- "無人聞問":"沒有人來問，也沒有人理會。","應景":"配合節日、時節的。","離開":"從一個地方走開。","傍晚":"太陽快下山的時候。",
- "驚覺":"突然發覺。","隱約":"不太清楚，好像有又好像沒有。","託":"依靠。「託老爺爺的福」是說多虧了老爺爺。","笑納":"請對方收下禮物的客氣話。","漸漸":"慢慢的，一點一點的。"
+ "野外":"離開城市、房子，在大自然裡的地方。","大地":"整片土地。","課本":"上課用的書。","模型":"照著真的東西做出來的小樣子。",
+ "蜜蜂":"會採花蜜的小昆蟲，身上有黃黑色條紋。","蝴蝶":"有一對漂亮大翅膀的昆蟲。","活生生":"活的、真實的，在眼前動來動去。","圖片":"畫或照片。",
+ "畫筆":"畫畫用的筆。","顏料":"畫畫時用來上色的東西。","小湖":"小小的湖。","調色盤":"畫畫時用來混合顏料的盤子。「調」念ㄊㄧㄠˊ。",
+ "迷宮":"路彎彎曲曲，進去以後很難找到出口的地方。","逛":"隨意的走走看看。","王國":"國王統治的國家，這裡指動物住的地方。","魚兒":"魚。","家園":"居住的家，生活的地方。"
 };
 function showVocab(w){const p=$('#pop');p.innerHTML=`<h3>${w}</h3><div>${VOC[w]||''}</div><div class="row"><button id="pSay">🔊 念</button><button id="pClose">關閉</button></div>`;p.classList.add('on');$('#pSay').onclick=()=>speak(w+'。'+VOC[w]);$('#pClose').onclick=()=>p.classList.remove('on');}
-function showRh(types,key,text){const p=$('#pop');p.innerHTML=`<h3>修辭：${types.join('＋')}</h3>${types.map(t=>`<div><b style="color:var(--c-${RH[t][0]})">${t}</b>：${RH[t][1]}</div>`).join('')}<div class="why">${WHY[key]||''}</div><div class="row"><button id="pSay">🔊 念這句</button><button id="pClose">關閉</button></div>`;p.classList.add('on');$('#pSay').onclick=()=>speak(text);$('#pClose').onclick=()=>p.classList.remove('on');}
 
-/* ---------- cause-effect ---------- */
-const CEO=[['老爺爺沿街叫賣斗笠',0],['老爺爺向地藏祈求好運',0],['老爺爺幫地藏戴上斗笠和頭巾',1],['老爺爺想用斗笠交換年糕',0]];
-function buildCE(){const q=$('#ceq');q.innerHTML='<div class="q">哪一件事，是改變結局的主要原因？</div>';CEO.forEach(([t,r])=>{const b=document.createElement('button');b.textContent=t;b.onclick=()=>{if(r){b.classList.add('right');$('.chainr').classList.add('on');speak('答對了！'+t+'。地藏頭頂一暖，全身暖和，就送來白米、青菜、魚和年糕，報答老爺爺。')}else{b.classList.add('wrong');speak('再想想看，地藏為什麼要送禮物？')}};q.appendChild(b)});
-  q.insertAdjacentHTML('beforeend','<div class="chainr">🧑‍🦳 幫地藏戴斗笠、頭巾<br>⬇<br>🗿「頭頂一暖，全身暖和」<br>⬇<br>🎁 送來白米、青菜、魚和年糕</div>');}
+/* ---------- text ---------- */
+const EQ=(a,b)=>`${a} <span class="eq">➜</span> ${b}`;
+const ST=[
+ {lines:['到[[野外]]上課，','[[大地]]是[[課本]]，','小山是[[模型]]，','[[蜜蜂]]、[[蝴蝶]]飛呀飛，','是[[活生生]]的[[圖片]]。'],
+  fx:[()=>say1('到野外上課囉！🎒'),()=>say1(EQ('🌏 大地','📖 課本'),'gold'),()=>say1(EQ('⛰️ 小山','模型'),'gold'),()=>say1('蜜蜂、蝴蝶飛呀飛 🐝🦋'),()=>say1(EQ('🐝🦋 蜜蜂、蝴蝶','🖼️ 活生生的圖片'),'gold')]},
+ {lines:['到野外上課，','草地是畫紙，','樹枝是[[畫筆]]，','彩虹是[[顏料]]，','[[小湖]]是[[調色盤]]。'],
+  fx:[()=>say1('到野外上課，來畫畫吧！🎨'),()=>say1(EQ('🌿 草地','📄 畫紙'),'gold'),()=>say1(EQ('🌿 樹枝','🖌️ 畫筆'),'gold'),()=>say1(EQ('🌈 彩虹','顏料'),'gold'),()=>say1(EQ('💧 小湖','🎨 調色盤'),'gold')]},
+ {long:1,lines:['到野外上課，','去走森林的[[迷宮]]，','去{{逛}}動物的[[王國]]，','我們一起去找','彩色小鳥和','[[魚兒]]的家園。'],
+  fx:[()=>say1('到野外上課，去森林！🌲'),()=>say1('走森林的迷宮 🌀'),()=>say1('逛動物的王國 👑'),()=>{say1('我們一起去找……');temp('🔍',{},'lens',3000)},()=>say1('彩色小鳥 🐦'),()=>say1('和魚兒的家園 🐟🏠','blue')]}
+];
+let lineIdx=-1;
+function stateTo(sn,k){$('#F').setAttribute('class',['s'+(sn+1),...Array.from({length:k+1},(_,i)=>'a'+i)].join(' '));}
+function playLine(k,{onend}={}){
+  const st=S[cur];if(st.st===undefined)return;const S_=ST[st.st];
+  timers.forEach(clearTimeout);timers=[];try{speechSynthesis.cancel()}catch(e){}
+  lineIdx=k;$('#ov').innerHTML='';stateTo(st.st,k);S_.fx[k]();
+  $$('#txt .ln').forEach((l,i)=>{l.classList.toggle('on',i===k);l.classList.toggle('done',i<k)});
+  $('#lineNo').textContent=`第 ${k+1} 句／共 ${S_.lines.length} 句`;
+  let done=false;const fin=()=>{if(done)return;done=true;onend&&onend()};
+  speak(S_.lines[k],()=>later(fin,700));later(fin,Math.max(2600,clean(S_.lines[k]).length*520+1500));
+}
+function nextLine(){const st=S[cur];if(st.st===undefined)return;const n=ST[st.st].lines.length;if(lineIdx<n-1)playLine(lineIdx+1);else temp('這一段念完了！按「下一頁」繼續',{left:'50%',top:'45%',transform:'translateX(-50%)'},'badge',2000)}
+function autoPlay(){const st=S[cur];stopAll();lineIdx=-1;stateTo(st.st,-1);autoOn=true;const n=ST[st.st].lines.length;const step=i=>{if(!autoOn||i>=n){autoOn=false;return}playLine(i,{onend:()=>{if(autoOn)step(i+1)}})};later(()=>step(0),300);}
 
-/* ---------- rhetoric page ---------- */
-const RQ=[
- ['「明天就是新年了！我好想嘗嘗年糕的味道！」','感嘆',1],['「沒戴斗笠，地藏菩薩的頭都凍壞了吧？」','設問',1],['「託老爺爺的福，我們頭頂一暖，全身暖和。」（地藏說的話）','擬人',1],['「遠處漸漸消失的身影，像極了那些戴斗笠的地藏。」','譬喻',1],
- ['「天上的白雲，像一團團棉花糖。」','譬喻',0],['「太陽公公笑咪咪的看著大家。」','擬人',0],['「哇！雪花好美啊！」','感嘆',0],['「冬天為什麼要多穿衣服？因為天氣冷，容易著涼。」','設問',0],['「小雨點在窗戶上跳舞。」','擬人',0],['「雪地白得像鋪了一層糖粉。」','譬喻',0]];
-let rqList=[],rqi=0;
-function buildRh(){const c=$('#rcards');c.innerHTML='';Object.entries(RH).forEach(([n,[k,d]])=>{const b=document.createElement('button');b.className='rcard';b.style.setProperty('--rc',`var(--c-${k})`);b.innerHTML=`<h4>${n}</h4><p>${d}</p>`;b.onclick=()=>{$$('.rcard').forEach(x=>x.classList.toggle('on',x===b));const ex=RQ.find(r=>r[1]===n&&r[2]);$('#rex').innerHTML=`<b style="color:var(--c-${k})">課文裡的${n}：</b><div class="q">${ex[0]}</div>`;speak(n+'。'+d)};c.appendChild(b)});$('#rex').innerHTML='<div style="font-size:3vh;color:#55636A">點上面的卡片，認識四種修辭；或按下方「考考你」來練習。</div>';}
-function rhQuiz(){rqList=[...RQ].sort(()=>Math.random()-.5);rqi=0;rhAsk();}
-function rhAsk(){const ex=$('#rex');if(rqi>=rqList.length){ex.innerHTML='<div class="q">全部完成！🎉</div>';speak('全部完成，你好棒');return}
-  const [s,a,fromText]=rqList[rqi];ex.innerHTML=`<div><span class="tagq" style="background:${fromText?'#2F6F78':'#9AA6B5'}">${fromText?'課文':'練習題'}</span>第 ${rqi+1}／${rqList.length} 題：這句用了什麼修辭？</div><div class="q">${s}</div><div class="opts"></div><div class="fb"></div>`;speak(s);
-  Object.entries(RH).forEach(([n,[k]])=>{const b=document.createElement('button');b.textContent=n;b.style.setProperty('--rc',`var(--c-${k})`);b.onclick=()=>{const fb=ex.querySelector('.fb');if(n===a){fb.textContent='答對了！這是「'+a+'」⭐';fb.style.color='#2E8B57';speak('答對了');rqi++;later(rhAsk,1500)}else{fb.textContent='再想想看：'+RH[a][1].slice(0,0)+'看看句子裡有沒有「像」「！」「？」，或把東西寫成人？';fb.style.color='#C8362B'}};ex.querySelector('.opts').appendChild(b)});}
+/* ---------- 調 ---------- */
+const DW={t:['調味','調皮','調色盤'],d:['單調','調查']};
+const DQ=[['調味','t'],['調皮','t'],['調色盤','t'],['調整','t'],['單調','d'],['調查','d'],['聲調','d']];
+let dq=[],dqi=0;
+function buildDiao(){$('#dy').innerHTML=`
+  <div class="dcard" style="--c:#E86A8A"><h4>調 <span>ㄊㄧㄠˊ</span></h4><div class="ws">${DW.t.map(w=>`<button data-r="${w}">${w}</button>`).join('')}</div><div class="note">調色盤：課文裡的「小湖是調色盤」！</div></div>
+  <div class="dcard" style="--c:#2E7FC1"><h4>調 <span>ㄉㄧㄠˋ</span></h4><div class="ws">${DW.d.map(w=>`<button data-r="${w}">${w}</button>`).join('')}</div></div>
+  <div class="dsent" id="dsent">👴 爺爺覺得這道料理的味道單<span class="d">調</span>（ㄉㄧㄠˋ），因此加了一些香料來<span class="t">調</span>（ㄊㄧㄠˊ）味。</div>
+  <div class="dq" id="dq"></div>`;
+  $$('#dy .ws button').forEach(b=>b.onclick=()=>speak(b.dataset.r));$('#dsent').onclick=()=>speak('爺爺覺得這道料理的味道單調，因此加了一些香料來調味。');
+  dq=[...DQ].sort(()=>Math.random()-.5);dqi=0;askDiao();}
+function askDiao(){const box=$('#dq');if(dqi>=dq.length){box.innerHTML='<b>全部完成！🎉</b>';speak('全部完成，你好棒');return}
+  const [w,a]=dq[dqi];box.innerHTML=`<b>考考你（${dqi+1}／${dq.length}）：</b>這個「調」念什麼？<div class="w">${w.replace('調','<u>調</u>')}</div><div class="opts"><button style="--c:#E86A8A" data-a="t">ㄊㄧㄠˊ</button><button style="--c:#2E7FC1" data-a="d">ㄉㄧㄠˋ</button></div><div class="fb" id="dfb"></div>`;
+  box.querySelectorAll('.opts button').forEach(b=>b.onclick=()=>{const fb=$('#dfb');if(b.dataset.a===a){fb.textContent='答對了！⭐';fb.style.color='#2E8B57';speak('答對了，'+w);dqi++;later(askDiao,1600)}else{fb.textContent='再想想看，念念看哪一個比較順？';fb.style.color='#C8362B'}});}
 
-/* ---------- 5W ---------- */
-const W5=[["人","老爺爺、老婆婆、六座地藏菩薩"],["事","老爺爺賣斗笠想換年糕，一頂也沒賣出；他把斗笠和頭巾送給地藏戴，地藏送來禮物報答"],["時","新年前（除夕）：從白天到傍晚，再到除夕夜裡"],["地","日本的深山裡、山腳下的村子、路旁的地藏、老夫妻的家"],["物","斗笠、年糕、頭巾、白米、青菜、魚"]];
-(function(){const g=$('#wgrid');W5.forEach(r=>{g.insertAdjacentHTML('beforeend',`<div class="k">${r[0]}</div>`);const d=document.createElement('div');d.className='cell';d.tabIndex=0;d.innerHTML=`${r[1]}<div class="cover">點我看「${r[0]}」</div>`;d.onclick=()=>{d.classList.toggle('open');if(d.classList.contains('open'))speak(r[1])};d.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();d.click()}};g.appendChild(d)})})();
-const QZ=[["老爺爺","人"],["老婆婆","人"],["除夕夜裡","時"],["傍晚","時"],["新年","時"],["日本","地"],["深山裡","地"],["村子","地"],["斗笠","物"],["年糕","物"],["頭巾","物"],["賣斗笠","事"],["幫地藏戴斗笠","事"]];
-let qList=[],qi=0;
-function startQuiz(){qList=[...QZ].sort(()=>Math.random()-.5).slice(0,8);qi=0;$('#quiz').classList.add('on');nextQ();}
-function nextQ(){const fb=$('#qfb');fb.textContent='';if(qi>=qList.length){$('#qword').textContent='全部完成！🎉';$('#qbtns').innerHTML='';speak('全部完成，你好棒');return}
-  const [w,a]=qList[qi];$('#qword').textContent=w;speak(w);const b=$('#qbtns');b.innerHTML='';
-  ["人","事","時","地","物"].forEach(k=>{const x=document.createElement('button');x.textContent=k;x.onclick=()=>{if(k===a){fb.textContent='答對了！「'+w+'」是「'+a+'」 ⭐';fb.style.color='#2F6F78';speak('答對了');qi++;setTimeout(nextQ,1400)}else{fb.textContent='再想想看喔！';fb.style.color='#C8362B';}};b.appendChild(x)});}
-$('#qclose').onclick=()=>$('#quiz').classList.remove('on');
+/* ---------- 課文重點 ---------- */
+const KA=['小山','蜜蜂','蝴蝶','彩虹','草地','彩色小鳥','魚兒'];
+let selB=null;
+function buildKey(all){const B=i=>`<button class="blankB${all?' ok':''}" data-i="${i}"><i>${i+1}</i>${all?KA[i]:''}</button>`;
+  $('#sheet').innerHTML=`<h3>學習通知單</h3><div>親愛的小朋友：<br>歡迎你到野外上課，我為你準備了有趣的課程：</div>
+   <div class="sec"><b>第一節</b>　你可以把大地當成課本，${B(0)}當成模型，活生生的${B(1)}、${B(2)}會在你身邊飛呵！</div>
+   <div class="sec"><b>第二節</b>　我們來畫畫吧！請你用樹枝作為畫筆，${B(3)}作為顏料，在${B(4)}上畫出你美麗的畫。</div>
+   <div class="sec"><b>第三節</b>　我們到森林的迷宮和動物的王國，找${B(5)}和${B(6)}的家園。</div>`;
+  const words=[...KA].sort(()=>Math.random()-.5);
+  $('#bank').innerHTML=`<h4>詞語卡</h4><div class="note" style="font-size:2.2vh">先點空格，再點詞語！</div>${words.map(w=>`<button${all?' class="used"':''}>${w}</button>`).join('')}`;
+  selB=null;
+  $$('.blankB').forEach(b=>b.onclick=()=>{if(b.classList.contains('ok'))return;selB=+b.dataset.i;$$('.blankB').forEach(x=>x.classList.toggle('sel',x===b))});
+  $$('#bank button').forEach(w=>w.onclick=()=>{if(selB===null){temp('先點一個空格喔！',{left:'50%',top:'45%',transform:'translateX(-50%)'},'badge',1500);return}
+    const b=$(`.blankB[data-i="${selB}"]`);if(w.textContent===KA[selB]){b.classList.remove('sel');b.classList.add('ok');b.innerHTML=`<i>${selB+1}</i>${KA[selB]}`;w.classList.add('used');speak('答對了，'+KA[selB]);selB=null;if($$('.blankB.ok').length===7)later(()=>temp('全部找到了！🎉',{left:'40%',top:'45%'},'badge',2000),800)}else{speak('再想想看，回課文找一找');temp('再回課文找線索！',{left:'40%',top:'45%'},'badge',1500)}});}
+
+/* ---------- 短語 ---------- */
+const PA={place:['操場','圖書館','公園','廚房','教室'],act:['跑步','看書','溜滑梯','煮飯','上課']};
+const PB=['盪鞦韆','溜滑梯','追蝴蝶','看大象','聞花香'];
+let pp='',pa='',pb='';
+function buildPh(){$('#phl').innerHTML=`<h4>短語練習一：到＋地點＋做什麼事</h4><div class="ph"><span class="k">到</span><span class="p">地點</span><span class="d">做什麼事</span></div>
+   <div class="exs">${['到野外上課','到浴室洗澡','到餐廳吃飯'].map(s=>`<div>${s}</div>`).join('')}</div>
+   <div class="slot"><h5>選地點</h5><div class="chips" id="cpP" style="--c:#C8466A">${PA.place.map(x=>`<button class="${x===pp?'on':''}">${x}</button>`).join('')}</div></div>
+   <div class="slot"><h5>做什麼事</h5><div class="chips" id="cpA" style="--c:#2E6FB3">${PA.act.map(x=>`<button class="${x===pa?'on':''}">${x}</button>`).join('')}</div></div>
+   <div class="mysent" id="pmA"></div>`;
+  $('#phr').innerHTML=`<h4>短語練習二：去＋做什麼事</h4><div class="ph"><span class="k">去</span><span class="p">做什麼事</span></div>
+   <div class="exs">${['去走森林的迷宮','去聽小鳥的歌聲','去聞花草的香味'].map(s=>`<div>${s}</div>`).join('')}</div>
+   <div class="note">看課本的圖，圖中的人物要做什麼？</div>
+   <div class="slot"><h5>做什麼事</h5><div class="chips" id="cpB" style="--c:#C8466A">${PB.map(x=>`<button class="${x===pb?'on':''}">${x}</button>`).join('')}</div></div>
+   <div class="mysent" id="pmB"></div>`;
+  $$('.exs div').forEach(d=>d.onclick=()=>speak(d.textContent));
+  $$('#cpP button').forEach(b=>b.onclick=()=>{pp=b.textContent;buildPh()});$$('#cpA button').forEach(b=>b.onclick=()=>{pa=b.textContent;buildPh()});$$('#cpB button').forEach(b=>b.onclick=()=>{pb=b.textContent;buildPh()});
+  const BL=x=>x||'<span class="bl">＿＿</span>';$('#pmA').innerHTML=`到${BL(pp)}${BL(pa)}`;$('#pmB').innerHTML=`去${BL(pb)}`;}
+
+/* ---------- 成語 ---------- */
+const TF=[['我的橡皮擦不翼而飛，找了好久都找不到。',1],['小鳥不翼而飛，飛到了天空中。',0],['放在桌上的餅乾，一下子就不翼而飛了。',1],['蝴蝶在花園裡不翼而飛，好漂亮。',0]];
+let tfi=0,tfl=[];
+function buildIdiom(){$('#idi').innerHTML=`<div class="ihead"><h3>🪶 不翼而<span class="hz">飛</span></h3><div class="mean"><b>意思：</b>比喻物品無故遺失。（「翼」是翅膀，沒有翅膀卻飛走了。）</div><div class="ex"><b>例句：</b>結帳時，我才發現錢包不翼而飛了。</div><div class="lk">課文裡的生字「飛」：蜜蜂、蝴蝶<span class="hz">飛</span>呀<span class="hz">飛</span></div></div><div class="tf" id="tf"><div style="color:#5E6E66">按下方「考考你」，判斷句子用得對不對！</div></div>`;speak('不翼而飛。比喻物品無故遺失。例句：結帳時，我才發現錢包不翼而飛了。');}
+function tfQuiz(){tfl=[...TF].sort(()=>Math.random()-.5);tfi=0;tfAsk();}
+function tfAsk(){const b=$('#tf');if(tfi>=tfl.length){b.innerHTML='<b>全部完成！🎉</b>';speak('全部完成，你好棒');return}
+  const [s,ok]=tfl[tfi];b.innerHTML=`<b>第 ${tfi+1}／${tfl.length} 題：</b>「不翼而飛」用得對不對？<div class="q">${s.replace('不翼而飛','<u>不翼而飛</u>')}</div><div class="opts"><button data-a="1">⭕ 對</button><button data-a="0">❌ 不對</button></div><div class="fb" id="tfb"></div>`;speak(s);
+  b.querySelectorAll('.opts button').forEach(x=>x.onclick=()=>{const fb=$('#tfb');if(+x.dataset.a===ok){fb.textContent=ok?'答對了！東西不見了，可以用「不翼而飛」⭐':'答對了！「不翼而飛」是說東西不見了，不是真的在飛 ⭐';fb.style.color='#2E8B57';speak('答對了');tfi++;later(tfAsk,2600)}else{fb.textContent='再想想看：「不翼而飛」是說東西不見了，還是真的在飛？';fb.style.color='#C8362B'}});}
 
 /* ---------- steps ---------- */
-function resetAll(){for(let n=1;n<=9;n++){const v=$('#v'+n);v.setAttribute('class',n===3?'heavy':'')}
-  $$('.mv').forEach(m=>{m.style.transform='';m.style.transitionDuration='';m.style.opacity=''});
-  ['om2','om5','om4','om3','om6','om7'].forEach(id=>{const g=$('#'+id);if(g){g.setAttribute('class','')}});
-  $$('#jz4 .jz,#jz6 .jz').forEach(j=>j.setAttribute('class','jz'));$$('.stackH').forEach(s=>s.classList.remove('on'));
-  $('#wish2').style.opacity=0;$('#v3fog').setAttribute('opacity',0);$('#om1').setAttribute('class','hidehat');$('#om9').setAttribute('class','hidehat noscarf');
-}
 const S=[
- {sc:'1',tag:'貧苦的老夫妻',no:'第1段',time:'從前・日本的深山裡',text:'從前，在日本的深山裡，住著一對[[貧苦]]的老[[夫妻]]。他們除了下田耕作，還做[[斗笠]]到山下賣。',
-  acts:[['📍 日本在哪裡？',()=>$('#v1').classList.toggle('showmap')],['🌾 下田耕作',()=>say1('老夫妻在田裡耕作')],['🎋 做斗笠',()=>{$$('.stackH').forEach((s,i)=>{s.classList.remove('on');later(()=>s.classList.add('on'),i*400)});later(()=>say1('做好的斗笠，要拿到山下賣'),2600)}]]},
- {sc:'2',tag:'老婆婆的心願',no:'第2段',time:'新年的前一天',text:'有一天，老婆婆說：(@感嘆|r1|「明天就是新年了！我好想嘗嘗年糕的味道！」@)老爺爺聽了心想，只有賣了斗笠，才有錢買年糕。於是，背起斗笠就出門去了。',
-  enter(){cl('om2','hidehat')},
-  acts:[['💬 老婆婆說',()=>{$('#wish2').style.opacity=1;bubbleAt('ow2','老婆婆','明天就是新年了！我好想嘗嘗年糕的味道！',4200);speak('明天就是新年了！我好想嘗嘗年糕的味道！',1.3)}],['💭 老爺爺心想',()=>{$('#ov').querySelectorAll('.chain').forEach(c=>c.remove());ov('<span>賣了斗笠</span><i>➜</i><span style="animation-delay:.6s">💰 有錢</span><i style="animation-delay:.9s">➜</i><span style="animation-delay:1.2s">🍡 買年糕</span>',{},'chain');}],['🎒 背起斗笠出門',()=>{cl('om2','hidehat',false);later(()=>{cl('om2','walk');pos('om2',520,0,2600)},700);later(()=>cl('om2','walk',false),3300)}]]},
- {sc:'3',tag:'大雪中出門',no:'第3段',time:'新年的前一天',text:'屋外正飄著大雪，他的身影消失在[[白茫茫]]的風雪中。',
-  acts:[['🚶 走進風雪中',()=>{cl('om3','walk');pos('om3',-20,-240,5000,.25);$('#v3fog').setAttribute('opacity',.85);later(()=>{cl('om3','walk',false);say1('身影消失在白茫茫的風雪中')},5000)}],['🔁 再看一次',()=>{pos('om3',0,0,10);$('#v3fog').setAttribute('opacity',0)}]]},
- {sc:'4',tag:'路旁的地藏',no:'第4段',time:'走到半路',text:'老爺爺[[打算]]先到山腳下的村子碰運氣，走到半路，看見路旁並排著六座大小不一的[[地藏菩薩]]石像，他便向地藏[[祈求]]好運。接著，又[[繼續]]趕路。',
-  acts:[['🗿 六座地藏',()=>{$$('#jz4 .jz').forEach((j,i)=>later(()=>{j.classList.add('hi');temp(String(i+1),{left:(40+i*9.5)+'%',top:'38%'},'bub',1500);speak(['一','二','三','四','五','六'][i])},i*650));later(()=>say1('六座大小不一的地藏菩薩石像<small>日本人的守護神</small>'),4100)}],['🙏 祈求好運',()=>{cl('om4','bow');later(()=>cl('om4','bow',false),2200);say1('請保佑我，賣出斗笠吧！','gold')}],['🚶 繼續趕路',()=>{cl('om4','walk');pos('om4',900,0,4000)}]]},
- {sc:'5',tag:'沿街叫賣',no:'第5段',time:'山腳下的村子',xlong:1,text:'「斗笠！[[便宜]]又[[耐用]]的斗笠……。」老爺爺沿街叫賣，卻都{{無人聞問}}。街角的年糕店擺著{{應景}}的年糕，店裡飄出陣陣年糕湯的香氣。這時，他耳邊響起老婆婆的心願：「好想嘗嘗年糕……。」老爺爺想用斗笠交換年糕，但失敗了。老爺爺失望的[[離開]]，繼續沿街大聲叫賣。直到[[傍晚]]，都沒賣出一頂斗笠。',
-  acts:[['📣 沿街叫賣',()=>{bubbleAt('om5','老爺爺','斗笠！便宜又耐用的斗笠……',3800);speak('斗笠！便宜又耐用的斗笠',.8);replay($('#v5'),'passing');later(()=>say1('大家走過去，都沒有人理他'),3000)}],['🍡 年糕湯的香氣',()=>bubbles(['好香……','年糕湯！'],{x:40,y:20,w:15,h:15})],['💭 想起老婆婆',()=>{bubbleAt('om5','（耳邊響起）','好想嘗嘗年糕……',3500,'faint');speak('好想嘗嘗年糕',1.3)}],['🔄 斗笠換年糕？',()=>{bubbleAt('om5','老爺爺','可以用斗笠換年糕嗎？',2400);later(()=>{bubbleAt('keeper','年糕店老闆','不行喔！',2400);temp('✖',{left:'47%',top:'30%',fontSize:'14vh',color:'#C8362B'},'bub',1800)},2500)}],['🌆 直到傍晚',()=>{$('#v5').classList.add('dusk');cl('om5','sad');say1('直到傍晚，一頂斗笠也沒賣出<small>賣出：0 頂</small>','red')}]]},
- {sc:'6',tag:'幫地藏戴斗笠',no:'第6段',time:'傍晚・回家路上',long:1,text:'回家路上，經過地藏菩薩石像時，忽然一團雪塊掉落，他才{{驚覺}}六座地藏頭上都積滿白雪。老爺爺心想：(@設問,擬人|r2|沒戴斗笠，地藏菩薩的頭都凍壞了吧？@)他決定幫地藏戴上斗笠，但是少了一頂，便解下自己的頭巾，為小地藏菩薩戴上。',
-  acts:[['❄️ 雪塊掉落',()=>{replay($('#v6'),'dropc');later(()=>{temp('啪！',{left:'45%',top:'40%'},'bub',1500);replay($('#om6'),'shake',1000);say1('六座地藏頭上都積滿白雪！')},1000)}],['❓ 頭都凍壞了吧？',()=>{bubbleAt('om6','老爺爺心想','沒戴斗笠，地藏菩薩的頭都凍壞了吧？',4200,'faint');speak('沒戴斗笠，地藏菩薩的頭都凍壞了吧？',.8)}],['🎩 戴上斗笠',()=>{cl('om6','walk');pos('om6',120,0,1200);later(()=>cl('om6','walk',false),1200);for(let i=0;i<5;i++)later(()=>{const j=$('#j6-'+i);j.classList.add('cleared','wearhat');temp(String(i+1)+' 頂',{left:(40+i*9.5)+'%',top:'30%'},'bub',1400)},1300+i*700);later(()=>say1('斗笠只有五頂，少了一頂！','red'),1300+5*700)}],['🧣 解下頭巾',()=>{for(let i=0;i<5;i++){$('#j6-'+i).classList.add('cleared','wearhat')}pos('om6',600,0,1500);cl('om6','walk');later(()=>{cl('om6','walk',false);cl('om6','noscarf');$('#j6-5').classList.add('cleared','wearscarf');say1('解下自己的頭巾，為小地藏戴上','gold')},1600)}]]},
- {sc:'7',tag:'回家',no:'第7段',time:'回到家',text:'回到家，老爺爺把這件事告訴老婆婆。原以為她會很失望，沒想到老婆婆不但沒有怪他，反而認為他做了好事。',
-  enter(){cl('om7','hidehat');cl('om7','noscarf')},
-  acts:[['💬 告訴老婆婆',()=>{bubbleAt('om7','老爺爺','斗笠沒賣掉，我都送給地藏戴了……',3800);cl('om7','sad')}],['😟 原以為……',()=>say1('老爺爺原以為：老婆婆會很失望吧……')],['😊 老婆婆說',()=>{$('#v7').classList.add('love');cl('ow7','happy');cl('om7','sad',false);cl('om7','happy');bubbleAt('ow7','老婆婆','你做了一件好事呢！',3800);say1('老婆婆不但沒有怪他，反而認為他做了好事','gold')}]]},
- {sc:'8',tag:'除夕夜的歌聲',no:'第8段',time:'除夕夜裡',text:'除夕夜裡，老夫妻被奇怪的歌聲驚醒，[[隱約]]聽到有人說著：(@擬人,感嘆|r3|「[[託]]老爺爺的福，我們頭頂一暖，全身暖和，可以過個好年了！我們沒有錢，門外這些東西請[[笑納]]。」@)',
-  acts:[['🎶 奇怪的歌聲',()=>{$('#v8').classList.add('music');ac();song();$$('#jz8 .jz').forEach(j=>j.classList.add('sing'))}],['👂 隱約聽到',()=>{$('#v8').classList.add('music');$$('#jz8 .jz').forEach(j=>j.classList.add('sing'));bubbleAt('j8-2','（隱約聽到）','託老爺爺的福，我們頭頂一暖，全身暖和，可以過個好年了！我們沒有錢，門外這些東西請笑納。',7000,'faint');speak('託老爺爺的福，我們頭頂一暖，全身暖和，可以過個好年了！我們沒有錢，門外這些東西請笑納。',1.2)}]]},
- {sc:'9',tag:'門外的驚喜',no:'第9段',time:'除夕夜裡',text:'老爺爺好奇的開門一看，驚喜的發現屋外堆滿白米、青菜和魚，還有老婆婆想吃的年糕。歌聲越來越遠，(@譬喻|r4|老夫妻只見遠處[[漸漸]]消失的身影，像極了那些戴斗笠的地藏。@)',
-  acts:[['🚪 開門一看',()=>{$('#v9').classList.add('opened');cl('om9','happy');cl('ow9','happy')}],['🎁 堆滿禮物',()=>{$('#v9').classList.add('opened','gifts');bubbles(['白米！','青菜！','魚！','年糕！'],{x:35,y:45,w:35,h:15,gap:450})}],['👣 漸漸消失的身影',()=>{$('#v9').classList.add('opened');for(let i=0;i<6;i++){pos('j9-'+i,140,-60,6000,.4);const m=$('#j9-'+i+' > .mv');m.style.transition='transform 6s linear, opacity 6s';later(()=>m.style.opacity=0,100)}later(()=>say1('遠處的身影，像極了那些戴斗笠的地藏'),2500)}]]},
- {sc:'rh',tag:'修辭小教室',no:'統整一',text:'這一課用了四種修辭：擬人、譬喻、感嘆、設問。點上面的卡片認識它們，再按「考考你」練習。也可以回到課文，打開右上角的「🔍 修辭」，看看句子藏在哪裡！',
-  enter(){buildRh()},acts:[['🎯 考考你',rhQuiz],['📖 看說明',buildRh]]},
- {sc:'ce',tag:'改變結局的原因',no:'統整二',text:'想一想，故事中的哪一件事，是改變結局的主要原因？點一點中間的選項。',
-  enter(){buildCE()},acts:[['🔄 重新作答',buildCE]]},
- {sc:'w',tag:'人事時地物',no:'統整三',text:'找一找課文裡的人、事、時、地、物。點一點黃色的格子，看看答案；也可以按「考考你」來練習分類。',
-  enter(){$$('.cell').forEach(c=>c.classList.remove('open'));$('#quiz').classList.remove('on')},
-  acts:[['📖 全部打開',()=>$$('.cell').forEach(c=>c.classList.add('open'))],['🙈 全部蓋起來',()=>$$('.cell').forEach(c=>c.classList.remove('open'))],['🎯 考考你',startQuiz]]}
+ {st:0,sc:'f',tag:'第一段',no:'大地是課本'},
+ {st:1,sc:'f',tag:'第二段',no:'草地是畫紙'},
+ {st:2,sc:'f',tag:'第三段',no:'森林的迷宮'},
+ {sc:'diao',tag:'認識「調」',no:'一字兩音',guide:['小湖是調色盤。','「調」有兩個讀音：','ㄊㄧㄠˊ和ㄉㄧㄠˋ。','念念看，','分一分！'],enter(){buildDiao()},acts:[['🔄 重新考',buildDiao]]},
+ {sc:'key',tag:'課文重點',no:'學習通知單',guide:['從課文中找線索，','說一說','①～⑦','分別是指什麼。'],enter(){buildKey()},acts:[['📖 全部看答案',()=>buildKey(1)],['🔄 重新填',()=>buildKey()]]},
+ {sc:'ph',tag:'短語練習',no:'到……、去……',guide:['到野外上課，','去走森林的迷宮。','「到＋地點＋做什麼事」','「去＋做什麼事」'],enter(){pp=pa=pb='';buildPh()},acts:[['🔊 念短語一',()=>speak($('#pmA').innerText.replace(/＿+/g,''))],['🔊 念短語二',()=>speak($('#pmB').innerText.replace(/＿+/g,''))]]},
+ {sc:'idiom',tag:'成語',no:'從生字學成語',guide:['蜜蜂、蝴蝶飛呀飛。','「飛」這個字，','藏在哪個成語裡？'],enter(){buildIdiom()},acts:[['🎯 考考你',tfQuiz]]}
 ];
 
 /* ---------- navigation ---------- */
-const TABS=[['老夫妻',0,1],['心願',1,2],['風雪',2,3],['地藏',3,4],['叫賣',4,5],['戴斗笠',5,6],['回家',6,7],['歌聲',7,8],['驚喜',8,9],['修辭',9],['結局原因',10],['人事時地物',11]];
-TABS.forEach(([n,i,num],k)=>{if(k===9)$('#tabs').insertAdjacentHTML('beforeend','<span class="sep">｜</span>');else if(k>0&&k<9)$('#tabs').insertAdjacentHTML('beforeend','<span class="sep">›</span>');
+const TABS=[['大地是課本',0,1],['草地是畫紙',1,2],['森林的迷宮',2,3],['認識「調」',3],['課文重點',4],['短語練習',5],['成語',6]];
+TABS.forEach(([n,i,num],k)=>{if(k===3)$('#tabs').insertAdjacentHTML('beforeend','<span class="sep">｜</span>');else if(k>0&&k<3)$('#tabs').insertAdjacentHTML('beforeend','<span class="sep">›</span>');
   const b=document.createElement('button');b.innerHTML=(num?`<i>${num}</i>`:'')+n;b.onclick=()=>go(i);b.dataset.i=i;$('#tabs').appendChild(b)});
-let cur=0,rhOn=false;
-function renderText(t){
-  let h=t.replace(/\(@([^|]+)\|([^|]+)\|(.+?)@\)/g,(m,types,key,inner)=>{const ts=types.split(',');return `<span class="rh" role="button" tabindex="0" data-t="${types}" data-k="${key}" data-l="${ts.join('＋')}" style="--rc:var(--c-${RH[ts[0]][0]})">${inner}</span>`});
-  h=h.replace(/\[\[(.+?)\]\]/g,(m,w)=>`<span class="v" role="button" tabindex="0" data-w="${w}">${w}</span>`).replace(/\{\{(.+?)\}\}/g,(m,w)=>`<span class="v x" role="button" tabindex="0" data-w="${w}">${w}</span>`);
-  return h;}
+let cur=0;
+function lineHTML(t){return t.replace(/\[\[(.+?)\]\]/g,(m,w)=>`<span class="v" role="button" tabindex="0" data-w="${w}">${w}</span>`).replace(/\{\{(.+?)\}\}/g,(m,w)=>`<span class="v b" role="button" tabindex="0" data-w="${w}">${w}</span>`)}
 function go(i){
   stopAll();cur=Math.max(0,Math.min(S.length-1,i));const st=S[cur];
   $$('.scene').forEach(s=>s.classList.toggle('on',s.id==='sc-'+st.sc));
-  resetAll();
-  const tc=$('#tchip');if(st.time){tc.textContent='🕒 '+st.time;tc.classList.add('on')}else tc.classList.remove('on');
   $('#ptag').textContent=st.tag;$('#pno').textContent=st.no;
-  const t=$('#txt');t.classList.toggle('long',!!st.long);t.classList.toggle('xlong',!!st.xlong);t.innerHTML=renderText(st.text);
+  const isT=st.st!==undefined;const lines=isT?ST[st.st].lines:st.guide;
+  const t=$('#txt');t.classList.toggle('guide',!isT);t.classList.toggle('long',isT&&!!ST[st.st].long);
+  t.innerHTML=lines.map((l,k)=>`<span class="ln" data-k="${k}" ${isT?'tabindex="0"':''}>${lineHTML(l)}</span>`).join('');
   t.querySelectorAll('.v').forEach(v=>{v.onclick=e=>{e.stopPropagation();showVocab(v.dataset.w)};v.onkeydown=e=>{if(e.key==='Enter'){e.stopPropagation();showVocab(v.dataset.w)}}});
-  t.querySelectorAll('.rh').forEach(r=>{const f=()=>{if(rhOn)showRh(r.dataset.t.split(','),r.dataset.k,r.textContent)};r.onclick=f;r.onkeydown=e=>{if(e.key==='Enter')f()}});
+  if(isT){t.querySelectorAll('.ln').forEach(l=>{l.onclick=()=>{autoOn=false;playLine(+l.dataset.k)};l.onkeydown=e=>{if(e.key==='Enter')l.onclick()}});lineIdx=-1;stateTo(st.st,-1);}
   t.scrollTop=0;t.scrollLeft=0;
-  const A=$('#acts');A.innerHTML='';st.acts.forEach(([l,f])=>{const b=document.createElement('button');b.textContent=l;b.onclick=()=>{ac();f()};A.appendChild(b)});
+  const A=$('#acts');A.innerHTML='';
+  const acts=isT?[['▶ 下一句',nextLine,1],['🎬 整段自動播',autoPlay],['🔁 從頭來',()=>{stopAll();lineIdx=-1;stateTo(st.st,-1);$$('#txt .ln').forEach(l=>l.classList.remove('on','done'))}]]:(st.acts||[]);
+  acts.forEach(([l,f,m])=>{const b=document.createElement('button');b.textContent=l;if(m)b.className='main';b.onclick=f;A.appendChild(b)});
+  if(isT)A.insertAdjacentHTML('beforeend','<span class="hint" id="lineNo">點右邊的句子，也可以一句一句看</span>');
   let active=0;TABS.forEach(([n,ti])=>{if(cur>=ti)active=ti});
   $$('#tabs button').forEach(b=>b.classList.toggle('on',+b.dataset.i===active));
   $('#prev').disabled=cur===0;$('#next').disabled=cur===S.length-1;
   st.enter&&st.enter();
 }
-$('#rhBtn').onclick=()=>{rhOn=!rhOn;$('#txt').classList.toggle('rhon',rhOn);$('#rhleg').classList.toggle('legon',rhOn);$('#rhBtn').classList.toggle('on',rhOn);$('#rhBtn').setAttribute('aria-pressed',rhOn);if(rhOn&&!$('#txt .rh'))temp('這一段沒有標示修辭，換一段看看！',{left:'50%',top:'45%',transform:'translateX(-50%)'},'badge',2000);};
 $('#prev').onclick=()=>go(cur-1);$('#next').onclick=()=>go(cur+1);
-$('#say').onclick=()=>speak(S[cur].text);
-document.addEventListener('keydown',e=>{if(e.target.closest('.v,.rh,.cell'))return;if(e.key==='ArrowRight'||e.key==='PageDown')go(cur+1);if(e.key==='ArrowLeft'||e.key==='PageUp')go(cur-1);});
+$('#say').onclick=()=>{const st=S[cur];const lines=st.st!==undefined?ST[st.st].lines:st.guide;speak(lines.join(''))};
+document.addEventListener('keydown',e=>{if(e.target.closest('input,.v,.ln'))return;if(e.key===' '&&S[cur].st!==undefined){e.preventDefault();nextLine()}if(e.key==='ArrowRight'||e.key==='PageDown')go(cur+1);if(e.key==='ArrowLeft'||e.key==='PageUp')go(cur-1);});
 try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>{}}catch(e){}
 go(0);
 </script>

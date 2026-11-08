@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>第九課 阿白觀察記｜課文動起來</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --kai:"LXGW WenKai TC","BiauKai","DFKai-SB","標楷體","Kaiti TC","Noto Serif TC","Noto Serif CJK TC","PMingLiU",serif;
+  --bg:#E5EDDC; --panel:#FFFFFF; --ink:#22301F; --soft:#5E6E59;
+  --leaf:#4A9A3C; --bark:#7A5A2A; --gold:#E8A33A; --red:#C9463A;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --bg:#172015; --panel:#222E1F; --ink:#EDF3EA; --soft:#AFC0A9; color-scheme:dark; }
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:var(--kai);background:var(--bg);color:var(--ink);display:grid;grid-template-rows:auto 1fr;overflow:hidden;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+header{display:flex;align-items:center;gap:1.2vw;padding:1vh 1.6vw .8vh;flex-wrap:wrap}
+h1{margin:0;font-size:4.4vh;color:var(--leaf);letter-spacing:.12em;white-space:nowrap}
+h1 small{font-size:.5em;color:var(--soft);letter-spacing:.05em;margin-right:.4em}
+nav{display:flex;gap:.15vw;flex-wrap:wrap;align-items:center}
+nav button{font:inherit;font-size:2.2vh;padding:.5vh .6vw;border-radius:10px;border:2px solid transparent;background:transparent;color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:.25em}
+nav button i{font-style:normal;display:inline-grid;place-items:center;width:2.5vh;height:2.5vh;border-radius:50%;background:var(--leaf);color:#fff;font-size:1.5vh}
+nav button.on{background:var(--panel);border-color:var(--leaf);color:var(--leaf);font-weight:700}
+nav .sep{color:var(--soft);font-size:1.8vh}
+main{display:grid;grid-template-columns:1fr 50vh;gap:1.2vw;padding:0 1.6vw 1.4vh;min-height:0}
+.stagewrap{display:grid;grid-template-rows:1fr auto;gap:1vh;min-height:0}
+.stage{position:relative;border-radius:20px;overflow:hidden;background:#DCE7D2;min-height:0}
+.scene{position:absolute;inset:0;display:none}
+.scene.on{display:block}
+.scene>svg{width:100%;height:100%;display:block}
+#ov{position:absolute;inset:0;pointer-events:none;z-index:5}
+#tchip{position:absolute;right:2%;top:3%;z-index:4;background:#22301F;color:#fff;border-radius:999px;padding:.5vh 1.2vw;font-size:2.6vh;font-weight:700;display:none}
+#tchip.on{display:block;animation:pop .4s}
+.acts{display:flex;flex-wrap:wrap;gap:.6vw;min-height:6vh;align-items:center}
+.acts button{font:inherit;font-size:2.5vh;padding:.8vh 1.2vw;border-radius:999px;border:3px solid var(--leaf);background:var(--panel);color:var(--ink);cursor:pointer}
+.acts button:hover{background:var(--leaf);color:#fff}
+button:focus-visible,.v:focus-visible,.cell:focus-visible{outline:4px solid var(--gold);outline-offset:2px}
+aside{background:var(--panel);border-radius:20px;padding:1.6vh 1.4vh;display:grid;grid-template-rows:auto minmax(0,1fr) auto;grid-template-columns:minmax(0,1fr);gap:1vh;min-height:0}
+.ptitle{display:flex;justify-content:space-between;align-items:center;font-size:2.6vh;color:var(--soft)}
+.ptitle b{color:var(--leaf);font-size:1.15em}
+.txt{writing-mode:vertical-rl;font-size:3.9vh;line-height:1.8;letter-spacing:.05em;width:100%;height:100%;min-height:0;overflow:auto;display:block}
+.txt.long{font-size:3.4vh}
+.v{border:2px solid var(--gold);border-radius:6px;cursor:pointer;color:#1F6FA0;padding:.1em 0}
+.v.x{border-style:dashed;border-color:#9AA6B5;color:inherit}
+@media (prefers-color-scheme: dark){ .v{color:#86C9F0} }
+.pnav{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:.8vh}
+.pnav button{font:inherit;font-size:2.6vh;padding:1vh 0;border-radius:12px;border:2px solid var(--soft);background:transparent;color:var(--ink);cursor:pointer}
+.pnav .say{background:var(--leaf);border-color:var(--leaf);color:#fff;font-weight:700}
+.pnav button:disabled{opacity:.35}
+#pop{position:fixed;left:3vw;bottom:13vh;max-width:48vw;background:#fff;color:#22301F;border:4px solid var(--gold);border-radius:16px;padding:1.4vh 1.6vw;font-size:3vh;line-height:1.6;box-shadow:0 8px 24px rgba(0,0,0,.25);display:none;z-index:20}
+#pop.on{display:block;animation:pop .3s}
+#pop h3{margin:0 0 .4vh;color:#3B7F30;font-size:1.25em}
+#pop .row{display:flex;gap:1vw;margin-top:.8vh}
+#pop button{font:inherit;font-size:.85em;border-radius:10px;border:2px solid #3B7F30;background:#fff;color:#3B7F30;padding:.3vh 1vw;cursor:pointer}
+
+.badge{position:absolute;background:#fff;color:#22301F;border:4px solid var(--leaf);border-radius:14px;padding:.6vh 1.1vw;font-size:2.9vh;font-weight:700;animation:pop .45s cubic-bezier(.3,1.6,.6,1);white-space:nowrap}
+.badge.gold{border-color:var(--gold)}.badge.red{border-color:var(--red)}
+.badge small{display:block;font-weight:400;font-size:.78em;color:#4F5E4A;white-space:normal;max-width:40vw}
+.bub{position:absolute;font-size:4.8vh;font-weight:700;color:#fff;-webkit-text-stroke:2px #3B7F30;paint-order:stroke fill;animation:floatup 1.9s ease-out forwards}
+.bub.r{-webkit-text-stroke-color:#C9463A}
+@keyframes floatup{from{transform:translateY(0) scale(.6);opacity:0}20%{opacity:1;transform:translateY(-10px) scale(1)}to{transform:translateY(-90px);opacity:0}}
+.huge{position:absolute;left:50%;top:40%;transform:translate(-50%,-50%);font-size:15vh;font-weight:700;color:#fff;-webkit-text-stroke:4px #E8A33A;paint-order:stroke fill;animation:ahh 1.8s ease-out forwards;white-space:nowrap}
+@keyframes ahh{0%{transform:translate(-50%,-50%) scale(.3);opacity:0}25%{transform:translate(-50%,-50%) scale(1.1);opacity:1}80%{opacity:1}100%{transform:translate(-50%,-50%) scale(1);opacity:0}}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+.lbl{font-family:var(--kai);font-weight:700}
+
+/* bird */
+.b-in,.b-body,.b-wing,.b-jaw,.b-legs{transform-box:fill-box}
+.b-wing{transform-origin:15% 40%}
+.b-jaw{transform-origin:100% 0}
+.b-body{transform-origin:50% 60%;transition:transform .6s}
+.b-in{transition:transform .6s}
+.b-fan{display:none}
+.sing .b-jaw,.singing .b-jaw{animation:jaw .16s ease-in-out infinite alternate}
+@keyframes jaw{to{transform:rotate(-24deg)}}
+.flap .b-wing,.flying .b-wing{animation:flapw .14s ease-in-out infinite alternate}
+@keyframes flapw{from{transform:rotate(10deg)}to{transform:rotate(-55deg)}}
+.low .b-in{transform:translateY(10px)}
+.fan .b-fan{display:inline}.fan .b-tail{display:none}
+.line .b-body{transform:rotate(-17deg)}
+.flutter .b-wing{animation:flut .07s linear infinite alternate}
+@keyframes flut{from{transform:rotate(4deg)}to{transform:rotate(-14deg)}}
+.shuffle .b-in{animation:shuf .25s ease-in-out infinite alternate}
+.low.shuffle .b-in{animation:shufl .25s ease-in-out infinite alternate}
+@keyframes shuf{from{transform:translateX(-6px)}to{transform:translateX(6px)}}
+@keyframes shufl{from{transform:translate(-6px,10px)}to{transform:translate(6px,10px)}}
+.glowpart{filter:drop-shadow(0 0 6px #FFD23F) drop-shadow(0 0 2px #E8A33A)}
+
+/* scene bits */
+#skyDawn{opacity:0;transition:opacity 2.5s}
+.dawn #skyDawn{opacity:1}
+#kSit{display:none}.up #kSit{display:inline}.up #kSleep{display:none}
+#hourH,#minH{transition:transform 2.4s ease-in-out;transform-box:view-box;transform-origin:180px 140px}
+.dawn #hourH{transform:rotate(165deg)}.dawn #minH{transform:rotate(360deg)}
+.zz{animation:zz 2s ease-out infinite}
+@keyframes zz{from{transform:translate(0,0);opacity:0}30%{opacity:1}to{transform:translate(30px,-50px);opacity:0}}
+.up .zz{display:none}
+.lab{display:none}
+.hl-cap #lCap,.hl-shirt #lShirt,.hl-jacket #lJacket{display:inline}
+#v2q{display:none}.ask #v2q{display:inline}
+#strline{display:none}.line #strline{display:inline}
+#book .pg{transform-box:fill-box;transition:transform 1s}
+#book .pgR{transform-origin:0 50%;transform:scaleX(0)}
+.bopen #book .pgR{transform:scaleX(1)}
+.mo{transition:fill .4s}.mo.on{fill:#F2C14E}
+#fem,#hearts4{opacity:0;transition:opacity .8s}
+.court #fem,.court #hearts4{opacity:1}
+.heart{animation:hrt 1.8s ease-out infinite}
+@keyframes hrt{from{transform:translateY(0);opacity:0}30%{opacity:1}to{transform:translateY(-60px);opacity:0}}
+#mate5{opacity:0;transition:opacity .8s}
+.pair #mate5{opacity:1}
+.ns{opacity:0;transition:opacity .6s}.ns.on{opacity:1}
+#cover5{transition:opacity 1.2s}.reveal #cover5{opacity:.15}
+#nestGlow{opacity:0;transition:opacity .8s}.reveal #nestGlow{opacity:1}
+#scope{transition:r 1.2s ease-out}
+#scopeIn{filter:blur(8px);transition:filter 1.6s}
+.focus #scopeIn{filter:none}
+.egg.hi .eggb{stroke:#E8A33A;stroke-width:5}
+#plastic.hi{animation:pls .5s ease-in-out 6 alternate}
+@keyframes pls{to{opacity:.3}}
+.chick{transform-box:fill-box;transform-origin:50% 100%}
+.chicks .chick{animation:beg .35s ease-in-out infinite alternate}
+.chick:nth-child(2){animation-delay:.15s!important}
+@keyframes beg{from{transform:scaleY(.9)}to{transform:scaleY(1.12)}}
+#chickG{opacity:0;transition:opacity .6s}.chicks #chickG{opacity:1}
+#kid7 .kidbody{transition:transform 1.4s ease-in-out}
+.near #kid7 .kidbody{transform:translateX(230px)}
+.back #kid7 .kidbody{transform:translateX(40px)}
+#thunderLine{opacity:0;transition:opacity .8s}.pool #thunderLine{opacity:1}
+#youngs .yb{transition:transform 2.6s ease-in,opacity 2.6s}
+.fledge #youngs .yb{transform:translate(500px,-420px);opacity:0}
+#youngs .yb:nth-child(2){transition-delay:.5s}#youngs .yb:nth-child(3){transition-delay:1s}
+#par8{transition:transform 3s ease-in,opacity 3s}
+.leave #par8{transform:translate(-700px,-500px);opacity:0}
+#miss{opacity:0;transition:opacity 1s}.missing #miss{opacity:1}
+
+/* html scenes */
+.html{background:linear-gradient(#EAF1E2,#F8FBF5)}
+.sounds{position:absolute;inset:4%;display:grid;grid-template-columns:repeat(3,1fr);gap:2vh}
+.scard{background:#fff;border-radius:20px;border:4px solid #4A9A3C;padding:2vh 1.2vw;display:flex;flex-direction:column;align-items:center;gap:1.2vh;color:#22301F;text-align:center}
+.scard .nm{font-size:4.6vh;font-weight:700;color:#3B7F30}
+.scard .ds{font-size:2.8vh}
+.scard button{font:inherit;font-size:2.8vh;border-radius:999px;border:3px solid #4A9A3C;background:#4A9A3C;color:#fff;padding:.8vh 1.6vw;cursor:pointer}
+.scard .rv{font:inherit;font-size:2.4vh;background:#fff;color:#3B7F30}
+.scard .ans{font-size:2.6vh;line-height:1.5;background:#FFF2D6;border-radius:12px;padding:1vh .8vw;display:none}
+.scard .ans.on{display:block;animation:pop .4s}
+.scard .em{font-size:9vh;line-height:1}
+.track{position:absolute;left:3%;right:3%;top:4%;display:flex;gap:.8%;align-items:center}
+.slot{flex:1;height:13vh;border:3px dashed #8AA083;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:2.2vh;color:#22301F;background:rgba(255,255,255,.6);text-align:center;padding:.4vh;line-height:1.25}
+.slot b{font-size:3.4vh}
+.slot.done{border:3px solid #4A9A3C;background:#fff;animation:pop .4s}
+.arrow{font-size:2.6vh;color:#8AA083}
+.cards{position:absolute;left:6%;right:6%;top:24%;bottom:5%;display:grid;grid-template-columns:repeat(3,1fr);gap:2vh}
+.card{font:inherit;border:4px solid #7A5A2A;border-radius:18px;background:#fff;color:#22301F;font-size:3vh;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5vh;padding:1vh;line-height:1.35}
+.card span{font-size:6vh}
+.card.used{visibility:hidden}
+.card.bad{animation:shake .12s 4;border-color:#999}
+@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.rtable{position:absolute;inset:21% 2.5% 2.5%;display:none;grid-template-columns:18% 1fr 30%;gap:.6vh;font-size:2.4vh;color:#22301F;overflow:auto}
+.rtable.on{display:grid}
+.rtable div{background:#fff;border-radius:10px;padding:.5vh .7vw;display:flex;align-items:center;line-height:1.35}
+.rtable .h{background:#4A9A3C;color:#fff;font-weight:700;justify-content:center}
+.rtable .p{font-weight:700;color:#7A5A2A;justify-content:center;text-align:center}
+.rtable .f{color:#7A4A00;background:#FFF2D6}
+.wgrid{position:absolute;inset:4% 4%;display:grid;grid-template-columns:13% 1fr;grid-template-rows:repeat(5,1fr);gap:1.2vh;font-size:3vh;color:#22301F}
+.wgrid .k{display:flex;align-items:center;justify-content:center;font-size:5.4vh;font-weight:700;color:#fff;background:#4A9A3C;border-radius:14px}
+.cell{position:relative;background:#fff;border-radius:14px;padding:.6vh 1.4vw;display:flex;align-items:center;cursor:pointer;line-height:1.45;overflow:hidden}
+.cell .cover{position:absolute;inset:0;background:#F2C14E;display:flex;align-items:center;justify-content:center;font-size:3vh;color:#6A4A00;transition:transform .45s}
+.cell.open .cover{transform:translateY(-102%)}
+.quiz{position:absolute;inset:0;background:rgba(23,32,21,.84);display:none;align-items:center;justify-content:center;z-index:8}
+.quiz.on{display:flex}
+.qbox{background:#fff;color:#22301F;border-radius:20px;padding:3vh 3vw;text-align:center;min-width:55%}
+.qword{font-size:6.6vh;font-weight:700;color:#7A5A2A;margin:1vh 0 2vh}
+.qbtns{display:flex;gap:1.2vw;justify-content:center}
+.qbtns button{font:inherit;font-size:5vh;width:11vh;height:11vh;border-radius:50%;border:4px solid #4A9A3C;background:#fff;color:#3B7F30;cursor:pointer}
+.qfb{font-size:3.4vh;min-height:5vh;margin-top:2vh}
+.qbox .close{font:inherit;font-size:2.4vh;margin-top:1vh;background:none;border:2px solid #999;border-radius:10px;padding:.4vh 1.2vw;cursor:pointer}
+
+@media (max-width:820px), (max-aspect-ratio:1/1){
+  body{overflow:auto;display:block}
+  main{grid-template-columns:1fr}
+  .stage{height:58vh}
+  .txt,.txt.long{writing-mode:horizontal-tb;height:auto;font-size:21px}
+  .acts button,.pnav button,nav button{font-size:15px}
+  h1{font-size:26px}
+  .sounds{grid-template-columns:1fr;overflow:auto}
+}
+@media (prefers-reduced-motion: reduce){ .zz,.heart{animation:none} }
+
+/* ===== 修辭 ===== */
+:root{--c-p:#2E8B57;--c-m:#8E5AD6;--c-e:#D9342B;--c-q:#2E6FB3}
+#rhBtn{font:inherit;font-size:2.2vh;border-radius:999px;border:2px solid #8E5AD6;background:transparent;color:var(--ink);padding:.3vh .8vw;cursor:pointer}
+#rhBtn.on{background:#8E5AD6;color:#fff}
+.rh{border-radius:6px;transition:background .3s}
+.rhon .rh{cursor:pointer;background:color-mix(in srgb,var(--rc) 18%,transparent);box-shadow:inset -3px 0 0 var(--rc)}
+.rhon .rh::before{content:attr(data-l);font-size:.5em;background:var(--rc);color:#fff;border-radius:4px;padding:.1em .15em;margin-bottom:.2em;font-weight:700;letter-spacing:0}
+.rhleg{grid-column:1/-1;display:none;gap:.4vw;font-size:2vh;flex-wrap:wrap;align-items:center}
+.rhleg.legon{display:flex}
+.rhleg span{color:#fff;border-radius:6px;padding:.1vh .5vw}
+.rhleg small{color:var(--soft)}
+#pop .why{background:#F3EEFF;border-radius:10px;padding:.6vh .8vw;margin-top:.6vh;font-size:.92em}
+.rcards{position:absolute;inset:3% 3% auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1.2vw}
+.rcard{background:#fff;border-radius:16px;border:4px solid var(--rc);padding:1.2vh .8vw;color:#222;cursor:pointer;font:inherit;text-align:left}
+.rcard h4{margin:0 0 .6vh;color:var(--rc);font-size:3.6vh}
+.rcard p{margin:0;font-size:2.3vh;line-height:1.5}
+.rcard.on{background:color-mix(in srgb,var(--rc) 12%,#fff)}
+.rex{position:absolute;left:3%;right:3%;top:42%;bottom:4%;background:#fff;border-radius:16px;padding:2vh 2vw;color:#222;font-size:3vh;line-height:1.7;overflow:auto}
+.rex .q{font-size:3.8vh;font-weight:700;margin:1vh 0 2vh}
+.rex .opts{display:flex;gap:1vw;flex-wrap:wrap}
+.rex .opts button{font:inherit;font-size:3.6vh;padding:1vh 2vw;border-radius:16px;border:4px solid var(--rc);background:#fff;color:var(--rc);cursor:pointer;font-weight:700}
+.rex .fb{font-size:3vh;min-height:4.5vh;margin-top:1.6vh}
+.rex .tagq{font-size:2.2vh;color:#fff;border-radius:6px;padding:.1vh .6vw;margin-right:.6vw}
+@media (max-width:820px), (max-aspect-ratio:1/1){.rcards{grid-template-columns:repeat(2,1fr)}.rex{top:52%}}
+a.hall-back{position:fixed;z-index:40;top:0;right:0;font-family:var(--kai);font-size:1.7vh;line-height:1.2;padding:.45vh .8vw;white-space:nowrap;background:var(--panel);color:var(--soft);text-decoration:none;border:1px solid var(--soft);border-top:0;border-right:0;border-bottom-left-radius:12px}a.hall-back:hover,a.hall-back:focus-visible{color:var(--ink)}
+</style>
+</head>
+<body>
+<a class="hall-back" href="../">← 回課文大廳</a>
+<header>
+  <h1><small>第九課</small>阿白觀察記</h1>
+  <nav id="tabs"></nav>
+</header>
+
+<main>
+  <div class="stagewrap">
+    <div class="stage" id="stage">
+
+      <!-- 1 清晨歌聲 -->
+      <div class="scene" id="sc-1">
+        <svg id="v1" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="night" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2E3A66"/><stop offset="1" stop-color="#6A6F96"/></linearGradient>
+            <linearGradient id="dawnG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FB7DE"/><stop offset=".7" stop-color="#F6C9A0"/><stop offset="1" stop-color="#F7DDB8"/></linearGradient>
+            <clipPath id="win1"><rect x="380" y="34" width="590" height="420"/></clipPath>
+          </defs>
+          <g clip-path="url(#win1)">
+            <rect x="0" y="0" width="1000" height="560" fill="url(#night)"/>
+            <rect id="skyDawn" x="0" y="0" width="1000" height="560" fill="url(#dawnG)"/>
+            <g id="out1"></g>
+          </g>
+          <path fill-rule="evenodd" d="M0,0 H1000 V560 H0Z M380,34 H970 V454 H380Z" fill="#EFE6D6"/>
+          <rect x="380" y="34" width="590" height="420" fill="none" stroke="#B08A5A" stroke-width="14"/>
+          <line x1="675" y1="34" x2="675" y2="454" stroke="#B08A5A" stroke-width="10"/>
+          <circle cx="180" cy="140" r="62" fill="#fff" stroke="#7A5A2A" stroke-width="6"/>
+          <g font-size="16" text-anchor="middle" fill="#555" class="lbl"><text x="180" y="96">12</text><text x="226" y="146">3</text><text x="180" y="196">6</text><text x="134" y="146">9</text></g>
+          <line id="hourH" x1="180" y1="140" x2="180" y2="106" stroke="#333" stroke-width="7" stroke-linecap="round" style="transform:rotate(120deg)"/>
+          <line id="minH" x1="180" y1="140" x2="180" y2="92" stroke="#C9463A" stroke-width="4" stroke-linecap="round" style="transform:rotate(300deg)"/>
+          <circle cx="180" cy="140" r="5" fill="#333"/>
+          <rect x="0" y="470" width="1000" height="90" fill="#CDB896"/>
+          <rect x="10" y="420" width="360" height="90" rx="12" fill="#8AB0D8"/>
+          <rect x="10" y="396" width="34" height="114" rx="8" fill="#7A5A2A"/>
+          <g id="kSleep">
+            <ellipse cx="90" cy="410" rx="44" ry="18" fill="#fff"/>
+            <circle cx="96" cy="396" r="22" fill="#F6CFA8"/><path d="M74,392 q4,-22 24,-22 q18,2 20,18 q-14,-8 -44,4z" fill="#3A2A20"/>
+            <path d="M88,398 q5,3 10,0 M102,398 q5,3 10,0" stroke="#333" stroke-width="2" fill="none"/>
+            <path d="M118,410 Q240,380 370,420 L370,470 L118,470Z" fill="#F2A7A0"/>
+            <text class="zz" x="130" y="370" font-size="30" fill="#5B6BA0">Z</text><text class="zz" x="150" y="360" font-size="22" fill="#5B6BA0" style="animation-delay:.8s">z</text>
+          </g>
+          <g id="kSit">
+            <path d="M60,440 Q200,420 370,430 L370,470 L60,470Z" fill="#F2A7A0"/>
+            <rect x="80" y="350" width="44" height="80" rx="14" fill="#F2F2F2" stroke="#2C4F8A" stroke-width="2"/>
+            <circle cx="102" cy="326" r="24" fill="#F6CFA8"/><path d="M78,322 q2,-28 26,-28 q22,2 24,26 q-6,-14 -24,-14 q-18,0 -26,16z" fill="#3A2A20"/>
+            <path d="M92,324 h8 M106,324 h8" stroke="#333" stroke-width="3" stroke-linecap="round"/><path d="M96,340 q6,-4 12,0" stroke="#A0522D" stroke-width="2" fill="none"/>
+            <path d="M74,300 l10,8 M120,296 l8,-8" stroke="#3A2A20" stroke-width="3"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- 2 阿白的穿著 -->
+      <div class="scene" id="sc-2">
+        <svg id="v2" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet">
+          <rect width="1000" height="560" fill="#F1E5CF"/>
+          <path d="M60,486 C300,470 560,476 820,490" stroke="#C9C2B0" stroke-width="16" fill="none" stroke-linecap="round"/>
+          <g id="big2"></g>
+          <g id="lCap" class="lab"><line x1="170" y1="120" x2="262" y2="216" stroke="#E8A33A" stroke-width="4"/><rect x="30" y="76" width="200" height="56" rx="12" fill="#fff" stroke="#E8A33A" stroke-width="4"/><text x="130" y="114" text-anchor="middle" font-size="30" class="lbl" fill="#22301F">白色毛帽</text></g>
+          <g id="lShirt" class="lab"><line x1="170" y1="440" x2="292" y2="350" stroke="#E8A33A" stroke-width="4"/><rect x="30" y="430" width="200" height="56" rx="12" fill="#fff" stroke="#E8A33A" stroke-width="4"/><text x="130" y="468" text-anchor="middle" font-size="30" class="lbl" fill="#22301F">灰色上衣</text></g>
+          <g id="lJacket" class="lab"><line x1="600" y1="160" x2="470" y2="290" stroke="#E8A33A" stroke-width="4"/><rect x="560" y="110" width="230" height="56" rx="12" fill="#fff" stroke="#E8A33A" stroke-width="4"/><text x="675" y="148" text-anchor="middle" font-size="30" class="lbl" fill="#22301F">灰綠色夾克</text></g>
+          <g id="kid2"></g>
+          <g id="v2q"><circle cx="860" cy="250" r="56" fill="#fff" stroke="#4A9A3C" stroke-width="4"/><text x="860" y="276" text-anchor="middle" font-size="70" class="lbl" fill="#4A9A3C">?</text><circle cx="858" cy="320" r="8" fill="#fff" stroke="#4A9A3C" stroke-width="3"/></g>
+        </svg>
+      </div>
+
+      <!-- 3 舞林高手 -->
+      <div class="scene" id="sc-3">
+        <svg id="v3" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet">
+          <rect width="1000" height="560" fill="#DDEBD3"/>
+          <g fill="#A8CF8E" opacity=".7"><circle cx="90" cy="90" r="70"/><circle cx="180" cy="40" r="60"/><circle cx="900" cy="80" r="80"/><circle cx="820" cy="30" r="50"/></g>
+          <path d="M0,404 C200,394 600,398 1000,410" stroke="#CFC8B6" stroke-width="10" fill="none" stroke-linecap="round"/>
+          <text x="140" y="440" font-size="24" fill="#7A6A4A" class="lbl">細枝</text>
+          <line id="strline" x1="150" y1="276" x2="880" y2="276" stroke="#C9463A" stroke-width="4" stroke-dasharray="14 10"/>
+          <g id="bird3"></g>
+        </svg>
+      </div>
+
+      <!-- 4 動物百科 -->
+      <div class="scene" id="sc-4">
+        <svg id="v4" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet">
+          <rect width="1000" height="560" fill="#E7EEDD"/>
+          <g id="book">
+            <rect class="pg" x="40" y="60" width="270" height="420" rx="8" fill="#FFFDF6" stroke="#7A5A2A" stroke-width="4"/>
+            <text x="175" y="110" text-anchor="middle" font-size="30" class="lbl" fill="#7A5A2A">動物百科</text>
+            <g id="bookBird"></g>
+            <text x="175" y="420" text-anchor="middle" font-size="34" class="lbl" fill="#22301F">白頭翁</text>
+            <g class="pg pgR">
+              <rect x="310" y="60" width="270" height="420" rx="8" fill="#FFFDF6" stroke="#7A5A2A" stroke-width="4"/>
+              <text x="445" y="110" text-anchor="middle" font-size="26" class="lbl" fill="#7A5A2A">求偶季節</text>
+              <g id="months"></g>
+              <text x="445" y="400" text-anchor="middle" font-size="24" class="lbl" fill="#22301F">公鳥會賣力的表演，</text>
+              <text x="445" y="436" text-anchor="middle" font-size="24" class="lbl" fill="#22301F">吸引母鳥。</text>
+            </g>
+          </g>
+          <path d="M620,430 C720,424 860,426 990,436" stroke="#CFC8B6" stroke-width="9" fill="none"/>
+          <g id="male4"></g>
+          <g id="fem"></g>
+          <text x="900" y="300" text-anchor="middle" font-size="24" class="lbl" fill="#C9463A" id="femLbl"></text>
+          <g id="hearts4" fill="#F2557A"></g>
+        </svg>
+      </div>
+
+      <!-- 5 築巢 -->
+      <div class="scene" id="sc-5">
+        <svg id="v5" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet">
+          <g id="bal5"></g>
+          <g id="nestGlow"><circle cx="650" cy="300" r="90" fill="#FFF3B0" opacity=".7"/></g>
+          <g id="nest5"></g>
+          <g id="cover5"></g>
+          <g id="b5a"></g><g id="mate5"></g>
+          <path id="p5a" d="M260,210 C360,120 560,160 640,282" fill="none"/>
+          <path id="p5b" d="M120,330 C300,420 520,380 660,292" fill="none"/>
+        </svg>
+      </div>
+
+      <!-- 6 望遠鏡 -->
+      <div class="scene" id="sc-6">
+        <svg id="v6" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet">
+          <defs><clipPath id="scopeClip"><circle id="scope" cx="500" cy="280" r="40"/></clipPath></defs>
+          <rect width="1000" height="560" fill="#141A12"/>
+          <g clip-path="url(#scopeClip)"><g id="scopeIn">
+            <rect width="1000" height="560" fill="#CFE3C0"/>
+            <path d="M80,420 C300,380 600,400 950,360" stroke="#D8D4C8" stroke-width="40" fill="none" stroke-linecap="round"/>
+            <path d="M200,140 C320,200 360,260 380,330" stroke="#D8D4C8" stroke-width="24" fill="none"/>
+            <g id="nest6"></g>
+            <g id="plastic"><path d="M640,350 C700,330 760,380 840,350 L846,364 C770,396 700,346 644,366Z" fill="#E9F1F7" stroke="#9FB6C8" stroke-width="2" opacity=".95"/><path d="M660,354 l12,8 M720,358 l10,10 M790,368 l8,-6" stroke="#E88" stroke-width="3"/></g>
+          </g></g>
+          <circle cx="500" cy="280" r="232" fill="none" stroke="#000" stroke-width="10"/>
+        </svg>
+      </div>
+
+      <!-- 7 幼鳥 -->
+      <div class="scene" id="sc-7">
+        <svg id="v7" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet">
+          <g id="bal7"></g>
+          <g id="nest7"></g>
+          <g id="chickG"></g>
+          <g id="thunderLine"><line x1="470" y1="548" x2="470" y2="470" stroke="#C9463A" stroke-width="5" stroke-dasharray="10 8"/><line x1="380" y1="548" x2="560" y2="548" stroke="#C9463A" stroke-width="6" stroke-dasharray="14 8"/><text x="470" y="462" text-anchor="middle" font-size="22" class="lbl" fill="#C9463A">雷池（不敢越過）</text></g>
+          <g id="kid7"></g>
+          <g id="par7"></g>
+          <path id="p7circle" d="M600,230 C760,40 1000,160 820,250 C640,340 440,120 600,60 C720,20 760,160 600,230" fill="none"/>
+          <path id="p7dive" d="M600,230 C520,300 460,340 430,330 C520,250 580,240 600,230" fill="none"/>
+        </svg>
+      </div>
+
+      <!-- 8 告別 -->
+      <div class="scene" id="sc-8">
+        <svg id="v8" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet">
+          <g id="bal8"></g>
+          <g id="nest8"></g>
+          <g id="youngs"></g>
+          <g id="par8"></g>
+          <g id="kid8"></g>
+          <g id="miss">
+            <circle cx="250" cy="300" r="8" fill="#fff"/><circle cx="270" cy="262" r="12" fill="#fff"/>
+            <rect x="120" y="80" width="330" height="160" rx="40" fill="#fff" stroke="#4A9A3C" stroke-width="4"/>
+            <g id="missBirds"></g>
+            <path d="M286,140 c-12,-14 -36,0 -22,18 l22,20 l22,-20 c14,-18 -10,-32 -22,-18Z" fill="#F2557A"/>
+            <text x="285" y="222" text-anchor="middle" font-size="24" class="lbl" fill="#3B7F30">好想念阿白一家……</text>
+          </g>
+        </svg>
+      </div>
+
+      <!-- sounds -->
+      <div class="scene html" id="sc-snd"><div class="sounds" id="sounds"></div></div>
+      <!-- timeline -->
+      <div class="scene html" id="sc-tl"><div class="track" id="track"></div><div class="cards" id="cards"></div><div class="rtable" id="rtable"></div></div>
+      <!-- 5W -->
+      <div class="scene html" id="sc-w">
+        <div class="wgrid" id="wgrid"></div>
+        <div class="quiz" id="quiz"><div class="qbox">
+          <div style="font-size:3vh">這個詞是 人、事、時、地、物 的哪一種？</div>
+          <div class="qword" id="qword"></div><div class="qbtns" id="qbtns"></div><div class="qfb" id="qfb"></div>
+          <button class="close" id="qclose">結束練習</button>
+        </div></div>
+      </div>
+
+      <div id="tchip"></div>
+      <div class="scene html" id="sc-rh"><div class="rcards" id="rcards"></div><div class="rex" id="rex"></div></div>
+      <div id="ov"></div>
+    </div>
+    <div class="acts" id="acts"></div>
+  </div>
+
+  <aside>
+    <div class="ptitle"><span id="ptag"></span><button id="rhBtn" aria-pressed="false">🔍 修辭</button><b id="pno"></b></div>
+    <div class="txt" id="txt"></div>
+    <div class="pnav"><div class="rhleg" id="rhleg"><span style="background:var(--c-p)">擬人</span><span style="background:var(--c-m)">譬喻</span><span style="background:var(--c-e)">感嘆</span><span style="background:var(--c-q)">設問</span><small>點有顏色的句子看說明</small></div>
+      <button id="prev">◀ 上一段</button>
+      <button id="say" class="say">🔊 念給我聽</button>
+      <button id="next">下一段 ▶</button>
+    </div>
+  </aside>
+</main>
+
+<div id="pop"></div>
+
+<script>
+const $=s=>document.querySelector(s);
+const $$=s=>[...document.querySelectorAll(s)];
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs={},parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;}
+let timers=[];
+function later(fn,ms){const t=setTimeout(fn,ms);timers.push(t);return t;}
+function stopAll(){timers.forEach(clearTimeout);timers=[];try{speechSynthesis.cancel()}catch(e){};$('#ov').innerHTML='';$('#pop').classList.remove('on');}
+function ov(html,style,cls='badge'){const d=document.createElement('div');d.className=cls;d.innerHTML=html;Object.assign(d.style,style||{});$('#ov').appendChild(d);return d;}
+function temp(html,style,cls,ms=2000){const d=ov(html,style,cls);setTimeout(()=>d.remove(),ms);return d;}
+function clearBadges(){$('#ov').querySelectorAll('.badge').forEach(b=>b.remove())}
+function say1(html,cls=''){clearBadges();return ov(html,{left:'3%',top:'4%'},'badge '+cls)}
+function bubbles(words,area,cls=''){words.forEach((w,i)=>later(()=>temp(w,{left:(area.x+Math.random()*area.w)+'%',top:(area.y+Math.random()*area.h)+'%'},'bub '+cls,1950),i*(area.gap||280)))}
+const clean=t=>rhStrip(t).replace(/\[\[|\]\]|\{\{|\}\}/g,'');
+function speak(text){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(clean(text));u.lang='zh-TW';u.rate=.8;const v=speechSynthesis.getVoices().find(v=>/zh[-_]TW/i.test(v.lang));if(v)u.voice=v;speechSynthesis.speak(u);}catch(e){}}
+function replay(node,cls,ms){node.classList.remove(cls);void node.getBoundingClientRect();node.classList.add(cls);if(ms)later(()=>node.classList.remove(cls),ms);}
+
+/* ---------- bird sounds (synthesized) ---------- */
+let AC=null;
+function ac(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();}catch(e){}return AC}
+function tone(t0,f1,f2,dur,vol=.16){const a=ac();if(!a)return;const o=a.createOscillator(),g=a.createGain();o.type='sine';o.frequency.setValueAtTime(f1,t0);o.frequency.exponentialRampToValueAtTime(f2,t0+dur);g.gain.setValueAtTime(0.0001,t0);g.gain.exponentialRampToValueAtTime(vol,t0+.012);g.gain.exponentialRampToValueAtTime(.0001,t0+dur);o.connect(g);g.connect(a.destination);o.start(t0);o.stop(t0+dur+.03);}
+const SND={
+  jiu(){const a=ac();if(!a)return;const t=a.currentTime+.05;for(let r=0;r<3;r++){tone(t+r*.7,2600,3900,.09);tone(t+r*.7+.16,2700,4000,.09);}},
+  buli(){const a=ac();if(!a)return;const t=a.currentTime+.05;for(let r=0;r<2;r++){const b=t+r*1.1;tone(b,2300,2800,.13);tone(b+.19,3300,2700,.13);tone(b+.42,2300,2800,.13);tone(b+.61,3300,2700,.13);}},
+  warn(){const a=ac();if(!a)return;const t=a.currentTime+.05;for(let i=0;i<12;i++)tone(t+i*.11,3600,3000,.05,.2);},
+  choco(){const a=ac();if(!a)return;const t=a.currentTime+.05;for(let r=0;r<2;r++){const b=t+r*1.2;tone(b,2400,2500,.15);tone(b+.27,2900,3000,.15);tone(b+.54,3500,3400,.17);}}
+};
+
+/* ---------- builders ---------- */
+function bird(parent,x,y,s,{flip=false,id=''}={}){
+  const g=el('g',{transform:`translate(${x},${y}) scale(${flip?-s:s},${s})`},parent);if(id)g.id=id;
+  g.innerHTML=`<g class="b-in"><g class="b-body">
+    <g class="b-legs" stroke="#3A3A3A" stroke-width="3" stroke-linecap="round"><line x1="-8" y1="-16" x2="-10" y2="0"/><line x1="6" y1="-16" x2="6" y2="0"/><path d="M-18,0 h14 M0,0 h12" /></g>
+    <path class="b-tail" d="M28,-36 L106,-16 L100,-4 L24,-22Z" fill="#6E6A55"/>
+    <path class="b-fan" d="M26,-34 L110,-46 Q122,-16 110,10 L24,-20Z" fill="#7A7560" stroke="#5A5644" stroke-width="2"/>
+    <ellipse cx="0" cy="-38" rx="44" ry="25" fill="#E4E1D6"/>
+    <ellipse class="b-shirt" cx="-24" cy="-40" rx="21" ry="18" fill="#A9A9A2"/>
+    <path class="b-wing" d="M-22,-52 Q18,-68 56,-38 Q34,-20 -8,-28Z" fill="#8C9668" stroke="#6E7850" stroke-width="1.5"/>
+    <circle cx="-40" cy="-62" r="17" fill="#2B2B2B"/>
+    <ellipse cx="-34" cy="-55" rx="6" ry="5" fill="#fff"/>
+    <ellipse class="b-cap" cx="-31" cy="-74" rx="12" ry="7.5" fill="#fff"/>
+    <circle cx="-47" cy="-65" r="2.8" fill="#000"/><circle cx="-48" cy="-66" r=".9" fill="#fff"/>
+    <path d="M-55,-65 L-71,-61 L-55,-58Z" fill="#1E1E1E"/>
+    <path class="b-jaw" d="M-55,-58 L-68,-58 L-55,-54Z" fill="#1E1E1E"/>
+  </g></g>`;
+  return g;
+}
+function kid(parent,x,y,s=1,shirt='#F2F2F2'){
+  const g=el('g',{transform:`translate(${x},${y}) scale(${s})`},parent);
+  g.innerHTML=`<g class="kidbody"><rect x="-12" y="-14" width="10" height="14" fill="#2C4F8A"/><rect x="2" y="-14" width="10" height="14" fill="#2C4F8A"/>
+  <rect x="-15" y="-46" width="30" height="34" rx="9" fill="${shirt}" stroke="#2C4F8A" stroke-width="2"/>
+  <circle cx="0" cy="-64" r="19" fill="#F6CFA8"/><path d="M-19,-68 q2,-23 19,-23 q19,0 19,23 q-6,-11 -19,-11 q-13,0 -19,11z" fill="#3A2A20"/>
+  <circle cx="-6.5" cy="-64" r="2.8" fill="#222"/><circle cx="6.5" cy="-64" r="2.8" fill="#222"/><path d="M-6,-54 q6,5 12,0" stroke="#A0522D" stroke-width="2" fill="none"/></g>`;
+  return g;
+}
+function balcony(parent,{sky='#CFE6F2',dusk=false}={}){
+  const g=el('g',{},parent);
+  el('rect',{width:1000,height:560,fill:sky},g);
+  el('path',{d:'M0,440 V300 H70 V250 H150 V330 H220 V270 H300 V340 H380 V440Z',fill:dusk?'#C9A98A':'#B9C7CF'},g);
+  el('path',{d:'M0,440 V300 H70 V250 H150 V330 H220 V270 H300 V340 H380 V440Z',fill:dusk?'#C9A98A':'#B9C7CF',transform:'translate(560,10)'},g);
+  el('rect',{y:440,width:1000,height:10,fill:'#8C8C8C'},g);
+  for(let x=10;x<1000;x+=44)el('rect',{x,y:450,width:6,height:96,fill:'#9C9C9C'},g);
+  el('rect',{y:540,width:1000,height:20,fill:'#B9A98E'},g);
+  el('path',{d:'M760,470 L880,470 L866,540 L774,540Z',fill:'#A0623A'},g);
+  const bark='#D8D4C8';
+  el('path',{d:'M820,470 C810,380 836,300 806,200 C796,150 806,100 786,30',stroke:bark,'stroke-width':26,fill:'none','stroke-linecap':'round'},g);
+  el('path',{d:'M808,260 C700,250 600,252 420,248',stroke:bark,'stroke-width':8,fill:'none','stroke-linecap':'round'},g);
+  el('path',{d:'M812,330 C760,326 712,312 640,304',stroke:bark,'stroke-width':12,fill:'none','stroke-linecap':'round'},g);
+  el('path',{d:'M796,160 C720,140 640,120 560,104',stroke:bark,'stroke-width':12,fill:'none','stroke-linecap':'round'},g);
+  const lv=el('g',{fill:'#6BAE57'},g);
+  [[560,96],[600,80],[640,118],[700,90],[760,60],[800,40],[840,80],[880,130],[860,200],[470,240],[520,230],[900,250],[720,250],[560,260]].forEach(([x,y],i)=>el('ellipse',{cx:x,cy:y,rx:30,ry:14,transform:`rotate(${(i*37)%60-30} ${x} ${y})`,fill:i%3?'#6BAE57':'#4E9A3C'},lv));
+  return g;
+}
+function nest(parent,x,y,s,{build=false}={}){
+  const g=el('g',{transform:`translate(${x},${y}) scale(${s})`},parent);
+  const parts=[`M-62,-4 Q-60,40 0,44 Q60,40 62,-4 Q0,14 -62,-4Z`,`M-60,6 Q0,30 60,6`,`M-56,18 Q0,40 56,18`,`M-48,30 Q0,48 48,30`,`M-64,-6 Q-30,-14 0,-10 Q30,-14 64,-6`];
+  parts.forEach((d,i)=>el('path',{d,class:build?'ns':'',fill:i===0?'#B8924F':'none',stroke:'#7A5A2A','stroke-width':i===0?3:4,'stroke-linecap':'round'},g));
+  for(let k=0;k<6;k++)el('path',{class:build?'ns':'',d:`M${-50+k*20},${-6+(k%2)*8} l${k%2?18:-14},${6+k%3*4}`,stroke:'#D9B46A','stroke-width':3},g);
+  return g;
+}
+function eggs(parent){const g=el('g',{},parent);[[-24,-4],[0,-8],[24,-4]].forEach(([x,y],i)=>{const e=el('g',{class:'egg'},g);el('ellipse',{class:'eggb',cx:x,cy:y,rx:15,ry:19,fill:'#F5EDE4',stroke:'#C9B8A4','stroke-width':2},e);for(let k=0;k<7;k++)el('circle',{cx:x+((k*7)%13)-6,cy:y+((k*11)%19)-9,r:1.6+(k%3),fill:'#6B3A1E'},e);});return g;}
+function chicks(parent){const g=el('g',{},parent);[[-26,-6],[0,-12],[26,-6]].forEach(([x,y])=>{const c=el('g',{class:'chick'},g);el('ellipse',{cx:x,cy:y,rx:15,ry:16,fill:'#F2A7A0'},c);el('path',{d:`M${x-10},${y-12} L${x},${y-34} L${x+10},${y-12}Z`,fill:'#F7D04A'},c);el('circle',{cx:x-6,cy:y-10,r:2,fill:'#333'},c);});return g;}
+
+/* ---------- build scenes ---------- */
+(function(){
+  // 1
+  balcony($('#out1'),{sky:'transparent'});
+  bird($('#out1'),570,246,1.3,{id:'b1'});
+  // 2
+  bird($('#big2'),380,478,3.4,{id:'b2'});
+  kid($('#kid2'),860,480,1.7);
+  // 3
+  bird($('#bird3'),480,402,2.6,{id:'b3'});
+  // 4
+  bird($('#bookBird'),175,330,1.6);
+  const mg=$('#months');for(let m=1;m<=12;m++){const r=Math.floor((m-1)/4),c=(m-1)%4,x=345+c*52,y=140+r*70;el('rect',{class:'mo','data-m':m,x,y,width:44,height:56,rx:8,fill:'#EEF3E8',stroke:'#7A5A2A','stroke-width':2},mg);el('text',{x:x+22,y:y+38,'text-anchor':'middle','font-size':22,class:'lbl',fill:'#22301F'},mg).textContent=m+'月';}
+  bird($('#male4'),760,428,1.6,{id:'b4'});
+  bird($('#fem'),920,428,1.4,{flip:true});
+  const hg=$('#hearts4');[0,1,2].forEach(i=>el('path',{class:'heart',d:`M${850+i*20},${250-i*10} c-8,-10 -24,0 -14,12 l14,12 l14,-12 c10,-12 -6,-22 -14,-12Z`,style:`animation-delay:${i*.5}s`},hg));
+  // 5
+  balcony($('#bal5'));
+  nest($('#nest5'),650,300,1,{build:true});
+  const cv=$('#cover5');[[620,282],[680,288],[650,270],[600,300],[700,300]].forEach(([x,y],i)=>el('ellipse',{cx:x,cy:y,rx:42,ry:18,fill:i%2?'#4E9A3C':'#6BAE57',transform:`rotate(${i*25-30} ${x} ${y})`},cv));
+  const b5=bird($('#b5a'),0,0,1,{id:'bird5a'});b5.insertAdjacentHTML('beforeend','<path d="M-70,-60 q-20,6 -36,0" stroke="#D9B46A" stroke-width="4" fill="none"/>');
+  b5.insertAdjacentHTML('beforeend','<animateMotion id="m5a" dur="2.4s" begin="indefinite" repeatCount="3" rotate="0"><mpath href="#p5a"/></animateMotion>');
+  b5.setAttribute('transform','');b5.querySelector('.b-in').setAttribute('transform','scale(1.05)');
+  const b5b=bird($('#mate5'),0,0,1,{id:'bird5b'});b5b.setAttribute('transform','');b5b.querySelector('.b-in').setAttribute('transform','scale(.95)');
+  b5b.insertAdjacentHTML('beforeend','<path d="M-70,-60 q-20,6 -36,0" stroke="#D9B46A" stroke-width="4" fill="none"/><animateMotion id="m5b" dur="2.8s" begin="indefinite" repeatCount="3" rotate="0"><mpath href="#p5b"/></animateMotion>');
+  // static positions before animation
+  b5.setAttribute('transform','translate(260,210)');b5b.setAttribute('transform','translate(120,330)');
+  // 6
+  const n6=nest($('#nest6'),520,300,3.2);eggs(n6);
+  // 7
+  balcony($('#bal7'));const n7=nest($('#nest7'),650,300,1);chicks($('#chickG')).setAttribute('transform','translate(650,300)');
+  kid($('#kid7'),170,540,1.5);
+  const p7=bird($('#par7'),600,250,1.2,{id:'bird7'});
+  // 8
+  balcony($('#bal8'),{sky:'#F5D3A8',dusk:true});nest($('#nest8'),650,300,1);
+  const yg=$('#youngs');[[620,292],[650,286],[680,292]].forEach(([x,y])=>{const w=el('g',{class:'yb'},yg);bird(w,x,y,.45);});
+  bird($('#par8'),500,248,1.2,{id:'bird8'});
+  kid($('#kid8'),200,540,1.5);
+  bird($('#missBirds'),200,170,.6);bird($('#missBirds'),380,170,.5,{flip:true});
+})();
+
+/* ---------- vocabulary ---------- */
+const VOC={
+ "急促":"很快、很急，一聲接著一聲。",
+ "不得不":"一定要，沒有別的辦法。",
+ "振動":"很快的上下或來回擺動。",
+ "碎步":"小而快的腳步。",
+ "舞者":"跳舞的人。",
+ "舞林高手":"很會跳舞的高手。",
+ "白頭翁":"臺灣常見的鳥，頭後面有一撮白毛，好像戴著白色毛帽。",
+ "求偶":"動物找另一半，想辦法吸引對方。",
+ "黃褐色":"黃中帶一點咖啡的顏色，像乾草的顏色。",
+ "巧克力色":"像巧克力一樣的深咖啡色。",
+ "塑膠":"人做出來的材料，像塑膠袋、塑膠瓶。",
+ "凶":"很兇、不友善，讓人害怕。",
+ "一飛沖天":"一下子往上高高的飛起來。",
+ "繞圈":"一圈一圈的轉。",
+ "衝":"很快、很用力的往前（或往下）飛過來。",
+ "雷池":"「不敢越雷池一步」，是說不敢超過一定的範圍。",
+ "招牌":"最有名、最有代表性的。",
+ "豐滿":"又多又飽滿。",
+ "不告而別":"沒有說再見，就離開了。",
+ "擾人":"吵到別人，讓人覺得煩。"
+};
+function showVocab(w){const p=$('#pop');p.innerHTML=`<h3>${w}</h3><div>${VOC[w]||''}</div><div class="row"><button id="pSay">🔊 念</button><button id="pClose">關閉</button></div>`;p.classList.add('on');$('#pSay').onclick=()=>speak(w+'。'+VOC[w]);$('#pClose').onclick=()=>p.classList.remove('on');}
+
+/* ---------- actions ---------- */
+const V=n=>$('#v'+n);
+function hl(svgN,birdId,part,cls){const s=V(svgN);['hl-cap','hl-shirt','hl-jacket'].forEach(c=>s.classList.remove(c));$$(`#${birdId} .glowpart`).forEach(p=>p.classList.remove('glowpart'));s.classList.add(cls);$(`#${birdId} .${part}`).classList.add('glowpart');}
+function dance(on){const s=V(3);['low','fan','line','flutter','shuffle','sing'].forEach(c=>s.classList.toggle(c,on));}
+function buildNest(){$$('#nest5 .ns').forEach(n=>n.classList.remove('on'));V(5).classList.add('pair','flap');$('#bird5a').setAttribute('transform','');$('#bird5b').setAttribute('transform','');try{$('#m5a').beginElement();$('#m5b').beginElement()}catch(e){}later(()=>{$('#bird5a').setAttribute('transform','translate(260,210)');$('#bird5b').setAttribute('transform','translate(120,330)');V(5).classList.remove('flap')},8500);
+  $$('#nest5 .ns').forEach((n,i)=>later(()=>n.classList.add('on'),400+i*620));later(()=>say1('兩隻鳥忙進忙出，用嘴把乾草穿過樹枝'),400);}
+function scopeOpen(){const c=$('#scope');V(6).classList.remove('focus');c.setAttribute('r',40);let r=40;const t0=performance.now();const f=now=>{const p=Math.min(1,(now-t0)/1200);c.setAttribute('r',40+190*p);if(p<1)requestAnimationFrame(f);else V(6).classList.add('focus')};requestAnimationFrame(f);}
+function countEggs(){const es=$$('#nest6 .egg');es.forEach(e=>e.classList.remove('hi'));es.forEach((e,i)=>later(()=>{e.classList.add('hi');temp(String(i+1),{left:(38+i*10)+'%',top:'30%'},'bub',1500);speak(['一','二','三'][i])},i*800));later(()=>say1('裡頭有三顆蛋！','gold'),2600);}
+function flyAround(){const s=V(7);s.classList.add('near');later(()=>{const b=$('#bird7');s.classList.add('flap');b.setAttribute('transform','');b.querySelector('.b-in').setAttribute('transform','scale(1.2)');
+    let m=b.querySelector('animateMotion');if(!m){b.insertAdjacentHTML('beforeend','<animateMotion id="m7" dur="3s" begin="indefinite" fill="freeze"><mpath href="#p7circle"/></animateMotion>');m=$('#m7')}
+    try{m.beginElement()}catch(e){}SND.warn();temp('一飛沖天！',{left:'55%',top:'6%'},'bub r',1900);bubbles(['啾！','啾！','啾！','啾！'],{x:55,y:15,w:30,h:30,gap:200},'r');
+    later(()=>{SND.warn();bubbles(['啾啾啾！','啾啾！'],{x:35,y:35,w:20,h:15,gap:250},'r');s.classList.remove('near');s.classList.add('back');later(()=>{s.classList.add('pool');say1('好像隨時要衝下來啄我，讓我不敢越雷池一步','red')},1400)},3000);
+  },1400);}
+function resetScenes(){
+  for(let n=1;n<=8;n++)V(n).setAttribute('class','');$('#male4').removeAttribute('class');$('#femLbl').textContent='';
+  $$('.glowpart').forEach(p=>p.classList.remove('glowpart'));$$('.mo').forEach(m=>m.classList.remove('on'));$$('#nest5 .ns').forEach(n=>n.classList.remove('on'));$$('.egg').forEach(e=>e.classList.remove('hi'));$('#plastic').classList.remove('hi');$('#scope').setAttribute('r',40);
+  const b7=$('#bird7');const m7=$('#m7');if(m7)m7.remove();b7.setAttribute('transform','translate(600,250) scale(1.2)');b7.querySelector('.b-in').removeAttribute('transform');
+}
+
+/* ---------- sounds page ---------- */
+const SOUNDS=[
+ {em:'💘',nm:'「不理不理」',ds:'清亮、急促',k:'buli',ans:'春天的清晨五點半。三到五月是求偶季節，公鳥唱歌、跳舞，想要吸引母鳥。'},
+ {em:'⚠️',nm:'「啾啾啾」',ds:'短促、大聲',k:'warn',ans:'有了幼鳥以後，只要「我」一靠近，阿白就用短促的叫聲警告，保護孩子。'},
+ {em:'🍫',nm:'「巧克力」',ds:'三連音，輕快分明',k:'choco',ans:'夏天的尾聲。這是阿白的招牌叫聲，和求偶時的歌聲不一樣。'}];
+(function(){const box=$('#sounds');SOUNDS.forEach((s,i)=>{const d=document.createElement('div');d.className='scard';d.innerHTML=`<div class="em">${s.em}</div><div class="nm">${s.nm}</div><div class="ds">${s.ds}</div><button>▶ 聽聽看</button><button class="rv">什麼時候唱？為什麼？</button><div class="ans">${s.ans}</div>`;
+  d.querySelector('button').onclick=()=>SND[s.k]();d.querySelector('.rv').onclick=()=>{const a=d.querySelector('.ans');a.classList.toggle('on');if(a.classList.contains('on'))speak(s.ans)};box.appendChild(d)});})();
+
+/* ---------- timeline ---------- */
+const TL=[
+ {t:'春天清晨',e:'🎵',c:'阿白準時唱歌',see:'每天清晨五點半，阿白在陽臺唱歌，叫聲清亮又急促',feel:'不得不起床，唉！好奇牠在做什麼'},
+ {t:'觀察好幾天',e:'💃',c:'阿白跳舞表演',see:'放低身體、展開尾羽、振動雙翅、碎步走動；原來是求偶季節',feel:'十分好奇，去翻動物百科'},
+ {t:'兩個多月後',e:'🪹',c:'兩隻鳥築巢',see:'多了一個伴，兩隻鳥用嘴把乾草穿過樹枝，做出黃褐色鳥巢',feel:'哇！好驚喜'},
+ {t:'有一日',e:'🥚',c:'發現三顆蛋',see:'用望遠鏡看到三顆巧克力色斑點的蛋，還有塑膠碎片',feel:'很驚喜，但覺得有點奇怪'},
+ {t:'有了幼鳥後',e:'🐣',c:'阿白變得很凶',see:'我一靠近，阿白就一飛沖天、繞圈、大聲警告',feel:'不敢越雷池一步'},
+ {t:'夏天尾聲',e:'👋',c:'阿白不告而別',see:'唱回「巧克力」三連音；幼鳥長大，阿白一家離開了',feel:'想念牠們，想念觀察的樂趣'}];
+let tIdx=0;
+function startTL(){tIdx=0;$('#rtable').classList.remove('on');$('#cards').style.display='';const tr=$('#track');tr.innerHTML='';TL.forEach((r,i)=>{if(i)tr.insertAdjacentHTML('beforeend','<span class="arrow">➜</span>');tr.insertAdjacentHTML('beforeend',`<div class="slot" data-i="${i}"><b>${i+1}</b></div>`)});
+  const c=$('#cards');c.innerHTML='';[...TL.keys()].sort(()=>Math.random()-.5).forEach(i=>{const b=document.createElement('button');b.className='card';b.innerHTML=`<span>${TL[i].e}</span>${TL[i].c}`;
+   b.onclick=()=>{if(i===tIdx){b.classList.add('used');const s=$(`.slot[data-i="${i}"]`);s.classList.add('done');s.innerHTML=`<b>${TL[i].e}</b>${TL[i].t}`;speak(TL[i].t+'，'+TL[i].c);tIdx++;if(tIdx===TL.length){later(showTL,1200)}}else{b.classList.remove('bad');void b.offsetWidth;b.classList.add('bad');speak('再想想看')}};c.appendChild(b)});}
+function showTL(){$('#cards').style.display='none';const t=$('#rtable');t.innerHTML='<div class="h">時間</div><div class="h">我觀察到</div><div class="h">我的心情・想法</div>'+TL.map(r=>`<div class="p">${r.e} ${r.t}</div><div>${r.see}</div><div class="f">${r.feel}</div>`).join('');t.classList.add('on');}
+
+/* ---------- 5W ---------- */
+const W5=[["人","我、阿白（白頭翁）、阿白的伴、幼鳥"],["事","觀察阿白唱歌、跳舞、築巢、生蛋、照顧幼鳥，到最後離開"],["時","從春天到夏天的尾聲（清晨五點半、三到五月、兩個多月後……）"],["地","我家的陽臺，陽臺的樹枝間"],["物","鳥巢、三顆蛋、塑膠碎片、望遠鏡、動物百科"]];
+(function(){const g=$('#wgrid');W5.forEach(r=>{g.insertAdjacentHTML('beforeend',`<div class="k">${r[0]}</div>`);const d=document.createElement('div');d.className='cell';d.tabIndex=0;d.innerHTML=`${r[1]}<div class="cover">點我看「${r[0]}」</div>`;d.onclick=()=>{d.classList.toggle('open');if(d.classList.contains('open'))speak(r[1])};d.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();d.click()}};g.appendChild(d)})})();
+const QZ=[["阿白","人"],["幼鳥","人"],["我","人"],["清晨五點半","時"],["三到五月","時"],["兩個多月後","時"],["夏天的尾聲","時"],["陽臺","地"],["樹枝間","地"],["鳥巢","物"],["望遠鏡","物"],["動物百科","物"],["塑膠碎片","物"],["築巢","事"],["求偶表演","事"],["用望遠鏡觀察","事"]];
+let qList=[],qi=0;
+function startQuiz(){qList=[...QZ].sort(()=>Math.random()-.5).slice(0,8);qi=0;$('#quiz').classList.add('on');nextQ();}
+function nextQ(){const fb=$('#qfb');fb.textContent='';if(qi>=qList.length){$('#qword').textContent='全部完成！🎉';$('#qbtns').innerHTML='';speak('全部完成，你好棒');return}
+  const [w,a]=qList[qi];$('#qword').textContent=w;speak(w);const b=$('#qbtns');b.innerHTML='';
+  ["人","事","時","地","物"].forEach(k=>{const x=document.createElement('button');x.textContent=k;x.onclick=()=>{if(k===a){fb.textContent='答對了！「'+w+'」是「'+a+'」 ⭐';fb.style.color='#3B7F30';speak('答對了');qi++;setTimeout(nextQ,1400)}else{fb.textContent=(w==='阿白'||w==='幼鳥')?'提示：課文把阿白當成「人」來寫喔！':'再想想看喔！';fb.style.color='#C9463A';}};b.appendChild(x)});}
+$('#qclose').onclick=()=>$('#quiz').classList.remove('on');
+
+/* ---------- steps ---------- */
+const S=[
+ {sc:'1',tag:'清晨的歌聲',no:'第1段',time:'春天・清晨五點半',text:'春天時，每天清晨五點半，(@擬人|a1|熱情的阿白總是準時在我家陽臺唱歌@)。啾！啾！一陣陣清亮而[[急促]]的叫聲，在安靜的清晨裡聽起來特別響亮，讓我{{不得不}}起床。(@感嘆|a2|唉！@)',
+  acts:[['⏰ 清晨五點半',()=>{V(1).classList.add('dawn');say1('清晨五點半，天才剛亮')}],['🐦 啾！啾！',()=>{replay(V(1),'sing',4200);SND.jiu();bubbles(['啾！','啾！','啾！','啾！','啾！'],{x:45,y:20,w:30,h:25,gap:350})}],['😩 不得不起床',()=>{V(1).classList.add('up','dawn');temp('唉！',{left:'8%',top:'38%'},'bub',1900);say1('被吵醒了，不得不起床')}]]},
+ {sc:'2',tag:'阿白的穿著',no:'第2段',time:'春天・清晨',text:'(@擬人,譬喻|a3|阿白總是穿著灰色上衣，灰綠色夾克，頭上還戴著一頂白色毛帽@)，在微亮的天色中唱著「不理不理」。(@設問|a4|我很好奇牠到底要唱到什麼時候？@)反正也無法再睡，我決定看看牠到底在做什麼。',
+  acts:[['🧢 白色毛帽',()=>hl(2,'b2','b-cap','hl-cap')],['👕 灰色上衣',()=>hl(2,'b2','b-shirt','hl-shirt')],['🧥 灰綠色夾克',()=>hl(2,'b2','b-wing','hl-jacket')],['🎵 不理不理',()=>{replay(V(2),'sing',2600);SND.buli();bubbles(['不理','不理','不理','不理'],{x:15,y:20,w:30,h:20,gap:300})}],['❓ 我很好奇',()=>{V(2).classList.add('ask');say1('牠到底要唱到什麼時候？<small>我決定看看牠到底在做什麼！</small>')}]]},
+ {sc:'3',tag:'舞林高手',no:'第3段',time:'觀察了好幾天',long:1,text:'觀察了好幾天，(@擬人,感嘆|a5|我發現阿白不只是歌唱家，還是{{舞林高手}}呢！@)牠站在細枝上，放低身體，展開尾羽，頭、身、尾成一直線。在輕快叫聲中，牠快速[[振動]]微微張開的雙翅，雙腳[[碎步]]走動，(@譬喻|a6|看起來像林間的[[舞者]]，又像動力十足的戰鬥機@)。',
+  acts:[['⬇️ 放低身體',()=>V(3).classList.toggle('low')],['🪶 展開尾羽',()=>V(3).classList.toggle('fan')],['📏 頭身尾一直線',()=>{V(3).classList.add('line','low');say1('頭、身、尾成一直線')}],['〰️ 振動雙翅',()=>V(3).classList.toggle('flutter')],['👣 碎步走動',()=>V(3).classList.toggle('shuffle')],['🎶 整套舞步',()=>{dance(false);['low','fan','line','flutter','shuffle','sing'].forEach((c,i)=>later(()=>V(3).classList.add(c),i*500));later(()=>{say1('像林間的舞者 💃，又像動力十足的戰鬥機 ✈️','gold')},3200)}]]},
+ {sc:'4',tag:'求偶季節',no:'第4段',time:'三到五月',text:'這特別的歌聲和舞姿，讓我十分好奇。翻了動物百科後才知道，原來，三到五月是[[白頭翁]]的[[求偶]]季節，為了吸引母鳥，公鳥會賣力的表演。',
+  acts:[['📖 翻開動物百科',()=>V(4).classList.add('bopen')],['📅 三到五月',()=>{V(4).classList.add('bopen');$$('.mo').forEach(m=>m.classList.remove('on'));[3,4,5].forEach((m,i)=>later(()=>{$(`.mo[data-m="${m}"]`).classList.add('on');speak(m+'月')},700+i*700))}],['💕 吸引母鳥',()=>{V(4).classList.add('court');$('#femLbl').textContent='母鳥';$('#male4').classList.add('low','flutter','sing','fan');SND.buli();say1('公鳥賣力的表演，吸引母鳥')}]]},
+ {sc:'5',tag:'築巢',no:'第5段',time:'兩個多月後',text:'兩個多月後，阿白的身邊多了一個伴。兩隻鳥每天忙進忙出，用嘴把乾草來回穿過樹枝。再仔細一看——(@感嘆|a7|哇！@)一個[[黃褐色]]的鳥巢正藏在陽臺的樹枝間。',
+  acts:[['👫 多了一個伴',()=>{V(5).classList.add('pair');say1('阿白的身邊多了一個伴')}],['🌾 忙進忙出',buildNest],['🔍 仔細一看',()=>{$$('#nest5 .ns').forEach(n=>n.classList.add('on'));V(5).classList.add('reveal');temp('哇！',{},'huge',1900);later(()=>say1('黃褐色的鳥巢，藏在樹枝間！','gold'),1400)}]]},
+ {sc:'6',tag:'發現鳥蛋',no:'第6段',time:'有一日',text:'有一日，阿白不在，我用望遠鏡觀察鳥巢，驚喜的發現裡頭有三顆帶著[[巧克力色]]斑點的蛋。鳥巢外側的樹枝夾著一條細長的[[塑膠]]碎片，(@設問|a8|不知道是不是阿白特別喜歡它？@)不過，我總覺得看起來有點奇怪。',
+  enter(){scopeOpen()},
+  acts:[['🔭 拿起望遠鏡',scopeOpen],['🥚 數一數蛋',countEggs],['🍫 巧克力色斑點',()=>say1('蛋上有巧克力色的斑點','gold')],['❓ 奇怪的塑膠片',()=>{$('#plastic').classList.remove('hi');void $('#plastic').getBBox();$('#plastic').classList.add('hi');say1('想一想：塑膠碎片為什麼會在鳥巢旁邊？<small>作者為什麼覺得「有點奇怪」？</small>','red')}]]},
+ {sc:'7',tag:'阿白變凶了',no:'第7段',time:'有了幼鳥以後',text:'阿白一家就這樣在陽臺住下來。自從有了幼鳥後，阿白變得很[[凶]]。只要我一靠近，牠立即「[[一飛沖天]]」，一邊在空中[[繞圈]]，一邊啾啾啾的大聲叫。牠用短促的叫聲警告，好像隨時要[[衝]]下來啄我，讓我不敢越[[雷池]]一步。',
+  enter(){V(7).classList.add('chicks')},
+  acts:[['🐣 有了幼鳥',()=>{V(7).classList.add('chicks');say1('阿白一家在陽臺住下來了')}],['🚶 我靠近一點',flyAround],['🚫 不敢越雷池一步',()=>{V(7).classList.add('pool');say1('雷池：不敢超過的範圍<small>我不敢再往前走一步</small>','red')}]]},
+ {sc:'8',tag:'告別',no:'第8段',time:'夏天的尾聲',long:1,text:'隨著夏天到了尾聲，阿白又唱回[[招牌]]三連音「巧克力」——與求偶時不同——節奏輕快分明。幼鳥們長出[[豐滿]]的羽毛後，很快就不見鳥影，(@擬人|a9|阿白也{{不告而別}}了@)。(@譬喻|a10|雖然少了[[擾人]]的「鬧鐘」@)，我卻忍不住想念起牠們，想念觀察阿白帶來的樂趣。',
+  acts:[['🍫 三連音「巧克力」',()=>{replay(V(8),'sing',2800);SND.choco();['巧','克','力','巧','克','力'].forEach((w,i)=>later(()=>temp(w,{left:(42+(i%3)*7)+'%',top:(18-(i%3)*3)+'%'},'bub',1300),i<3?i*270:1200+(i-3)*270))}],['🐦 幼鳥飛走了',()=>{V(8).classList.add('fledge');say1('幼鳥長出豐滿的羽毛，很快就不見鳥影')}],['👋 阿白不告而別',()=>{V(8).classList.add('fledge','leave','flap');say1('阿白也沒說再見，就離開了')}],['💭 想念牠們',()=>{V(8).classList.add('missing');say1('少了擾人的「鬧鐘」⏰，卻好想念觀察的樂趣','gold')}]]},
+ {sc:'snd',tag:'聲音比一比',no:'統整一',text:'阿白在不同的時候，會發出不一樣的聲音。按「聽聽看」，再想一想：牠什麼時候這樣唱？為什麼這樣唱？（聲音是電腦模擬的，不是真的鳥叫聲。）',acts:[]},
+ {sc:'tl',tag:'觀察時間軸',no:'統整二',text:'這是一篇觀察記錄，作者照著時間先後寫下來。請按照時間順序，點一點事件卡！排好以後，看看作者每次觀察到什麼，心情怎麼樣。',
+  enter(){startTL()},acts:[['🔄 重新排',startTL],['📋 直接看答案',()=>{$$('.slot').forEach((s,i)=>{s.classList.add('done');s.innerHTML=`<b>${TL[i].e}</b>${TL[i].t}`});showTL()}]]},
+ {sc:'w',tag:'人事時地物',no:'統整三',text:'找一找課文裡的人、事、時、地、物。點一點黃色的格子，看看答案；也可以按「考考你」來練習分類。',
+  enter(){$$('.cell').forEach(c=>c.classList.remove('open'));$('#quiz').classList.remove('on')},
+  acts:[['📖 全部打開',()=>$$('.cell').forEach(c=>c.classList.add('open'))],['🙈 全部蓋起來',()=>$$('.cell').forEach(c=>c.classList.remove('open'))],['🎯 考考你',startQuiz]]}
+];
+
+
+/* ===== 修辭 ===== */
+function rhStrip(t){return String(t).replace(/\(@[^|@]+\|[^|@]+\|/g,'').replace(/@\)/g,'')}
+const RH={'擬人':['p','把不是人的東西，寫得像人一樣：會說話、會感覺、會做事。'],'譬喻':['m','用另一樣相像的東西來比方，常用「像、好像、有如、就像、是」。'],'感嘆':['e','用「！」或「啊、呀、唉、哇……」，表達強烈的感情，像高興、驚訝、難過。'],'設問':['q','用問句引起注意，或說出心裡的疑問；有時自己問、自己答，有時問了不回答。']};
+const RHWHY={"a1": "鳥叫本來只是叫聲，作者說阿白「熱情」「準時」的唱歌，把牠寫得像人一樣。", "a2": "「唉！」表達被吵醒、不得不起床的無奈。", "a3": "把阿白的羽毛說成上衣、夾克和毛帽，好像牠是會穿衣服的人；也是把羽毛拿衣服來比方。", "a4": "作者用問句說出心裡的疑問，也引起讀者的好奇。", "a5": "說阿白是「歌唱家」「舞林高手」，把鳥寫得像人；「呢！」也帶著讚嘆。", "a6": "用「像」把阿白跳舞的樣子，比作舞者和戰鬥機。", "a7": "「哇！」表達發現鳥巢的驚喜。", "a8": "作者用問句說出心中的猜想，自己沒有回答。", "a9": "「不告而別」是說人沒說再見就離開，這裡用在阿白身上。", "a10": "把每天清晨準時叫醒作者的阿白，比作「鬧鐘」，所以加上引號。"};
+const RQ=[["「阿白總是穿著灰色上衣，灰綠色夾克，頭上還戴著一頂白色毛帽。」", "擬人", 1], ["「看起來像林間的舞者，又像動力十足的戰鬥機。」", "譬喻", 1], ["「再仔細一看——哇！一個黃褐色的鳥巢……」", "感嘆", 1], ["「不知道是不是阿白特別喜歡它？」", "設問", 1], ["「雖然少了擾人的『鬧鐘』……」", "譬喻", 1], ["「我很好奇牠到底要唱到什麼時候？」", "設問", 1]].concat([['「天上的白雲，像一團團棉花糖。」','譬喻',0],['「太陽公公笑咪咪的看著大家。」','擬人',0],['「哇！雪花好美啊！」','感嘆',0],['「冬天為什麼要多穿衣服？因為天氣冷，容易著涼。」','設問',0],['「小雨點在窗戶上跳舞。」','擬人',0],['「雪地白得像鋪了一層糖粉。」','譬喻',0]]);
+let rhOn=false,rqList=[],rqi=0;
+function rhWrap(t){return String(t).replace(/\(@([^|@]+)\|([^|@]+)\|(.+?)@\)/g,(m,types,key,inner)=>{const ts=types.split(',');return `<span class="rh" role="button" tabindex="0" data-t="${types}" data-k="${key}" data-l="${ts.join('＋')}" style="--rc:var(--c-${RH[ts[0]][0]})">${inner}</span>`})}
+function showRh(types,key,text){const p=$('#pop');p.innerHTML=`<h3>修辭：${types.join('＋')}</h3>${types.map(t=>`<div><b style="color:var(--c-${RH[t][0]})">${t}</b>：${RH[t][1]}</div>`).join('')}<div class="why">${RHWHY[key]||''}</div><div class="row"><button id="pSay">🔊 念這句</button><button id="pClose">關閉</button></div>`;p.classList.add('on');$('#pSay').onclick=()=>speak(text);$('#pClose').onclick=()=>p.classList.remove('on');}
+function bindRh(c){c.querySelectorAll('.rh').forEach(r=>{const f=e=>{if(!rhOn)return;e.stopPropagation();showRh(r.dataset.t.split(','),r.dataset.k,r.textContent)};r.addEventListener('click',f);r.addEventListener('keydown',e=>{if(e.key==='Enter')f(e)})});}
+function rhToggle(){rhOn=!rhOn;$('#txt').classList.toggle('rhon',rhOn);$('#rhleg').classList.toggle('legon',rhOn);$('#rhBtn').classList.toggle('on',rhOn);$('#rhBtn').setAttribute('aria-pressed',rhOn);if(rhOn&&!$('#txt .rh')){const d=document.createElement('div');d.className='badge';d.textContent='這一頁沒有標示修辭，換一段看看！';Object.assign(d.style,{left:'50%',top:'45%',transform:'translateX(-50%)'});$('#ov').appendChild(d);setTimeout(()=>d.remove(),2000)}}
+function buildRh(){const c=$('#rcards');c.innerHTML='';Object.entries(RH).forEach(([n,[k,d]])=>{const b=document.createElement('button');b.className='rcard';b.style.setProperty('--rc',`var(--c-${k})`);b.innerHTML=`<h4>${n}</h4><p>${d}</p>`;b.onclick=()=>{$$('.rcard').forEach(x=>x.classList.toggle('on',x===b));const ex=RQ.filter(r=>r[1]===n&&r[2]);const pr=RQ.find(r=>r[1]===n&&!r[2]);$('#rex').innerHTML=ex.length?`<b style="color:var(--c-${k})">課文裡的${n}：</b>${ex.map(e=>`<div class="q">${e[0]}</div>`).join('')}`:`<b style="color:var(--c-${k})">這一課沒有用到「${n}」，看看這個例子：</b><div class="q">${pr[0]}</div>`;speak(n+'。'+d)};c.appendChild(b)});$('#rex').innerHTML='<div style="font-size:3vh;color:#55636A">點上面的卡片，認識四種修辭；或按下方「考考你」來練習。</div>';}
+function rhQuiz(){rqList=[...RQ].sort(()=>Math.random()-.5);rqi=0;rhAsk();}
+function rhAsk(){const ex=$('#rex');if(rqi>=rqList.length){ex.innerHTML='<div class="q">全部完成！🎉</div>';speak('全部完成，你好棒');return}
+  const [s,a,fromText]=rqList[rqi];ex.innerHTML=`<div><span class="tagq" style="background:${fromText?'#2F6F78':'#9AA6B5'}">${fromText?'課文':'練習題'}</span>第 ${rqi+1}／${rqList.length} 題：這句用了什麼修辭？</div><div class="q">${s}</div><div class="opts"></div><div class="fb"></div>`;speak(s);
+  Object.entries(RH).forEach(([n,[k]])=>{const b=document.createElement('button');b.textContent=n;b.style.setProperty('--rc',`var(--c-${k})`);b.onclick=()=>{const fb=ex.querySelector('.fb');if(n===a){fb.textContent='答對了！這是「'+a+'」⭐';fb.style.color='#2E8B57';speak('答對了');rqi++;setTimeout(rhAsk,1500)}else{fb.textContent='再想想看：句子裡有沒有「像」「！」「？」，或是把東西寫成人？';fb.style.color='#C8362B'}};ex.querySelector('.opts').appendChild(b)});}
+$('#rhBtn').onclick=rhToggle;
+S.push({sc:'rh',tag:'修辭小教室',no:'統整',text:'認識四種修辭：擬人、譬喻、感嘆、設問。點上面的卡片看說明和課文例句，再按「考考你」練習。也可以回到課文，打開右上方的「🔍 修辭」，找找句子藏在哪裡！',enter(){buildRh()},acts:[['🎯 考考你',rhQuiz],['📖 看說明',buildRh]]});
+
+/* ---------- navigation ---------- */
+const TABS=[['清晨歌聲',0,1],['穿著',1,2],['跳舞',2,3],['求偶',3,4],['築巢',4,5],['鳥蛋',5,6],['幼鳥',6,7],['告別',7,8],['聲音比一比',8],['時間軸',9],['人事時地物',10]];
+TABS.push(['修辭小教室',S.length-1]);TABS.forEach(([n,i,num],k)=>{if(k===8)$('#tabs').insertAdjacentHTML('beforeend','<span class="sep">｜</span>');else if(k>0&&k<8)$('#tabs').insertAdjacentHTML('beforeend','<span class="sep">›</span>');
+  const b=document.createElement('button');b.innerHTML=(num?`<i>${num}</i>`:'')+n;b.onclick=()=>go(i);b.dataset.i=i;$('#tabs').appendChild(b)});
+let cur=0;
+function go(i){
+  stopAll();cur=Math.max(0,Math.min(S.length-1,i));const st=S[cur];
+  $$('.scene').forEach(s=>s.classList.toggle('on',s.id==='sc-'+st.sc));
+  resetScenes();
+  const tc=$('#tchip');if(st.time){tc.textContent='🕒 '+st.time;tc.classList.add('on')}else tc.classList.remove('on');
+  $('#ptag').textContent=st.tag;$('#pno').textContent=st.no;
+  const t=$('#txt');t.classList.toggle('long',!!st.long);
+  t.innerHTML=rhWrap(st.text).replace(/\[\[(.+?)\]\]/g,(m,w)=>`<span class="v" role="button" tabindex="0" data-w="${w}">${w}</span>`).replace(/\{\{(.+?)\}\}/g,(m,w)=>`<span class="v x" role="button" tabindex="0" data-w="${w}">${w}</span>`);
+  t.querySelectorAll('.v').forEach(v=>{v.onclick=()=>showVocab(v.dataset.w);v.onkeydown=e=>{if(e.key==='Enter')showVocab(v.dataset.w)}});
+  bindRh(t);t.scrollTop=0;t.scrollLeft=0;
+  const A=$('#acts');A.innerHTML='';st.acts.forEach(([l,f])=>{const b=document.createElement('button');b.textContent=l;b.onclick=()=>{ac();f()};A.appendChild(b)});
+  let active=0;TABS.forEach(([n,ti])=>{if(cur>=ti)active=ti});
+  $$('#tabs button').forEach(b=>b.classList.toggle('on',+b.dataset.i===active));
+  $('#prev').disabled=cur===0;$('#next').disabled=cur===S.length-1;
+  st.enter&&st.enter();
+}
+$('#prev').onclick=()=>go(cur-1);$('#next').onclick=()=>go(cur+1);
+$('#say').onclick=()=>speak(S[cur].text);
+document.addEventListener('keydown',e=>{if(e.target.closest('.v,.cell'))return;if(e.key==='ArrowRight'||e.key==='PageDown')go(cur+1);if(e.key==='ArrowLeft'||e.key==='PageUp')go(cur-1);});
+try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>{}}catch(e){}
+go(0);
+</script>
+</body>
+</html>

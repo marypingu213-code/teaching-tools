@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>第十一課 豆粥婆婆｜課文動起來</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --kai:"LXGW WenKai TC","BiauKai","DFKai-SB","標楷體","Kaiti TC","Noto Serif TC","Noto Serif CJK TC","PMingLiU",serif;
+  --bg:#E9ECE2; --panel:#FFFFFF; --ink:#26211B; --soft:#6B6358;
+  --bean:#A3263A; --tiger:#E9862A; --gold:#E8A33A; --navy:#24365E;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --bg:#1A1C17; --panel:#26281F; --ink:#F1EFE8; --soft:#BDB6A8; color-scheme:dark; }
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:var(--kai);background:var(--bg);color:var(--ink);display:grid;grid-template-rows:auto 1fr;overflow:hidden;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+header{display:flex;align-items:center;gap:1.2vw;padding:1vh 1.6vw .8vh;flex-wrap:wrap}
+h1{margin:0;font-size:4.4vh;color:var(--bean);letter-spacing:.12em;white-space:nowrap}
+h1 small{font-size:.5em;color:var(--soft);letter-spacing:.05em;margin-right:.4em}
+h1 em{font-style:normal;font-size:.42em;color:var(--soft);margin-left:.5em;letter-spacing:0}
+nav{display:flex;gap:.15vw;flex-wrap:wrap;align-items:center}
+nav button{font:inherit;font-size:2.2vh;padding:.5vh .6vw;border-radius:10px;border:2px solid transparent;background:transparent;color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:.25em}
+nav button i{font-style:normal;display:inline-grid;place-items:center;width:2.5vh;height:2.5vh;border-radius:50%;background:var(--bean);color:#fff;font-size:1.5vh}
+nav button.on{background:var(--panel);border-color:var(--bean);color:var(--bean);font-weight:700}
+nav .sep{color:var(--soft);font-size:1.8vh}
+main{display:grid;grid-template-columns:1fr 50vh;gap:1.2vw;padding:0 1.6vw 1.4vh;min-height:0}
+.stagewrap{display:grid;grid-template-rows:1fr auto;gap:1vh;min-height:0}
+.stage{position:relative;border-radius:20px;overflow:hidden;background:#DDE3D3;min-height:0}
+.scene{position:absolute;inset:0;display:none}
+.scene.on{display:block}
+.scene>svg{width:100%;height:100%;display:block}
+#ov{position:absolute;inset:0;pointer-events:none;z-index:7}
+#tchip{position:absolute;right:2%;top:3%;z-index:6;background:#26211B;color:#fff;border-radius:999px;padding:.5vh 1.2vw;font-size:2.6vh;font-weight:700;display:none}
+#tchip.on{display:block;animation:pop .4s}
+.acts{display:flex;flex-wrap:wrap;gap:.6vw;min-height:6vh;align-items:center}
+.acts button{font:inherit;font-size:2.5vh;padding:.8vh 1.2vw;border-radius:999px;border:3px solid var(--bean);background:var(--panel);color:var(--ink);cursor:pointer}
+.acts button:hover{background:var(--bean);color:#fff}
+.acts button.main{background:var(--bean);color:#fff;font-weight:700}
+.acts button.done{opacity:.55}
+button:focus-visible,.v:focus-visible,.cell:focus-visible{outline:4px solid var(--gold);outline-offset:2px}
+aside{background:var(--panel);border-radius:20px;padding:1.6vh 1.4vh;display:grid;grid-template-rows:auto minmax(0,1fr) auto;grid-template-columns:minmax(0,1fr);gap:1vh;min-height:0}
+.ptitle{display:flex;justify-content:space-between;align-items:center;font-size:2.6vh;color:var(--soft)}
+.ptitle b{color:var(--bean);font-size:1.15em}
+.txt{writing-mode:vertical-rl;font-size:3.9vh;line-height:1.8;letter-spacing:.05em;width:100%;height:100%;min-height:0;overflow:auto;display:block}
+.txt.long{font-size:3.4vh}
+.v{border:2px solid var(--gold);border-radius:6px;cursor:pointer;color:#1F6FA0;padding:.1em 0}
+.v.x{border-style:dashed;border-color:#9AA6B5;color:inherit}
+@media (prefers-color-scheme: dark){ .v{color:#86C9F0} }
+.pnav{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:.8vh}
+.pnav button{font:inherit;font-size:2.6vh;padding:1vh 0;border-radius:12px;border:2px solid var(--soft);background:transparent;color:var(--ink);cursor:pointer}
+.pnav .say{background:var(--bean);border-color:var(--bean);color:#fff;font-weight:700}
+.pnav button:disabled{opacity:.35}
+#pop{position:fixed;left:3vw;bottom:13vh;max-width:48vw;background:#fff;color:#26211B;border:4px solid var(--gold);border-radius:16px;padding:1.4vh 1.6vw;font-size:3vh;line-height:1.6;box-shadow:0 8px 24px rgba(0,0,0,.25);display:none;z-index:20}
+#pop.on{display:block;animation:pop .3s}
+#pop h3{margin:0 0 .4vh;color:#A3263A;font-size:1.25em}
+#pop .row{display:flex;gap:1vw;margin-top:.8vh}
+#pop button{font:inherit;font-size:.85em;border-radius:10px;border:2px solid #A3263A;background:#fff;color:#A3263A;padding:.3vh 1vw;cursor:pointer}
+
+.badge{position:absolute;background:#fff;color:#26211B;border:4px solid var(--bean);border-radius:14px;padding:.6vh 1.1vw;font-size:2.9vh;font-weight:700;animation:pop .45s cubic-bezier(.3,1.6,.6,1);white-space:nowrap;z-index:8}
+.badge.gold{border-color:var(--gold)}.badge.navy{border-color:var(--navy)}
+.badge small{display:block;font-weight:400;font-size:.78em;color:#5A5246}
+.say{z-index:8}
+.bubble{position:absolute;background:#fff;color:#26211B;border:4px solid #26211B;border-radius:18px;padding:.7vh 1vw;font-size:2.7vh;line-height:1.45;max-width:44%;animation:pop .3s cubic-bezier(.3,1.6,.6,1);z-index:8}
+.bubble b{display:block;font-size:.85em;color:#A3263A}
+.bub{position:absolute;font-size:5vh;font-weight:700;color:#fff;-webkit-text-stroke:2px #A3263A;paint-order:stroke fill;animation:floatup 1.9s ease-out forwards;z-index:8}
+@keyframes floatup{from{transform:translateY(0) scale(.6);opacity:0}20%{opacity:1;transform:translateY(-10px) scale(1)}to{transform:translateY(-90px);opacity:0}}
+.huge{position:absolute;left:50%;top:38%;transform:translate(-50%,-50%);font-size:14vh;font-weight:700;color:#fff;-webkit-text-stroke:4px #A3263A;paint-order:stroke fill;animation:ahh 1.6s ease-out forwards;white-space:nowrap;z-index:8}
+@keyframes ahh{0%{transform:translate(-50%,-50%) scale(.3);opacity:0}25%{transform:translate(-50%,-50%) scale(1.1);opacity:1}80%{opacity:1}100%{transform:translate(-50%,-50%) scale(1);opacity:0}}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+.lbl{font-family:var(--kai);font-weight:700}
+.instant,.instant *{transition:none!important}
+
+/* moving parts */
+.mv{transition:transform 1.2s ease-in-out,opacity .6s}
+.bd{transform-box:fill-box;transform-origin:50% 100%;transition:transform .5s}
+.roll .bd{animation:roll .6s linear infinite;transform-origin:50% 50%}
+@keyframes roll{to{transform:rotate(360deg)}}
+.hop .bd{animation:hop .35s ease-in-out infinite alternate}
+@keyframes hop{to{transform:translateY(-14px)}}
+.run .bd{animation:runb .18s ease-in-out infinite alternate}
+@keyframes runb{to{transform:translateY(-10px) rotate(-4deg)}}
+.jump .bd{animation:jump .7s ease-out}
+@keyframes jump{40%{transform:translateY(-80px)}100%{transform:translateY(0)}}
+.shake .bd{animation:shk .1s linear 10}
+@keyframes shk{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.out{opacity:0}
+.cry .tears{display:inline}.tears{display:none}
+.tear{animation:tear 1s ease-in infinite}
+@keyframes tear{from{transform:translateY(0);opacity:1}to{transform:translateY(40px);opacity:0}}
+.pale .gface{fill:#F4F1EC}.pale .pmark{display:inline}.pmark{display:none}
+.bow .upper{transform:rotate(-24deg);transform-box:fill-box;transform-origin:50% 100%}
+.upper{transition:transform .6s}
+.happy .mS{display:none}.happy .mH{display:inline}.mH{display:none}
+.angry .brow{display:inline}.brow{display:none}
+/* tiger */
+.tsplat,.tseal,.tcrab,.tsweat,.trolled,.tglow{display:none}
+.splat .tsplat,.seal .tseal,.pinch .tcrab,.sweat .tsweat,.rolled .trolled,.glow .tglow{display:inline}
+.dip .bd{transform:rotate(-24deg)}
+.trip .bd{transform:rotate(-70deg)}
+.flinch .bd{animation:shk .1s linear 8}
+.drip{animation:tear 1s ease-in infinite}
+.matflat{transition:opacity .4s}.matflat.matgone{opacity:0}
+.legout .jleg{transform:rotate(-55deg)}
+.jleg{transform-box:fill-box;transform-origin:50% 0;transition:transform .4s}
+.tailshow .ktail{display:inline}.ktail{display:none}
+
+/* scene specific */
+#steam1 path{animation:steam 2.4s ease-out infinite}
+@keyframes steam{from{transform:translateY(0);opacity:.9}to{transform:translateY(-60px);opacity:0}}
+#mapCard{transition:opacity .6s}
+#sand{display:none}.storm #sand{display:inline}
+.sandp{animation:sandf 1.4s linear infinite}
+@keyframes sandf{from{transform:translate(-200px,40px) rotate(0)}to{transform:translate(1100px,-60px) rotate(720deg)}}
+#tiger2W{opacity:0;transition:opacity 1s}.tigerin #tiger2W{opacity:1}
+#think3{opacity:0;transition:opacity .6s}.think #think3{opacity:1}
+#cal3{opacity:0;transition:opacity .6s}.cal #cal3{opacity:1}
+#nightR{opacity:0;transition:opacity 1.5s}.night #nightR{opacity:.62}
+#lampG{opacity:0}.night #lampG{opacity:1}
+#endTiger .bd{animation:shk .12s linear infinite}
+
+/* html scenes */
+.html{background:linear-gradient(#EFF2E8,#FAFBF7)}
+.track{position:absolute;left:2.5%;right:2.5%;top:4%;display:flex;gap:.6%;align-items:center}
+.slot{flex:1;height:12vh;border:3px dashed #9AA38D;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:2.2vh;color:#26211B;background:rgba(255,255,255,.6)}
+.slot b{font-size:4vh}
+.slot.done{border:3px solid #A3263A;background:#fff;animation:pop .4s}
+.arrow{font-size:2.4vh;color:#9AA38D}
+.cards{position:absolute;left:5%;right:5%;top:23%;bottom:5%;display:grid;grid-template-columns:repeat(4,1fr);gap:1.8vh}
+.card{font:inherit;border:4px solid #E9862A;border-radius:18px;background:#fff;color:#26211B;font-size:2.8vh;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4vh;line-height:1.35;padding:.6vh}
+.card span{font-size:6vh}
+.card.used{visibility:hidden}
+.card.bad{animation:shake .12s 4;border-color:#999}
+@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.rtable{position:absolute;inset:20% 2.5% 2.5%;display:none;grid-template-columns:16% 1fr 1fr;gap:.6vh;font-size:2.5vh;color:#26211B;overflow:auto}
+.rtable.on{display:grid}
+.rtable div{background:#fff;border-radius:10px;padding:.5vh .7vw;display:flex;align-items:center;line-height:1.35}
+.rtable .h{background:#A3263A;color:#fff;font-weight:700;justify-content:center}
+.rtable .p{font-weight:700;color:#A3263A;justify-content:center}
+.rtable .f{position:relative;background:#FFF2D6;cursor:pointer}
+.rtable .f .cover{position:absolute;inset:0;background:#F2C14E;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#6A4A00;transition:transform .4s}
+.rtable .f.open .cover{transform:scaleY(0);transform-origin:top}
+.wgrid{position:absolute;inset:4% 4%;display:grid;grid-template-columns:13% 1fr;grid-template-rows:repeat(5,1fr);gap:1.2vh;font-size:3vh;color:#26211B}
+.wgrid .k{display:flex;align-items:center;justify-content:center;font-size:5.4vh;font-weight:700;color:#fff;background:#A3263A;border-radius:14px}
+.cell{position:relative;background:#fff;border-radius:14px;padding:.6vh 1.4vw;display:flex;align-items:center;cursor:pointer;line-height:1.45;overflow:hidden}
+.cell .cover{position:absolute;inset:0;background:#F2C14E;display:flex;align-items:center;justify-content:center;font-size:3vh;color:#6A4A00;transition:transform .45s}
+.cell.open .cover{transform:translateY(-102%)}
+.quiz{position:absolute;inset:0;background:rgba(26,28,23,.84);display:none;align-items:center;justify-content:center;z-index:9}
+.quiz.on{display:flex}
+.qbox{background:#fff;color:#26211B;border-radius:20px;padding:3vh 3vw;text-align:center;min-width:55%}
+.qword{font-size:6.6vh;font-weight:700;color:#A3263A;margin:1vh 0 2vh}
+.qbtns{display:flex;gap:1.2vw;justify-content:center}
+.qbtns button{font:inherit;font-size:5vh;width:11vh;height:11vh;border-radius:50%;border:4px solid #A3263A;background:#fff;color:#A3263A;cursor:pointer}
+.qfb{font-size:3.4vh;min-height:5vh;margin-top:2vh}
+.qbox .close{font:inherit;font-size:2.4vh;margin-top:1vh;background:none;border:2px solid #999;border-radius:10px;padding:.4vh 1.2vw;cursor:pointer}
+
+@media (max-width:820px), (max-aspect-ratio:1/1){
+  body{overflow:auto;display:block}
+  main{grid-template-columns:1fr}
+  .stage{height:58vh}
+  .txt,.txt.long{writing-mode:horizontal-tb;height:auto;font-size:21px}
+  .acts button,.pnav button,nav button{font-size:15px}
+  h1{font-size:26px}
+  .cards{grid-template-columns:repeat(2,1fr)}
+}
+@media (prefers-reduced-motion: reduce){ .sandp,#steam1 path,.tear{animation:none} }
+
+/* ===== 修辭 ===== */
+:root{--c-p:#2E8B57;--c-m:#8E5AD6;--c-e:#D9342B;--c-q:#2E6FB3}
+#rhBtn{font:inherit;font-size:2.2vh;border-radius:999px;border:2px solid #8E5AD6;background:transparent;color:var(--ink);padding:.3vh .8vw;cursor:pointer}
+#rhBtn.on{background:#8E5AD6;color:#fff}
+.rh{border-radius:6px;transition:background .3s}
+.rhon .rh{cursor:pointer;background:color-mix(in srgb,var(--rc) 18%,transparent);box-shadow:inset -3px 0 0 var(--rc)}
+.rhon .rh::before{content:attr(data-l);font-size:.5em;background:var(--rc);color:#fff;border-radius:4px;padding:.1em .15em;margin-bottom:.2em;font-weight:700;letter-spacing:0}
+.rhleg{grid-column:1/-1;display:none;gap:.4vw;font-size:2vh;flex-wrap:wrap;align-items:center}
+.rhleg.legon{display:flex}
+.rhleg span{color:#fff;border-radius:6px;padding:.1vh .5vw}
+.rhleg small{color:var(--soft)}
+#pop .why{background:#F3EEFF;border-radius:10px;padding:.6vh .8vw;margin-top:.6vh;font-size:.92em}
+.rcards{position:absolute;inset:3% 3% auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1.2vw}
+.rcard{background:#fff;border-radius:16px;border:4px solid var(--rc);padding:1.2vh .8vw;color:#222;cursor:pointer;font:inherit;text-align:left}
+.rcard h4{margin:0 0 .6vh;color:var(--rc);font-size:3.6vh}
+.rcard p{margin:0;font-size:2.3vh;line-height:1.5}
+.rcard.on{background:color-mix(in srgb,var(--rc) 12%,#fff)}
+.rex{position:absolute;left:3%;right:3%;top:42%;bottom:4%;background:#fff;border-radius:16px;padding:2vh 2vw;color:#222;font-size:3vh;line-height:1.7;overflow:auto}
+.rex .q{font-size:3.8vh;font-weight:700;margin:1vh 0 2vh}
+.rex .opts{display:flex;gap:1vw;flex-wrap:wrap}
+.rex .opts button{font:inherit;font-size:3.6vh;padding:1vh 2vw;border-radius:16px;border:4px solid var(--rc);background:#fff;color:var(--rc);cursor:pointer;font-weight:700}
+.rex .fb{font-size:3vh;min-height:4.5vh;margin-top:1.6vh}
+.rex .tagq{font-size:2.2vh;color:#fff;border-radius:6px;padding:.1vh .6vw;margin-right:.6vw}
+@media (max-width:820px), (max-aspect-ratio:1/1){.rcards{grid-template-columns:repeat(2,1fr)}.rex{top:52%}}
+a.hall-back{position:fixed;z-index:40;top:0;right:0;font-family:var(--kai);font-size:1.7vh;line-height:1.2;padding:.45vh .8vw;white-space:nowrap;background:var(--panel);color:var(--soft);text-decoration:none;border:1px solid var(--soft);border-top:0;border-right:0;border-bottom-left-radius:12px}a.hall-back:hover,a.hall-back:focus-visible{color:var(--ink)}
+</style>
+</head>
+<body>
+<a class="hall-back" href="../">← 回課文大廳</a>
+<header>
+  <h1><small>第十一課</small>豆粥婆婆<em>改寫自韓國民間故事</em></h1>
+  <nav id="tabs"></nav>
+</header>
+
+<main>
+  <div class="stagewrap">
+    <div class="stage" id="stage">
+
+      <!-- 1 -->
+      <div class="scene" id="sc-s1">
+        <svg id="S1" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet">
+          <rect width="1000" height="560" fill="#F3E9D6"/>
+          <rect y="430" width="1000" height="130" fill="#C9A273"/>
+          <path d="M380,560 L380,250 Q520,200 660,250 L660,560Z" fill="#E7D3B0"/>
+          <path d="M360,256 Q520,170 680,256 L668,270 Q520,196 372,270Z" fill="#5A4A3A"/>
+          <g id="stove1"><rect x="560" y="360" width="160" height="80" rx="10" fill="#8A6A4A"/><path d="M580,360 q60,-70 120,0Z" fill="#3A3A3A"/><ellipse cx="640" cy="352" rx="62" ry="12" fill="#7A2030"/>
+            <g id="steam1" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" opacity=".9"><path d="M610,330 q-10,-20 0,-40 q10,-20 0,-40"/><path d="M645,330 q-10,-20 0,-40 q10,-20 0,-40" style="animation-delay:.8s"/><path d="M680,330 q-10,-20 0,-40 q10,-20 0,-40" style="animation-delay:1.6s"/></g></g>
+          <g id="gm1"></g>
+          <g id="vill1"></g>
+          <g id="mapCard"></g>
+        </svg>
+      </div>
+
+      <!-- 2 & 3 field -->
+      <div class="scene" id="sc-s2">
+        <svg id="S2" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet">
+          <rect width="1000" height="560" fill="#BFD9E8"/>
+          <path d="M0,300 L140,180 L260,260 L420,140 L600,270 L760,170 L1000,280 L1000,400 L0,400Z" fill="#7FA66A"/>
+          <rect y="380" width="1000" height="180" fill="#A9864E"/>
+          <g id="beans2"></g>
+          <g id="tiger2W"></g>
+          <g id="gm2"></g>
+          <g id="think3"><circle cx="760" cy="150" r="10" fill="#fff"/><circle cx="790" cy="110" r="16" fill="#fff"/><ellipse cx="880" cy="70" rx="100" ry="56" fill="#fff" stroke="#A3263A" stroke-width="3"/><ellipse cx="880" cy="80" rx="44" ry="16" fill="#7A2030"/><path d="M836,80 q44,40 88,0" fill="#E8D6C0" stroke="#8A6A4A" stroke-width="3"/><path d="M860,52 q-6,-14 0,-26 M884,52 q-6,-14 0,-26 M906,52 q-6,-14 0,-26" stroke="#B9B9B9" stroke-width="4" fill="none"/></g>
+          <g id="cal3"><rect x="40" y="40" width="160" height="150" rx="12" fill="#fff" stroke="#A3263A" stroke-width="4"/><rect x="40" y="40" width="160" height="44" rx="12" fill="#A3263A"/><text x="120" y="72" text-anchor="middle" font-size="26" fill="#fff" class="lbl">等到</text><text x="120" y="150" text-anchor="middle" font-size="48" fill="#A3263A" class="lbl">冬至</text></g>
+          <g id="sand"></g>
+        </svg>
+      </div>
+
+      <!-- house 4-8 -->
+      <div class="scene" id="sc-h">
+        <svg id="H" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet">
+          <rect width="1000" height="560" fill="#E9D7B8"/>
+          <g stroke="#B9A17A" stroke-width="3"><rect x="90" y="70" width="200" height="140" fill="#F7EFDC"/><line x1="156" y1="70" x2="156" y2="210"/><line x1="222" y1="70" x2="222" y2="210"/><line x1="90" y1="140" x2="290" y2="140"/></g>
+          <rect x="880" y="110" width="120" height="330" fill="#3A3A50"/><rect x="872" y="104" width="14" height="336" fill="#7A5A34"/>
+          <rect x="470" y="186" width="190" height="12" fill="#7A5A34"/><rect x="480" y="198" width="8" height="24" fill="#7A5A34"/><rect x="642" y="198" width="8" height="24" fill="#7A5A34"/>
+          <rect y="430" width="1000" height="130" fill="#D9B67A"/>
+          <g stroke="#C9A060" stroke-width="2"><line x1="0" y1="470" x2="1000" y2="470"/><line x1="0" y1="515" x2="1000" y2="515"/></g>
+          <g id="stoveH"><rect x="250" y="340" width="150" height="100" rx="10" fill="#8A6A4A"/><path d="M262,340 q63,-60 126,0Z" fill="#3A3A3A"/><text x="325" y="410" text-anchor="middle" font-size="20" fill="#F3E9D6" class="lbl">灶</text></g>
+          <g id="matFlat" class="matflat"><path d="M440,500 L720,500 L690,456 L470,456Z" fill="#E8C66A" stroke="#B08A2A" stroke-width="3"/><g stroke="#C9A040" stroke-width="2"><line x1="480" y1="470" x2="700" y2="470"/><line x1="470" y1="486" x2="712" y2="486"/></g>
+            <g id="matFace"><circle cx="560" cy="490" r="3" fill="#5A3A10"/><circle cx="600" cy="490" r="3" fill="#5A3A10"/><path class="mS" d="M572,496 q8,5 16,0" stroke="#5A3A10" stroke-width="2.5" fill="none"/><path class="brow" d="M552,482 l12,4 M608,482 l-12,4" stroke="#5A3A10" stroke-width="3"/></g></g>
+          <g id="chars"></g>
+          <rect id="nightR" width="1000" height="560" fill="#0E1330" pointer-events="none"/>
+          <g id="lampG"><circle cx="600" cy="60" r="0"/></g>
+        </svg>
+      </div>
+
+      <!-- 9 end -->
+      <div class="scene" id="sc-end">
+        <svg id="E" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet">
+          <rect width="1000" height="560" fill="#CFE4EE"/>
+          <path d="M520,320 L700,110 L860,260 L960,160 L1000,220 L1000,330Z" fill="#7FA66A"/>
+          <g id="endTiger"></g>
+          <rect y="320" width="1000" height="240" fill="#A9C98A"/>
+          <path d="M60,470 L60,300 Q230,240 400,300 L400,470Z" fill="#E7D3B0"/><path d="M40,306 Q230,220 420,306 L408,322 Q230,246 52,322Z" fill="#5A4A3A"/>
+          <g id="endChars"></g>
+          <g transform="translate(760,80)"><rect x="-20" y="-30" width="200" height="60" rx="14" fill="#fff" stroke="#A3263A" stroke-width="3"/><text x="80" y="10" text-anchor="middle" font-size="24" fill="#A3263A" class="lbl">再也不敢來了！</text></g>
+        </svg>
+      </div>
+
+      <div class="scene html" id="sc-order"><div class="track" id="track"></div><div class="cards" id="cards"></div><div class="rtable" id="rtable"></div></div>
+      <div class="scene html" id="sc-w">
+        <div class="wgrid" id="wgrid"></div>
+        <div class="quiz" id="quiz"><div class="qbox">
+          <div style="font-size:3vh">這個詞是 人、事、時、地、物 的哪一種？</div>
+          <div class="qword" id="qword"></div><div class="qbtns" id="qbtns"></div><div class="qfb" id="qfb"></div>
+          <button class="close" id="qclose">結束練習</button>
+        </div></div>
+      </div>
+
+      <div id="tchip"></div>
+      <div class="scene html" id="sc-rh"><div class="rcards" id="rcards"></div><div class="rex" id="rex"></div></div>
+      <div id="ov"></div>
+    </div>
+    <div class="acts" id="acts"></div>
+  </div>
+
+  <aside>
+    <div class="ptitle"><span id="ptag"></span><button id="rhBtn" aria-pressed="false">🔍 修辭</button><b id="pno"></b></div>
+    <div class="txt" id="txt"></div>
+    <div class="pnav"><div class="rhleg" id="rhleg"><span style="background:var(--c-p)">擬人</span><span style="background:var(--c-m)">譬喻</span><span style="background:var(--c-e)">感嘆</span><span style="background:var(--c-q)">設問</span><small>點有顏色的句子看說明</small></div>
+      <button id="prev">◀ 上一段</button>
+      <button id="say" class="say">🔊 念給我聽</button>
+      <button id="next">下一段 ▶</button>
+    </div>
+  </aside>
+</main>
+
+<div id="pop"></div>
+
+<script>
+const $=s=>document.querySelector(s);
+const $$=s=>[...document.querySelectorAll(s)];
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs={},parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;}
+let timers=[];
+function later(fn,ms){const t=setTimeout(fn,ms);timers.push(t);return t;}
+function stopAll(){timers.forEach(clearTimeout);timers=[];try{speechSynthesis.cancel()}catch(e){};$('#ov').innerHTML='';$('#pop').classList.remove('on');}
+function ov(html,style,cls='badge'){const d=document.createElement('div');d.className=cls;d.innerHTML=html;Object.assign(d.style,style||{});$('#ov').appendChild(d);return d;}
+function temp(html,style,cls,ms=2000){const d=ov(html,style,cls);setTimeout(()=>d.remove(),ms);return d;}
+function clearBadges(){$('#ov').querySelectorAll('.badge,.bubble').forEach(b=>b.remove())}
+function say1(html,cls=''){$('#ov').querySelectorAll('.badge').forEach(b=>b.remove());return ov(html,{left:'3%',top:'4%'},'badge '+cls)}
+function bubbles(words,area){words.forEach((w,i)=>later(()=>temp(w,{left:(area.x+Math.random()*area.w)+'%',top:(area.y+Math.random()*area.h)+'%'},'bub',1950),i*(area.gap||280)))}
+const clean=t=>rhStrip(t).replace(/\[\[|\]\]|\{\{|\}\}/g,'');
+function speak(text,pitch=1){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(clean(text).replace(/ㄆㄚ/g,'啪'));u.lang='zh-TW';u.rate=.8;u.pitch=pitch;const v=speechSynthesis.getVoices().find(v=>/zh[-_]TW/i.test(v.lang));if(v)u.voice=v;speechSynthesis.speak(u);}catch(e){}}
+function replay(node,c,ms){node.classList.remove(c);void node.getBoundingClientRect();node.classList.add(c);if(ms)later(()=>node.classList.remove(c),ms);}
+
+/* ---------- builders ---------- */
+function charG(parent,id,x,y,s=1){const g=el('g',{id,transform:`translate(${x},${y}) scale(${s})`},parent);const mv=el('g',{class:'mv'},g);const bd=el('g',{class:'bd'},mv);return {g,mv,bd};}
+function face(x,y,col='#3A2A1A',r=3.2){return `<circle cx="${x-9}" cy="${y}" r="${r}" fill="${col}"/><circle cx="${x+9}" cy="${y}" r="${r}" fill="${col}"/><path class="mS" d="M${x-6},${y+9} q6,5 12,0" stroke="${col}" stroke-width="2.5" fill="none"/><path class="mH" d="M${x-8},${y+7} q8,10 16,0Z" fill="${col}"/><path class="brow" d="M${x-15},${y-9} l10,4 M${x+15},${y-9} l-10,4" stroke="${col}" stroke-width="3"/>`;}
+function grandma(parent,id,x,y,s=1){const c=charG(parent,id,x,y,s);c.bd.innerHTML=`
+  <path d="M-42,0 L-30,-80 L30,-80 L42,0Z" fill="#24365E"/>
+  <g class="upper">
+   <path d="M-30,-80 Q-34,-128 0,-132 Q34,-128 30,-80Z" fill="#F6F2E6" stroke="#C9C2B0" stroke-width="2"/>
+   <path d="M-4,-118 l18,14 l-14,4 M-4,-118 l-6,26" stroke="#C8362B" stroke-width="5" fill="none" stroke-linecap="round"/>
+   <path d="M-30,-118 L-44,-82" stroke="#F6F2E6" stroke-width="12" stroke-linecap="round"/><path d="M30,-118 L44,-82" stroke="#F6F2E6" stroke-width="12" stroke-linecap="round"/>
+   <circle cx="0" cy="-160" r="28" class="gface" fill="#F2C9A0"/>
+   <path d="M-28,-164 q4,-30 28,-30 q24,0 28,30 q-10,-18 -28,-18 q-18,0 -28,18Z" fill="#B9B9B9"/><circle cx="22" cy="-188" r="12" fill="#B9B9B9"/>
+   <g>${face(0,-160)}</g>
+   <g class="pmark"><path d="M-20,-176 l4,10 M-6,-178 l2,10 M8,-178 l-2,10" stroke="#7FA0C8" stroke-width="2.5"/></g>
+   <g class="tears"><path class="tear" d="M-9,-154 q4,8 0,12 q-4,-4 0,-12Z" fill="#5BB4E8"/><path class="tear" d="M9,-154 q4,8 0,12 q-4,-4 0,-12Z" fill="#5BB4E8" style="animation-delay:.4s"/></g>
+  </g>`;return c;}
+function tiger(parent,id,x,y,s=1){const c=charG(parent,id,x,y,s);c.bd.innerHTML=`
+  <path d="M140,-80 q70,-30 40,-110" stroke="#E9862A" stroke-width="18" fill="none" stroke-linecap="round"/>
+  <g fill="#E9862A"><rect x="-40" y="-40" width="26" height="40" rx="10"/><rect x="0" y="-40" width="26" height="40" rx="10"/><rect x="80" y="-40" width="26" height="40" rx="10"/><rect x="116" y="-40" width="26" height="40" rx="10"/></g>
+  <ellipse cx="50" cy="-76" rx="112" ry="54" fill="#E9862A"/>
+  <g stroke="#1A1A1A" stroke-width="10" stroke-linecap="round" fill="none"><path d="M10,-126 q10,30 -6,54"/><path d="M50,-130 q12,34 -4,62"/><path d="M90,-126 q10,30 -6,54"/><path d="M130,-112 q8,22 -4,40"/></g>
+  <ellipse cx="50" cy="-50" rx="70" ry="22" fill="#FFF3E0"/>
+  <path d="M-136,-160 L-130,-196 L-102,-170Z M-58,-170 L-30,-196 L-24,-160Z" fill="#E9862A" stroke="#1A1A1A" stroke-width="4"/>
+  <circle cx="-80" cy="-118" r="64" fill="#E9862A"/>
+  <ellipse cx="-80" cy="-90" rx="40" ry="28" fill="#FFF3E0"/>
+  <text x="-80" y="-140" text-anchor="middle" font-size="40" font-weight="900" fill="#1A1A1A" class="lbl">王</text>
+  <g stroke="#1A1A1A" stroke-width="7" stroke-linecap="round"><path d="M-140,-120 h18 M-140,-104 h16 M-20,-120 h-18 M-20,-104 h-16"/></g>
+  <g class="tglow"><circle cx="-102" cy="-118" r="16" fill="#FFE45C" opacity=".5"/><circle cx="-58" cy="-118" r="16" fill="#FFE45C" opacity=".5"/></g>
+  <ellipse cx="-102" cy="-118" rx="10" ry="9" fill="#FFE45C" stroke="#1A1A1A" stroke-width="3"/><ellipse cx="-58" cy="-118" rx="10" ry="9" fill="#FFE45C" stroke="#1A1A1A" stroke-width="3"/>
+  <ellipse cx="-102" cy="-118" rx="3" ry="7" fill="#111"/><ellipse cx="-58" cy="-118" rx="3" ry="7" fill="#111"/>
+  <path d="M-90,-100 L-70,-100 L-80,-90Z" fill="#E06A8A"/>
+  <path d="M-108,-80 Q-80,-58 -52,-80 Q-80,-72 -108,-80Z" fill="#B8262E"/>
+  <path d="M-102,-80 l5,12 l5,-11 M-68,-79 l5,11 l5,-12" fill="#fff" stroke="#fff"/>
+  <g class="tsplat"><path d="M-120,-132 q10,-10 22,-2 q14,-6 18,8 q10,8 -2,18 q-6,12 -20,6 q-16,4 -18,-10 q-12,-8 0,-20Z" fill="#FFF8E0"/><circle cx="-102" cy="-118" r="9" fill="#F7B731"/><path d="M-122,-102 l-8,18 M-96,-100 l2,20" stroke="#FFF8E0" stroke-width="5" stroke-linecap="round"/></g>
+  <g class="tseal"><rect x="-118" y="-94" width="76" height="32" rx="12" fill="#FAFAF5" stroke="#D9D2C0" stroke-width="2"/><path d="M-110,-62 q4,10 0,16 M-60,-62 q4,10 0,16" stroke="#FAFAF5" stroke-width="5" stroke-linecap="round"/></g>
+  <g class="tcrab"><g transform="translate(-80,-96)"><ellipse cx="0" cy="0" rx="16" ry="11" fill="#3A6FC8"/><path d="M-14,-4 q-16,-14 -6,-24 M14,-4 q16,-14 6,-24" stroke="#3A6FC8" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="-5" cy="-6" r="2.5" fill="#fff"/><circle cx="5" cy="-6" r="2.5" fill="#fff"/></g></g>
+  <g class="tsweat"><path class="drip" d="M-150,-150 q6,10 0,16 q-6,-6 0,-16Z" fill="#7FC8F8"/><path class="drip" d="M-14,-160 q6,10 0,16 q-6,-6 0,-16Z" fill="#7FC8F8" style="animation-delay:.5s"/></g>
+  <g class="trolled"><rect x="-50" y="-140" width="200" height="124" rx="40" fill="#E8C66A" stroke="#B08A2A" stroke-width="4"/><g stroke="#C9A040" stroke-width="3"><line x1="-20" y1="-140" x2="-20" y2="-16"/><line x1="40" y1="-140" x2="40" y2="-16"/><line x1="100" y1="-140" x2="100" y2="-16"/></g></g>`;return c;}
+function egg(parent,id,x,y,s=1){const c=charG(parent,id,x,y,s);c.bd.innerHTML=`<ellipse cx="0" cy="-28" rx="22" ry="28" fill="#FFFDF4" stroke="#D9CFB8" stroke-width="2"/>${face(0,-30,'#5A4A30',2.6)}`;return c;}
+function chestnut(parent,id,x,y,s=1){const c=charG(parent,id,x,y,s);c.bd.innerHTML=`<path d="M-24,-10 Q-30,-40 0,-56 Q30,-40 24,-10 Q0,4 -24,-10Z" fill="#7A3E1E"/><path d="M-22,-14 Q0,-2 22,-14 Q0,-4 -22,-14Z" fill="#D9B48A"/>${face(0,-32,'#FFE7C2',2.6)}`;return c;}
+function ricecake(parent,id,x,y,s=1){const c=charG(parent,id,x,y,s);c.bd.innerHTML=`<rect x="-30" y="-22" width="60" height="22" rx="10" fill="#FAFAF5" stroke="#D9D2C0" stroke-width="2"/><rect x="-26" y="-44" width="52" height="22" rx="10" fill="#FAFAF5" stroke="#D9D2C0" stroke-width="2"/>${face(0,-14,'#7A6A5A',2.4)}<path d="M-10,-56 q-6,-10 0,-18 M10,-56 q-6,-10 0,-18" stroke="#ddd" stroke-width="3" fill="none"/>`;return c;}
+function jige(parent,id,x,y,s=1){const c=charG(parent,id,x,y,s);c.bd.innerHTML=`<g stroke="#8A5A2A" stroke-width="10" stroke-linecap="round"><line x1="-30" y1="0" x2="-24" y2="-170"/><line x1="30" y1="0" x2="24" y2="-170"/><line x1="-28" y1="-60" x2="28" y2="-60"/><line x1="-26" y1="-110" x2="26" y2="-110"/></g><g class="jleg"><line x1="-28" y1="-70" x2="-62" y2="-10" stroke="#8A5A2A" stroke-width="9" stroke-linecap="round"/></g><rect x="-34" y="-158" width="68" height="34" rx="8" fill="#B07A40"/>${face(0,-142,'#3A2210',3)}`;return c;}
+function kimjar(parent,id,x,y,s=1){const c=charG(parent,id,x,y,s);c.bd.innerHTML=`<path d="M-40,0 Q-62,-60 -36,-104 L36,-104 Q62,-60 40,0Z" fill="#6B3A22"/><ellipse cx="0" cy="-106" rx="40" ry="10" fill="#4A2614"/><path d="M-34,-60 h68" stroke="#8A5A3A" stroke-width="4"/>${face(0,-74,'#FFD9B0',3)}<g class="ktail"><path d="M0,-110 q30,-50 60,-30" stroke="#E9862A" stroke-width="12" fill="none" stroke-linecap="round"/><path d="M14,-130 l6,10 M34,-142 l4,12" stroke="#1A1A1A" stroke-width="5"/></g>`;c.bd.style.transformOrigin='50% 50%';return c;}
+function waterjar(parent,id,x,y,s=1){const c=charG(parent,id,x,y,s);c.bd.innerHTML=`<path d="M-60,0 Q-80,-70 -50,-120 L50,-120 Q80,-70 60,0Z" fill="#7C8C9A"/><ellipse cx="0" cy="-120" rx="52" ry="14" fill="#5DA9D6"/><text x="0" y="-50" text-anchor="middle" font-size="22" fill="#E8EEF2" class="lbl">水缸</text>`;return c;}
+function crab(parent,id,x,y,s=1){const c=charG(parent,id,x,y,s);c.bd.innerHTML=`<g stroke="#2E5FA8" stroke-width="3" stroke-linecap="round"><path d="M-14,-6 l-12,8 M-12,-2 l-12,10 M14,-6 l12,8 M12,-2 l12,10"/></g><ellipse cx="0" cy="-10" rx="18" ry="12" fill="#3A6FC8"/><path d="M-16,-14 q-16,-16 -4,-28 l6,8 M16,-14 q16,-16 4,-28 l-6,8" stroke="#3A6FC8" stroke-width="6" fill="none" stroke-linecap="round"/><circle cx="-6" cy="-18" r="2.6" fill="#fff"/><circle cx="6" cy="-18" r="2.6" fill="#fff"/>`;return c;}
+function villager(parent,x,y,s,col){const c=charG(parent,'',x,y,s);c.bd.innerHTML=`<path d="M-26,0 L-20,-70 L20,-70 L26,0Z" fill="${col}"/><circle cx="0" cy="-92" r="22" fill="#F2C9A0"/><path d="M-22,-96 q4,-24 22,-24 q18,0 22,24 q-10,-12 -22,-12 q-12,0 -22,12Z" fill="#2A2A2A"/>${face(0,-92,'#3A2A1A',2.6)}`;c.g.classList.add('happy');return c;}
+
+/* ---------- build ---------- */
+(function(){
+  // scene 1
+  grandma($('#gm1'),'',500,470,1.1);
+  [[800,470,'#6B8E23'],[880,476,'#B5482F'],[950,470,'#3B6EA5']].forEach(([x,y,c])=>villager($('#vill1'),x,y,.9,c));
+  // map card
+  const mc=$('#mapCard');const P=(lo,la)=>[(lo-118)*24,(40-la)*22];
+  const poly=a=>a.map(([lo,la])=>P(lo,la).map(v=>v.toFixed(1)).join(',')).join(' ');
+  const g=el('g',{transform:'translate(30,40) scale(.85)'},mc);
+  el('rect',{x:-10,y:-10,width:360,height:440,rx:16,fill:'#BFE0EE',stroke:'#26211B','stroke-width':6},g);
+  el('polygon',{points:poly([[118,40],[121.5,40],[122.2,39.5],[121.2,38.8],[122.6,37.4],[120.6,36.1],[119.4,34.8],[120.8,32.6],[121.9,31.6],[121.6,30.2],[120.6,28.2],[119.6,26.2],[118.5,24.8],[118,24.5]]),fill:'#E9E2CF',stroke:'#999','stroke-width':2},g);
+  el('polygon',{points:poly([[124.4,39.9],[125.3,38.9],[125.0,38.0],[126.2,37.6],[126.6,36.5],[126.2,35.2],[126.4,34.4],[127.5,34.7],[128.6,34.9],[129.3,35.2],[129.6,36.1],[129.4,37.0],[128.7,38.2],[128.3,38.6],[127.6,39.7],[127.4,40]]),fill:'#C98A4A',stroke:'#7A4A1A','stroke-width':2},g);
+  el('polygon',{points:poly([[129.8,33.6],[130.4,31.3],[131.3,31.4],[131.9,33.0],[132,34.2],[131,34.4]]),fill:'#E9E2CF',stroke:'#999','stroke-width':2},g);
+  el('polygon',{points:poly([[121.5,25.3],[122.0,25.0],[121.6,24.0],[121.1,22.8],[120.85,21.9],[120.6,22.4],[120.1,23.0],[120.2,23.8],[121.0,24.8]]),fill:'#A3263A',stroke:'#6A1020','stroke-width':2},g);
+  const k=P(127.6,36.6),t=P(121,23.6);
+  el('text',{x:k[0]+40,y:k[1]+10,'font-size':30,class:'lbl',fill:'#7A4A1A'},g).textContent='韓國';
+  el('text',{x:t[0]+30,y:t[1],'font-size':30,class:'lbl',fill:'#A3263A'},g).textContent='臺灣';
+  mc.style.opacity=0;
+  // field
+  const bg=$('#beans2');for(let r=0;r<3;r++)for(let i=0;i<12;i++){const x=40+i*82+(r%2)*40,y=430+r*45;el('path',{d:`M${x},${y} q-14,-24 0,-40 q14,16 0,40Z`,fill:'#4E8A3A'},bg);el('circle',{cx:x+10,cy:y-12,r:5,fill:'#A3263A'},bg);el('circle',{cx:x-8,cy:y-20,r:5,fill:'#A3263A'},bg);}
+  tiger($('#tiger2W'),'',620,470,1.25);
+  grandma($('#gm2'),'',300,480,1.15);
+  const sd=$('#sand');for(let i=0;i<40;i++){const r=Math.random();el(r<.5?'circle':'rect',r<.5?{class:'sandp',cx:0,cy:80+Math.random()*420,r:3+Math.random()*5,fill:'#B89A6A',style:`animation-delay:${-Math.random()*1.4}s`}:{class:'sandp',x:0,y:80+Math.random()*420,width:10,height:8,fill:'#8A7A6A',style:`animation-delay:${-Math.random()*1.4}s`},sd);}
+  // house characters (homes = 就位 positions)
+  const C=$('#chars');
+  waterjar(C,'h-jar',130,470,1);
+  crab(C,'h-crab1',110,350,1);crab(C,'h-crab2',140,345,1);crab(C,'h-crab3',165,350,1);
+  ricecake(C,'h-cake',325,340,1);
+  egg(C,'h-egg',600,186,1);chestnut(C,'h-chest',530,186,1);
+  jige(C,'h-jige',830,470,1);
+  grandma(C,'h-gm',45,470,.95);
+  tiger(C,'h-tiger',640,470,1);
+  kimjar(C,'h-kim',940,470,1);
+  // end
+  tiger($('#endTiger'),'',820,250,.28);
+  const ec=$('#endChars');grandma(ec,'',230,480,.95).g.classList.add('happy');
+  egg(ec,'',110,500,.9).g.classList.add('happy','hop');chestnut(ec,'',170,510,.9).g.classList.add('happy','hop');
+  ricecake(ec,'',320,510,.9).g.classList.add('happy','hop');kimjar(ec,'',420,500,.7).g.classList.add('happy');jige(ec,'',500,500,.7).g.classList.add('happy');
+  crab(ec,'',580,510,1.1).g.classList.add('hop');crab(ec,'',630,515,1.1).g.classList.add('hop');
+})();
+
+/* ---------- house state helpers ---------- */
+let INSTANT=false;
+function pos(id,dx,dy,dur){const g=$('#'+id);if(!g)return;const m=g.querySelector(':scope > .mv');if(dur!==undefined&&!INSTANT)m.style.transitionDuration=dur+'ms';m.style.transform=`translate(${dx}px,${dy}px)`;}
+function vis(id,on){$('#'+id+' > .mv').style.opacity=on?1:0;}
+function cl(id,c,on=true){$('#'+id).classList.toggle(c,on)}
+const ALL=['h-jar','h-crab1','h-crab2','h-crab3','h-cake','h-egg','h-chest','h-jige','h-gm','h-tiger','h-kim'];
+function houseReset(){const st=$('#stage');st.classList.add('instant');INSTANT=true;
+  ALL.forEach(id=>{$('#'+id).setAttribute('class','');const m=$('#'+id+' > .mv');m.style.transitionDuration='';m.style.transform='';m.style.opacity=1;});
+  $('#H').setAttribute('class','');$('#matFlat').setAttribute('class','matflat');
+}
+function instantDone(){void $('#stage').offsetWidth;INSTANT=false;requestAnimationFrame(()=>$('#stage').classList.remove('instant'));}
+// baseline layouts
+const BASE={
+ p4(){['h-crab1','h-crab2','h-crab3'].forEach(c=>vis(c,0));pos('h-gm',515,10);pos('h-egg',-900,294);pos('h-chest',-900,294);pos('h-cake',900,140);pos('h-jige',400,0);pos('h-kim',400,0);vis('h-tiger',0);pos('h-tiger',700,0);cl('h-gm','cry');},
+ p5(){BASE.p4();cl('h-gm','cry',false);pos('h-egg',-170,300);pos('h-chest',-140,300);},
+ p6(){BASE.p5();pos('h-jige',-80,0);pos('h-kim',-280,0);pos('h-cake',340,140);['h-crab1','h-crab2','h-crab3'].forEach((c,i)=>{vis(c,1);pos(c,[420,450,480][i],[118,125,118][i])});cl('h-gm','happy');},
+ p7(){['h-crab1','h-crab2','h-crab3'].forEach(c=>vis(c,0));vis('h-tiger',0);pos('h-tiger',700,0);$('#H').classList.add('night');},
+ p8(){BASE.p7();vis('h-tiger',1);pos('h-tiger',0,0);vis('h-chest',1);pos('h-chest',0,280);vis('h-egg',0);vis('h-cake',0);cl('h-tiger','splat');cl('h-tiger','seal');cl('h-tiger','sweat');cl('h-tiger','glow');}
+};
+function sayAt(id,who,text,dx=0){const n=$('#'+id+' .bd');const b=n.getBoundingClientRect(),s=$('#stage').getBoundingClientRect();const d=ov(`<b>${who}</b>${text}`,{},'bubble');const W=d.offsetWidth,H=d.offsetHeight;let x=b.left-s.left+b.width/2-W/2+dx,y=b.top-s.top-H-12;x=Math.max(8,Math.min(s.width-W-8,x));if(y<8)y=8;d.style.left=x+'px';d.style.top=y+'px';return d;}
+function bubbleAt(id,who,text,ms=3500,dx=0){later(()=>{const d=sayAt(id,who,text,dx);later(()=>d.remove(),ms)},60);}
+
+/* ---------- vocabulary ---------- */
+const VOC={
+ "韓國":"在臺灣北方的一個國家，位在朝鮮半島的南邊。",
+ "婆婆":"年紀大的女性長輩，也可以叫老婆婆。",
+ "齒頰留香":"吃完以後，嘴巴裡還留著香味，形容東西非常好吃。",
+ "飛砂走石":"風很大，吹得沙子亂飛、石頭滾動。",
+ "陰森森":"陰冷可怕，讓人害怕的樣子。",
+ "面無血色":"臉色發白，沒有一點血色，形容非常害怕。",
+ "虎口逃生":"從老虎的嘴邊逃出來，比喻逃離很大的危險。",
+ "苦苦哀求":"一直很可憐的拜託別人。",
+ "冬至":"一年中白天最短的一天，大約在十二月二十二日前後。韓國人冬至習慣喝紅豆粥。",
+ "品嘗":"仔細的嘗嘗味道。",
+ "草蓆":"用草編成的蓆子，可以坐，也可以躺。",
+ "栗子":"一種果實，外殼硬硬的，裡面可以吃。",
+ "木背架":"背在背上搬運東西的木頭架子。",
+ "橫":"兇暴、不講道理。這裡念ㄏㄥˋ。",
+ "藍蟹":"身上帶著藍色的螃蟹。",
+ "水缸":"裝水用的大缸子。",
+ "泡菜缸":"用來醃泡菜的大缸子。",
+ "你一言，我一語":"你說一句，我說一句，大家熱烈的討論。",
+ "黑漆漆":"非常黑，什麼都看不見。",
+ "黏答答":"黏黏的，很不舒服的樣子。",
+ "好痛":"非常痛。",
+ "拚命":"用盡全身的力氣。"
+};
+function showVocab(w){const p=$('#pop');p.innerHTML=`<h3>${w}</h3><div>${VOC[w]||''}</div><div class="row"><button id="pSay">🔊 念</button><button id="pClose">關閉</button></div>`;p.classList.add('on');$('#pSay').onclick=()=>speak(w+'。'+VOC[w]);$('#pClose').onclick=()=>p.classList.remove('on');}
+
+/* ---------- order game ---------- */
+const OR=[
+ {n:'栗子',e:'🌰',d:'往虎頭敲了一記',f:'外殼硬硬的'},
+ {n:'蛋',e:'🥚',d:'「ㄆㄚ！」打在老虎的眼睛上',f:'一打就破，蛋汁糊住眼睛'},
+ {n:'白年糕',e:'🍡',d:'熱熱的跳起來，封住虎口',f:'又熱又黏'},
+ {n:'藍蟹',e:'🦀',d:'齊力夾住虎鼻',f:'有大鉗子會夾'},
+ {n:'草蓆',e:'🟨',d:'翻身捲住老虎',f:'可以捲起來'},
+ {n:'木背架',e:'🪜',d:'在門邊伸出腳來，絆倒老虎',f:'有長長的腳'},
+ {n:'泡菜缸',e:'🏺',d:'一滾，把老虎滾得好遠、好遠',f:'圓圓的，會滾'}];
+let oIdx=0;
+function startOrder(){oIdx=0;$('#rtable').classList.remove('on');$('#cards').style.display='';const tr=$('#track');tr.innerHTML='';OR.forEach((r,i)=>{if(i)tr.insertAdjacentHTML('beforeend','<span class="arrow">➜</span>');tr.insertAdjacentHTML('beforeend',`<div class="slot" data-i="${i}"><b>${i+1}</b></div>`)});
+  const c=$('#cards');c.innerHTML='';[...OR.keys()].sort(()=>Math.random()-.5).forEach(i=>{const b=document.createElement('button');b.className='card';b.innerHTML=`<span>${OR[i].e}</span>${OR[i].n}`;
+   b.onclick=()=>{if(i===oIdx){b.classList.add('used');const s=$(`.slot[data-i="${i}"]`);s.classList.add('done');s.innerHTML=`<b>${OR[i].e}</b>${OR[i].n}`;speak(OR[i].n+'，'+OR[i].d);oIdx++;if(oIdx===OR.length)later(showOrder,1400)}else{b.classList.remove('bad');void b.offsetWidth;b.classList.add('bad');speak('再想想看，誰先出手？')}};c.appendChild(b)});}
+function showOrder(){$('#cards').style.display='none';const t=$('#rtable');t.innerHTML='<div class="h">小幫手</div><div class="h">怎麼對付老虎</div><div class="h">想一想：用了自己的什麼特點？</div>'+OR.map(r=>`<div class="p">${r.e} ${r.n}</div><div>${r.d}</div><div class="f">${r.f}<span class="cover">點我看</span></div>`).join('');
+  t.querySelectorAll('.f').forEach((f,i)=>f.onclick=()=>{f.classList.toggle('open');if(f.classList.contains('open'))speak(OR[i].f)});t.classList.add('on');}
+
+/* ---------- 5W ---------- */
+const W5=[["人","豆粥婆婆、老虎，還有幫忙的蛋、栗子、木背架、泡菜缸、白年糕、藍蟹、草蓆（課文把牠們當成人來寫）"],["事","老虎要吃婆婆，大家一起想辦法，把老虎趕走"],["時","有一天（在田裡）→ 冬至那天 → 天剛黑"],["地","韓國，婆婆的紅豆田、婆婆家"],["物","紅豆、豆粥、水缸"]];
+(function(){const g=$('#wgrid');W5.forEach(r=>{g.insertAdjacentHTML('beforeend',`<div class="k">${r[0]}</div>`);const d=document.createElement('div');d.className='cell';d.tabIndex=0;d.innerHTML=`${r[1]}<div class="cover">點我看「${r[0]}」</div>`;d.onclick=()=>{d.classList.toggle('open');if(d.classList.contains('open'))speak(r[1])};d.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();d.click()}};g.appendChild(d)})})();
+const QZ=[["豆粥婆婆","人"],["冬至那天","時"],["天剛黑","時"],["有一天","時"],["韓國","地"],["田裡","地"],["婆婆家","地"],["紅豆","物"],["豆粥","物"],["水缸","物"],["煮豆粥","事"],["商量辦法","事"],["趕走老虎","事"]];
+let qList=[],qi=0;
+function startQuiz(){qList=[...QZ].sort(()=>Math.random()-.5).slice(0,8);qi=0;$('#quiz').classList.add('on');nextQ();}
+function nextQ(){const fb=$('#qfb');fb.textContent='';if(qi>=qList.length){$('#qword').textContent='全部完成！🎉';$('#qbtns').innerHTML='';speak('全部完成，你好棒');return}
+  const [w,a]=qList[qi];$('#qword').textContent=w;speak(w);const b=$('#qbtns');b.innerHTML='';
+  ["人","事","時","地","物"].forEach(k=>{const x=document.createElement('button');x.textContent=k;x.onclick=()=>{if(k===a){fb.textContent='答對了！「'+w+'」是「'+a+'」 ⭐';fb.style.color='#A3263A';speak('答對了');qi++;setTimeout(nextQ,1400)}else{fb.textContent='再想想看喔！';fb.style.color='#7A6A5A';}};b.appendChild(x)});}
+$('#qclose').onclick=()=>$('#quiz').classList.remove('on');
+
+/* ---------- steps ---------- */
+const S=[
+ {sc:'s1',tag:'豆粥婆婆',no:'第1段',time:'很久以前・韓國',text:'[[韓國]]有位種紅豆的[[婆婆]]，煮的豆粥令人[[齒頰留香]]，大家都叫她豆粥婆婆。',
+  enter(){},
+  acts:[['📍 韓國在哪裡？',()=>{const m=$('#mapCard');m.style.opacity=m.style.opacity==='1'?0:1}],['🥣 煮豆粥',()=>{say1('婆婆用自己種的紅豆煮豆粥')}],['😋 齒頰留香',()=>{say1('齒頰留香<small>吃完了，嘴巴裡還香香的</small>','gold');bubbles(['好香！','好好吃！','還想再吃！'],{x:65,y:35,w:25,h:15})}]]},
+ {sc:'s2',tag:'遇見老虎',no:'第2段',time:'有一天・紅豆田',text:'有一天，婆婆正彎身看著田裡的紅豆。忽然間{{飛砂走石}}，她一回頭，活生生的「王」字、閃閃發光的虎眼和[[陰森森]]的虎牙就在眼前，嚇得她[[面無血色]]。',
+  enter(){$('#gm2').querySelector('g').classList.add('bow')},
+  acts:[['🌪️ 飛砂走石',()=>{replay($('#S2'),'storm',3200)}],['👀 一回頭',()=>{$('#S2').classList.add('tigerin');$('#gm2').querySelector('g').classList.remove('bow');later(()=>say1('「王」字、閃閃的虎眼、陰森森的虎牙！'),800)}],['😱 面無血色',()=>{$('#S2').classList.add('tigerin');const g=$('#gm2').querySelector('g');g.classList.remove('bow');g.classList.add('pale');replay(g,'shake',1200);say1('嚇得臉都白了')}]]},
+ {sc:'s2',tag:'苦苦哀求',no:'第3段',time:'有一天・紅豆田',text:'「(@感嘆|d1|山神爺呀！@)等到[[冬至]]，我喝過豆粥，您再吃我好嗎？」雖然{{虎口逃生}}很難，但是她仍然[[苦苦哀求]]。(@擬人|d2|「嗯，好吧！」老虎也想在冬至[[品嘗]]熱呼呼的豆粥，便答應了老婆婆。@)',
+  enter(){$('#S2').classList.add('tigerin');$('#gm2').querySelector('g').classList.add('pale')},
+  acts:[['🙏 苦苦哀求',()=>{const g=$('#gm2').querySelector('g');g.classList.add('bow');$('#S2').classList.add('cal');bubbleAt('gm2 > g','婆婆','山神爺呀！等到冬至，我喝過豆粥，您再吃我好嗎？',4500,60);speak('山神爺呀！等到冬至，我喝過豆粥，您再吃我好嗎？',1.3)}],['🥣 老虎也想喝',()=>{$('#S2').classList.add('think');say1('老虎也想品嘗熱呼呼的豆粥')}],['🤝 嗯，好吧！',()=>{$('#S2').classList.add('think');bubbleAt('tiger2W > g','老虎','嗯，好吧！',3000);speak('嗯，好吧！',.5);const g=$('#gm2').querySelector('g');later(()=>{g.classList.remove('bow','pale');},1500)}]]},
+ {sc:'h',tag:'婆婆哭了',no:'第4段',time:'冬至那天',house:'p4',text:'冬至那天，婆婆煮好豆粥，就坐在[[草蓆]]上放聲大哭。(@擬人|d3|「婆婆，你為什麼哭呢？」蛋和[[栗子]]滾動著身子問。@)婆婆淚流滿面：「一吃完粥，老虎就要吃我了！」',
+  acts:[['😭 放聲大哭',()=>{cl('h-gm','cry');bubbles(['嗚嗚……','嗚哇——'],{x:45,y:30,w:15,h:10})}],['🥚🌰 蛋和栗子滾過來',()=>{cl('h-egg','roll');cl('h-chest','roll');pos('h-egg',-170,300,2000);pos('h-chest',-140,300,2000);later(()=>{cl('h-egg','roll',false);cl('h-chest','roll',false);bubbleAt('h-egg','蛋和栗子','婆婆，你為什麼哭呢？',3500);speak('婆婆，你為什麼哭呢？',1.6)},2000)}],['💬 婆婆說',()=>{bubbleAt('h-gm','婆婆','一吃完粥，老虎就要吃我了！',4000);speak('一吃完粥，老虎就要吃我了！',1.3)}]]},
+ {sc:'h',tag:'大家來幫忙',no:'第5段',time:'冬至那天',house:'p5',long:1,text:'(@設問,擬人|d4|「吃你？哪有這種事！」[[木背架]]氣呼呼的說。@)(@感嘆|d5|「竟然比我們還[[橫]]！即便牠來了，我們也不怕！」@)「放心，我們有辦法！」{{泡菜缸}}和白年糕滾了過來。[[藍蟹]]們紛紛爬出[[水缸]]。(@擬人|d6|「別在我身上又跳又爬的！不光你們有辦法，我也有法子。」草蓆說。@)',
+  acts:[['🪜 木背架生氣了',()=>{cl('h-jige','angry');pos('h-jige',-80,0,1400);later(()=>{replay($('#h-jige'),'jump',800);bubbleAt('h-jige','木背架','吃你？哪有這種事！竟然比我們還橫！',4000,-60);speak('吃你？哪有這種事！竟然比我們還橫！即便牠來了，我們也不怕！',.6)},1400)}],['🏺🍡 泡菜缸和年糕滾來',()=>{cl('h-kim','roll');cl('h-cake','roll');pos('h-kim',-280,0,2000);pos('h-cake',340,140,2000);later(()=>{cl('h-kim','roll',false);cl('h-cake','roll',false);bubbleAt('h-cake','泡菜缸和白年糕','放心，我們有辦法！',3500);speak('放心，我們有辦法！',1.2)},2000)}],['🦀 藍蟹爬出水缸',()=>{['h-crab1','h-crab2','h-crab3'].forEach((c,i)=>{vis(c,1);later(()=>{cl(c,'hop');pos(c,[420,450,480][i],[118,125,118][i],2200)},i*300)});later(()=>['h-crab1','h-crab2','h-crab3'].forEach(c=>cl(c,'hop',false)),3200)}],['🟨 草蓆說話',()=>{$('#matFlat').classList.add('angry');['h-crab1','h-crab2','h-crab3'].forEach(c=>cl(c,'hop'));later(()=>{const s=$('#stage').getBoundingClientRect(),b=$('#matFlat').getBoundingClientRect();const d=ov('<b>草蓆</b>別在我身上又跳又爬的！不光你們有辦法，我也有法子。',{left:Math.max(8,b.left-s.left)+'px',top:Math.max(8,b.top-s.top-110)+'px'},'bubble');later(()=>d.remove(),4500)},60);speak('別在我身上又跳又爬的！不光你們有辦法，我也有法子。',.9)}]]},
+ {sc:'h',tag:'商量辦法',no:'第6段',time:'冬至那天',house:'p6',text:'婆婆聽完，抹了淚，歡喜的請大家一起喝粥。他們{{你一言，我一語}}商量著，吃過粥就各自就位等著老虎。',
+  acts:[['🥣 一起喝粥',()=>{say1('婆婆抹了淚，歡喜的請大家一起喝粥 🥣');['h-egg','h-chest','h-cake','h-jige','h-kim'].forEach(c=>cl(c,'happy'))}],['💬 你一言，我一語',()=>{bubbles(['我躲架子上！','我在門邊！','我躲水缸裡！','我在灶上！','我來捲牠！','我會滾！'],{x:20,y:15,w:60,h:35,gap:450})}],['📍 各自就位',()=>{const ids=['h-egg','h-chest','h-cake','h-jige','h-kim','h-gm'];ids.forEach((c,i)=>later(()=>pos(c,0,0,1600),i*300));['h-crab1','h-crab2','h-crab3'].forEach((c,i)=>{pos(c,0,0,1800);later(()=>vis(c,0),1900)});
+    later(()=>{const s=$('#stage').getBoundingClientRect();[['h-chest','栗子'],['h-egg','蛋'],['h-cake','白年糕'],['h-jar','藍蟹（水缸裡）'],['h-jige','木背架'],['h-kim','泡菜缸']].forEach(([id,n])=>{const b=$('#'+id+' .bd').getBoundingClientRect();const d=ov(n,{left:(b.left-s.left+b.width/2-30)+'px',top:(b.top-s.top-34)+'px',fontSize:'2.2vh',padding:'.2vh .6vw'},'badge gold')})},2600)}]]},
+ {sc:'h',tag:'老虎來了',no:'第7段',time:'冬至・天剛黑',house:'p7',long:1,text:'天剛黑，老虎便進了門：「老婆婆，我來了！」屋內[[黑漆漆]]、靜悄悄的。突然，栗子先往虎頭敲了一記。接著，「ㄆㄚ！」的一聲，蛋打在老虎的眼睛上。最後，熱年糕跳起，封住虎口。老虎滿頭大汗，滿臉熱呼呼、[[黏答答]]，怎麼也抓不掉。',
+  seq:[
+   ['🐯 老虎進門',()=>{vis('h-tiger',1);cl('h-tiger','glow');cl('h-tiger','run');pos('h-tiger',0,0,2200);later(()=>{cl('h-tiger','run',false);bubbleAt('h-tiger','老虎','老婆婆，我來了！',3000);speak('老婆婆，我來了！',.5)},2200)}],
+   ['🌰 栗子敲虎頭',()=>{pos('h-chest',-20,170,500);later(()=>{temp('咚！',{left:'48%',top:'30%'},'bub',1500);replay($('#h-tiger'),'flinch',900);pos('h-chest',0,280,600)},520)}],
+   ['🥚 ㄆㄚ！蛋打眼睛',()=>{pos('h-egg',-130,168,500);later(()=>{vis('h-egg',0);cl('h-tiger','splat');temp('ㄆㄚ！',{},'huge',1500);replay($('#h-tiger'),'flinch',900)},520)}],
+   ['🍡 熱年糕封虎口',()=>{pos('h-cake',220,58,700);later(()=>{vis('h-cake',0);cl('h-tiger','seal');cl('h-tiger','sweat');replay($('#h-tiger'),'flinch',1200);say1('老虎滿頭大汗<small>滿臉熱呼呼、黏答答，怎麼也抓不掉</small>')},720)}]]},
+ {sc:'h',tag:'趕走老虎',no:'第8段',time:'冬至・天剛黑',house:'p8',long:1,text:'老虎一頭泡入水缸，卻被藍蟹們齊力夾住虎鼻。(@感嘆|d7|「[[好痛]]！」@)老虎痛得在草蓆上直跳腳。(@擬人|d8|草蓆翻身捲住了老虎@)，嚇得牠[[拚命]]奔逃。門邊的木背架伸出腳來，老虎因此摔進泡菜缸。缸一滾，老虎就被滾得好遠、好遠……。',
+  seq:[
+   ['💦 一頭泡入水缸',()=>{cl('h-tiger','run');pos('h-tiger',-360,0,1600);later(()=>{cl('h-tiger','run',false);cl('h-tiger','dip');temp('咕嚕咕嚕',{left:'14%',top:'38%'},'bub',1500)},1600)}],
+   ['🦀 藍蟹夾虎鼻',()=>{cl('h-tiger','pinch');later(()=>{bubbleAt('h-tiger','老虎','好痛！',2000);speak('好痛！',.5)},300)}],
+   ['🦶 草蓆上直跳腳',()=>{cl('h-tiger','dip',false);pos('h-tiger',-40,0,900);later(()=>{cl('h-tiger','jump');later(()=>cl('h-tiger','jump',false),720);later(()=>{cl('h-tiger','jump',false);void $('#h-tiger').getBBox();cl('h-tiger','jump')},760)},900)}],
+   ['🟨 草蓆捲住老虎',()=>{cl('h-tiger','jump',false);$('#matFlat').classList.add('matgone');cl('h-tiger','rolled');temp('捲！',{left:'55%',top:'35%'},'bub',1500)}],
+   ['🏃 拚命奔逃',()=>{cl('h-tiger','rolled',false);cl('h-tiger','run');pos('h-tiger',150,0,1200);later(()=>{cl('h-jige','legout');cl('h-tiger','run',false);cl('h-tiger','trip');temp('絆倒！',{left:'70%',top:'40%'},'bub',1500)},1200)}],
+   ['🏺 摔進泡菜缸',()=>{pos('h-tiger',260,-40,600);later(()=>{vis('h-tiger',0);cl('h-kim','tailshow');replay($('#h-kim'),'shake',800)},600)}],
+   ['🌀 缸一滾，好遠好遠……',()=>{cl('h-kim','roll');pos('h-kim',700,0,3000);later(()=>say1('老虎被滾得好遠、好遠……'),1600)}]]},
+ {sc:'end',tag:'從此以後',no:'第9段',time:'從此以後',text:'從此，老虎再也不敢到婆婆家了。',
+  acts:[['🎉 大家好開心',()=>bubbles(['耶！','成功了！','謝謝大家！','耶——！'],{x:10,y:40,w:50,h:20})]]},
+ {sc:'order',tag:'誰先出手？',no:'統整一',text:'老虎進門以後，小幫手們一個接一個出手。請按照課文的順序，點一點小幫手！排好以後，想一想：每個小幫手用了自己的什麼特點？',
+  enter(){startOrder()},acts:[['🔄 重新排',startOrder],['📋 直接看答案',()=>{$$('.slot').forEach((s,i)=>{s.classList.add('done');s.innerHTML=`<b>${OR[i].e}</b>${OR[i].n}`});showOrder()}]]},
+ {sc:'w',tag:'人事時地物',no:'統整二',text:'找一找課文裡的人、事、時、地、物。點一點黃色的格子，看看答案；也可以按「考考你」來練習分類。',
+  enter(){$$('.cell').forEach(c=>c.classList.remove('open'));$('#quiz').classList.remove('on')},
+  acts:[['📖 全部打開',()=>$$('.cell').forEach(c=>c.classList.add('open'))],['🙈 全部蓋起來',()=>$$('.cell').forEach(c=>c.classList.remove('open'))],['🎯 考考你',startQuiz]]}
+];
+
+
+/* ===== 修辭 ===== */
+function rhStrip(t){return String(t).replace(/\(@[^|@]+\|[^|@]+\|/g,'').replace(/@\)/g,'')}
+const RH={'擬人':['p','把不是人的東西，寫得像人一樣：會說話、會感覺、會做事。'],'譬喻':['m','用另一樣相像的東西來比方，常用「像、好像、有如、就像、是」。'],'感嘆':['e','用「！」或「啊、呀、唉、哇……」，表達強烈的感情，像高興、驚訝、難過。'],'設問':['q','用問句引起注意，或說出心裡的疑問；有時自己問、自己答，有時問了不回答。']};
+const RHWHY={"d1": "「呀！」表達婆婆害怕又著急，大聲呼喊的心情。", "d2": "老虎像人一樣會說話，還想喝豆粥。", "d3": "蛋和栗子本來不會說話，這裡卻像人一樣關心婆婆、問問題。", "d4": "「吃你？」是反問，意思是「怎麼可以吃你！」；木背架會說話、會生氣，也是擬人。", "d5": "用兩個「！」表達小幫手們生氣又勇敢的心情。", "d6": "草蓆像人一樣會說話、會抱怨。", "d7": "「好痛！」表達老虎被夾住鼻子時痛得受不了。", "d8": "草蓆像人一樣會「翻身」，還能捲住老虎。"};
+const RQ=[["「婆婆，你為什麼哭呢？」蛋和栗子滾動著身子問。", "擬人", 1], ["「吃你？哪有這種事！」", "設問", 1], ["「竟然比我們還橫！即便牠來了，我們也不怕！」", "感嘆", 1], ["「別在我身上又跳又爬的！」草蓆說。", "擬人", 1], ["「好痛！」", "感嘆", 1]].concat([['「天上的白雲，像一團團棉花糖。」','譬喻',0],['「太陽公公笑咪咪的看著大家。」','擬人',0],['「哇！雪花好美啊！」','感嘆',0],['「冬天為什麼要多穿衣服？因為天氣冷，容易著涼。」','設問',0],['「小雨點在窗戶上跳舞。」','擬人',0],['「雪地白得像鋪了一層糖粉。」','譬喻',0]]);
+let rhOn=false,rqList=[],rqi=0;
+function rhWrap(t){return String(t).replace(/\(@([^|@]+)\|([^|@]+)\|(.+?)@\)/g,(m,types,key,inner)=>{const ts=types.split(',');return `<span class="rh" role="button" tabindex="0" data-t="${types}" data-k="${key}" data-l="${ts.join('＋')}" style="--rc:var(--c-${RH[ts[0]][0]})">${inner}</span>`})}
+function showRh(types,key,text){const p=$('#pop');p.innerHTML=`<h3>修辭：${types.join('＋')}</h3>${types.map(t=>`<div><b style="color:var(--c-${RH[t][0]})">${t}</b>：${RH[t][1]}</div>`).join('')}<div class="why">${RHWHY[key]||''}</div><div class="row"><button id="pSay">🔊 念這句</button><button id="pClose">關閉</button></div>`;p.classList.add('on');$('#pSay').onclick=()=>speak(text);$('#pClose').onclick=()=>p.classList.remove('on');}
+function bindRh(c){c.querySelectorAll('.rh').forEach(r=>{const f=e=>{if(!rhOn)return;e.stopPropagation();showRh(r.dataset.t.split(','),r.dataset.k,r.textContent)};r.addEventListener('click',f);r.addEventListener('keydown',e=>{if(e.key==='Enter')f(e)})});}
+function rhToggle(){rhOn=!rhOn;$('#txt').classList.toggle('rhon',rhOn);$('#rhleg').classList.toggle('legon',rhOn);$('#rhBtn').classList.toggle('on',rhOn);$('#rhBtn').setAttribute('aria-pressed',rhOn);if(rhOn&&!$('#txt .rh')){const d=document.createElement('div');d.className='badge';d.textContent='這一頁沒有標示修辭，換一段看看！';Object.assign(d.style,{left:'50%',top:'45%',transform:'translateX(-50%)'});$('#ov').appendChild(d);setTimeout(()=>d.remove(),2000)}}
+function buildRh(){const c=$('#rcards');c.innerHTML='';Object.entries(RH).forEach(([n,[k,d]])=>{const b=document.createElement('button');b.className='rcard';b.style.setProperty('--rc',`var(--c-${k})`);b.innerHTML=`<h4>${n}</h4><p>${d}</p>`;b.onclick=()=>{$$('.rcard').forEach(x=>x.classList.toggle('on',x===b));const ex=RQ.filter(r=>r[1]===n&&r[2]);const pr=RQ.find(r=>r[1]===n&&!r[2]);$('#rex').innerHTML=ex.length?`<b style="color:var(--c-${k})">課文裡的${n}：</b>${ex.map(e=>`<div class="q">${e[0]}</div>`).join('')}`:`<b style="color:var(--c-${k})">這一課沒有用到「${n}」，看看這個例子：</b><div class="q">${pr[0]}</div>`;speak(n+'。'+d)};c.appendChild(b)});$('#rex').innerHTML='<div style="font-size:3vh;color:#55636A">點上面的卡片，認識四種修辭；或按下方「考考你」來練習。</div>';}
+function rhQuiz(){rqList=[...RQ].sort(()=>Math.random()-.5);rqi=0;rhAsk();}
+function rhAsk(){const ex=$('#rex');if(rqi>=rqList.length){ex.innerHTML='<div class="q">全部完成！🎉</div>';speak('全部完成，你好棒');return}
+  const [s,a,fromText]=rqList[rqi];ex.innerHTML=`<div><span class="tagq" style="background:${fromText?'#2F6F78':'#9AA6B5'}">${fromText?'課文':'練習題'}</span>第 ${rqi+1}／${rqList.length} 題：這句用了什麼修辭？</div><div class="q">${s}</div><div class="opts"></div><div class="fb"></div>`;speak(s);
+  Object.entries(RH).forEach(([n,[k]])=>{const b=document.createElement('button');b.textContent=n;b.style.setProperty('--rc',`var(--c-${k})`);b.onclick=()=>{const fb=ex.querySelector('.fb');if(n===a){fb.textContent='答對了！這是「'+a+'」⭐';fb.style.color='#2E8B57';speak('答對了');rqi++;setTimeout(rhAsk,1500)}else{fb.textContent='再想想看：句子裡有沒有「像」「！」「？」，或是把東西寫成人？';fb.style.color='#C8362B'}};ex.querySelector('.opts').appendChild(b)});}
+$('#rhBtn').onclick=rhToggle;
+S.push({sc:'rh',tag:'修辭小教室',no:'統整',text:'認識四種修辭：擬人、譬喻、感嘆、設問。點上面的卡片看說明和課文例句，再按「考考你」練習。也可以回到課文，打開右上方的「🔍 修辭」，找找句子藏在哪裡！',enter(){buildRh()},acts:[['🎯 考考你',rhQuiz],['📖 看說明',buildRh]]});
+
+/* ---------- navigation ---------- */
+const TABS=[['豆粥婆婆',0,1],['遇見老虎',1,2],['哀求',2,3],['哭了',3,4],['來幫忙',4,5],['商量',5,6],['老虎來了',6,7],['趕走老虎',7,8],['從此',8,9],['誰先出手',9],['人事時地物',10]];
+TABS.push(['修辭小教室',S.length-1]);TABS.forEach(([n,i,num],k)=>{if(k===9)$('#tabs').insertAdjacentHTML('beforeend','<span class="sep">｜</span>');else if(k>0&&k<9)$('#tabs').insertAdjacentHTML('beforeend','<span class="sep">›</span>');
+  const b=document.createElement('button');b.innerHTML=(num?`<i>${num}</i>`:'')+n;b.onclick=()=>go(i);b.dataset.i=i;$('#tabs').appendChild(b)});
+let cur=0,seqIdx=0;
+function resetSimple(){$('#S1').setAttribute('class','');$('#mapCard').style.opacity=0;$('#S2').setAttribute('class','');const g=$('#gm2').querySelector('g');g.setAttribute('class','');}
+function go(i){
+  stopAll();cur=Math.max(0,Math.min(S.length-1,i));const st=S[cur];
+  $$('.scene').forEach(s=>s.classList.toggle('on',s.id==='sc-'+st.sc));
+  resetSimple();
+  if(st.house){houseReset();BASE[st.house]();instantDone();}
+  const tc=$('#tchip');if(st.time){tc.textContent='🕒 '+st.time;tc.classList.add('on')}else tc.classList.remove('on');
+  $('#ptag').textContent=st.tag;$('#pno').textContent=st.no;
+  const t=$('#txt');t.classList.toggle('long',!!st.long);
+  t.innerHTML=rhWrap(st.text).replace(/\[\[(.+?)\]\]/g,(m,w)=>`<span class="v" role="button" tabindex="0" data-w="${w}">${w}</span>`).replace(/\{\{(.+?)\}\}/g,(m,w)=>`<span class="v x" role="button" tabindex="0" data-w="${w}">${w}</span>`);
+  t.querySelectorAll('.v').forEach(v=>{v.onclick=()=>showVocab(v.dataset.w);v.onkeydown=e=>{if(e.key==='Enter')showVocab(v.dataset.w)}});
+  bindRh(t);t.scrollTop=0;t.scrollLeft=0;
+  const A=$('#acts');A.innerHTML='';seqIdx=0;
+  if(st.seq){
+    const btns=[];
+    const run=k=>{if(k!==seqIdx)return false;st.seq[k][1]();btns[k].classList.add('done');seqIdx++;return true};
+    const nb=document.createElement('button');nb.className='main';nb.textContent='▶ 下一個動作';nb.onclick=()=>{if(seqIdx<st.seq.length)run(seqIdx)};A.appendChild(nb);
+    const ab=document.createElement('button');ab.textContent='🎬 連續演出';ab.onclick=()=>{go(cur);const S2=S[cur];let d=0;S2.seq.forEach((x,k)=>{later(()=>{if(seqIdx===k){x[1]();$$('#acts .sq')[k].classList.add('done');seqIdx++}},d);d+=k===0?2800:2300})};A.appendChild(ab);
+    st.seq.forEach(([l],k)=>{const b=document.createElement('button');b.className='sq';b.textContent=l;b.onclick=()=>{if(!run(k))temp('要照順序喔！先按「'+st.seq[seqIdx][0]+'」',{left:'50%',top:'45%',transform:'translateX(-50%)'},'badge',1800)};A.appendChild(b);btns.push(b)});
+    const rb=document.createElement('button');rb.textContent='🔁 重來';rb.onclick=()=>go(cur);A.appendChild(rb);
+  } else st.acts.forEach(([l,f])=>{const b=document.createElement('button');b.textContent=l;b.onclick=f;A.appendChild(b)});
+  let active=0;TABS.forEach(([n,ti])=>{if(cur>=ti)active=ti});
+  $$('#tabs button').forEach(b=>b.classList.toggle('on',+b.dataset.i===active));
+  $('#prev').disabled=cur===0;$('#next').disabled=cur===S.length-1;
+  st.enter&&st.enter();
+}
+$('#prev').onclick=()=>go(cur-1);$('#next').onclick=()=>go(cur+1);
+$('#say').onclick=()=>speak(S[cur].text);
+document.addEventListener('keydown',e=>{if(e.target.closest('.v,.cell'))return;if(e.key==='ArrowRight'||e.key==='PageDown')go(cur+1);if(e.key==='ArrowLeft'||e.key==='PageUp')go(cur-1);});
+try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>{}}catch(e){}
+go(0);
+</script>
+</body>
+</html>

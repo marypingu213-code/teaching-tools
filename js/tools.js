@@ -38,4 +38,12 @@ window.TOOLBOX_TOOLS = [
     subject: "國語文",
     status: "ready",
   },
+  {
+    id: "g4-chinese",
+    href: "g4-chinese/",
+    title: "4上國語課文大廳",
+    summary: "四年級上學期的國語課文動起來。目前有第七課到第十二課。",
+    subject: "國語文",
+    status: "ready",
+  },
 ];
