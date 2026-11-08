@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>二上第十一課 幸福湯圓｜課文動起來</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --kai:"LXGW WenKai TC","BiauKai","DFKai-SB","標楷體","Kaiti TC","Noto Serif TC","Noto Serif CJK TC","PMingLiU",serif;
+  --bg:#F6ECE6; --panel:#FFFFFF; --ink:#2E2226; --soft:#6E5E62;
+  --rose:#D9466A; --orange:#E8762A; --gold:#E8A33A; --teal:#2F8A9A;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --bg:#211A1C; --panel:#2D2427; --ink:#F6EEF0; --soft:#C6B4B9; color-scheme:dark; }
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:var(--kai);background:var(--bg);color:var(--ink);display:grid;grid-template-rows:auto 1fr;overflow:hidden;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+header{display:flex;align-items:center;gap:1.2vw;padding:1vh 1.6vw .8vh;flex-wrap:wrap}
+h1{margin:0;font-size:4.4vh;color:var(--rose);letter-spacing:.12em;white-space:nowrap}
+h1 small{font-size:.5em;color:var(--soft);letter-spacing:.05em;margin-right:.4em}
+nav{display:flex;gap:.25vw;flex-wrap:wrap;align-items:center}
+nav button{font:inherit;font-size:2.4vh;padding:.5vh .7vw;border-radius:10px;border:2px solid transparent;background:transparent;color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:.3em}
+nav button i{font-style:normal;display:inline-grid;place-items:center;width:2.7vh;height:2.7vh;border-radius:50%;background:var(--rose);color:#fff;font-size:1.7vh}
+nav button.on{background:var(--panel);border-color:var(--rose);color:var(--rose);font-weight:700}
+nav .sep{color:var(--soft)}
+main{display:grid;grid-template-columns:1fr 46vh;gap:1.2vw;padding:0 1.6vw 1.4vh;min-height:0}
+.stagewrap{display:grid;grid-template-rows:1fr auto;gap:1vh;min-height:0}
+.stage{position:relative;border-radius:20px;overflow:hidden;background:#F0E0D8;min-height:0}
+.scene{position:absolute;inset:0;display:none}
+.scene.on{display:block}
+.scene>svg{width:100%;height:100%;display:block}
+#ov{position:absolute;inset:0;pointer-events:none;z-index:7}
+.acts{display:flex;flex-wrap:wrap;gap:.7vw;min-height:6vh;align-items:center}
+.acts button{font:inherit;font-size:2.7vh;padding:.9vh 1.4vw;border-radius:999px;border:3px solid var(--rose);background:var(--panel);color:var(--ink);cursor:pointer}
+.acts button:hover{background:var(--rose);color:#fff}
+.acts button.main{background:var(--rose);color:#fff;font-weight:700}
+.acts .hint{font-size:2.3vh;color:var(--soft)}
+button:focus-visible,.v:focus-visible,.ln:focus-visible{outline:4px solid var(--gold);outline-offset:2px}
+aside{background:var(--panel);border-radius:20px;padding:1.6vh 1.4vh;display:grid;grid-template-rows:auto minmax(0,1fr) auto;grid-template-columns:minmax(0,1fr);gap:1vh;min-height:0}
+.ptitle{display:flex;justify-content:space-between;align-items:center;font-size:2.6vh;color:var(--soft)}
+.ptitle b{color:var(--rose);font-size:1.15em}
+.txt{writing-mode:vertical-rl;font-size:4.2vh;line-height:1.7;letter-spacing:.08em;width:100%;height:100%;min-height:0;overflow:auto;display:block}
+.txt.long{font-size:3.45vh}
+.ln{cursor:pointer;border-radius:8px;transition:background .3s;padding:.1em 0}
+.ln:hover{background:rgba(0,0,0,.05)}
+.ln.on{background:#FFE7A8;color:#2E2226}
+.ln.done{color:var(--soft)}
+.ln.date{display:block;font-size:.72em;color:var(--teal)}
+.guide .ln{cursor:default;display:block;font-size:.85em}
+.v{border:2px solid var(--gold);border-radius:6px;cursor:pointer;color:#1F6FA0;padding:.1em 0}
+@media (prefers-color-scheme: dark){ .v{color:#86C9F0} .ln.on .v{color:#1F6FA0} }
+.pnav{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:.8vh}
+.pnav button{font:inherit;font-size:2.6vh;padding:1vh 0;border-radius:12px;border:2px solid var(--soft);background:transparent;color:var(--ink);cursor:pointer}
+.pnav .say{background:var(--rose);border-color:var(--rose);color:#fff;font-weight:700}
+.pnav button:disabled{opacity:.35}
+#pop{position:fixed;left:3vw;bottom:13vh;max-width:48vw;background:#fff;color:#2E2226;border:4px solid var(--gold);border-radius:16px;padding:1.4vh 1.6vw;font-size:3.2vh;line-height:1.6;box-shadow:0 8px 24px rgba(0,0,0,.25);display:none;z-index:20}
+#pop.on{display:block;animation:pop .3s}
+#pop h3{margin:0 0 .4vh;color:#D9466A;font-size:1.3em}
+#pop .row{display:flex;gap:1vw;margin-top:.8vh}
+#pop button{font:inherit;font-size:.85em;border-radius:10px;border:2px solid #D9466A;background:#fff;color:#D9466A;padding:.3vh 1vw;cursor:pointer}
+
+.badge{position:absolute;background:#fff;color:#2E2226;border:4px solid var(--rose);border-radius:14px;padding:.6vh 1.2vw;font-size:3.2vh;font-weight:700;animation:pop .45s cubic-bezier(.3,1.6,.6,1);white-space:nowrap;z-index:8}
+.badge.gold{border-color:var(--gold)}.badge.teal{border-color:var(--teal)}
+.badge small{display:block;font-weight:400;font-size:.78em;color:#6E5E62}
+.bubble{position:absolute;background:#fff;color:#2E2226;border:4px solid #2E2226;border-radius:18px;padding:.8vh 1.2vw;font-size:3vh;line-height:1.5;max-width:46%;animation:pop .3s cubic-bezier(.3,1.6,.6,1);z-index:8}
+.bubble b{display:block;font-size:.8em;color:#D9466A}
+.bub{position:absolute;font-size:5.2vh;font-weight:700;color:#fff;-webkit-text-stroke:2px #D9466A;paint-order:stroke fill;animation:floatup 1.9s ease-out forwards;z-index:8}
+@keyframes floatup{from{transform:translateY(0) scale(.6);opacity:0}20%{opacity:1;transform:translateY(-10px) scale(1)}to{transform:translateY(-90px);opacity:0}}
+.intoBowl{position:absolute;font-size:4.6vh;font-weight:700;color:#D9466A;animation:intob 1.8s ease-in forwards;z-index:8}
+@keyframes intob{from{transform:translate(0,0) scale(1);opacity:1}to{transform:translate(var(--dx),var(--dy)) scale(.3);opacity:0}}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+.lbl{font-family:var(--kai);font-weight:700}
+
+/* kitchen */
+.bd{transform-box:fill-box;transform-origin:50% 100%}
+@keyframes bob{to{transform:translateY(-8px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.rain line{animation:rainf .6s linear infinite}
+@keyframes rainf{from{transform:translateY(-30px)}to{transform:translateY(40px)}}
+#suns{opacity:0;transition:opacity .8s}#K.s1.a2 #suns{opacity:1}
+.isun{transform-box:fill-box;transform-origin:center;animation:sunp 1.4s ease-in-out infinite alternate}
+@keyframes sunp{from{transform:scale(.85)}to{transform:scale(1.15)}}
+#K.s1.a3 .kid .bd{animation:bob .3s ease-in-out infinite alternate}
+.eyes2{display:none}
+#K.s2.a0 .kid .eyes1{display:none}#K.s2.a0 .kid .eyes2{display:inline}
+#K.s2.a2 .kid .eyes1,#K.s2.a2 .kid .eyes2{}
+.ball{transform-box:fill-box;transform-origin:center;transform:scale(0);transition:transform .6s cubic-bezier(.3,1.6,.6,1)}
+#K.s1.a4 #bw,#K.s2 #bw,#K.s3 #bw{transform:scale(1)}
+#K.s2.a1 #bk,#K.s3 #bk{transform:scale(1)}
+#K.s2.a2 #by,#K.s3 #by{transform:scale(1)}
+#K.s2.a3 .bx,#K.s3 .bx{transform:scale(1)}
+#K.s3.a5 .ball{transform:scale(0)}
+#bowlTab{opacity:0;transition:opacity .6s}#K.s1.a4 #bowlTab,#K.s2 #bowlTab,#K.s3 #bowlTab{opacity:1}
+#ses,#pum{opacity:0;transition:opacity .5s}
+#K.s2.a1:not(.a2) #ses{opacity:1}#K.s2.a2:not(.a3) #pum{opacity:1}
+.pour{transform-box:fill-box;transform-origin:100% 100%;animation:pour 1.2s ease-in-out 1}
+@keyframes pour{50%{transform:rotate(-40deg)}}
+#spark2{display:none}#K.s2.a4 #spark2{display:inline}
+.spk{animation:twk 1s ease-in-out infinite}
+@keyframes twk{50%{opacity:.15}}
+#K.s2.a1 #mom .arm,#K.s2.a2 #mom .arm,#K.s2.a3 #mom .arm{animation:knead .35s ease-in-out infinite alternate}
+.arm{transform-box:fill-box;transform-origin:50% 0}
+@keyframes knead{from{transform:rotate(-10deg)}to{transform:rotate(14deg)}}
+#K.s3.a4 .kid .arm{animation:knead .3s ease-in-out infinite alternate}
+#animals{opacity:0;transition:opacity .4s}#K.s3.a5 #animals{opacity:1}
+.ani{transform-box:fill-box;transform-origin:50% 100%;transform:scale(0);transition:transform .5s cubic-bezier(.3,1.6,.6,1)}
+#K.s3.a5 .ani{transform:scale(1)}
+#soup{display:none}#K.s4 #soup{display:inline}
+.steam path{animation:steam 2.4s ease-out infinite}
+@keyframes steam{from{transform:translateY(0);opacity:.9}to{transform:translateY(-50px);opacity:0}}
+.float{animation:flt 2s ease-in-out infinite alternate}
+@keyframes flt{to{transform:translateY(-5px)}}
+#spoon{opacity:0}#K.s4.a2 #spoon{opacity:1;animation:eat 1.4s ease-in-out infinite}
+@keyframes eat{0%,100%{transform:translate(0,0)}50%{transform:translate(-120px,-70px)}}
+#K.s4.a2 #me .bd{animation:bob .7s ease-in-out infinite alternate}
+#hearts4{opacity:0;transition:opacity .6s}#K.s4.a3 #hearts4{opacity:1}
+#K.s4.a3 .kid .mS,#K.s4.a3 #mom .mS{display:none}#K.s4.a3 .mH{display:inline}
+.mH{display:none}
+
+/* html pages */
+.html{background:linear-gradient(#FAF0EC,#FFFCFA)}
+.tw{position:absolute;inset:3%;display:flex;flex-direction:column;gap:1.4vh;color:#2E2226}
+.tdays{display:grid;grid-template-columns:repeat(5,1fr);gap:1vw;align-items:end}
+.tday{background:#fff;border-radius:16px;border:4px solid #D9C4BC;padding:1vh .6vw;text-align:center;cursor:pointer;font:inherit;color:#2E2226}
+.tday .d{font-size:4vh;font-weight:700}
+.tday .w{font-size:2.2vh;color:#6E5E62}
+.tday .lab{font-size:3vh;font-weight:700;min-height:4.2vh;margin-top:.4vh}
+.tday.today{border-color:#D9466A;background:#FFF1F4;transform:translateY(-1vh)}
+.tday.yest{border-color:#2F8A9A}.tday.tom{border-color:#E8762A}
+.tday.yest .lab{color:#2F8A9A}.tday.today .lab{color:#D9466A}.tday.tom .lab{color:#E8762A}
+.tline{height:.8vh;background:#C9B6AE;border-radius:999px;position:relative}
+.tline:after{content:"";position:absolute;right:-1.2vh;top:-1vh;border:1.4vh solid transparent;border-left:1.6vh solid #C9B6AE;border-right:0}
+.tsent{display:grid;grid-template-columns:repeat(3,1fr);gap:1vw}
+.tsent div{background:#fff;border-radius:14px;padding:1vh .8vw;font-size:2.8vh;line-height:1.5;cursor:pointer}
+.tsent b{font-size:1.1em}
+.tq{background:#fff;border-radius:14px;padding:1.2vh 1vw;font-size:3vh;line-height:1.6}
+.tq .opts{display:flex;gap:1vw;margin-top:1vh}
+.tq .opts button{font:inherit;font-size:3.2vh;padding:.6vh 1.6vw;border-radius:12px;border:3px solid #D9466A;background:#fff;color:#2E2226;cursor:pointer;font-weight:700}
+.tq .fb{min-height:4vh}
+.note{font-size:2.6vh;background:#FFF2D6;border-radius:12px;padding:.8vh .8vw;line-height:1.5}
+.sp{position:absolute;inset:3%;display:grid;grid-template-columns:1fr 1.1fr;gap:1.4vw;color:#2E2226}
+.spl,.spr{background:#fff;border-radius:18px;padding:1.4vh 1.2vw;display:flex;flex-direction:column;gap:.8vh;overflow:auto}
+.spl h4,.spr h4{margin:0;font-size:3.2vh;color:#D9466A}
+.pair{display:grid;grid-template-columns:auto 1fr;gap:.5vh .6vw;font-size:2.7vh;align-items:center;background:#FAF4F0;border-radius:12px;padding:.8vh .8vw;cursor:pointer}
+.tagc{color:#fff;border-radius:8px;padding:.1vh .5vw;font-size:2.2vh;font-weight:700;text-align:center}
+.tagc.c{background:#2F8A9A}.tagc.r{background:#E86A8A}
+.pair .full{grid-column:1/-1;font-weight:700}
+.full em,.mysent .g{font-style:normal;color:#2E8B57;font-weight:700}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:.8vh .8vw}
+.mgrid h5{margin:0;font-size:2.5vh;text-align:center}
+.mcard{font:inherit;font-size:2.6vh;padding:.8vh .6vw;border-radius:12px;border:3px solid var(--c);background:#fff;color:#2E2226;cursor:pointer;text-align:left;line-height:1.4}
+.mcard.on{background:var(--c);color:#fff}.mcard.done{opacity:.35;pointer-events:none}
+.mysent{font-size:3.4vh;font-weight:700;background:#FFF8E6;border:4px dashed #E8A33A;border-radius:14px;padding:1vh 1vw;line-height:1.5;min-height:8vh}
+.mysent .bl{color:#B9B2A0}
+.seq{position:absolute;inset:3%;display:grid;grid-template-columns:1.25fr 1fr;gap:1.4vw;color:#2E2226}
+.seql,.seqr{background:#fff;border-radius:18px;padding:1.4vh 1.2vw;display:flex;flex-direction:column;gap:.8vh;overflow:auto}
+.seql h4,.seqr h4{margin:0;font-size:3.2vh;color:#D9466A}
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:.8vw}
+.slot{border:3px dashed #D9C4BC;border-radius:14px;min-height:16vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:2.4vh;text-align:center;padding:.6vh .4vw;line-height:1.35}
+.slot b{font-size:3vh;color:#D9466A}
+.slot.done{border:3px solid #D9466A;background:#FFF4F6;animation:pop .4s}
+.slot .em{font-size:5vh}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:.8vh}
+.card{font:inherit;font-size:2.5vh;border:3px solid #E8762A;border-radius:14px;background:#fff;color:#2E2226;padding:.8vh .6vw;cursor:pointer;line-height:1.4;text-align:left;display:flex;gap:.6vw;align-items:center}
+.card .em{font-size:4.4vh}
+.card.used{visibility:hidden}
+.card.bad{animation:shake .12s 4}
+@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.conn{color:#2E6FB3;font-weight:700}
+.speech{font-size:2.9vh;line-height:1.7;background:#FFF8E6;border-radius:12px;padding:1vh 1vw}
+.idi{position:absolute;inset:3%;display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:auto 1fr;gap:1.2vh 1vw}
+.icard{font:inherit;background:#fff;border:4px solid var(--c);border-radius:18px;padding:1vh .6vw;cursor:pointer;color:#2E2226;display:flex;flex-direction:column;align-items:center;gap:.4vh}
+.icard .em{font-size:5.6vh;line-height:1}
+.icard b{font-size:3.8vh;color:var(--c)}
+.icard small{font-size:2.2vh;color:#6E5E62}
+.icard.on{background:color-mix(in srgb,var(--c) 14%,#fff)}
+.idet{grid-column:1/-1;background:#fff;border-radius:18px;padding:2vh 2vw;color:#2E2226;font-size:3.1vh;line-height:1.7;overflow:auto}
+.idet h3{margin:0 0 .6vh;font-size:4.4vh}
+.idet .mean{background:#EEF6E8;border-radius:12px;padding:.8vh 1vw}
+.idet .ex{background:#FFF2D6;border-radius:12px;padding:.8vh 1vw;margin-top:1vh}
+.idet .lk{background:#FDE7DA;border-radius:12px;padding:.8vh 1vw;margin-top:1vh;font-weight:700;color:#B5481F}
+.idet .opts{display:flex;gap:1vw;flex-wrap:wrap;margin-top:1.4vh}
+.idet .opts button{font:inherit;font-size:3.2vh;padding:1vh 1.6vw;border-radius:14px;border:3px solid #D9466A;background:#fff;color:#2E2226;cursor:pointer;font-weight:700}
+.idet .fb{min-height:4.5vh;margin-top:1.2vh}
+.idet .tg{font-size:2.1vh;color:#fff;border-radius:6px;padding:.1vh .6vw;margin-right:.6vw}
+.blank{display:inline-block;min-width:6em;border-bottom:4px solid #E8762A;text-align:center;color:#E8762A}
+.hz{color:#C8362B;font-size:1.15em}
+
+@media (max-width:820px), (max-aspect-ratio:1/1){
+  body{overflow:auto;display:block}
+  main{grid-template-columns:1fr}
+  .stage{height:60vh}
+  .txt,.txt.long{writing-mode:horizontal-tb;height:auto;font-size:22px}
+  .acts button,.pnav button,nav button{font-size:16px}
+  h1{font-size:26px}
+  .sp,.seq{grid-template-columns:1fr;overflow:auto}.tsent,.tdays{grid-template-columns:1fr 1fr}
+}
+@media (prefers-reduced-motion: reduce){ .rain line,.isun,.steam path,.float{animation:none} }
+a.hall-back{position:fixed;z-index:40;top:0;right:0;font-family:var(--kai);font-size:1.7vh;line-height:1.2;padding:.45vh .8vw;white-space:nowrap;background:var(--panel);color:var(--soft);text-decoration:none;border:1px solid var(--soft);border-top:0;border-right:0;border-bottom-left-radius:12px}a.hall-back:hover,a.hall-back:focus-visible{color:var(--ink)}
+</style>
+</head>
+<body>
+<a class="hall-back" href="../">← 回課文大廳</a>
+<header>
+  <h1><small>二上第十一課</small>幸福湯圓</h1>
+  <nav id="tabs"></nav>
+</header>
+
+<main>
+  <div class="stagewrap">
+    <div class="stage" id="stage">
+      <div class="scene" id="sc-k"><svg id="K" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <div class="scene html" id="sc-time"><div class="tw" id="tw"></div></div>
+      <div class="scene html" id="sc-cause"><div class="sp"><div class="spl" id="cal"></div><div class="spr" id="car"></div></div></div>
+      <div class="scene html" id="sc-seq"><div class="seq"><div class="seql" id="sql"></div><div class="seqr" id="sqr"></div></div></div>
+      <div class="scene html" id="sc-idiom"><div class="idi" id="idi"></div></div>
+      <div id="ov"></div>
+    </div>
+    <div class="acts" id="acts"></div>
+  </div>
+
+  <aside>
+    <div class="ptitle"><span id="ptag"></span><b id="pno"></b></div>
+    <div class="txt" id="txt"></div>
+    <div class="pnav">
+      <button id="prev">◀ 上一頁</button>
+      <button id="say" class="say">🔊 念給我聽</button>
+      <button id="next">下一頁 ▶</button>
+    </div>
+  </aside>
+</main>
+
+<div id="pop"></div>
+
+<script>
+const $=s=>document.querySelector(s);
+const $$=s=>[...document.querySelectorAll(s)];
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs={},parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;}
+let timers=[];let autoOn=false;
+function later(fn,ms){const t=setTimeout(fn,ms);timers.push(t);return t;}
+function stopAll(){timers.forEach(clearTimeout);timers=[];autoOn=false;try{speechSynthesis.cancel()}catch(e){};$('#ov').innerHTML='';$('#pop').classList.remove('on');}
+function ov(html,style,cls='badge'){const d=document.createElement('div');d.className=cls;d.innerHTML=html;Object.assign(d.style,style||{});$('#ov').appendChild(d);return d;}
+function temp(html,style,cls,ms=2000){const d=ov(html,style,cls);setTimeout(()=>d.remove(),ms);return d;}
+function say1(html,cls=''){$('#ov').querySelectorAll('.badge').forEach(b=>b.remove());return ov(html,{left:'3%',top:'4%'},'badge '+cls)}
+function bubbles(words,area){words.forEach((w,i)=>later(()=>temp(w,{left:(area.x+Math.random()*area.w)+'%',top:(area.y+Math.random()*area.h)+'%'},'bub',1950),i*(area.gap||300)))}
+const clean=t=>t.replace(/\[\[|\]\]|\{\{|\}\}/g,'').replace('🌧️','下雨');
+function speak(text,onend){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(clean(text).replace(/ㄇㄧㄠ/g,'喵'));u.lang='zh-TW';u.rate=.72;const v=speechSynthesis.getVoices().find(v=>/zh[-_]TW/i.test(v.lang));if(v)u.voice=v;if(onend)u.onend=onend;speechSynthesis.speak(u);}catch(e){onend&&setTimeout(onend,1500)}}
+function bubbleNear(id,who,text,ms=4000){later(()=>{const n=$('#'+id);if(!n)return;const b=n.getBoundingClientRect(),s=$('#stage').getBoundingClientRect();const d=ov(`<b>${who}</b>${text}`,{},'bubble');const W=d.offsetWidth,H=d.offsetHeight;let x=b.left-s.left+b.width/2-W/2,y=b.top-s.top-H-10;x=Math.max(8,Math.min(s.width-W-8,x));if(y<8)y=8;d.style.left=x+'px';d.style.top=y+'px';later(()=>d.remove(),ms)},60)}
+
+/* ---------- figures ---------- */
+function girl(parent,x,y,s,{shirt,hair='#2A2226',id,cls='kid',bun=false}){const g=el('g',{transform:`translate(${x},${y}) scale(${s})`,class:cls},parent);if(id)g.id=id;const bd=el('g',{class:'bd'},g);
+  bd.innerHTML=`<path d="M-34,0 L-28,-70 L28,-70 L34,0Z" fill="${shirt}"/>
+   <g class="arm"><line x1="-24" y1="-60" x2="-40" y2="-20" stroke="${shirt}" stroke-width="10" stroke-linecap="round"/><circle cx="-41" cy="-17" r="6" fill="#F7D3B8"/></g>
+   <g class="arm"><line x1="24" y1="-60" x2="40" y2="-20" stroke="${shirt}" stroke-width="10" stroke-linecap="round"/><circle cx="41" cy="-17" r="6" fill="#F7D3B8"/></g>
+   <circle cx="0" cy="-100" r="30" fill="#F7D3B8"/>
+   <path d="M-31,-104 q0,-34 31,-34 q31,0 31,34 q-10,-18 -31,-18 q-21,0 -31,18Z" fill="${hair}"/>
+   ${bun?`<circle cx="0" cy="-140" r="13" fill="${hair}"/>`:`<circle cx="-30" cy="-104" r="10" fill="${hair}"/><circle cx="30" cy="-104" r="10" fill="${hair}"/>`}
+   <g class="eyes1"><path d="M-14,-100 q5,-5 10,0 M4,-100 q5,-5 10,0" stroke="#2A2226" stroke-width="3" fill="none" stroke-linecap="round"/></g>
+   <g class="eyes2"><circle cx="-10" cy="-100" r="6" fill="#fff" stroke="#2A2226" stroke-width="1.5"/><circle cx="10" cy="-100" r="6" fill="#fff" stroke="#2A2226" stroke-width="1.5"/><circle cx="-8" cy="-101" r="3.2" fill="#2A2226"/><circle cx="12" cy="-101" r="3.2" fill="#2A2226"/></g>
+   <ellipse cx="-19" cy="-88" rx="7" ry="5" fill="#F59AA8" opacity=".8"/><ellipse cx="19" cy="-88" rx="7" ry="5" fill="#F59AA8" opacity=".8"/>
+   <path class="mS" d="M-7,-86 q7,7 14,0" stroke="#A0422D" stroke-width="2.5" fill="none"/><path class="mH" d="M-9,-88 q9,14 18,0Z" fill="#A0422D"/>`;return g;}
+function tang(parent,x,y,kind,s=1,cls='ani'){const g=el('g',{transform:`translate(${x},${y}) scale(${s})`},parent);const i=el('g',{class:cls},g);
+  if(kind==='cow')i.innerHTML=`<ellipse cx="0" cy="-16" rx="22" ry="17" fill="#FFFFFF" stroke="#D9D2C8" stroke-width="2"/><circle cx="-8" cy="-22" r="5" fill="#2A2226"/><circle cx="9" cy="-10" r="4" fill="#2A2226"/><ellipse cx="0" cy="-6" rx="12" ry="7" fill="#F7B6C2"/><path d="M-20,-30 l-8,-8 M20,-30 l8,-8" stroke="#E8C84A" stroke-width="5" stroke-linecap="round"/><circle cx="-7" cy="-18" r="2" fill="#333"/><circle cx="7" cy="-18" r="2" fill="#333"/>`;
+  if(kind==='fish')i.innerHTML=`<ellipse cx="0" cy="-14" rx="22" ry="13" fill="#F28C28"/><path d="M18,-14 l16,-12 v24Z" fill="#F7B731"/><circle cx="-10" cy="-17" r="3" fill="#fff"/><circle cx="-10" cy="-17" r="1.5" fill="#333"/>`;
+  if(kind==='rab')i.innerHTML=`<ellipse cx="0" cy="-14" rx="18" ry="15" fill="#F7B6C2"/><ellipse cx="-7" cy="-38" rx="5" ry="13" fill="#F7B6C2"/><ellipse cx="7" cy="-38" rx="5" ry="13" fill="#F7B6C2"/><circle cx="-6" cy="-16" r="2" fill="#333"/><circle cx="6" cy="-16" r="2" fill="#333"/>`;
+  if(kind==='chick')i.innerHTML=`<circle cx="0" cy="-15" r="16" fill="#FFD43B"/><path d="M-4,-14 l-10,3 l10,3Z" fill="#E8762A"/><circle cx="4" cy="-19" r="2" fill="#333"/>`;
+  if(kind==='frog')i.innerHTML=`<ellipse cx="0" cy="-13" rx="20" ry="14" fill="#6AC25A"/><circle cx="-8" cy="-26" r="7" fill="#6AC25A"/><circle cx="8" cy="-26" r="7" fill="#6AC25A"/><circle cx="-8" cy="-26" r="3" fill="#333"/><circle cx="8" cy="-26" r="3" fill="#333"/>`;
+  return g;}
+(function(){
+  const K=$('#K');K.innerHTML=`<rect width="1000" height="560" fill="#FBEDE3"/>
+   <g><rect x="60" y="40" width="250" height="200" rx="10" fill="#9FB6C8" stroke="#C99A6A" stroke-width="10"/><line x1="185" y1="40" x2="185" y2="240" stroke="#C99A6A" stroke-width="6"/>
+     <g fill="#7F93A6"><ellipse cx="140" cy="80" rx="50" ry="18"/><ellipse cx="240" cy="96" rx="44" ry="16"/></g>
+     <g class="rain" stroke="#E8F2FA" stroke-width="3">${Array.from({length:16},(_,i)=>`<line x1="${74+i*15}" y1="${110+(i%4)*24}" x2="${68+i*15}" y2="${128+(i%4)*24}" style="animation-delay:${-(i%5)*.12}s"/>`).join('')}</g>
+     <g transform="translate(270,240)"><ellipse cx="0" cy="-14" rx="26" ry="16" fill="#F7E6D2"/><circle cx="-22" cy="-26" r="14" fill="#F7E6D2"/><path d="M-32,-36 l4,-12 l8,10Z M-18,-38 l6,-10 l4,12Z" fill="#F7E6D2"/><circle cx="-26" cy="-28" r="2" fill="#333"/><circle cx="-16" cy="-28" r="2" fill="#333"/><ellipse cx="10" cy="-20" rx="9" ry="6" fill="#E8A35A"/></g></g>
+   <g transform="translate(760,60)"><rect x="0" y="0" width="190" height="150" rx="12" fill="#fff" stroke="#D9466A" stroke-width="4"/><rect width="190" height="40" rx="12" fill="#D9466A"/><text x="95" y="28" text-anchor="middle" font-size="22" fill="#fff" class="lbl">12月21日</text><text x="95" y="90" text-anchor="middle" font-size="38" fill="#D9466A" class="lbl">冬至</text><text x="95" y="130" text-anchor="middle" font-size="20" fill="#6E5E62" class="lbl">星期日</text></g>
+   <g id="mom"></g>
+   <rect x="0" y="380" width="1000" height="180" fill="#E8C9A0"/><path d="M0,380 L1000,380 L1000,396 L0,396Z" fill="#D9B48A"/>
+   <g id="bowlTab"><ellipse cx="500" cy="420" rx="160" ry="26" fill="#fff" stroke="#D9C4BC" stroke-width="3"/>
+     <g class="ball" id="bw"><circle cx="400" cy="408" r="22" fill="#FFFDF8" stroke="#D9D2C8" stroke-width="2"/></g>
+     <g class="ball" id="bk"><circle cx="455" cy="408" r="22" fill="#2E2A2A"/><circle cx="448" cy="400" r="4" fill="#5A5555"/></g>
+     <g class="ball" id="by"><circle cx="510" cy="408" r="22" fill="#F7C531"/></g>
+     <g class="ball bx"><circle cx="565" cy="408" r="20" fill="#7CCB6A"/></g>
+     <g class="ball bx"><circle cx="612" cy="410" r="19" fill="#6AA8E8"/></g>
+     <g class="ball bx"><circle cx="440" cy="436" r="18" fill="#F7A8C2"/></g>
+     <g class="ball bx"><circle cx="580" cy="436" r="17" fill="#C6A0E8"/></g>
+   </g>
+   <g id="ses"><g class="pour"><path d="M250,350 q40,40 80,0Z" fill="#5A5555" stroke="#333" stroke-width="2"/></g><text x="290" y="340" text-anchor="middle" font-size="20" class="lbl" fill="#2E2226">芝麻粉</text></g>
+   <g id="pum"><g class="pour"><path d="M680,350 q40,40 80,0Z" fill="#F7C531" stroke="#B07A10" stroke-width="2"/></g><text x="720" y="340" text-anchor="middle" font-size="20" class="lbl" fill="#2E2226">南瓜粉</text></g>
+   <g id="animals"></g>
+   <g id="soup"><ellipse cx="500" cy="436" rx="190" ry="40" fill="#fff" stroke="#D9C4BC" stroke-width="4"/><path d="M310,436 Q330,520 500,524 Q670,520 690,436" fill="#fff" stroke="#D9C4BC" stroke-width="4"/><ellipse cx="500" cy="436" rx="176" ry="32" fill="#F6E6C8"/>
+     <g id="soupAni"></g><g class="steam" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round" opacity=".9"><path d="M440,400 q-10,-20 0,-40 q10,-20 0,-40"/><path d="M500,396 q-10,-20 0,-40 q10,-20 0,-40" style="animation-delay:.8s"/><path d="M560,400 q-10,-20 0,-40 q10,-20 0,-40" style="animation-delay:1.6s"/></g>
+     <g id="spoon"><ellipse cx="640" cy="420" rx="22" ry="12" fill="#E9E4DC" stroke="#AAA" stroke-width="2"/><rect x="658" y="410" width="70" height="10" rx="5" fill="#E9E4DC" stroke="#AAA" stroke-width="2" transform="rotate(-20 658 415)"/></g></g>
+   <g id="kids"></g>
+   <g id="suns"></g>
+   <g id="spark2">${[[380,330],[520,320],[640,340],[460,300]].map(([x,y],i)=>`<text class="spk" x="${x}" y="${y}" font-size="34" style="animation-delay:${i*.25}s">✨</text>`).join('')}</g>
+   <g id="hearts4" font-size="40">${[[300,240],[690,230],[500,190]].map(([x,y])=>`<text x="${x}" y="${y}">💗</text>`).join('')}</g>`;
+  girl($('#mom'),500,390,1.2,{shirt:'#3E9A8A',id:'momF',cls:'',bun:true});$('#mom').querySelector('g').id='momIn';
+  girl($('#kids'),250,560,1.15,{shirt:'#E86A8A',id:'me'});girl($('#kids'),760,565,1.05,{shirt:'#6AA8E8',id:'sis'});
+  const sn=$('#suns');[[250,330],[760,350]].forEach(([x,y])=>sn.insertAdjacentHTML('beforeend',`<g class="isun"><g stroke="#F7B731" stroke-width="5" stroke-linecap="round">${Array.from({length:8},(_,i)=>{const a=i*Math.PI/4;return `<line x1="${x+Math.cos(a)*30}" y1="${y+Math.sin(a)*30}" x2="${x+Math.cos(a)*42}" y2="${y+Math.sin(a)*42}"/>`}).join('')}</g><circle cx="${x}" cy="${y}" r="24" fill="#FFD43B"/><path d="M${x-9},${y+4} q9,9 18,0" stroke="#A05A00" stroke-width="3" fill="none"/></g>`));
+  const an=$('#animals');[['cow',420],['fish',500],['rab',570],['chick',630],['frog',370]].forEach(([k,x],i)=>{const g=tang(an,x,428,k,1);g.querySelector('.ani').style.transitionDelay=i*.25+'s'});
+  const sa=$('#soupAni');[['cow',420,446],['fish',500,440],['rab',575,448],['chick',460,462],['frog',540,466]].forEach(([k,x,y],i)=>{const g=tang(sa,x,y,k,.8,'float');g.querySelector('.float').style.animationDelay=(-i*.4)+'s'});
+})();
+
+/* ---------- vocabulary ---------- */
+const VOC={
+ "今天":"現在所處的這一天。","冬至":"一年中白天最短的一天，大約在十二月二十二日前後。很多人會在冬至吃湯圓。","妹妹":"比自己年紀小的女生（姐妹）。",
+ "升起":"往上升上來。","太陽":"白天在天空發光、發熱的大火球。","因為":"說出原因的時候用。","期待":"很希望，等著事情發生。","動手":"自己用手去做。",
+ "盯著":"眼睛一直看著，不轉開。","糯米團":"用糯米粉加水揉成的團子，可以做湯圓。","芝麻":"小小的種子，有黑色、白色的，很香。","粉":"磨得很細很細的東西，像麵粉。",
+ "變成":"從原來的樣子，改成另一個樣子。","南瓜粉":"用南瓜做成的粉，黃黃的。","黃色":"像香蕉、南瓜一樣的顏色。","真是":"實在是、的確是。",
+ "五顏六色":"有很多很多種顏色。","笑呵呵":"笑得很開心的樣子。","小牛":"年紀小的牛。","接著":"跟著前面，再接下去。","沒多久":"過了不多的時間，很快的。"
+};
+function showVocab(w){const p=$('#pop');p.innerHTML=`<h3>${w}</h3><div>${VOC[w]||''}</div><div class="row"><button id="pSay">🔊 念</button><button id="pClose">關閉</button></div>`;p.classList.add('on');$('#pSay').onclick=()=>speak(w+'。'+VOC[w]);$('#pClose').onclick=()=>p.classList.remove('on');}
+
+/* ---------- text ---------- */
+const ST=[
+ {lines:['十二月二十一日　星期日　天氣：🌧️','[[今天]]是[[冬至]]，天空下起小雨，','我和[[妹妹]]的心裡卻[[升起]]了小[[太陽]]。','[[因為]]我們滿心[[期待]]，','要自己[[動手]]做湯圓。'],date:0,
+  fx:[()=>say1('這是一篇日記 📔<small>12月21日・星期日・下雨</small>','teal'),()=>say1('今天是冬至，天空下起小雨 🌧️','teal'),()=>say1('心裡卻升起了小太陽 ☀️<small>心情很好、很開心</small>','gold'),()=>say1('因為我們滿心期待……'),()=>say1('要自己動手做湯圓！')]},
+ {lines:['我和妹妹一直[[盯著]]媽媽，','只見她把白色[[糯米團]]和[[芝麻]][[粉]]和在一起，[[變成]]黑色，','再用[[南瓜粉]]，把白色糯米團變成[[黃色]]。','媽媽變出一個個糯米團，有綠色、藍色、粉紅色……，','[[真是]]太神奇了！'],
+  fx:[()=>say1('眼睛一直盯著媽媽 👀'),()=>say1('白色糯米團 ＋ 芝麻粉 ＝ ⚫ 黑色'),()=>say1('白色糯米團 ＋ 南瓜粉 ＝ 🟡 黃色','gold'),()=>say1('還有綠色、藍色、粉紅色……'),()=>{say1('真是太神奇了！✨','gold');bubbles(['哇！','好神奇！'],{x:30,y:30,w:40,h:10})}]},
+ {long:1,lines:['妹妹開心的說：「哇！[[五顏六色]]的糯米團，好美呀！」','媽媽問：「小音，你今天想要做什麼呢？」','我[[笑呵呵]]的說：「我要做[[小牛]]。」','妹妹[[接著]]說：「我要做小魚。」','然後，我們動手做，','[[沒多久]]，一隻隻可愛的小動物就出現了。'],
+  fx:[()=>bubbleNear('sis','妹妹','哇！五顏六色的糯米團，好美呀！',3800),()=>bubbleNear('momIn','媽媽','小音，你今天想要做什麼呢？',3800),()=>bubbleNear('me','我（小音）','我要做小牛。',3200),()=>bubbleNear('sis','妹妹','我要做小魚。',3200),()=>say1('我們動手做 🙌'),()=>say1('一隻隻可愛的小動物出現了！','gold')]},
+ {lines:['小小的動物湯圓，','包著我們的笑聲，','我一口一口吃著，','覺得好幸福！'],
+  fx:[()=>say1('小小的動物湯圓 🥣'),()=>{say1('包著我們的笑聲');const s=$('#stage').getBoundingClientRect();['哈哈','嘻嘻','呵呵','哈哈'].forEach((w,i)=>later(()=>{const d=ov(w,{left:(i%2?70:20)+'%',top:(25+(i>1?15:0))+'%'},'intoBowl');d.style.setProperty('--dx',(i%2?-0.2:0.28)*s.width+'px');d.style.setProperty('--dy',0.3*s.height+'px');setTimeout(()=>d.remove(),1900)},i*400))},()=>say1('我一口一口的吃著'),()=>{say1('覺得好幸福！💗','gold')}]}
+];
+let lineIdx=-1;
+function stateTo(sn,k){$('#K').setAttribute('class',['s'+(sn+1),...Array.from({length:k+1},(_,i)=>'a'+i)].join(' '));
+  if(sn===1){['ses','pum'].forEach(id=>{const p=$('#'+id+' .pour');p.classList.remove('pour');void p.getBBox();p.classList.add('pour')})}}
+function playLine(k,{onend}={}){
+  const st=S[cur];if(st.st===undefined)return;const S_=ST[st.st];
+  timers.forEach(clearTimeout);timers=[];try{speechSynthesis.cancel()}catch(e){}
+  lineIdx=k;$('#ov').innerHTML='';stateTo(st.st,k);S_.fx[k]();
+  $$('#txt .ln').forEach((l,i)=>{l.classList.toggle('on',i===k);l.classList.toggle('done',i<k)});
+  $('#lineNo').textContent=`第 ${k+1} 句／共 ${S_.lines.length} 句`;
+  let done=false;const fin=()=>{if(done)return;done=true;onend&&onend()};
+  speak(S_.lines[k],()=>later(fin,700));later(fin,Math.max(2800,clean(S_.lines[k]).length*520+1500));
+}
+function nextLine(){const st=S[cur];if(st.st===undefined)return;const n=ST[st.st].lines.length;if(lineIdx<n-1)playLine(lineIdx+1);else temp('這一段念完了！按「下一頁」繼續',{left:'50%',top:'45%',transform:'translateX(-50%)'},'badge',2000)}
+function autoPlay(){const st=S[cur];stopAll();lineIdx=-1;stateTo(st.st,-1);autoOn=true;const n=ST[st.st].lines.length;const step=i=>{if(!autoOn||i>=n){autoOn=false;return}playLine(i,{onend:()=>{if(autoOn)step(i+1)}})};later(()=>step(0),300);}
+
+/* ---------- time words ---------- */
+const DAYS=[{d:19,w:'星期五'},{d:20,w:'星期六'},{d:21,w:'星期日'},{d:22,w:'星期一'},{d:23,w:'星期二'}];
+const TS=[['昨天','#2F8A9A','媽媽買了做湯圓的材料。',20],['今天','#D9466A','我們自己動手做湯圓。',21],['明天','#E8762A','我要跟朋友分享做湯圓的樂趣。',22]];
+let today=21,tq=null;
+function buildTime(){const t=$('#tw');t.innerHTML=`<div class="note">「今天」是指現在所處的這一天。<b>點一下日子</b>，把它變成「今天」，看看昨天、明天會跑到哪裡！</div>
+  <div class="tdays" id="tdays"></div><div class="tline"></div>
+  <div class="tsent">${TS.map(([w,c,s,d])=>`<div style="border:4px solid ${c}" data-s="${w}${s}"><b style="color:${c}">12/${d}　${w}</b><br>${s}</div>`).join('')}</div>
+  <div class="tq" id="tq"></div>`;
+  $$('.tsent div').forEach(d=>d.onclick=()=>speak(d.dataset.s));renderDays();askTime();}
+function renderDays(){const box=$('#tdays');box.innerHTML='';DAYS.forEach(({d,w})=>{const b=document.createElement('button');const diff=d-today;const lab=diff===-1?'昨天':diff===0?'今天':diff===1?'明天':diff===-2?'前天':diff===2?'後天':'';
+  b.className='tday'+(diff===0?' today':diff===-1?' yest':diff===1?' tom':'');b.innerHTML=`<div class="d">12/${d}</div><div class="w">${w}</div><div class="lab">${lab}</div>`;b.onclick=()=>{today=d;renderDays();speak('如果今天是十二月'+d+'日，昨天是'+(d-1)+'日，明天是'+(d+1)+'日')};box.appendChild(b)});}
+function askTime(){const opts=[20,21,22];const t=[20,21,22][Math.floor(Math.random()*3)];const ask=['昨天','明天'][Math.floor(Math.random()*2)];const ans=ask==='昨天'?t-1:t+1;
+  $('#tq').innerHTML=`<b>考考你：</b>如果今天是 <b style="color:#D9466A">12/${t}</b>，那「${ask}」是哪一天？<div class="opts">${[t-1,t,t+1].map(d=>`<button data-d="${d}">12/${d}</button>`).join('')}</div><div class="fb" id="tfb"></div>`;
+  speak('如果今天是十二月'+t+'日，'+ask+'是哪一天？');
+  $$('#tq .opts button').forEach(b=>b.onclick=()=>{if(+b.dataset.d===ans){$('#tfb').textContent='答對了！⭐';$('#tfb').style.color='#2E8B57';speak('答對了');today=t;renderDays();later(askTime,2200)}else{$('#tfb').textContent='再想想看：昨天在今天的前面，明天在今天的後面。';$('#tfb').style.color='#C8362B'}});}
+
+/* ---------- 因為 ---------- */
+const CB=[['爸爸答應帶妹妹去兒童樂園玩','妹妹非常開心','妹妹非常開心，因為爸爸答應帶她去兒童樂園玩。','🎡','😄'],['小貓肚子餓了','小貓ㄇㄧㄠ ㄇㄧㄠ的叫','小貓ㄇㄧㄠ ㄇㄧㄠ的叫，因為牠肚子餓了。','🍽️','🐱'],['我們滿心期待，要自己動手做湯圓','我和妹妹的心裡升起了小太陽','我和妹妹的心裡升起了小太陽，因為我們滿心期待，要自己動手做湯圓。','🥣','☀️']];
+const MP=[['外面下大雨','我們不能去公園玩'],['弟弟跌倒了','弟弟的膝蓋流血了'],['今天是冬至','媽媽煮了湯圓'],['我每天練習跳繩','我跳繩比賽得了第一名']];
+let pickR=null,pickC=null,doneN=0;
+function buildCause(){$('#cal').innerHTML='<h4>句子練習：……，因為……</h4><div class="note">「因為」要加在<b>表示原因的句子前面</b>。先說<span class="tagc r">結果</span>，再用「因為」說<span class="tagc c">原因</span>。</div>'+
+  CB.map(([c,r,f,ec,er])=>`<div class="pair"><span class="tagc c">原因</span><span>${ec} ${c}。</span><span class="tagc r">結果</span><span>${er} ${r}。</span><span class="full">➜ ${f.replace('因為','<em>因為</em>')}</span></div>`).join('');
+  $$('#cal .pair').forEach((p,i)=>p.onclick=()=>speak(CB[i][2]));pickR=pickC=null;doneN=0;renderMatch();}
+function renderMatch(){const rs=MP.map((m,i)=>[m[1],i]).sort(()=>Math.random()-.5),cs=MP.map((m,i)=>[m[0],i]).sort(()=>Math.random()-.5);
+  $('#car').innerHTML=`<h4>配一配：結果是因為什麼？</h4><div class="note">先點一個<span class="tagc r">結果</span>，再點它的<span class="tagc c">原因</span>，就會變成一句話！</div>
+   <div class="mgrid"><h5 style="color:#E86A8A">結果</h5><h5 style="color:#2F8A9A">原因</h5>
+   <div style="display:flex;flex-direction:column;gap:.8vh">${rs.map(([t,i])=>`<button class="mcard r" data-i="${i}" style="--c:#E86A8A">${t}</button>`).join('')}</div>
+   <div style="display:flex;flex-direction:column;gap:.8vh">${cs.map(([t,i])=>`<button class="mcard c" data-i="${i}" style="--c:#2F8A9A">${t}</button>`).join('')}</div></div>
+   <div class="mysent" id="msent"><span class="bl">配好的句子會出現在這裡</span></div>`;
+  $$('#car .mcard').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;if(b.classList.contains('r')){pickR=i;$$('#car .mcard.r').forEach(x=>x.classList.toggle('on',x===b))}else{if(pickR===null){temp('先點「結果」喔！',{left:'60%',top:'40%'},'badge',1500);return}
+      if(i===pickR){const f=`${MP[i][1]}，<span class="g">因為</span>${MP[i][0]}。`;$('#msent').innerHTML=f;speak(MP[i][1]+'，因為'+MP[i][0]);$$(`#car .mcard[data-i="${i}"]`).forEach(x=>{x.classList.remove('on');x.classList.add('done')});pickR=null;doneN++;if(doneN===MP.length)later(()=>temp('全部配對成功！🎉',{left:'60%',top:'40%'},'badge',2000),1500)}
+      else{b.classList.remove('on');speak('再想想看');temp('再想想看：這個原因會造成那個結果嗎？',{left:'50%',top:'45%'},'badge',1800)}}});}
+
+/* ---------- 先、接著、然後、最後 ---------- */
+const SQ=[
+ {n:'先',e:'💧',t:'媽媽先將糯米粉加水，做出白色糯米團。'},
+ {n:'接著',e:'🎨',t:'接著，她用芝麻粉、南瓜粉等材料，變出各色的糯米團。'},
+ {n:'然後',e:'🐮',t:'然後，我和妹妹、媽媽一起動手做動物湯圓。'},
+ {n:'最後',e:'🍲',t:'最後，媽媽將湯圓放入熱水煮，就完成美味的湯圓了。'}];
+const SQ2=[
+ {n:'先',e:'👁️',t:'先找出「盯」的部首：「目」。'},
+ {n:'接著',e:'✋',t:'接著，數一數部首以外的筆畫：「丁」有兩畫。'},
+ {n:'然後',e:'📖',t:'然後，在部首索引找到「目」部，再找兩畫的字。'},
+ {n:'最後',e:'🔍',t:'最後，翻到那一頁，就找到「盯」這個字了。'}];
+let sqSet=SQ,sqI=0;
+function buildSeq(set){sqSet=set||SQ;sqI=0;const isTang=sqSet===SQ;
+  $('#sql').innerHTML=`<h4>${isTang?'說話練習：製作湯圓的過程':'想一想：怎麼在字典找到「盯」？'}</h4><div class="note">依照事情發生的順序，用「<span class="conn">先</span>……<span class="conn">接著</span>……<span class="conn">然後</span>……<span class="conn">最後</span>……」說一說。把右邊的卡片照順序點一點！</div>
+   <div class="slots">${sqSet.map((s,i)=>`<div class="slot" data-i="${i}"><b>${s.n}</b></div>`).join('')}</div><div class="speech" id="speech"></div>`;
+  const c=[...sqSet.keys()].sort(()=>Math.random()-.5);
+  $('#sqr').innerHTML=`<h4>步驟卡</h4><div class="cards">${c.map(i=>`<button class="card" data-i="${i}"><span class="em">${sqSet[i].e}</span><span>${sqSet[i].t.replace(/^(先|接著，|然後，|最後，)/,'').replace('媽媽先','媽媽')}</span></button>`).join('')}</div>`+(isTang?'':'<div class="note">這一組步驟是我寫的參考答案，可以和課本對照。</div>');
+  $$('#sqr .card').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;if(i===sqI){b.classList.add('used');const s=$(`.slot[data-i="${i}"]`);s.classList.add('done');s.innerHTML=`<b>${sqSet[i].n}</b><span class="em">${sqSet[i].e}</span>`;$('#speech').innerHTML+=sqSet[i].t.replace(/(先|接著|然後|最後)/,'<span class="conn">$1</span>')+'<br>';speak(sqSet[i].t);sqI++;if(sqI===sqSet.length)later(()=>temp('排好了！照順序說一遍吧！🎉',{left:'40%',top:'45%'},'badge',2200),2500)}else{b.classList.remove('bad');void b.offsetWidth;b.classList.add('bad');speak('再想想看，哪一個要先做？')}});}
+
+/* ---------- idioms ---------- */
+const ID=[
+ {n:'一氣呵成',e:'💨',c:'#D9466A',z:'呵',w:'笑呵呵',m:'一口氣完成。或指文章氣勢流暢，首尾貫通。',x:'這篇一氣呵成的好文章，讓人閱讀起來很舒暢。'},
+ {n:'對牛彈琴',e:'🐮🎵',c:'#2F8A9A',z:'牛',w:'我要做小牛',m:'比喻對不懂道理的人講道理。',x:'阿廷根本不聽人勸，你就別對牛彈琴了。'}];
+const IQ=[['這篇＿＿的好文章，讓人閱讀起來很舒暢。','一氣呵成',1],['阿廷根本不聽人勸，你就別＿＿了。','對牛彈琴',1],['姐姐專心畫畫，＿＿完成了一幅好作品。','一氣呵成',0],['跟正在睡覺的弟弟說故事，就像＿＿。','對牛彈琴',0]];
+let iq=[],iqi=0;
+function hl(n,z){return n.replace(z,`<span class="hz">${z}</span>`)}
+function buildIdiom(sel){const box=$('#idi');box.innerHTML='';ID.forEach((d,i)=>{const b=document.createElement('button');b.className='icard'+(i===sel?' on':'');b.style.setProperty('--c',d.c);b.innerHTML=`<span class="em">${d.e}</span><b>${d.n}</b><small>生字：「${d.z}」</small>`;b.onclick=()=>buildIdiom(i);box.appendChild(b)});
+  const det=document.createElement('div');det.className='idet';det.id='idet';box.appendChild(det);
+  if(sel===undefined){det.innerHTML='<div style="color:#6E5E62">點上面的成語卡，看看意思和例句；或按下方「考考你」練習。</div>';return}
+  const d=ID[sel];det.innerHTML=`<h3 style="color:${d.c}">${d.e} ${hl(d.n,d.z)}</h3><div class="mean"><b>意思：</b>${d.m}</div><div class="ex"><b>例句：</b>${d.x}</div><div class="lk">課文裡的生字「${d.z}」：${hl(d.w,d.z)}</div>`;speak(d.n+'。'+d.m+'。例句：'+d.x);}
+function idiomQuiz(){iq=[...IQ].sort(()=>Math.random()-.5);iqi=0;buildIdiom();askIdiom();}
+function askIdiom(){const det=$('#idet');if(iqi>=iq.length){det.innerHTML='<h3>全部完成！🎉</h3>';speak('全部完成，你好棒');return}
+  const [s,a,b]=iq[iqi];det.innerHTML=`<div><span class="tg" style="background:${b?'#D9466A':'#9AA6B5'}">${b?'課本例句':'練習題'}</span>第 ${iqi+1}／${iq.length} 題：空格要填哪個成語？</div><div style="font-size:3.8vh;font-weight:700;margin-top:1vh">${s.replace('＿＿','<span class="blank">？</span>')}</div><div class="opts"></div><div class="fb"></div>`;speak(s.replace('＿＿','什麼'));
+  ID.forEach(d=>{const x=document.createElement('button');x.textContent=d.n;x.onclick=()=>{const fb=det.querySelector('.fb');if(d.n===a){det.querySelector('.blank').textContent=a;fb.textContent='答對了！⭐';fb.style.color='#2E8B57';speak('答對了，'+s.replace('＿＿',a));iqi++;later(askIdiom,2600)}else{fb.textContent='再想想看：「'+d.n+'」的意思是'+d.m;fb.style.color='#C8362B'}};det.querySelector('.opts').appendChild(x)});}
+
+/* ---------- steps ---------- */
+const S=[
+ {st:0,sc:'k',tag:'第一段',no:'冬至這一天'},
+ {st:1,sc:'k',tag:'第二段',no:'神奇的糯米團'},
+ {st:2,sc:'k',tag:'第三段',no:'做動物湯圓'},
+ {st:3,sc:'k',tag:'第四段',no:'好幸福'},
+ {sc:'time',tag:'時間詞語',no:'昨天・今天・明天',guide:['今天是冬至，','我們自己動手做湯圓。','「今天」是指','現在所處的這一天。'],enter(){today=21;buildTime()},acts:[['🎯 再考一題',askTime]]},
+ {sc:'cause',tag:'句子練習',no:'……因為……',guide:['我和妹妹的心裡','升起了小太陽，','因為我們滿心期待，','要自己動手做湯圓。'],enter(){buildCause()},acts:[['🔄 重新配對',()=>{pickR=null;doneN=0;renderMatch()}]]},
+ {sc:'seq',tag:'說話練習',no:'先、接著、然後、最後',guide:['依照事情發生的順序，','用「先、接著、','然後、最後」，','說出做湯圓的過程。'],enter(){buildSeq(SQ)},acts:[['🍡 做湯圓的過程',()=>buildSeq(SQ)],['📖 怎麼查「盯」？',()=>buildSeq(SQ2)],['🔊 念一遍',()=>speak(sqSet.map(s=>s.t).join(''))]]},
+ {sc:'idiom',tag:'成語',no:'從生字學成語',guide:['從課文的生字，','認識成語：','「呵」和「牛」，','藏在哪個成語裡？'],enter(){buildIdiom(0)},acts:[['🎯 考考你',idiomQuiz],['📖 看成語卡',()=>buildIdiom(0)]]}
+];
+
+/* ---------- navigation ---------- */
+const TABS=[['冬至',0,1],['糯米團',1,2],['動物湯圓',2,3],['好幸福',3,4],['時間詞語',4],['……因為……',5],['先接著然後最後',6],['成語',7]];
+TABS.forEach(([n,i,num],k)=>{if(k===4)$('#tabs').insertAdjacentHTML('beforeend','<span class="sep">｜</span>');else if(k>0&&k<4)$('#tabs').insertAdjacentHTML('beforeend','<span class="sep">›</span>');
+  const b=document.createElement('button');b.innerHTML=(num?`<i>${num}</i>`:'')+n;b.onclick=()=>go(i);b.dataset.i=i;$('#tabs').appendChild(b)});
+let cur=0;
+function lineHTML(t){return t.replace(/\[\[(.+?)\]\]/g,(m,w)=>`<span class="v" role="button" tabindex="0" data-w="${w}">${w}</span>`)}
+function go(i){
+  stopAll();cur=Math.max(0,Math.min(S.length-1,i));const st=S[cur];
+  $$('.scene').forEach(s=>s.classList.toggle('on',s.id==='sc-'+st.sc));
+  $('#ptag').textContent=st.tag;$('#pno').textContent=st.no;
+  const isT=st.st!==undefined;const lines=isT?ST[st.st].lines:st.guide;
+  const t=$('#txt');t.classList.toggle('guide',!isT);t.classList.toggle('long',isT&&!!ST[st.st].long);
+  t.innerHTML=lines.map((l,k)=>`<span class="ln${isT&&ST[st.st].date===k?' date':''}" data-k="${k}" ${isT?'tabindex="0"':''}>${lineHTML(l)}</span>`).join('');
+  t.querySelectorAll('.v').forEach(v=>{v.onclick=e=>{e.stopPropagation();showVocab(v.dataset.w)};v.onkeydown=e=>{if(e.key==='Enter'){e.stopPropagation();showVocab(v.dataset.w)}}});
+  if(isT){t.querySelectorAll('.ln').forEach(l=>{l.onclick=()=>{autoOn=false;playLine(+l.dataset.k)};l.onkeydown=e=>{if(e.key==='Enter')l.onclick()}});lineIdx=-1;stateTo(st.st,-1);}
+  t.scrollTop=0;t.scrollLeft=0;
+  const A=$('#acts');A.innerHTML='';
+  const acts=isT?[['▶ 下一句',nextLine,1],['🎬 整段自動播',autoPlay],['🔁 從頭來',()=>{stopAll();lineIdx=-1;stateTo(st.st,-1);$$('#txt .ln').forEach(l=>l.classList.remove('on','done'))}]]:(st.acts||[]);
+  acts.forEach(([l,f,m])=>{const b=document.createElement('button');b.textContent=l;if(m)b.className='main';b.onclick=f;A.appendChild(b)});
+  if(isT)A.insertAdjacentHTML('beforeend','<span class="hint" id="lineNo">點右邊的句子，也可以一句一句看</span>');
+  let active=0;TABS.forEach(([n,ti])=>{if(cur>=ti)active=ti});
+  $$('#tabs button').forEach(b=>b.classList.toggle('on',+b.dataset.i===active));
+  $('#prev').disabled=cur===0;$('#next').disabled=cur===S.length-1;
+  st.enter&&st.enter();
+}
+$('#prev').onclick=()=>go(cur-1);$('#next').onclick=()=>go(cur+1);
+$('#say').onclick=()=>{const st=S[cur];const lines=st.st!==undefined?ST[st.st].lines:st.guide;speak(lines.join(''))};
+document.addEventListener('keydown',e=>{if(e.target.closest('input,.v,.ln'))return;if(e.key===' '&&S[cur].st!==undefined){e.preventDefault();nextLine()}if(e.key==='ArrowRight'||e.key==='PageDown')go(cur+1);if(e.key==='ArrowLeft'||e.key==='PageUp')go(cur-1);});
+try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>{}}catch(e){}
+go(0);
+</script>
+</body>
+</html>

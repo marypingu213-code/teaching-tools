@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>二上第十課 去農場玩｜課文動起來</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --kai:"LXGW WenKai TC","BiauKai","DFKai-SB","標楷體","Kaiti TC","Noto Serif TC","Noto Serif CJK TC","PMingLiU",serif;
+  --bg:#E6F0E4; --panel:#FFFFFF; --ink:#22301F; --soft:#5F6E5A;
+  --grass:#6BB04A; --sky:#9FD3EE; --orange:#E8762A; --gold:#E8A33A; --pink:#E86A8A;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --bg:#162016; --panel:#212D20; --ink:#EEF5EC; --soft:#AFC2AA; color-scheme:dark; }
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:var(--kai);background:var(--bg);color:var(--ink);display:grid;grid-template-rows:auto 1fr;overflow:hidden;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+header{display:flex;align-items:center;gap:1.2vw;padding:1vh 1.6vw .8vh;flex-wrap:wrap}
+h1{margin:0;font-size:4.4vh;color:var(--orange);letter-spacing:.12em;white-space:nowrap}
+h1 small{font-size:.5em;color:var(--soft);letter-spacing:.05em;margin-right:.4em}
+h1 em{font-style:normal;font-size:.45em;color:var(--soft);margin-left:.5em;letter-spacing:0}
+nav{display:flex;gap:.25vw;flex-wrap:wrap;align-items:center}
+nav button{font:inherit;font-size:2.4vh;padding:.5vh .7vw;border-radius:10px;border:2px solid transparent;background:transparent;color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:.3em}
+nav button i{font-style:normal;display:inline-grid;place-items:center;width:2.7vh;height:2.7vh;border-radius:50%;background:var(--orange);color:#fff;font-size:1.7vh}
+nav button.on{background:var(--panel);border-color:var(--orange);color:var(--orange);font-weight:700}
+nav .sep{color:var(--soft)}
+main{display:grid;grid-template-columns:1fr 46vh;gap:1.2vw;padding:0 1.6vw 1.4vh;min-height:0}
+.stagewrap{display:grid;grid-template-rows:1fr auto;gap:1vh;min-height:0}
+.stage{position:relative;border-radius:20px;overflow:hidden;background:#D3E8D0;min-height:0}
+.scene{position:absolute;inset:0;display:none}
+.scene.on{display:block}
+.scene>svg{width:100%;height:100%;display:block}
+#ov{position:absolute;inset:0;pointer-events:none;z-index:7}
+.acts{display:flex;flex-wrap:wrap;gap:.7vw;min-height:6vh;align-items:center}
+.acts button{font:inherit;font-size:2.7vh;padding:.9vh 1.4vw;border-radius:999px;border:3px solid var(--orange);background:var(--panel);color:var(--ink);cursor:pointer}
+.acts button:hover{background:var(--orange);color:#fff}
+.acts button.main{background:var(--orange);color:#fff;font-weight:700}
+.acts .hint{font-size:2.3vh;color:var(--soft)}
+button:focus-visible,.v:focus-visible,.ln:focus-visible{outline:4px solid var(--gold);outline-offset:2px}
+aside{background:var(--panel);border-radius:20px;padding:1.6vh 1.4vh;display:grid;grid-template-rows:auto minmax(0,1fr) auto;grid-template-columns:minmax(0,1fr);gap:1vh;min-height:0}
+.ptitle{display:flex;justify-content:space-between;align-items:center;font-size:2.6vh;color:var(--soft)}
+.ptitle b{color:var(--orange);font-size:1.15em}
+.txt{writing-mode:vertical-rl;font-size:4.4vh;line-height:1.7;letter-spacing:.08em;width:100%;height:100%;min-height:0;overflow:auto;display:block}
+.txt.long{font-size:3.6vh}
+.ln{cursor:pointer;border-radius:8px;transition:background .3s;padding:.1em 0}
+.ln:hover{background:rgba(0,0,0,.05)}
+.ln.on{background:#FFE7A8;color:#22301F}
+.ln.done{color:var(--soft)}
+.guide .ln{cursor:default;display:block;font-size:.85em}
+.v{border:2px solid var(--gold);border-radius:6px;cursor:pointer;color:#1F6FA0;padding:.1em 0}
+@media (prefers-color-scheme: dark){ .v{color:#86C9F0} .ln.on .v{color:#1F6FA0} }
+.pnav{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:.8vh}
+.pnav button{font:inherit;font-size:2.6vh;padding:1vh 0;border-radius:12px;border:2px solid var(--soft);background:transparent;color:var(--ink);cursor:pointer}
+.pnav .say{background:var(--orange);border-color:var(--orange);color:#fff;font-weight:700}
+.pnav button:disabled{opacity:.35}
+#pop{position:fixed;left:3vw;bottom:13vh;max-width:48vw;background:#fff;color:#22301F;border:4px solid var(--gold);border-radius:16px;padding:1.4vh 1.6vw;font-size:3.2vh;line-height:1.6;box-shadow:0 8px 24px rgba(0,0,0,.25);display:none;z-index:20}
+#pop.on{display:block;animation:pop .3s}
+#pop h3{margin:0 0 .4vh;color:#C8622A;font-size:1.3em}
+#pop .row{display:flex;gap:1vw;margin-top:.8vh}
+#pop button{font:inherit;font-size:.85em;border-radius:10px;border:2px solid #C8622A;background:#fff;color:#C8622A;padding:.3vh 1vw;cursor:pointer}
+
+.badge{position:absolute;background:#fff;color:#22301F;border:4px solid var(--orange);border-radius:14px;padding:.6vh 1.2vw;font-size:3.2vh;font-weight:700;animation:pop .45s cubic-bezier(.3,1.6,.6,1);white-space:nowrap;z-index:8}
+.badge.gold{border-color:var(--gold)}.badge.green{border-color:#2E8B57}.badge.blue{border-color:#2E6FB3}
+.bubble{position:absolute;background:#fff;color:#22301F;border:4px solid #22301F;border-radius:18px;padding:.8vh 1.2vw;font-size:3vh;line-height:1.5;max-width:46%;animation:pop .3s cubic-bezier(.3,1.6,.6,1);z-index:8}
+.bubble b{display:block;font-size:.8em;color:#C8622A}
+.bub{position:absolute;font-size:5.2vh;font-weight:700;color:#fff;-webkit-text-stroke:2px #C8622A;paint-order:stroke fill;animation:floatup 1.9s ease-out forwards;z-index:8}
+@keyframes floatup{from{transform:translateY(0) scale(.6);opacity:0}20%{opacity:1;transform:translateY(-10px) scale(1)}to{transform:translateY(-90px);opacity:0}}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+.lbl{font-family:var(--kai);font-weight:700}
+
+/* scene */
+#sky{fill:#9FD3EE;transition:fill 2s}
+#W.s4.a2 #sky{fill:#E9A27A}#W.s4.a3 #sky{fill:#7A6A9A}
+#sunG{transition:transform 2s,opacity 2s}
+#W.s4.a2 #sunG{transform:translateY(260px);opacity:.6}
+#sunRays{transform-box:fill-box;transform-origin:center;animation:spin 10s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#W.s1.a0 .flw{animation:sway 1.2s ease-in-out infinite alternate}
+.flw{transform-box:fill-box;transform-origin:50% 100%}
+@keyframes sway{from{transform:rotate(-8deg)}to{transform:rotate(8deg)}}
+#breeze{display:none}#W.s1 #breeze{display:inline}
+.bz{animation:breeze 2.4s linear infinite}
+@keyframes breeze{from{transform:translateX(-100px);opacity:0}30%{opacity:.9}to{transform:translateX(700px);opacity:0}}
+#world{transform-box:view-box;transform-origin:330px 430px;transition:transform 1.6s ease-in-out}
+#W.s2.a3:not(.a4) #world{transform:scale(1.9)}
+#flock{opacity:0;transition:opacity 1s}#W.s2 #flock,#W.s3 #flock,#W.s4 #flock{opacity:1}
+.head{transform-box:fill-box;transform-origin:100% 50%}
+#W.s2.a1 .eat .head{animation:nod .6s ease-in-out infinite alternate}
+@keyframes nod{from{transform:rotate(0)}to{transform:rotate(-14deg)}}
+#W.s2.a2 .look .head{animation:tilt .8s ease-in-out infinite alternate}
+@keyframes tilt{from{transform:rotate(8deg)}to{transform:rotate(-10deg)}}
+#cotton{opacity:0;transition:opacity .8s .8s}#W.s2.a3:not(.a4) #cotton{opacity:1}
+#frame{opacity:0;transition:opacity 1s .4s}#W.s2.a4 #frame{opacity:1}
+#walkers{transform:translateX(320px);transition:transform 2.4s ease-out}
+#W:not(.s1) #walkers,#W.s1.a1 #walkers{transform:translateX(0)}
+#W.s1.a1 #walkers .bd{animation:bob .3s ease-in-out 8 alternate}
+.bd{transform-box:fill-box;transform-origin:50% 100%}
+@keyframes bob{to{transform:translateY(-6px)}}
+#lamb{display:none}#W.s3 #lamb{display:inline}
+#lambMv{transition:transform 1.6s ease-in}
+#W.s3.a2 #lambMv{transform:translateX(-760px)}
+#W.s3.a2 #lamb .leg{animation:legs .14s linear infinite alternate}
+.leg{transform-box:fill-box;transform-origin:50% 0}
+@keyframes legs{from{transform:rotate(-25deg)}to{transform:rotate(25deg)}}
+#W.s3.a0:not(.a2) #lamb .head{animation:tilt .3s ease-in-out infinite alternate}
+.arm{transform-box:fill-box;transform-origin:50% 100%}
+#W.s3.a1 #girl .arm,#W.s4.a3 #girl .arm{animation:wave .35s ease-in-out infinite alternate}
+@keyframes wave{from{transform:rotate(-20deg)}to{transform:rotate(25deg)}}
+#think4{opacity:0;transition:opacity .6s}#W.s4.a0 #think4{opacity:1}#W.s4.a2 #think4{opacity:0}
+#spark4{display:none}#W.s4.a1:not(.a2) #spark4{display:inline}
+.spk{animation:twk 1.2s ease-in-out infinite}
+@keyframes twk{50%{opacity:.1}}
+.tear{display:none}#W.s4.a3 .tear{display:inline}
+.tr{animation:tear 1s ease-in infinite}
+@keyframes tear{from{transform:translateY(0);opacity:1}to{transform:translateY(24px);opacity:0}}
+#home{display:none}#W.s5 #home{display:inline}
+#think5{opacity:0;transition:opacity .6s}#W.s5.a1 #think5{opacity:1}
+#circle5{stroke-dasharray:260;stroke-dashoffset:260;transition:stroke-dashoffset 1.2s .4s}#W.s5.a1 #circle5{stroke-dashoffset:0}
+#W.s5.a0 #home .bd{animation:bob .4s ease-in-out infinite alternate}
+
+/* html pages */
+.html{background:linear-gradient(#EEF6EC,#FAFDF9)}
+.wx{position:absolute;inset:3%;display:grid;grid-template-columns:1.3fr 1fr;gap:1.4vw}
+.wxs{background:#fff;border-radius:18px;overflow:hidden;position:relative}
+.wxs svg{width:100%;height:100%;display:block}
+.wxr{display:flex;flex-direction:column;gap:1vh}
+.wcards{display:grid;grid-template-columns:1fr 1fr;gap:1vh}
+.wcard{font:inherit;font-size:3.6vh;font-weight:700;padding:1.4vh 0;border-radius:16px;border:4px solid var(--c);background:#fff;color:var(--c);cursor:pointer}
+.wcard.on{background:var(--c);color:#fff}
+.wdet{background:#fff;border-radius:16px;padding:1.4vh 1.2vw;font-size:3vh;line-height:1.6;color:#22301F;flex:1;overflow:auto}
+.wdet h3{margin:0 0 .4vh;font-size:4.2vh}
+.wdet .ex{background:#FFF2D6;border-radius:12px;padding:.6vh .8vw;margin-top:.8vh}
+.wdet .fb{min-height:4vh;margin-top:.6vh}
+#wsvg .layer{display:none}
+.w-sun #L-sun,.w-cloud #L-cloud,.w-storm #L-storm,.w-cold #L-cold{display:inline}
+.rain{animation:rainf .5s linear infinite}
+@keyframes rainf{from{transform:translateY(-40px)}to{transform:translateY(60px)}}
+.bolt{animation:bolt 1.6s infinite}
+@keyframes bolt{0%,40%,100%{opacity:0}45%,55%{opacity:1}}
+.dcl{animation:drift 4s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translateX(40px)}}
+.sn{animation:snow 4s linear infinite}
+@keyframes snow{from{transform:translate(0,-60px)}to{transform:translate(20px,420px)}}
+.sp{position:absolute;inset:3%;display:grid;grid-template-columns:1fr 1.15fr;gap:1.4vw;color:#22301F}
+.spl,.spr{background:#fff;border-radius:18px;padding:1.4vh 1.2vw;display:flex;flex-direction:column;gap:.8vh;overflow:auto}
+.spl h4,.spr h4{margin:0;font-size:3.2vh;color:#C8622A}
+.note{font-size:2.6vh;background:#FFF2D6;border-radius:12px;padding:.8vh .8vw;line-height:1.5}
+.blocks{display:flex;flex-wrap:wrap;gap:.5vw;align-items:flex-end;font-size:3.4vh;font-weight:700}
+.blk{display:flex;flex-direction:column;align-items:center;gap:.3vh}
+.blk small{font-size:1.9vh;color:#fff;border-radius:6px;padding:.1vh .4vw;background:var(--c)}
+.blk span{border:3px solid var(--c);border-radius:10px;padding:.2vh .6vw;background:#fff;min-width:2.4em;text-align:center}
+.blk.plain span{border-color:transparent}
+.slot h5{margin:.3vh 0;font-size:2.4vh;color:#5F6E5A}
+.chips{display:flex;flex-wrap:wrap;gap:.5vh}
+.chips button{font:inherit;font-size:2.5vh;padding:.3vh .9vw;border-radius:999px;border:3px solid var(--c);background:#fff;color:#22301F;cursor:pointer}
+.chips button.on{background:var(--c);color:#fff}
+.spr input{font:inherit;font-size:2.4vh;padding:.4vh .7vw;border-radius:10px;border:3px solid #C9C2B0;width:100%}
+.idi{position:absolute;inset:3%;display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:auto 1fr;gap:1.2vh 1vw}
+.icard{font:inherit;background:#fff;border:4px solid var(--c);border-radius:18px;padding:1vh .6vw;cursor:pointer;color:#22301F;display:flex;flex-direction:column;align-items:center;gap:.4vh}
+.icard .em{font-size:5.6vh;line-height:1}
+.icard b{font-size:3.8vh;color:var(--c)}
+.icard small{font-size:2.2vh;color:#5F6E5A}
+.icard.on{background:color-mix(in srgb,var(--c) 14%,#fff)}
+.idet{grid-column:1/-1;background:#fff;border-radius:18px;padding:2vh 2vw;color:#22301F;font-size:3.1vh;line-height:1.7;overflow:auto}
+.idet h3{margin:0 0 .6vh;font-size:4.4vh}
+.idet .mean{background:#EEF6E8;border-radius:12px;padding:.8vh 1vw}
+.idet .ex{background:#FFF2D6;border-radius:12px;padding:.8vh 1vw;margin-top:1vh}
+.idet .lk{background:#FDE7DA;border-radius:12px;padding:.8vh 1vw;margin-top:1vh;font-weight:700;color:#B5481F}
+.idet .opts{display:flex;gap:1vw;flex-wrap:wrap;margin-top:1.4vh}
+.idet .opts button{font:inherit;font-size:3.2vh;padding:1vh 1.6vw;border-radius:14px;border:3px solid #C8622A;background:#fff;color:#22301F;cursor:pointer;font-weight:700}
+.idet .fb{min-height:4.5vh;margin-top:1.2vh}
+.idet .tg{font-size:2.1vh;color:#fff;border-radius:6px;padding:.1vh .6vw;margin-right:.6vw}
+.blank{display:inline-block;min-width:6em;border-bottom:4px solid #E8762A;text-align:center;color:#E8762A}
+.hz{color:#C8362B;font-size:1.15em}
+
+@media (max-width:820px), (max-aspect-ratio:1/1){
+  body{overflow:auto;display:block}
+  main{grid-template-columns:1fr}
+  .stage{height:60vh}
+  .txt,.txt.long{writing-mode:horizontal-tb;height:auto;font-size:22px}
+  .acts button,.pnav button,nav button{font-size:16px}
+  h1{font-size:26px}
+  .wx,.sp{grid-template-columns:1fr;overflow:auto}
+}
+@media (prefers-reduced-motion: reduce){ .bz,#sunRays,.rain,.sn,.dcl{animation:none} }
+a.hall-back{position:fixed;z-index:40;top:0;right:0;font-family:var(--kai);font-size:1.7vh;line-height:1.2;padding:.45vh .8vw;white-space:nowrap;background:var(--panel);color:var(--soft);text-decoration:none;border:1px solid var(--soft);border-top:0;border-right:0;border-bottom-left-radius:12px}a.hall-back:hover,a.hall-back:focus-visible{color:var(--ink)}
+</style>
+</head>
+<body>
+<a class="hall-back" href="../">← 回課文大廳</a>
+<header>
+  <h1><small>二上第十課</small>去農場玩<em>林榮勤</em></h1>
+  <nav id="tabs"></nav>
+</header>
+
+<main>
+  <div class="stagewrap">
+    <div class="stage" id="stage">
+      <div class="scene" id="sc-farm"><svg id="W" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <div class="scene html" id="sc-wx">
+        <div class="wx">
+          <div class="wxs"><svg id="wsvg" viewBox="0 0 600 420" preserveAspectRatio="xMidYMid slice"></svg></div>
+          <div class="wxr"><div class="wcards" id="wcards"></div><div class="wdet" id="wdet"></div></div>
+        </div>
+      </div>
+      <div class="scene html" id="sc-like"><div class="sp"><div class="spl" id="lkl"></div><div class="spr" id="lkr"></div></div></div>
+      <div class="scene html" id="sc-idiom"><div class="idi" id="idi"></div></div>
+      <div id="ov"></div>
+    </div>
+    <div class="acts" id="acts"></div>
+  </div>
+
+  <aside>
+    <div class="ptitle"><span id="ptag"></span><b id="pno"></b></div>
+    <div class="txt" id="txt"></div>
+    <div class="pnav">
+      <button id="prev">◀ 上一頁</button>
+      <button id="say" class="say">🔊 念給我聽</button>
+      <button id="next">下一頁 ▶</button>
+    </div>
+  </aside>
+</main>
+
+<div id="pop"></div>
+
+<script>
+const $=s=>document.querySelector(s);
+const $$=s=>[...document.querySelectorAll(s)];
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs={},parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;}
+let timers=[];let autoOn=false;
+function later(fn,ms){const t=setTimeout(fn,ms);timers.push(t);return t;}
+function stopAll(){timers.forEach(clearTimeout);timers=[];autoOn=false;try{speechSynthesis.cancel()}catch(e){};$('#ov').innerHTML='';$('#pop').classList.remove('on');}
+function ov(html,style,cls='badge'){const d=document.createElement('div');d.className=cls;d.innerHTML=html;Object.assign(d.style,style||{});$('#ov').appendChild(d);return d;}
+function temp(html,style,cls,ms=2000){const d=ov(html,style,cls);setTimeout(()=>d.remove(),ms);return d;}
+function say1(html,cls=''){$('#ov').querySelectorAll('.badge').forEach(b=>b.remove());return ov(html,{left:'3%',top:'4%'},'badge '+cls)}
+function bubbles(words,area){words.forEach((w,i)=>later(()=>temp(w,{left:(area.x+Math.random()*area.w)+'%',top:(area.y+Math.random()*area.h)+'%'},'bub',1950),i*(area.gap||300)))}
+const clean=t=>t.replace(/\[\[|\]\]|\{\{|\}\}/g,'');
+function speak(text,onend){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(clean(text).replace(/ㄇㄝ/g,'咩'));u.lang='zh-TW';u.rate=.72;const v=speechSynthesis.getVoices().find(v=>/zh[-_]TW/i.test(v.lang));if(v)u.voice=v;if(onend)u.onend=onend;speechSynthesis.speak(u);}catch(e){onend&&setTimeout(onend,1500)}}
+function bubbleNear(id,who,text,ms=4000){later(()=>{const n=$('#'+id);if(!n)return;const b=n.getBoundingClientRect(),s=$('#stage').getBoundingClientRect();const d=ov(`<b>${who}</b>${text}`,{},'bubble');const W=d.offsetWidth,H=d.offsetHeight;let x=b.left-s.left+b.width/2-W/2,y=b.top-s.top-H-10;x=Math.max(8,Math.min(s.width-W-8,x));if(y<8)y=8;d.style.left=x+'px';d.style.top=y+'px';later(()=>d.remove(),ms)},60)}
+
+/* ---------- figures ---------- */
+function sheep(parent,x,y,s,cls='',id=''){const g=el('g',{transform:`translate(${x},${y}) scale(${s})`,class:cls},parent);if(id)g.id=id;
+  g.innerHTML=`<g class="leg"><rect x="-26" y="-14" width="7" height="16" fill="#6A5A50"/></g><g class="leg"><rect x="18" y="-14" width="7" height="16" fill="#6A5A50"/></g>
+  <g fill="#FFFFFF" stroke="#E3DED4" stroke-width="2">${[[-24,-30,16],[-6,-38,18],[14,-36,17],[28,-26,13],[-16,-18,14],[6,-18,15],[22,-16,12]].map(([cx,cy,r])=>`<circle cx="${cx}" cy="${cy}" r="${r}"/>`).join('')}</g>
+  <g class="head"><ellipse cx="-44" cy="-28" rx="14" ry="11" fill="#F6CDBE"/><ellipse cx="-38" cy="-38" rx="8" ry="4" fill="#F6CDBE" transform="rotate(-30 -38 -38)"/><circle cx="-48" cy="-30" r="2.2" fill="#333"/><circle cx="-56" cy="-24" r="2" fill="#E08A8A"/></g>`;return g;}
+function human(parent,x,y,s,{dress='#E85D4A',hair='#7A4A2A',kid=false,id='',pig=false,man=false}={}){const g=el('g',{transform:`translate(${x},${y}) scale(${s})`},parent);if(id)g.id=id;const bd=el('g',{class:'bd'},g);
+  const h=kid?-92:-130;
+  bd.innerHTML=`<rect x="-12" y="-36" width="9" height="34" fill="${man?'#3A5A8A':'#F2C9A0'}"/><rect x="3" y="-36" width="9" height="34" fill="${man?'#3A5A8A':'#F2C9A0'}"/>
+   <ellipse cx="-8" cy="-2" rx="9" ry="4" fill="#E8762A"/><ellipse cx="8" cy="-2" rx="9" ry="4" fill="#E8762A"/>
+   <path d="M-24,-34 L-18,${h+26} L18,${h+26} L24,-34Z" fill="${dress}"/>${dress==='#E85D4A'&&kid?`<g fill="#fff" opacity=".7"><circle cx="-8" cy="-50" r="3"/><circle cx="8" cy="-62" r="3"/><circle cx="-2" cy="-40" r="3"/></g>`:''}
+   <g class="arm"><line x1="16" y1="${h+34}" x2="34" y2="${h+4}" stroke="${dress}" stroke-width="8" stroke-linecap="round"/><circle cx="35" cy="${h+1}" r="5" fill="#F2C9A0"/></g>
+   <line x1="-16" y1="${h+34}" x2="-26" y2="${h+62}" stroke="${dress}" stroke-width="8" stroke-linecap="round"/>
+   <circle cx="0" cy="${h}" r="${kid?21:23}" fill="#F2C9A0"/>
+   <path d="M-22,${h-2} q2,-26 22,-26 q20,0 22,26 q-8,-12 -22,-12 q-14,0 -22,12Z" fill="${hair}"/>
+   ${pig?`<circle cx="-22" cy="${h-12}" r="7" fill="${hair}"/><circle cx="22" cy="${h-12}" r="7" fill="${hair}"/>`:''}
+   ${man?`<rect x="-14" y="${h-2}" width="12" height="8" rx="2" fill="none" stroke="#333" stroke-width="2"/><rect x="2" y="${h-2}" width="12" height="8" rx="2" fill="none" stroke="#333" stroke-width="2"/>`:''}
+   <circle cx="-7" cy="${h+1}" r="2.6" fill="#333"/><circle cx="7" cy="${h+1}" r="2.6" fill="#333"/><path d="M-6,${h+10} q6,6 12,0" stroke="#A0522D" stroke-width="2" fill="none"/>
+   <circle cx="-14" cy="${h+7}" r="4.5" fill="#F7A9A0" opacity=".7"/><circle cx="14" cy="${h+7}" r="4.5" fill="#F7A9A0" opacity=".7"/>
+   <g class="tear"><path class="tr" d="M-8,${h+4} q4,7 0,11 q-4,-4 0,-11Z" fill="#5BB4E8"/></g>`;return g;}
+
+/* ---------- build farm ---------- */
+(function(){
+  const W=$('#W');W.innerHTML=`<rect id="sky" width="1000" height="560"/>
+   <g id="sunG"><g id="sunRays" stroke="#F7B731" stroke-width="7" stroke-linecap="round"><line x1="140" y1="30" x2="140" y2="14"/><line x1="140" y1="150" x2="140" y2="166"/><line x1="80" y1="90" x2="64" y2="90"/><line x1="200" y1="90" x2="216" y2="90"/><line x1="98" y1="48" x2="87" y2="37"/><line x1="182" y1="132" x2="193" y2="143"/><line x1="182" y1="48" x2="193" y2="37"/><line x1="98" y1="132" x2="87" y2="143"/></g><circle cx="140" cy="90" r="46" fill="#FFD43B"/><path d="M124,96 q16,14 32,0" stroke="#A05A00" stroke-width="3" fill="none"/><circle cx="128" cy="84" r="4" fill="#A05A00"/><circle cx="152" cy="84" r="4" fill="#A05A00"/></g>
+   <g fill="#fff" opacity=".9"><ellipse cx="420" cy="80" rx="70" ry="22"/><ellipse cx="460" cy="66" rx="44" ry="22"/><ellipse cx="760" cy="110" rx="80" ry="22"/></g>
+   <g id="breeze" stroke="#fff" stroke-width="4" stroke-linecap="round" fill="none"><path class="bz" d="M0,180 q40,-14 80,0 t80,0"/><path class="bz" d="M0,240 q30,-10 60,0" style="animation-delay:1s"/></g>
+   <g id="world">
+    <path d="M0,300 Q250,220 500,280 T1000,250 L1000,560 L0,560Z" fill="#8CCB6A"/>
+    <path d="M0,360 Q300,300 600,350 T1000,330 L1000,560 L0,560Z" fill="#6BB04A"/>
+    <g stroke="#B08A5A" stroke-width="4"><line x1="0" y1="330" x2="1000" y2="300"/>${Array.from({length:14},(_,i)=>`<line x1="${i*75}" y1="${330-i*2.2-24}" x2="${i*75}" y2="${330-i*2.2+8}"/>`).join('')}</g>
+    <g id="flowers">${Array.from({length:12},(_,i)=>`<g class="flw" style="animation-delay:${-i*.2}s"><line x1="${40+i*80}" y1="${540-(i%3)*12}" x2="${40+i*80}" y2="${520-(i%3)*12}" stroke="#3E7A2A" stroke-width="3"/><circle cx="${40+i*80}" cy="${518-(i%3)*12}" r="6" fill="${['#FFD43B','#F28CB0','#fff'][i%3]}"/></g>`).join('')}</g>
+    <g id="flock"></g>
+   </g>
+   <g id="cotton"><rect x="640" y="60" width="330" height="200" rx="20" fill="#fff" stroke="#E8A33A" stroke-width="4"/><text x="805" y="100" text-anchor="middle" font-size="28" class="lbl" fill="#C8622A">像一堆堆棉花</text>
+     ${[[700,180],[790,170],[880,185],[740,225],[840,225]].map(([x,y])=>`<g transform="translate(${x},${y})" fill="#fff" stroke="#DDD" stroke-width="2"><circle cx="-14" cy="0" r="16"/><circle cx="8" cy="-8" r="18"/><circle cx="20" cy="6" r="14"/><circle cx="-2" cy="10" r="14"/></g>`).join('')}</g>
+   <g id="frame"><rect x="14" y="14" width="972" height="532" fill="none" stroke="#9A6A3A" stroke-width="26"/><rect x="30" y="30" width="940" height="500" fill="none" stroke="#E8C68A" stroke-width="6"/><rect x="380" y="490" width="240" height="44" rx="6" fill="#E8C68A"/><text x="500" y="521" text-anchor="middle" font-size="24" class="lbl" fill="#6A4A2A">風景畫</text></g>
+   <g id="lamb"><g id="lambMv"></g></g>
+   <g id="walkers"></g>
+   <g id="think4"><circle cx="840" cy="320" r="8" fill="#fff"/><circle cx="860" cy="290" r="13" fill="#fff"/><ellipse cx="880" cy="220" rx="90" ry="60" fill="#fff" stroke="#E86A8A" stroke-width="3"/><g id="tkl"></g><text x="920" y="210" font-size="34">💕</text></g>
+   <g id="spark4">${[[200,200],[420,160],[620,220],[300,300]].map(([x,y],i)=>`<text class="spk" x="${x}" y="${y}" font-size="34" style="animation-delay:${i*.3}s">✨</text>`).join('')}</g>
+   <g id="home"><rect width="1000" height="560" fill="#F3E6D2"/><rect y="440" width="1000" height="120" fill="#C9A273"/>
+     <rect x="80" y="80" width="200" height="150" fill="#2B3A56" stroke="#8A6A3A" stroke-width="8"/><circle cx="230" cy="120" r="14" fill="#FFF3C4"/>
+     <g id="cal5"><rect x="380" y="60" width="200" height="180" rx="12" fill="#fff" stroke="#E8762A" stroke-width="4"/><rect x="380" y="60" width="200" height="40" rx="12" fill="#E8762A"/><text x="480" y="90" text-anchor="middle" font-size="24" fill="#fff" class="lbl">月曆</text>
+       ${Array.from({length:14},(_,i)=>`<text x="${400+(i%7)*26}" y="${130+Math.floor(i/7)*40}" font-size="18" fill="#555">${i+1}</text>`).join('')}<text x="480" y="225" text-anchor="middle" font-size="22" class="lbl" fill="#C8362B">放假</text>
+       <circle id="circle5" cx="480" cy="217" r="40" fill="none" stroke="#C8362B" stroke-width="4"/></g>
+     <g id="dad"></g><g id="girlH"></g>
+     <g id="think5"><circle cx="700" cy="280" r="8" fill="#fff"/><circle cx="720" cy="250" r="13" fill="#fff"/><ellipse cx="820" cy="170" rx="140" ry="80" fill="#fff" stroke="#E8762A" stroke-width="3"/><g id="tk5"></g><text x="820" y="130" text-anchor="middle" font-size="22" class="lbl" fill="#C8622A">下次再去找小羊玩！</text></g></g>`;
+  const fk=$('#flock');[[120,400,.9,'eat'],[260,380,.8,'look'],[380,430,1,'eat'],[520,400,.85,'look'],[640,440,1.05,'eat'],[200,470,1.1,'look'],[460,490,1.15,'eat'],[320,520,1.2,'look'],[80,520,1.05,'eat']].forEach(([x,y,s,c])=>sheep(fk,x,y,s,c));
+  const wk=$('#walkers');human(wk,860,520,1.05,{dress:'#E8762A',hair:'#8A5A3A',id:'mom'});human(wk,760,530,.95,{kid:true,pig:true,id:'girl'});
+  sheep($('#lambMv'),640,520,.8,'',"lambS");
+  sheep($('#tkl'),880,250,.6);
+  human($('#dad'),330,500,1.1,{dress:'#4A6A8A',hair:'#3A2A1A',man:true,id:'dadF'});human($('#girlH'),480,505,.95,{kid:true,pig:true,id:'girlF'});
+  sheep($('#tk5'),780,220,.55);sheep($('#tk5'),870,215,.45);
+})();
+
+/* ---------- vocabulary ---------- */
+const VOC={
+ "風和日麗":"微風溫和，陽光明亮，形容天氣很好。","草原":"長滿青草的大片土地。","成群":"很多聚在一起。","靜靜的":"沒有聲音，安安靜靜。",
+ "非常":"很、十分。","有趣":"好玩，有意思。","近看":"站在近的地方看。","一堆堆":"一堆一堆，很多堆。","棉花":"白白、軟軟、像雲一樣的東西，可以做棉被。",
+ "遠看":"站在遠的地方看。","風景畫":"畫著山水、草地等美麗風景的畫。","忽然":"突然，一下子發生。","聽見":"聽到。","揮手":"把手舉起來左右搖。",
+ "景色":"看到的風景。","慢慢":"不快，一點一點的。","依依不捨":"很捨不得離開。","美好":"美麗、很好。","放假":"不用上學或上班的日子。"
+};
+function showVocab(w){const p=$('#pop');p.innerHTML=`<h3>${w}</h3><div>${VOC[w]||''}</div><div class="row"><button id="pSay">🔊 念</button><button id="pClose">關閉</button></div>`;p.classList.add('on');$('#pSay').onclick=()=>speak(w+'。'+VOC[w]);$('#pClose').onclick=()=>p.classList.remove('on');}
+
+/* ---------- text ---------- */
+const ST=[
+ {lines:['[[風和日麗]]的天氣，','媽媽帶我去農場玩。'],
+  fx:[()=>say1('風和日麗：微風吹，太陽好 ☀️','gold'),()=>say1('媽媽帶我去農場玩 🚶‍♀️')]},
+ {long:1,lines:['走進農場，[[草原]]上有[[成群]]的羊，','有的低著頭[[靜靜的]]吃草，','有的抬起頭，好像在和我打招呼，[[非常]][[有趣]]。','[[近看]]，大大小小的羊像[[一堆堆]][[棉花]]。','[[遠看]]，白白的羊走在綠綠的草地上，美得像[[風景畫]]。'],
+  fx:[()=>say1('草原上有好多羊 🐑'),()=>say1('有的低著頭，靜靜的吃草'),()=>{say1('有的抬起頭，好像在打招呼');bubbles(['咩～','咩～','嗨！'],{x:20,y:40,w:40,h:15})},()=>say1('近看：羊像一堆堆棉花 ☁️','gold'),()=>say1('遠看：美得像一幅風景畫 🖼️','gold')]},
+ {lines:['[[忽然]]，我[[聽見]]一隻小羊ㄇㄝ ㄇㄝ ㄇㄝ的叫了起來，','我向牠[[揮手]]，','沒想到牠急忙的跑開了。'],
+  fx:[()=>{say1('小羊叫了起來');bubbles(['ㄇㄝ','ㄇㄝ','ㄇㄝ'],{x:58,y:55,w:10,h:8,gap:450})},()=>{say1('我向小羊揮揮手 👋');bubbleNear('girl','我','小羊，你好！',3000)},()=>say1('沒想到，小羊急忙跑開了 💨')]},
+ {lines:['我好想和小羊一起玩，','也想多看看農場的[[景色]]。','但是，天色[[慢慢]]黑了，','我只好[[依依不捨]]的向小羊說再見。'],
+  fx:[()=>say1('好想和小羊一起玩 💕'),()=>say1('也想多看看農場的景色 ✨'),()=>say1('天色慢慢黑了 🌇'),()=>{say1('依依不捨：好捨不得離開','blue');bubbleNear('girl','我','小羊，再見……',3200)}]},
+ {lines:['回家後，我跟爸爸分享這[[美好]]的一天，','我們說好下次[[放假]]時，再去找小羊玩。'],
+  fx:[()=>{say1('跟爸爸分享美好的一天 🏠');bubbleNear('girlF','我','爸爸，我今天看到好多羊！',3600)},()=>say1('說好下次放假，再去找小羊玩！','green')]}
+];
+let lineIdx=-1;
+function stateTo(sn,k){$('#W').setAttribute('class',['s'+(sn+1),...Array.from({length:k+1},(_,i)=>'a'+i)].join(' '));}
+function playLine(k,{onend}={}){
+  const st=S[cur];if(st.st===undefined)return;const S_=ST[st.st];
+  timers.forEach(clearTimeout);timers=[];try{speechSynthesis.cancel()}catch(e){}
+  lineIdx=k;$('#ov').innerHTML='';stateTo(st.st,k);S_.fx[k]();
+  $$('#txt .ln').forEach((l,i)=>{l.classList.toggle('on',i===k);l.classList.toggle('done',i<k)});
+  $('#lineNo').textContent=`第 ${k+1} 句／共 ${S_.lines.length} 句`;
+  let done=false;const fin=()=>{if(done)return;done=true;onend&&onend()};
+  speak(S_.lines[k],()=>later(fin,700));later(fin,Math.max(2800,clean(S_.lines[k]).length*520+1500));
+}
+function nextLine(){const st=S[cur];if(st.st===undefined)return;const n=ST[st.st].lines.length;if(lineIdx<n-1)playLine(lineIdx+1);else temp('這一段念完了！按「下一頁」繼續',{left:'50%',top:'45%',transform:'translateX(-50%)'},'badge',2000)}
+function autoPlay(){const st=S[cur];stopAll();lineIdx=-1;stateTo(st.st,-1);autoOn=true;const n=ST[st.st].lines.length;const step=i=>{if(!autoOn||i>=n){autoOn=false;return}playLine(i,{onend:()=>{if(autoOn)step(i+1)}})};later(()=>step(0),300);}
+
+/* ---------- weather words ---------- */
+const WX=[
+ {n:'風和日麗',k:'sun',c:'#E8A33A',m:'微風溫和，陽光明亮，形容天氣晴朗又舒服。',x:'風和日麗的天氣，媽媽帶我去農場玩。',book:1},
+ {n:'烏雲密布',k:'cloud',c:'#5A6A7A',m:'天空布滿了黑黑的雲，好像快要下雨了。',x:'天空烏雲密布，我們趕快把衣服收進來。'},
+ {n:'雷雨交加',k:'storm',c:'#2E6FB3',m:'又打雷，又下大雨。',x:'外面雷雨交加，我們只好待在家裡。'},
+ {n:'天寒地凍',k:'cold',c:'#6AA6C8',m:'天氣非常寒冷，地面好像都結冰了。',x:'天寒地凍的早上，我穿上厚厚的外套。'}];
+(function(){const s=$('#wsvg');s.innerHTML=`<rect width="600" height="420" fill="#BFE3F2"/>
+ <g id="L-sun" class="layer"><rect width="600" height="420" fill="#BFE6F5"/><circle cx="480" cy="90" r="50" fill="#FFD43B"/><g stroke="#F7B731" stroke-width="6" stroke-linecap="round"><line x1="480" y1="20" x2="480" y2="6"/><line x1="410" y1="90" x2="396" y2="90"/><line x1="550" y1="90" x2="564" y2="90"/><line x1="430" y1="40" x2="420" y2="30"/><line x1="530" y1="40" x2="540" y2="30"/></g><g stroke="#fff" stroke-width="4" fill="none"><path class="dcl" d="M60,140 q40,-14 80,0 t80,0"/></g></g>
+ <g id="L-cloud" class="layer"><rect width="600" height="420" fill="#8A96A2"/><g fill="#4A5260">${[[100,90],[260,70],[420,100],[180,150],[360,150],[520,140]].map(([x,y])=>`<g class="dcl"><circle cx="${x}" cy="${y}" r="50"/><circle cx="${x+50}" cy="${y-10}" r="44"/><circle cx="${x-50}" cy="${y+6}" r="38"/></g>`).join('')}</g></g>
+ <g id="L-storm" class="layer"><rect width="600" height="420" fill="#3A4250"/><g fill="#2A303A"><circle cx="150" cy="80" r="60"/><circle cx="240" cy="60" r="60"/><circle cx="360" cy="80" r="60"/><circle cx="460" cy="70" r="56"/></g><path class="bolt" d="M300,120 L260,210 L295,210 L250,310 L340,190 L302,190 L340,120Z" fill="#FFE45C"/><g stroke="#BFE3FF" stroke-width="3">${Array.from({length:40},(_,i)=>`<line class="rain" x1="${(i*37)%600}" y1="${130+(i*29)%200}" x2="${(i*37)%600-8}" y2="${155+(i*29)%200}" style="animation-delay:${-(i%10)*.05}s"/>`).join('')}</g></g>
+ <g id="L-cold" class="layer"><rect width="600" height="420" fill="#DDE8F0"/><rect y="320" width="600" height="100" fill="#fff"/><g transform="translate(300,320)"><circle cx="0" cy="-40" r="40" fill="#fff" stroke="#BFD0DC" stroke-width="3"/><circle cx="0" cy="-104" r="28" fill="#fff" stroke="#BFD0DC" stroke-width="3"/><rect x="-16" y="-150" width="32" height="20" fill="#C8362B"/><circle cx="-9" cy="-108" r="3" fill="#333"/><circle cx="9" cy="-108" r="3" fill="#333"/><path d="M0,-100 l14,4 l-14,4Z" fill="#E8762A"/></g>${Array.from({length:40},(_,i)=>`<circle class="sn" cx="${(i*47)%600}" cy="${(i*31)%100}" r="${3+(i%3)}" fill="#fff" style="animation-delay:${-(i%8)*.5}s"/>`).join('')}</g>`;})();
+function buildWX(sel){const c=$('#wcards');c.innerHTML='';WX.forEach((w,i)=>{const b=document.createElement('button');b.className='wcard'+(i===sel?' on':'');b.style.setProperty('--c',w.c);b.textContent=w.n;b.onclick=()=>buildWX(i);c.appendChild(b)});
+  const d=WX[sel||0];$('#wsvg').setAttribute('class','w-'+d.k);$('#wdet').innerHTML=`<h3 style="color:${d.c}">${d.n}</h3><div>${d.m}</div><div class="ex"><b>${d.book?'課文：':'例句：'}</b>${d.x}</div>`;speak(d.n+'。'+d.m);}
+let wq=[],wqi=0;
+function wxQuiz(){wq=[...WX].sort(()=>Math.random()-.5);wqi=0;$$('.wcard').forEach(b=>b.classList.remove('on'));wxAsk();}
+function wxAsk(){if(wqi>=wq.length){$('#wdet').innerHTML='<h3>全部完成！🎉</h3>';speak('全部完成，你好棒');return}
+  const d=wq[wqi];$('#wsvg').setAttribute('class','w-'+d.k);$('#wdet').innerHTML=`<h3>第 ${wqi+1}／4 題</h3><div>看左邊的天氣，是哪一個四字詞語？點上面的按鈕回答！</div><div class="fb" id="wfb"></div>`;speak('看看左邊的天氣，是哪一個四字詞語？');
+  $$('.wcard').forEach((b,i)=>b.onclick=()=>{const fb=$('#wfb');if(WX[i].n===d.n){fb.textContent='答對了！是「'+d.n+'」⭐';fb.style.color='#2E8B57';speak('答對了，'+d.n);wqi++;later(wxAsk,1800)}else{fb.textContent='再看看天空的樣子！';fb.style.color='#C8362B'}});}
+
+/* ---------- 像 ---------- */
+const LK={
+ look:{c:'#E86A8A',l:['方方的','大大的','亮亮的','圓圓的','長長的']},
+ a:{c:'#3A9AD6',l:['窗戶','月亮','白雲','西瓜']},
+ q:{c:'#4A9A3C',l:['一面','一個','一朵','一顆','一張']},
+ b:{c:'#E8762A',l:['鏡子','畫框','盤子','棉花糖','皮球','電視']}};
+let pk={look:'',a:'窗戶',q:'',b:''};
+function blk(lbl,txt,c,plain){return `<div class="blk${plain?' plain':''}" style="--c:${c}"><small>${lbl}</small><span>${txt}</span></div>`}
+function buildLK(){$('#lkl').innerHTML=`<h4>句子練習：……像……</h4>
+  <div class="note"><b>1.</b> 先想一想，這個事物像什麼東西？</div>
+  <div class="blocks">${blk('事物①','羊','#3A9AD6')}${blk('','像','#999',1)}${blk('事物②','棉花','#E8762A')}<span>。</span></div>
+  <div class="note">🐑 ＋ ☁️ 羊和棉花都是<b>白色</b>的，而且<b>形狀相似</b>，所以說羊像棉花。</div>
+  <div class="note"><b>2.</b> 再加入描述事物樣子的詞語和量詞，讓句子更完整。</div>
+  <div class="blocks">${blk('什麼樣子','大大小小','#E86A8A')}${blk('','的','#999',1)}${blk('事物①','羊','#3A9AD6')}${blk('','像','#999',1)}${blk('量詞','一堆堆','#4A9A3C')}${blk('事物②','棉花','#E8762A')}<span>。</span></div>`;
+  renderLK();}
+function renderLK(){const r=$('#lkr');const sec=(k,t)=>`<div class="slot"><h5>${t}</h5><div class="chips" data-k="${k}" style="--c:${LK[k].c}">${LK[k].l.map(x=>`<button class="${pk[k]===x?'on':''}">${x}</button>`).join('')}</div></div>`;
+  r.innerHTML=`<h4>我來說說看：${pk.a}像什麼東西？</h4>${sec('a','事物①（選一樣）')}${sec('look','什麼樣子')}${sec('q','量詞')}${sec('b','事物②（像什麼）')}
+   <div class="slot"><h5>或自己寫事物②</h5><input id="lkb" placeholder="例如：一面鏡子"></div>
+   <div class="blocks" id="lkout"></div>`;
+  r.querySelectorAll('.chips').forEach(ch=>{const k=ch.dataset.k;ch.querySelectorAll('button').forEach(b=>b.onclick=()=>{pk[k]=b.textContent;renderLK()})});
+  $('#lkb').oninput=updLK;updLK();}
+function updLK(){const own=$('#lkb').value.trim();const B=(x,ph)=>x||ph;
+  $('#lkout').innerHTML=`${blk('什麼樣子',B(pk.look,'？'),LK.look.c)}${blk('','的','#999',1)}${blk('事物①',pk.a,LK.a.c)}${blk('','像','#999',1)}${own?blk('事物②',own,LK.b.c):blk('量詞',B(pk.q,'？'),LK.q.c)+blk('事物②',B(pk.b,'？'),LK.b.c)}<span>。</span>`;}
+function sayLK(){const own=$('#lkb').value.trim();speak(`${pk.look}的${pk.a}像${own||(pk.q+pk.b)}`)}
+
+/* ---------- idioms ---------- */
+const ID=[
+ {n:'平心靜氣',e:'😌',c:'#2E8B57',z:'靜',w:'靜靜的吃草',m:'形容心情平和，態度冷靜。',x:'當衝突發生時，應該平心靜氣的應對。'},
+ {n:'平易近人',e:'🤗',c:'#E8762A',z:'近',w:'近看',m:'形容態度和藹親切，容易接近。也用來形容詩文淺白易懂。',x:'老師十分平易近人，有問題可以直接向他反應。'}];
+const IQ=[['當衝突發生時，應該＿＿的應對。','平心靜氣',1],['老師十分＿＿，有問題可以直接向他反應。','平易近人',1],['姐姐和我吵架後，我們坐下來＿＿的好好談一談。','平心靜氣',0],['新來的校長常常笑咪咪的，很＿＿。','平易近人',0]];
+let iq=[],iqi=0;
+function hl(n,z){return n.replace(z,`<span class="hz">${z}</span>`)}
+function buildIdiom(sel){const box=$('#idi');box.innerHTML='';ID.forEach((d,i)=>{const b=document.createElement('button');b.className='icard'+(i===sel?' on':'');b.style.setProperty('--c',d.c);b.innerHTML=`<span class="em">${d.e}</span><b>${d.n}</b><small>生字：「${d.z}」</small>`;b.onclick=()=>buildIdiom(i);box.appendChild(b)});
+  const det=document.createElement('div');det.className='idet';det.id='idet';box.appendChild(det);
+  if(sel===undefined){det.innerHTML='<div style="color:#5F6E5A">點上面的成語卡，看看意思和例句；或按下方「考考你」練習。</div>';return}
+  const d=ID[sel];det.innerHTML=`<h3 style="color:${d.c}">${d.e} ${hl(d.n,d.z)}</h3><div class="mean"><b>意思：</b>${d.m}</div><div class="ex"><b>例句：</b>${d.x}</div><div class="lk">課文裡的生字「${d.z}」：${hl(d.w,d.z)}</div>`;speak(d.n+'。'+d.m+'。例句：'+d.x);}
+function idiomQuiz(){iq=[...IQ].sort(()=>Math.random()-.5);iqi=0;buildIdiom();askIdiom();}
+function askIdiom(){const det=$('#idet');if(iqi>=iq.length){det.innerHTML='<h3>全部完成！🎉</h3>';speak('全部完成，你好棒');return}
+  const [s,a,b]=iq[iqi];det.innerHTML=`<div><span class="tg" style="background:${b?'#C8622A':'#9AA6B5'}">${b?'課本例句':'練習題'}</span>第 ${iqi+1}／${iq.length} 題：空格要填哪個成語？</div><div style="font-size:3.8vh;font-weight:700;margin-top:1vh">${s.replace('＿＿','<span class="blank">？</span>')}</div><div class="opts"></div><div class="fb"></div>`;speak(s.replace('＿＿','什麼'));
+  ID.forEach(d=>{const x=document.createElement('button');x.textContent=d.n;x.onclick=()=>{const fb=det.querySelector('.fb');if(d.n===a){det.querySelector('.blank').textContent=a;fb.textContent='答對了！⭐';fb.style.color='#2E8B57';speak('答對了，'+s.replace('＿＿',a));iqi++;later(askIdiom,2600)}else{fb.textContent='再想想看：「'+d.n+'」的意思是'+d.m;fb.style.color='#C8362B'}};det.querySelector('.opts').appendChild(x)});}
+
+/* ---------- steps ---------- */
+const S=[
+ {st:0,sc:'farm',tag:'第一段',no:'去農場'},
+ {st:1,sc:'farm',tag:'第二段',no:'成群的羊'},
+ {st:2,sc:'farm',tag:'第三段',no:'小羊跑開了'},
+ {st:3,sc:'farm',tag:'第四段',no:'說再見'},
+ {st:4,sc:'farm',tag:'第五段',no:'美好的一天'},
+ {sc:'wx',tag:'天氣詞語',no:'四字詞語',guide:['風和日麗的天氣，','媽媽帶我去農場玩。','認識四個','有關天氣的四字詞語！'],enter(){buildWX(0)},acts:[['🎯 考考你',wxQuiz],['📖 看說明',()=>buildWX(0)]]},
+ {sc:'like',tag:'句子練習',no:'……像……',guide:['大大小小的羊，','像一堆堆棉花。','想一想：','兩樣東西','哪裡很像？'],enter(){buildLK()},acts:[['🔊 念我的句子',sayLK],['🧹 清空重寫',()=>{pk={look:'',a:'窗戶',q:'',b:''};renderLK()}]]},
+ {sc:'idiom',tag:'成語',no:'從生字學成語',guide:['從課文的生字，','認識成語：','「靜」和「近」，','藏在哪個成語裡？'],enter(){buildIdiom(0)},acts:[['🎯 考考你',idiomQuiz],['📖 看成語卡',()=>buildIdiom(0)]]}
+];
+
+/* ---------- navigation ---------- */
+const TABS=[['去農場',0,1],['成群的羊',1,2],['小羊跑開',2,3],['說再見',3,4],['美好的一天',4,5],['天氣詞語',5],['……像……',6],['成語',7]];
+TABS.forEach(([n,i,num],k)=>{if(k===5)$('#tabs').insertAdjacentHTML('beforeend','<span class="sep">｜</span>');else if(k>0&&k<5)$('#tabs').insertAdjacentHTML('beforeend','<span class="sep">›</span>');
+  const b=document.createElement('button');b.innerHTML=(num?`<i>${num}</i>`:'')+n;b.onclick=()=>go(i);b.dataset.i=i;$('#tabs').appendChild(b)});
+let cur=0;
+function lineHTML(t){return t.replace(/\[\[(.+?)\]\]/g,(m,w)=>`<span class="v" role="button" tabindex="0" data-w="${w}">${w}</span>`)}
+function go(i){
+  stopAll();cur=Math.max(0,Math.min(S.length-1,i));const st=S[cur];
+  $$('.scene').forEach(s=>s.classList.toggle('on',s.id==='sc-'+st.sc));
+  $('#ptag').textContent=st.tag;$('#pno').textContent=st.no;
+  const isT=st.st!==undefined;const lines=isT?ST[st.st].lines:st.guide;
+  const t=$('#txt');t.classList.toggle('guide',!isT);t.classList.toggle('long',isT&&!!ST[st.st].long);
+  t.innerHTML=lines.map((l,k)=>`<span class="ln" data-k="${k}" ${isT?'tabindex="0"':''}>${lineHTML(l)}</span>`).join('');
+  t.querySelectorAll('.v').forEach(v=>{v.onclick=e=>{e.stopPropagation();showVocab(v.dataset.w)};v.onkeydown=e=>{if(e.key==='Enter'){e.stopPropagation();showVocab(v.dataset.w)}}});
+  if(isT){t.querySelectorAll('.ln').forEach(l=>{l.onclick=()=>{autoOn=false;playLine(+l.dataset.k)};l.onkeydown=e=>{if(e.key==='Enter')l.onclick()}});lineIdx=-1;stateTo(st.st,-1);}
+  t.scrollTop=0;t.scrollLeft=0;
+  const A=$('#acts');A.innerHTML='';
+  const acts=isT?[['▶ 下一句',nextLine,1],['🎬 整段自動播',autoPlay],['🔁 從頭來',()=>{stopAll();lineIdx=-1;stateTo(st.st,-1);$$('#txt .ln').forEach(l=>l.classList.remove('on','done'))}]]:(st.acts||[]);
+  acts.forEach(([l,f,m])=>{const b=document.createElement('button');b.textContent=l;if(m)b.className='main';b.onclick=f;A.appendChild(b)});
+  if(isT)A.insertAdjacentHTML('beforeend','<span class="hint" id="lineNo">點右邊的句子，也可以一句一句看</span>');
+  let active=0;TABS.forEach(([n,ti])=>{if(cur>=ti)active=ti});
+  $$('#tabs button').forEach(b=>b.classList.toggle('on',+b.dataset.i===active));
+  $('#prev').disabled=cur===0;$('#next').disabled=cur===S.length-1;
+  st.enter&&st.enter();
+}
+$('#prev').onclick=()=>go(cur-1);$('#next').onclick=()=>go(cur+1);
+$('#say').onclick=()=>{const st=S[cur];const lines=st.st!==undefined?ST[st.st].lines:st.guide;speak(lines.join(''))};
+document.addEventListener('keydown',e=>{if(e.target.closest('input,.v,.ln'))return;if(e.key===' '&&S[cur].st!==undefined){e.preventDefault();nextLine()}if(e.key==='ArrowRight'||e.key==='PageDown')go(cur+1);if(e.key==='ArrowLeft'||e.key==='PageUp')go(cur-1);});
+try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>{}}catch(e){}
+go(0);
+</script>
+</body>
+</html>

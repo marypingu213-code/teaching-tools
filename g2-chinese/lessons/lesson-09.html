@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>二上第九課 赤腳國王｜課文動起來</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --kai:"LXGW WenKai TC","BiauKai","DFKai-SB","標楷體","Kaiti TC","Noto Serif TC","Noto Serif CJK TC","PMingLiU",serif;
+  --bg:#F1E9DD; --panel:#FFFFFF; --ink:#2E241C; --soft:#6E6152;
+  --red:#C8362B; --carpet:#B8262E; --gold:#E8A33A; --soil:#B98A5A;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --bg:#1F1A15; --panel:#2B241D; --ink:#F4EDE4; --soft:#C3B5A3; color-scheme:dark; }
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:var(--kai);background:var(--bg);color:var(--ink);display:grid;grid-template-rows:auto 1fr;overflow:hidden;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+header{display:flex;align-items:center;gap:1.2vw;padding:1vh 1.6vw .8vh;flex-wrap:wrap}
+h1{margin:0;font-size:4.4vh;color:var(--red);letter-spacing:.12em;white-space:nowrap}
+h1 small{font-size:.5em;color:var(--soft);letter-spacing:.05em;margin-right:.4em}
+h1 em{font-style:normal;font-size:.45em;color:var(--soft);margin-left:.5em;letter-spacing:0}
+nav{display:flex;gap:.2vw;flex-wrap:wrap;align-items:center}
+nav button{font:inherit;font-size:2.3vh;padding:.5vh .6vw;border-radius:10px;border:2px solid transparent;background:transparent;color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:.3em}
+nav button i{font-style:normal;display:inline-grid;place-items:center;width:2.6vh;height:2.6vh;border-radius:50%;background:var(--red);color:#fff;font-size:1.6vh}
+nav button.on{background:var(--panel);border-color:var(--red);color:var(--red);font-weight:700}
+nav .sep{color:var(--soft)}
+main{display:grid;grid-template-columns:1fr 46vh;gap:1.2vw;padding:0 1.6vw 1.4vh;min-height:0}
+.stagewrap{display:grid;grid-template-rows:1fr auto;gap:1vh;min-height:0}
+.stage{position:relative;border-radius:20px;overflow:hidden;background:#EADFCC;min-height:0}
+.scene{position:absolute;inset:0;display:none}
+.scene.on{display:block}
+.scene>svg{width:100%;height:100%;display:block}
+#ov{position:absolute;inset:0;pointer-events:none;z-index:7}
+.acts{display:flex;flex-wrap:wrap;gap:.7vw;min-height:6vh;align-items:center}
+.acts button{font:inherit;font-size:2.7vh;padding:.9vh 1.4vw;border-radius:999px;border:3px solid var(--red);background:var(--panel);color:var(--ink);cursor:pointer}
+.acts button:hover{background:var(--red);color:#fff}
+.acts button.main{background:var(--red);color:#fff;font-weight:700}
+.acts .hint{font-size:2.3vh;color:var(--soft)}
+button:focus-visible,.v:focus-visible,.ln:focus-visible{outline:4px solid var(--gold);outline-offset:2px}
+aside{background:var(--panel);border-radius:20px;padding:1.6vh 1.4vh;display:grid;grid-template-rows:auto minmax(0,1fr) auto;grid-template-columns:minmax(0,1fr);gap:1vh;min-height:0}
+.ptitle{display:flex;justify-content:space-between;align-items:center;font-size:2.6vh;color:var(--soft)}
+.ptitle b{color:var(--red);font-size:1.15em}
+.txt{writing-mode:vertical-rl;font-size:4.3vh;line-height:1.7;letter-spacing:.08em;width:100%;height:100%;min-height:0;overflow:auto;display:block}
+.ln{cursor:pointer;border-radius:8px;transition:background .3s;padding:.1em 0}
+.ln:hover{background:rgba(0,0,0,.05)}
+.ln.on{background:#FFE7A8;color:#2E241C}
+.ln.done{color:var(--soft)}
+.guide .ln{cursor:default;display:block;font-size:.85em}
+.v{border:2px solid var(--gold);border-radius:6px;cursor:pointer;color:#1F6FA0;padding:.1em 0}
+.v.b{border-color:transparent;color:#1F6FA0}
+@media (prefers-color-scheme: dark){ .v,.v.b{color:#86C9F0} .ln.on .v{color:#1F6FA0} }
+.pnav{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:.8vh}
+.pnav button{font:inherit;font-size:2.6vh;padding:1vh 0;border-radius:12px;border:2px solid var(--soft);background:transparent;color:var(--ink);cursor:pointer}
+.pnav .say{background:var(--red);border-color:var(--red);color:#fff;font-weight:700}
+.pnav button:disabled{opacity:.35}
+#pop{position:fixed;left:3vw;bottom:13vh;max-width:48vw;background:#fff;color:#2E241C;border:4px solid var(--gold);border-radius:16px;padding:1.4vh 1.6vw;font-size:3.2vh;line-height:1.6;box-shadow:0 8px 24px rgba(0,0,0,.25);display:none;z-index:20}
+#pop.on{display:block;animation:pop .3s}
+#pop h3{margin:0 0 .4vh;color:#C8362B;font-size:1.3em}
+#pop .row{display:flex;gap:1vw;margin-top:.8vh}
+#pop button{font:inherit;font-size:.85em;border-radius:10px;border:2px solid #C8362B;background:#fff;color:#C8362B;padding:.3vh 1vw;cursor:pointer}
+
+.badge{position:absolute;background:#fff;color:#2E241C;border:4px solid var(--red);border-radius:14px;padding:.6vh 1.2vw;font-size:3.2vh;font-weight:700;animation:pop .45s cubic-bezier(.3,1.6,.6,1);white-space:nowrap;z-index:8}
+.badge.gold{border-color:var(--gold)}.badge.blue{border-color:#2E6FB3}.badge.green{border-color:#2E8B57}
+.bubble{position:absolute;background:#fff;color:#2E241C;border:4px solid #2E241C;border-radius:18px;padding:.8vh 1.2vw;font-size:3vh;line-height:1.5;max-width:46%;animation:pop .3s cubic-bezier(.3,1.6,.6,1);z-index:8}
+.bubble b{display:block;font-size:.8em;color:#C8362B}
+.bub{position:absolute;font-size:5.2vh;font-weight:700;color:#fff;-webkit-text-stroke:2px #C8362B;paint-order:stroke fill;animation:floatup 1.9s ease-out forwards;z-index:8}
+@keyframes floatup{from{transform:translateY(0) scale(.6);opacity:0}20%{opacity:1;transform:translateY(-10px) scale(1)}to{transform:translateY(-90px);opacity:0}}
+.huge{position:absolute;left:50%;top:32%;transform:translate(-50%,-50%);font-size:12vh;font-weight:700;color:#FFE45C;-webkit-text-stroke:5px #C8362B;paint-order:stroke fill;animation:ahh 1.6s ease-out forwards;white-space:nowrap;z-index:8}
+@keyframes ahh{0%{transform:translate(-50%,-50%) scale(.3);opacity:0}25%{transform:translate(-50%,-50%) scale(1.15);opacity:1}80%{opacity:1}100%{transform:translate(-50%,-50%) scale(1);opacity:0}}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+.lbl{font-family:var(--kai);font-weight:700}
+
+/* shared figure parts */
+.bd{transform-box:fill-box;transform-origin:50% 100%}
+.mv{transition:transform 1.6s ease-in-out,opacity .6s}
+.cf{display:none}
+.shoes .cf{display:inline}
+@keyframes hop{0%,100%{transform:translateY(0)}50%{transform:translateY(-26px)}}
+@keyframes walkb{to{transform:translateY(-6px)}}
+@keyframes shiver{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes flake{from{transform:translate(0,-40px)}to{transform:translate(30px,600px)}}
+@keyframes heat{0%,100%{transform:translateY(0);opacity:.2}50%{transform:translateY(-14px);opacity:.9}}
+.walking .bd{animation:walkb .3s ease-in-out infinite alternate}
+.flake{animation:flake 5s linear infinite}
+
+/* S1 */
+#g1{fill:#D9B98A;transition:fill 1.2s}
+#v1.a1:not(.a3) #g1{fill:#E8875A}
+#v1.a3 #g1{fill:#F2F6F8}
+#heat1{display:none}#v1.a1:not(.a3) #heat1{display:inline}
+.hw{animation:heat 1.2s ease-in-out infinite}
+#sun1{transform-box:fill-box;transform-origin:center;transition:transform 1s,opacity 1s}
+#v1.a1 #sun1{transform:scale(1.4)}#v1.a3 #sun1{opacity:.15;transform:scale(1)}
+#sunR{transform-box:fill-box;transform-origin:center;animation:spin 8s linear infinite}
+#snow1{display:none}#v1.a3 #snow1{display:inline}
+#v1.a2:not(.a3) .pp .bd{animation:hop .5s ease-in-out infinite}
+#v1.a2:not(.a3) .pp:nth-child(2) .bd{animation-delay:-.2s}#v1.a2:not(.a3) .pp:nth-child(3) .bd{animation-delay:-.35s}
+#v1.a3 .pp .bd{animation:shiver .12s linear infinite}
+#v1.a3 .ft{fill:#8FB8E6}
+#v1.a0:not(.a1) .ft{fill:#FFB347;filter:drop-shadow(0 0 6px #FFD23F)}
+#v1.a3 .scarf{display:inline}.scarf{display:none}
+
+/* S2 */
+#win2s{opacity:0;transition:opacity 1s}#v2.a2 #win2s{opacity:1}
+#breeze2{display:none}#v2.a1:not(.a2) #breeze2{display:inline}
+.bz{animation:breeze 2s linear infinite}
+@keyframes breeze{from{transform:translateX(0);opacity:0}30%{opacity:.9}to{transform:translateX(260px);opacity:0}}
+#carpet2{transition:filter 1s}#v2.a2 #carpet2{filter:drop-shadow(0 0 14px #FFB347)}
+#warm2{opacity:0;transition:opacity 1s}#v2.a2:not(.a3) #warm2{opacity:1}
+#king2{transition:opacity .8s}#v2.a3 #king2{opacity:0}
+#kwin2{opacity:0;transition:opacity .8s .6s}#v2.a3 #kwin2{opacity:1}
+#cart2 .mvc{transition:transform 3s ease-in-out}#v2.a3 #cart2 .mvc{transform:translateX(-120px)}
+#soil2{transition:filter .6s}#v2.a4 #soil2{filter:drop-shadow(0 0 10px #FFD23F)}
+#nosoil{display:none}#v2.a4 #nosoil{display:inline}
+
+/* S3 */
+#road3{animation:none}
+#v3.a0:not(.a1) #road3{animation:scroll 1.2s linear infinite}
+@keyframes scroll{to{transform:translateX(-200px)}}
+#v3.a0:not(.a1) .wheel{animation:spin .8s linear infinite}
+.wheel{transform-box:fill-box;transform-origin:center}
+#wheelB{transition:transform 1.2s cubic-bezier(.3,.1,.5,1)}
+#v3.a1 #wheelB{transform:translate(120px,40px) rotate(200deg)}
+#body3{transform-box:fill-box;transform-origin:100% 100%;transition:transform .8s}
+#v3.a1 #body3{transform:rotate(8deg)}
+#king3{opacity:0;transition:opacity .6s}
+#v3.a2 #king3{opacity:1}
+#king3 .mv{transform:translateX(0)}
+#v3.a2 #king3 .mv{transform:translateX(-260px);transition:transform 4s linear}
+#v3.a2:not(.a3) #king3,#v3.a3 #king3{}
+#v3.a2 #king3 .bd{animation:walkb .35s ease-in-out infinite alternate}
+#v3.a3 #king3 .ft{fill:#E85D4A}
+#v3.a3 .rock{fill:#8A7A6A;filter:drop-shadow(0 0 5px #FFD23F)}
+
+/* S4 */
+#think4,#piles4{opacity:0;transition:opacity .8s}
+#v4.a1 #think4{opacity:1}
+#v4.a3 #piles4{opacity:1}#v4.a3 #think4{opacity:.3}
+#happy4{opacity:0;transition:opacity .8s}#v4.a2 #happy4{opacity:1}
+.roll{transform-box:fill-box;transform-origin:50% 100%;transform:scaleY(0);transition:transform .4s}
+#v4.a3 .roll{transform:scaleY(1)}
+#v4.a0 #king4 .bd{animation:walkb .8s ease-in-out infinite alternate}
+
+/* S5 */
+#stilts5{opacity:0;transition:opacity .6s}#v5.a1 #stilts5{opacity:1}
+#v5.a1 .stk .bd{animation:walkb .4s ease-in-out infinite alternate}
+#bulb5{opacity:0;transition:opacity .5s}#v5.a2 #bulb5{opacity:1}
+#v5.a3 #kidC{}
+#kidC .mv{transition:transform 2s ease-in-out}
+#v5.a3 #kidC .mv{animation:wander 4s ease-in-out infinite alternate}
+@keyframes wander{from{transform:translateX(0)}to{transform:translateX(-300px)}}
+#v5.a3 #kidC .bd{animation:walkb .3s ease-in-out infinite alternate}
+#kidC{opacity:0;transition:opacity .6s}#v5.a2 #kidC{opacity:1}
+#v5.a0 #king5 .bd{animation:walkb .5s ease-in-out infinite alternate}
+
+/* S6 */
+#shop6,#crowd6{opacity:0;transition:opacity .8s}
+#v6.a1 #shop6{opacity:1}
+#v6.a2 #crowd6{opacity:1}#v6.a2 #shop6{opacity:.25}
+.pair{transform-box:fill-box;transform-origin:50% 100%;transform:scale(0);transition:transform .4s cubic-bezier(.3,1.6,.6,1)}
+#v6.a1 .pair{transform:scale(1)}
+#v6.a2 #crowd6 .bd{animation:walkb .35s ease-in-out infinite alternate}
+#crowdMv{transition:transform 6s linear}#v6.a2 #crowdMv{transform:translateX(-160px)}
+#shoe6{opacity:0;transition:opacity .8s}.reveal #shoe6{opacity:1}
+
+/* html pages */
+.html{background:linear-gradient(#F6EFE4,#FDFBF7)}
+.tl{position:absolute;inset:3%;display:grid;grid-template-columns:.8fr 1.3fr 1.5fr 1fr;grid-template-rows:auto 1fr;gap:1.2vh 1vw}
+.roof{grid-column:1/-1;height:5vh;background:#8E3A3A;border-radius:12px;color:#FFE7A8;font-size:3vh;font-weight:700;display:flex;align-items:center;justify-content:center}
+.tcard{background:#fff;border-radius:18px;border:4px solid var(--c);padding:1.2vh .9vw;display:flex;flex-direction:column;gap:.7vh;color:#2E241C;overflow:auto}
+.tcard h4{margin:0;font-size:3.2vh;color:#fff;background:var(--c);border-radius:12px;padding:.3vh .8vw;align-self:flex-start}
+.tcard .q{font-size:2.5vh;font-weight:700;line-height:1.4}
+.tcard .a{font-size:2.4vh;line-height:1.45;background:#FFF2D6;border-radius:12px;padding:.5vh .6vw;display:none}
+.tcard .a.on{display:block;animation:pop .4s}
+.tcard .row{display:flex;gap:.5vw;flex-wrap:wrap;margin-top:auto}
+.tcard button{font:inherit;font-size:2.2vh;border-radius:999px;border:3px solid var(--c);background:#fff;color:#2E241C;padding:.3vh .7vw;cursor:pointer}
+.idi{position:absolute;inset:3%;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:auto 1fr;gap:1.2vh 1vw}
+.icard{font:inherit;background:#fff;border:4px solid var(--c);border-radius:18px;padding:1vh .6vw;cursor:pointer;color:#2E241C;display:flex;flex-direction:column;align-items:center;gap:.4vh}
+.icard .em{font-size:5.6vh;line-height:1}
+.icard b{font-size:3.6vh;color:var(--c)}
+.icard small{font-size:2.2vh;color:#6E6152}
+.icard.on{background:color-mix(in srgb,var(--c) 14%,#fff)}
+.idet{grid-column:1/-1;background:#fff;border-radius:18px;padding:2vh 2vw;color:#2E241C;font-size:3.1vh;line-height:1.7;overflow:auto}
+.idet h3{margin:0 0 .6vh;font-size:4.4vh}
+.idet .mean{background:#EEF6E8;border-radius:12px;padding:.8vh 1vw}
+.idet .ex{background:#FFF2D6;border-radius:12px;padding:.8vh 1vw;margin-top:1vh}
+.idet .lk{background:#FDE7DA;border-radius:12px;padding:.8vh 1vw;margin-top:1vh;font-weight:700;color:#B5481F}
+.idet .opts{display:flex;gap:1vw;flex-wrap:wrap;margin-top:1.4vh}
+.idet .opts button{font:inherit;font-size:3.2vh;padding:1vh 1.6vw;border-radius:14px;border:3px solid #C8362B;background:#fff;color:#2E241C;cursor:pointer;font-weight:700}
+.idet .fb{min-height:4.5vh;margin-top:1.2vh}
+.idet .tg{font-size:2.1vh;color:#fff;border-radius:6px;padding:.1vh .6vw;margin-right:.6vw}
+.blank{display:inline-block;min-width:6em;border-bottom:4px solid #E8762A;text-align:center;color:#E8762A}
+.hz{color:#C8362B;font-size:1.15em}
+.sp{position:absolute;inset:3%;display:grid;grid-template-columns:1fr 1.1fr;gap:1.4vw;color:#2E241C}
+.spl,.spr{background:#fff;border-radius:18px;padding:1.4vh 1.2vw;display:flex;flex-direction:column;gap:.8vh;overflow:auto}
+.spl h4,.spr h4{margin:0;font-size:3.2vh;color:#C8362B}
+.note{font-size:2.6vh;background:#FFF2D6;border-radius:12px;padding:.8vh .8vw;line-height:1.5}
+.sent{font-size:2.9vh;line-height:1.5;border-radius:12px;padding:.8vh .8vw;background:#F6F1E4;cursor:pointer}
+.sent em,.mysent .g{font-style:normal;color:#2E8B57;font-weight:700}
+.sent .c1{color:#C8362B}.sent .c2{color:#2E6FB3}
+.slot h5{margin:.3vh 0;font-size:2.5vh;color:#6E6152}
+.chips{display:flex;flex-wrap:wrap;gap:.6vh}
+.chips button{font:inherit;font-size:2.6vh;padding:.4vh 1vw;border-radius:999px;border:3px solid #E8762A;background:#fff;color:#2E241C;cursor:pointer}
+.chips button.on{background:#E8762A;color:#fff}
+.spr input{font:inherit;font-size:2.6vh;padding:.5vh .8vw;border-radius:10px;border:3px solid #C9C2B0;width:100%}
+.mysent{font-size:3.8vh;font-weight:700;background:#FFF8E6;border:4px dashed #E8A33A;border-radius:14px;padding:1vh 1vw;line-height:1.5}
+.mysent .bl{color:#B9B2A0}
+
+@media (max-width:820px), (max-aspect-ratio:1/1){
+  body{overflow:auto;display:block}
+  main{grid-template-columns:1fr}
+  .stage{height:60vh}
+  .txt{writing-mode:horizontal-tb;height:auto;font-size:22px}
+  .acts button,.pnav button,nav button{font-size:16px}
+  h1{font-size:26px}
+  .tl{grid-template-columns:1fr 1fr;overflow:auto}.sp{grid-template-columns:1fr;overflow:auto}.idi{grid-template-columns:repeat(2,1fr)}
+}
+@media (prefers-reduced-motion: reduce){ .flake,.hw,.bz,#sunR{animation:none} }
+a.hall-back{position:fixed;z-index:40;top:0;right:0;font-family:var(--kai);font-size:1.7vh;line-height:1.2;padding:.45vh .8vw;white-space:nowrap;background:var(--panel);color:var(--soft);text-decoration:none;border:1px solid var(--soft);border-top:0;border-right:0;border-bottom-left-radius:12px}a.hall-back:hover,a.hall-back:focus-visible{color:var(--ink)}
+</style>
+</head>
+<body>
+<a class="hall-back" href="../">← 回課文大廳</a>
+<header>
+  <h1><small>二上第九課</small>赤腳國王<em>曹俊彥</em></h1>
+  <nav id="tabs"></nav>
+</header>
+
+<main>
+  <div class="stagewrap">
+    <div class="stage" id="stage">
+      <div class="scene" id="sc-1"><svg id="v1" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <div class="scene" id="sc-2"><svg id="v2" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <div class="scene" id="sc-3"><svg id="v3" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <div class="scene" id="sc-4"><svg id="v4" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <div class="scene" id="sc-5"><svg id="v5" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <div class="scene" id="sc-6"><svg id="v6" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <div class="scene html" id="sc-map"><div class="tl" id="tl"></div></div>
+      <div class="scene html" id="sc-idiom"><div class="idi" id="idi"></div></div>
+      <div class="scene html" id="sc-ys"><div class="sp"><div class="spl" id="ysl"></div><div class="spr" id="ysr"></div></div></div>
+      <div id="ov"></div>
+    </div>
+    <div class="acts" id="acts"></div>
+  </div>
+
+  <aside>
+    <div class="ptitle"><span id="ptag"></span><b id="pno"></b></div>
+    <div class="txt" id="txt"></div>
+    <div class="pnav">
+      <button id="prev">◀ 上一頁</button>
+      <button id="say" class="say">🔊 念給我聽</button>
+      <button id="next">下一頁 ▶</button>
+    </div>
+  </aside>
+</main>
+
+<div id="pop"></div>
+
+<script>
+const $=s=>document.querySelector(s);
+const $$=s=>[...document.querySelectorAll(s)];
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs={},parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;}
+let timers=[];let autoOn=false;
+function later(fn,ms){const t=setTimeout(fn,ms);timers.push(t);return t;}
+function stopAll(){timers.forEach(clearTimeout);timers=[];autoOn=false;try{speechSynthesis.cancel()}catch(e){};$('#ov').innerHTML='';$('#pop').classList.remove('on');}
+function ov(html,style,cls='badge'){const d=document.createElement('div');d.className=cls;d.innerHTML=html;Object.assign(d.style,style||{});$('#ov').appendChild(d);return d;}
+function temp(html,style,cls,ms=2000){const d=ov(html,style,cls);setTimeout(()=>d.remove(),ms);return d;}
+function say1(html,cls=''){$('#ov').querySelectorAll('.badge').forEach(b=>b.remove());return ov(html,{left:'3%',top:'4%'},'badge '+cls)}
+function bubbles(words,area){words.forEach((w,i)=>later(()=>temp(w,{left:(area.x+Math.random()*area.w)+'%',top:(area.y+Math.random()*area.h)+'%'},'bub',1950),i*(area.gap||300)))}
+const clean=t=>t.replace(/\[\[|\]\]|\{\{|\}\}/g,'');
+function speak(text,onend){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(clean(text));u.lang='zh-TW';u.rate=.72;const v=speechSynthesis.getVoices().find(v=>/zh[-_]TW/i.test(v.lang));if(v)u.voice=v;if(onend)u.onend=onend;speechSynthesis.speak(u);}catch(e){onend&&setTimeout(onend,1500)}}
+function bubbleNear(id,who,text,ms=4000){later(()=>{const n=$('#'+id);if(!n)return;const b=n.getBoundingClientRect(),s=$('#stage').getBoundingClientRect();const d=ov(`<b>${who}</b>${text}`,{},'bubble');const W=d.offsetWidth,H=d.offsetHeight;let x=b.left-s.left+b.width/2-W/2,y=b.top-s.top-H-10;x=Math.max(8,Math.min(s.width-W-8,x));if(y<8)y=8;d.style.left=x+'px';d.style.top=y+'px';later(()=>d.remove(),ms)},60)}
+
+/* ---------- figures ---------- */
+function person(parent,x,y,s,{shirt='#C9893A',pants='#7A5A3A',hat=null,king=false,kid=false,cls='',id='',shoes=false}={}){
+  const g=el('g',{transform:`translate(${x},${y}) scale(${s})`,class:cls+(shoes?' shoes':'')},parent);if(id)g.id=id;
+  const mv=el('g',{class:'mv'},g);const bd=el('g',{class:'bd'},mv);
+  const h=kid?-96:-124;
+  bd.innerHTML=`
+   <rect x="-14" y="-40" width="10" height="36" fill="#E9B98A"/><rect x="4" y="-40" width="10" height="36" fill="#E9B98A"/>
+   <ellipse class="ft" cx="-12" cy="-3" rx="12" ry="5" fill="#E9B98A"/><ellipse class="ft" cx="12" cy="-3" rx="12" ry="5" fill="#E9B98A"/>
+   <g class="cf"><rect x="-26" y="-7" width="26" height="9" rx="3" fill="#B8262E" stroke="#7A1A1A" stroke-width="1.5"/><rect x="0" y="-7" width="26" height="9" rx="3" fill="#B8262E" stroke="#7A1A1A" stroke-width="1.5"/></g>
+   ${king?`<path d="M-34,-36 L-28,${h+30} L28,${h+30} L34,-36Z" fill="#C8362B"/><path d="M-6,${h+30} L-6,-36 M6,${h+30} L6,-36" stroke="#F2C230" stroke-width="3"/>`:
+          `<rect x="-16" y="-52" width="32" height="16" fill="${pants}"/><path d="M-22,-50 L-18,${h+28} L18,${h+28} L22,-50Z" fill="${shirt}"/>`}
+   <circle cx="0" cy="${h}" r="${kid?20:23}" fill="#F2C9A0"/>
+   <circle cx="-8" cy="${h-2}" r="2.8" fill="#333"/><circle cx="8" cy="${h-2}" r="2.8" fill="#333"/><path d="M-6,${h+8} q6,5 12,0" stroke="#8A4A2A" stroke-width="2" fill="none"/>
+   <circle cx="-15" cy="${h+5}" r="5" fill="#F7A9A0" opacity=".7"/><circle cx="15" cy="${h+5}" r="5" fill="#F7A9A0" opacity=".7"/>
+   ${king?`<path d="M-14,${h+12} q14,22 28,0 q-14,8 -28,0Z" fill="#5A3A2A"/><path d="M-20,${h-18} L-20,${h-38} L-10,${h-26} L0,${h-42} L10,${h-26} L20,${h-38} L20,${h-18}Z" fill="#F2C230" stroke="#B07A10" stroke-width="2"/>`:''}
+   ${hat==='straw'?`<ellipse cx="0" cy="${h-16}" rx="30" ry="8" fill="#D9B25A"/><path d="M-16,${h-18} q16,-20 32,0Z" fill="#C99A3A"/>`:''}
+   ${hat==='band'?`<rect x="-22" y="${h-20}" width="44" height="8" fill="#C8362B"/>`:''}
+   <path class="scarf" d="M-18,${h+20} h36 v8 h-36Z" fill="#5A8AC8"/>`;
+  return g;
+}
+function carriage(parent,x,y,id){const g=el('g',{transform:`translate(${x},${y})`},parent);if(id)g.id=id;g.innerHTML=`<g class="mvc">
+  <g id="${id}horse"><path d="M-260,-40 q0,-50 40,-60 l20,-40 l14,10 l-6,30 q20,10 20,40 l60,0 q20,0 20,30 l-10,0 l0,40 l-12,0 l0,-34 l-60,0 l0,34 l-12,0 l0,-34 l-30,0 l0,34 l-12,0Z" fill="#8A6A4A"/><circle cx="-214" cy="-128" r="3" fill="#222"/></g>
+  <line x1="-130" y1="-50" x2="-60" y2="-70" stroke="#5A3A2A" stroke-width="5"/>
+  <g id="${id}body"><rect x="-60" y="-160" width="200" height="120" rx="16" fill="#C8362B" stroke="#7A1A1A" stroke-width="4"/><rect x="-30" y="-140" width="70" height="50" rx="8" fill="#FFE7A8"/><path d="M-70,-160 Q40,-210 150,-160Z" fill="#F2C230"/></g>
+  <g class="wheel"><circle cx="-20" cy="-30" r="30" fill="#6A4A2A"/><circle cx="-20" cy="-30" r="8" fill="#F2C230"/><path d="M-50,-30 h60 M-20,-60 v60" stroke="#F2C230" stroke-width="4"/></g>
+  <g class="wheel" id="${id}wb"><circle cx="100" cy="-30" r="30" fill="#6A4A2A"/><circle cx="100" cy="-30" r="8" fill="#F2C230"/><path d="M70,-30 h60 M100,-60 v60" stroke="#F2C230" stroke-width="4"/></g></g>`;return g;}
+function carpetRoll(parent,x,y,s){const g=el('g',{transform:`translate(${x},${y}) scale(${s})`,class:'roll'},parent);g.innerHTML=`<rect x="-40" y="-30" width="80" height="30" rx="15" fill="#B8262E" stroke="#7A1A1A" stroke-width="2"/><circle cx="40" cy="-15" r="15" fill="#D94A4A" stroke="#7A1A1A" stroke-width="2"/><circle cx="40" cy="-15" r="5" fill="#7A1A1A"/>`;return g;}
+
+/* ---------- build scenes ---------- */
+(function(){
+  // S1 village
+  const v1=$('#v1');v1.innerHTML=`<rect width="1000" height="560" fill="#F7E8C8"/>
+   <g id="sun1"><g id="sunR" stroke="#F28C28" stroke-width="10" stroke-linecap="round"><line x1="140" y1="20" x2="140" y2="0"/><line x1="140" y1="180" x2="140" y2="200"/><line x1="60" y1="100" x2="40" y2="100"/><line x1="220" y1="100" x2="240" y2="100"/><line x1="84" y1="44" x2="70" y2="30"/><line x1="196" y1="156" x2="210" y2="170"/><line x1="196" y1="44" x2="210" y2="30"/><line x1="84" y1="156" x2="70" y2="170"/></g><circle cx="140" cy="100" r="58" fill="#F7B731"/><circle cx="124" cy="92" r="5" fill="#8A3A10"/><circle cx="156" cy="92" r="5" fill="#8A3A10"/><path d="M122,114 q18,14 36,0" stroke="#8A3A10" stroke-width="4" fill="none"/></g>
+   <g fill="#D9B48A" stroke="#8A6A4A" stroke-width="3"><path d="M560,300 L640,240 L720,300 L720,400 L560,400Z"/><path d="M760,310 L840,250 L920,310 L920,400 L760,400Z"/></g>
+   <rect id="g1" y="400" width="1000" height="160"/>
+   <g id="heat1" stroke="#FFF2C0" stroke-width="4" fill="none" stroke-linecap="round">${[0,1,2,3,4,5,6,7].map(i=>`<path class="hw" d="M${60+i*120},420 q10,-14 0,-28 q-10,-14 0,-28" style="animation-delay:${i*.15}s"/>`).join('')}</g>
+   <g id="people1"></g><g id="snow1"></g>`;
+  [[220,'#C9893A','straw'],[420,'#8A5A3A','band'],[620,'#B8742A','straw'],[820,'#6A8A5A','band']].forEach(([x,c,h])=>person($('#people1'),x,500,1,{shirt:c,hat:h,cls:'pp'}));
+  const sn=$('#snow1');for(let k=0;k<60;k++)el('circle',{class:'flake',cx:Math.random()*1000,cy:Math.random()*-60,r:2+Math.random()*3,fill:'#fff',style:`animation-delay:${-Math.random()*5}s`},sn);
+  // S2 palace + road
+  const v2=$('#v2');v2.innerHTML=`<rect width="560" height="560" fill="#F3DCC0"/><rect x="560" width="440" height="560" fill="#CFE4EE"/>
+   <g fill="#E9C9A0" stroke="#A0703A" stroke-width="3"><rect x="40" y="60" width="40" height="420"/><rect x="480" y="60" width="40" height="420"/></g>
+   <rect x="40" y="40" width="480" height="30" fill="#C8362B"/>
+   <g><rect x="320" y="120" width="130" height="110" fill="#BFE3F2" stroke="#A0703A" stroke-width="6"/><g id="win2s"><rect x="320" y="120" width="130" height="110" fill="#E9EEF2"/>${[0,1,2,3,4,5].map(i=>`<circle cx="${330+i*22}" cy="${130+(i%3)*30}" r="4" fill="#fff" stroke="#BFD0DC"/>`).join('')}</g></g>
+   <path id="carpet2" d="M60,560 L120,440 L440,440 L520,560Z" fill="#B8262E"/><path d="M90,540 L136,456 L424,456 L490,540" stroke="#F2C230" stroke-width="4" fill="none"/>
+   <rect x="180" y="300" width="120" height="150" rx="14" fill="#E8A33A" stroke="#8A5A1A" stroke-width="4"/>
+   <g id="breeze2" stroke="#7FC8E8" stroke-width="5" stroke-linecap="round" fill="none"><path class="bz" d="M60,280 q30,-12 60,0"/><path class="bz" d="M60,340 q30,-12 60,0" style="animation-delay:.7s"/></g>
+   <g id="warm2" fill="#FF8A5A" opacity=".8"><text x="80" y="400" font-size="40">♨</text><text x="420" y="410" font-size="40">♨</text></g>
+   <g id="king2"></g>
+   <path id="soil2" d="M560,470 L1000,470 L1000,560 L560,560Z" fill="#B98A5A"/>
+   <g id="cart2"></g>
+   <g id="nosoil"><circle cx="700" cy="420" r="34" fill="#fff" stroke="#C8362B" stroke-width="5"/><path d="M676,396 l48,48 M724,396 l-48,48" stroke="#C8362B" stroke-width="6"/><text x="700" y="378" text-anchor="middle" font-size="22" class="lbl" fill="#C8362B">土地</text></g>`;
+  person($('#king2'),240,470,1.05,{king:true});
+  carriage($('#cart2'),900,470,'c2');
+  $('#cart2 .mvc').insertAdjacentHTML('beforeend','<g id="kwin2"><circle cx="5" cy="-116" r="18" fill="#F2C9A0"/><path d="M-11,-130 L-11,-146 L-3,-136 L5,-150 L13,-136 L21,-146 L21,-130Z" fill="#F2C230"/></g>');
+  // S3 road
+  const v3=$('#v3');v3.innerHTML=`<rect width="1000" height="560" fill="#CFE4EE"/><path d="M0,330 Q200,260 420,310 T1000,290 L1000,420 L0,420Z" fill="#A9C98A"/>
+   <rect y="410" width="1000" height="150" fill="#C9A273"/><g id="road3">${Array.from({length:30},(_,i)=>`<ellipse class="rock" cx="${i*40+10}" cy="${440+((i*37)%100)}" rx="${8+(i%3)*5}" ry="${6+(i%2)*3}" fill="#9A8A7A"/>`).join('')}</g>
+   <g id="cart3"></g><g id="king3"></g>`;
+  const c3=carriage($('#cart3'),620,470,'c3');c3.querySelector('#c3body').id='body3';c3.querySelector('#c3wb').id='wheelB';
+  person($('#king3'),760,500,1,{king:true});
+  // S4 thinking
+  const v4=$('#v4');v4.innerHTML=`<rect width="1000" height="560" fill="#F3DCC0"/><g fill="#E9C9A0" stroke="#A0703A" stroke-width="3"><rect x="40" y="60" width="40" height="420"/></g><path d="M0,560 L60,440 L420,440 L480,560Z" fill="#B8262E"/>
+   <g id="king4"></g>
+   <g id="think4"><circle cx="330" cy="300" r="10" fill="#fff"/><circle cx="370" cy="250" r="18" fill="#fff"/><ellipse cx="650" cy="170" rx="300" ry="140" fill="#fff" stroke="#C8362B" stroke-width="4"/>
+     <path d="M380,250 Q520,140 650,190 T920,150 L920,250 Q780,300 650,260 T380,300Z" fill="#C9DDA0"/><path d="M400,270 Q540,190 660,220 T900,180" stroke="#B8262E" stroke-width="22" fill="none" stroke-linecap="round"/>
+     <g id="tiny4"></g><g id="happy4" font-size="26"><text x="500" y="150">😊</text><text x="680" y="130">😊</text><text x="820" y="120">💕</text></g></g>
+   <g id="piles4"></g>`;
+  person($('#king4'),200,470,1.1,{king:true});
+  [[480,212],[600,205],[720,196],[840,180]].forEach(([x,y],i)=>person($('#tiny4'),x,y,.28,{shirt:['#C9893A','#6A8A5A','#8A5A3A','#B8742A'][i]}));
+  const pl=$('#piles4');for(let r=0;r<4;r++)for(let i=0;i<6-r;i++){const g=carpetRoll(pl,520+i*84+r*42,540-r*32,1);g.style.transitionDelay=(r*6+i)*0.12+'s';}
+  // S5 stilts
+  const v5=$('#v5');v5.innerHTML=`<rect width="1000" height="560" fill="#EAF2E0"/><path d="M0,330 Q200,270 420,310 T1000,290 L1000,420 L0,420Z" fill="#B9D59A"/><rect y="420" width="1000" height="140" fill="#D9C49A"/>
+   <rect x="40" y="320" width="220" height="40" fill="#8A5A3A"/><g id="king5"></g>
+   <g id="stilts5"></g><g id="kidC"></g>
+   <g id="bulb5"><circle cx="790" cy="130" r="36" fill="#FFE45C" stroke="#E8A33A" stroke-width="4"/><rect x="776" y="164" width="28" height="18" fill="#9A9A9A"/><g stroke="#FFD23F" stroke-width="5" stroke-linecap="round"><line x1="790" y1="74" x2="790" y2="60"/><line x1="740" y1="100" x2="726" y2="92"/><line x1="840" y1="100" x2="854" y2="92"/></g></g>`;
+  person($('#king5'),150,320,.9,{king:true});
+  const st5=$('#stilts5');[[520,'#C8362B'],[650,'#2E6FB3']].forEach(([x,c])=>{const g=person(st5,x,520,.9,{shirt:c,kid:true,cls:'stk'});g.querySelector('.bd').insertAdjacentHTML('afterbegin','<g stroke="#8A6A4A" stroke-width="6" stroke-linecap="round"><line x1="-14" y1="-2" x2="-14" y2="80"/><line x1="14" y1="-2" x2="14" y2="80"/><line x1="-14" y1="-60" x2="-14" y2="-2"/><line x1="14" y1="-60" x2="14" y2="-2"/></g>');g.setAttribute('transform',`translate(${x},440) scale(.9)`)});
+  person($('#kidC'),820,525,1,{shirt:'#E8A33A',kid:true,shoes:true});
+  // S6
+  const v6=$('#v6');v6.innerHTML=`<rect width="1000" height="560" fill="#F3DCC0"/><rect y="440" width="1000" height="120" fill="#C9A273"/><path d="M0,560 L40,450 L320,450 L360,560Z" fill="#B8262E"/>
+   <g id="king6"></g><g id="kids6"></g>
+   <g id="shop6"><rect x="420" y="150" width="540" height="250" rx="16" fill="#fff" stroke="#8A5A3A" stroke-width="4"/><text x="690" y="190" text-anchor="middle" font-size="28" class="lbl" fill="#8A5A3A">做「隨身地毯」</text><g id="pairs6"></g></g>
+   <g id="crowd6"><g id="crowdMv"></g></g>
+   <g id="shoe6"><rect x="560" y="40" width="400" height="100" rx="20" fill="#FFF8E6" stroke="#E8A33A" stroke-width="4"/><text x="610" y="110" font-size="60">👟</text><text x="680" y="104" font-size="34" class="lbl" fill="#C8362B">隨身地毯＝鞋子！</text></g>`;
+  person($('#king6'),180,450,1.1,{king:true,id:'kingT'});
+  [[300,'#C8362B'],[360,'#2E6FB3']].forEach(([x,c])=>person($('#kids6'),x,460,.85,{shirt:c,kid:true,shoes:true}));
+  const pr=$('#pairs6');for(let r=0;r<3;r++)for(let i=0;i<7;i++){const g=el('g',{class:'pair',transform:`translate(${470+i*70},${250+r*50})`,style:`transition-delay:${(r*7+i)*.08}s`},pr);g.innerHTML='<rect x="-26" y="-12" width="24" height="12" rx="4" fill="#B8262E"/><rect x="2" y="-12" width="24" height="12" rx="4" fill="#D94A4A"/>';}
+  [[480,'#C9893A'],[580,'#6A8A5A'],[680,'#8A5A3A'],[780,'#B8742A'],[880,'#5A7AA8'],[960,'#C8362B']].forEach(([x,c],i)=>person($('#crowdMv'),x,540,i%2?.75:.9,{shirt:c,shoes:true,kid:i%2===1,hat:i%3===0?'straw':null}));
+})();
+
+/* ---------- vocabulary ---------- */
+const VOC={
+ "赤腳":"光著腳，沒有穿鞋子。","熱":"溫度高。","燙":"非常熱，碰到會痛。","不停":"一直不停下來。",
+ "王宮":"國王住的地方。","涼快":"涼涼的，很舒服。","踩":"用腳往下踏。","地毯":"鋪在地上的厚毯子，踩起來軟軟的。","暖和":"不冷，很溫暖。",
+ "馬車":"用馬拉著走的車子。","從來":"從以前到現在，一直都……。","壞":"不能用了，損壞了。","難走":"不好走，走起來很辛苦。",
+ "要是":"如果。","一定":"肯定、必定。","更":"比原來還要……。","踩高蹺":"在腳下綁著或踩著長木棍走路的遊戲。",
+ "隨身":"帶在身上，跟著自己走。","主意":"想出來的辦法。","想法":"心裡想到的辦法或意見。","於是":"因為前面的事，接著就……。","舒服":"身體或心裡覺得很好、很自在。"
+};
+function showVocab(w){const p=$('#pop');p.innerHTML=`<h3>${w}</h3><div>${VOC[w]||''}</div><div class="row"><button id="pSay">🔊 念</button><button id="pClose">關閉</button></div>`;p.classList.add('on');$('#pSay').onclick=()=>speak(w+'。'+VOC[w]);$('#pClose').onclick=()=>p.classList.remove('on');}
+
+/* ---------- text ---------- */
+const ST=[
+ {lines:['赤腳國裡，人人都打[[赤腳]]。','夏天，地面又{{熱}}又{{燙}}，','大家只好[[不停]]的跳！','冬天到了，腳也最先知道。'],
+  fx:[()=>say1('人人都光著腳 🦶'),()=>say1('夏天，地面又熱又燙 🔥','gold'),()=>{say1('燙得大家不停的跳！');bubbles(['好燙！','哇！','燙燙燙！'],{x:15,y:40,w:60,h:15})},()=>{say1('冬天到了，腳最先覺得冷 ❄️','blue');bubbles(['好冰！','好冷！'],{x:20,y:45,w:55,h:15})}]},
+ {lines:['赤腳國王住在[[王宮]]裡，','夏天[[涼快]]，','冬天腳{{踩}}在[[地毯]]上，十分[[暖和]]。','外出時，國王都坐在[[馬車]]裡，','他的腳[[從來]]沒有踩過土地。'],
+  fx:[()=>say1('國王住在王宮裡 👑'),()=>say1('夏天，王宮裡很涼快','blue'),()=>say1('冬天踩在地毯上，十分暖和','gold'),()=>say1('出門都坐馬車 🐴'),()=>say1('國王的腳，從來沒有踩過土地！')]},
+ {lines:['有一天，在外面的路上，','馬車{{壞}}了。','國王只能光著腳走回家，','才知道外面都是[[難走]]的路。'],
+  fx:[()=>say1('馬車在外面的路上走著'),()=>{temp('喀啦！',{},'huge',1500);say1('馬車壞了！')},()=>say1('國王只能光著腳走回家'),()=>{say1('原來外面都是難走的路','gold');bubbleNear('king3','國王','哎喲！好痛！石頭好多！',3500)}]},
+ {lines:['回到宮裡，他想：','「[[要是]]大家都能走在地毯上，','[[一定]]會{{更}}快樂，','但是那得做出多少地毯哪！」'],
+  fx:[()=>say1('國王回到宮裡，想啊想……'),()=>say1('要是大家都能走在地毯上……'),()=>say1('一定會更快樂 😊','gold'),()=>{say1('那得做出多少地毯哪！');let n=0;const b=ov('地毯：0 捲',{right:'3%',top:'4%'},'badge gold');for(let i=1;i<=20;i++)later(()=>{n+=i<15?50:500;b.textContent='地毯：'+n+' 捲……'},i*140)}]},
+ {lines:['國王請大家想想可以怎麼做。','幾個小朋友玩[[踩高蹺]]時，','想到「[[隨身]]地毯」的[[主意]]，','不管走到哪裡，地毯都跟在腳上。'],
+  fx:[()=>bubbleNear('king5','國王','大家想想看，可以怎麼做？',3600),()=>say1('小朋友在玩踩高蹺'),()=>{say1('💡 想到好主意：「隨身地毯」！','gold');bubbleNear('kidC','小朋友','把地毯綁在腳上就好啦！',3600)},()=>say1('走到哪裡，地毯都跟在腳上')]},
+ {lines:['他們把這個[[想法]]，告訴了國王，','[[於是]]，國王叫人做了好多好多「隨身地毯」。','從此，大家的腳都能踩在[[舒服]]的地毯上了。'],
+  fx:[()=>bubbleNear('kingT','小朋友','國王，我們想到「隨身地毯」！',3600),()=>say1('於是，國王叫人做了好多好多'),()=>{say1('大家的腳都踩在舒服的地毯上了！','green');bubbles(['好舒服！','不燙了！','不冷了！'],{x:45,y:45,w:40,h:15})}]}
+];
+let lineIdx=-1;
+function stateTo(sn,k){const svg=$('#v'+(sn+1));const keep=[...svg.classList].filter(c=>c==='reveal');svg.setAttribute('class',[...keep,...Array.from({length:k+1},(_,i)=>'a'+i)].join(' '));}
+function playLine(k,{onend}={}){
+  const st=S[cur];if(st.st===undefined)return;const S_=ST[st.st];
+  timers.forEach(clearTimeout);timers=[];try{speechSynthesis.cancel()}catch(e){}
+  lineIdx=k;$('#ov').innerHTML='';stateTo(st.st,k);S_.fx[k]();
+  $$('#txt .ln').forEach((l,i)=>{l.classList.toggle('on',i===k);l.classList.toggle('done',i<k)});
+  $('#lineNo').textContent=`第 ${k+1} 句／共 ${S_.lines.length} 句`;
+  let done=false;const fin=()=>{if(done)return;done=true;onend&&onend()};
+  speak(S_.lines[k],()=>later(fin,700));later(fin,Math.max(2800,clean(S_.lines[k]).length*520+1500));
+}
+function nextLine(){const st=S[cur];if(st.st===undefined)return;const n=ST[st.st].lines.length;if(lineIdx<n-1)playLine(lineIdx+1);else temp('這一段念完了！按「下一頁」繼續',{left:'50%',top:'45%',transform:'translateX(-50%)'},'badge',2000)}
+function autoPlay(){const st=S[cur];stopAll();lineIdx=-1;stateTo(st.st,-1);autoOn=true;const n=ST[st.st].lines.length;const step=i=>{if(!autoOn||i>=n){autoOn=false;return}playLine(i,{onend:()=>{if(autoOn)step(i+1)}})};later(()=>step(0),300);}
+
+/* ---------- story map ---------- */
+const TL=[
+ ['主角','#C8362B',[['主角是誰？','赤腳國王。']],1],
+ ['開始','#2E8B57',[['赤腳國裡，人人都打赤腳，夏天和冬天有什麼感受？','夏天地面又熱又燙，大家只好不停的跳；冬天腳最先知道冷。'],['赤腳國王和人們一樣都踩在土地上嗎？','不一樣。國王住在王宮踩地毯，外出坐馬車，腳從來沒有踩過土地。']],0],
+ ['經過','#E8762A',[['馬車壞了，讓國王知道什麼事？','外面都是難走的路。'],['國王知道這件事後，有什麼願望？','希望大家都能走在地毯上，一定會更快樂。'],['誰幫國王想到了好主意？是從哪裡想到的呢？','幾個小朋友，在玩踩高蹺時想到「隨身地毯」。']],2],
+ ['結果','#2E6FB3',[['國王收到這個好主意後，做了什麼事？','叫人做了好多好多「隨身地毯」，大家的腳都能踩在舒服的地毯上了。']],5]];
+function buildTL(all){const t=$('#tl');t.innerHTML='<div class="roof">👑 赤腳國王 👑</div>';
+  TL.forEach(([h,c,qs,st])=>{const d=document.createElement('div');d.className='tcard';d.style.setProperty('--c',c);d.innerHTML=`<h4>${h}</h4>`+qs.map(([q,a])=>`<div class="q">● ${q}</div><div class="a${all?' on':''}">${a}</div>`).join('')+`<div class="row"><button class="sh">看答案</button><button class="gv">🎬 看動畫</button></div>`;
+    d.querySelector('.sh').onclick=()=>{d.querySelectorAll('.a').forEach(a=>a.classList.add('on'));speak(qs.map(x=>x[1]).join(''))};d.querySelector('.gv').onclick=()=>{go(st);later(autoPlay,400)};t.appendChild(d)});}
+
+/* ---------- idioms ---------- */
+const ID=[
+ {n:'赤手空拳',e:'✊',c:'#C8362B',z:'赤',w:'赤腳',m:'手中空無一物，比喻沒有一點憑藉。',x:'小瑤竟然赤手空拳制服了歹徒，本領真是高強！'},
+ {n:'水深火熱',e:'🌊🔥',c:'#E8762A',z:'熱',w:'又熱又燙',m:'比喻處境非常艱困、痛苦。',x:'只要發生戰爭，人民的生活就會變得水深火熱。'},
+ {n:'天馬行空',e:'🐴☁️',c:'#2E6FB3',z:'馬',w:'馬車',m:'指思想、文筆自由奔放，或形容不切實際。',x:'這幅畫呈現天馬行空的創意，廣受好評。'},
+ {n:'氣急敗壞',e:'😤',c:'#7A5AB0',z:'壞',w:'馬車壞了',m:'形容十分慌張或惱怒的樣子。',x:'小光和大志吵完架後，氣急敗壞的離開了。'}];
+const IQ=[['小瑤竟然＿＿制服了歹徒，本領真是高強！','赤手空拳',1],['只要發生戰爭，人民的生活就會變得＿＿。','水深火熱',1],['這幅畫呈現＿＿的創意，廣受好評。','天馬行空',1],['小光和大志吵完架後，＿＿的離開了。','氣急敗壞',1],
+ ['弟弟的作文寫了會飛的房子，想法真是＿＿。','天馬行空',0],['他找不到鑰匙，＿＿的在家裡翻來翻去。','氣急敗壞',0],['他沒帶任何工具，＿＿的把大石頭搬開。','赤手空拳',0]];
+let iq=[],iqi=0;
+function hl(n,z){return n.replace(z,`<span class="hz">${z}</span>`)}
+function buildIdiom(sel){const box=$('#idi');box.innerHTML='';ID.forEach((d,i)=>{const b=document.createElement('button');b.className='icard'+(i===sel?' on':'');b.style.setProperty('--c',d.c);b.innerHTML=`<span class="em">${d.e}</span><b>${d.n}</b><small>生字：「${d.z}」</small>`;b.onclick=()=>buildIdiom(i);box.appendChild(b)});
+  const det=document.createElement('div');det.className='idet';det.id='idet';box.appendChild(det);
+  if(sel===undefined){det.innerHTML='<div style="color:#6E6152">從生字學成語：點上面的成語卡，看看意思和例句；或按下方「考考你」練習。</div>';return}
+  const d=ID[sel];det.innerHTML=`<h3 style="color:${d.c}">${d.e} ${hl(d.n,d.z)}</h3><div class="mean"><b>意思：</b>${d.m}</div><div class="ex"><b>例句：</b>${d.x}</div><div class="lk">課文裡的生字「${d.z}」：${hl(d.w,d.z)}</div>`;speak(d.n+'。'+d.m+'。例句：'+d.x);}
+function idiomQuiz(){iq=[...IQ].sort(()=>Math.random()-.5);iqi=0;buildIdiom();askIdiom();}
+function askIdiom(){const det=$('#idet');if(iqi>=iq.length){det.innerHTML='<h3>全部完成！🎉</h3>';speak('全部完成，你好棒');return}
+  const [s,a,b]=iq[iqi];det.innerHTML=`<div><span class="tg" style="background:${b?'#C8362B':'#9AA6B5'}">${b?'課本例句':'練習題'}</span>第 ${iqi+1}／${iq.length} 題：空格要填哪個成語？</div><div style="font-size:3.8vh;font-weight:700;margin-top:1vh">${s.replace('＿＿','<span class="blank">？</span>')}</div><div class="opts"></div><div class="fb"></div>`;speak(s.replace('＿＿','什麼'));
+  ID.forEach(d=>{const x=document.createElement('button');x.textContent=d.n;x.onclick=()=>{const fb=det.querySelector('.fb');if(d.n===a){det.querySelector('.blank').textContent=a;fb.textContent='答對了！⭐';fb.style.color='#2E8B57';speak('答對了，'+s.replace('＿＿',a));iqi++;later(askIdiom,2600)}else{fb.textContent='再想想看：「'+d.n+'」的意思是'+d.m;fb.style.color='#C8362B'}};det.querySelector('.opts').appendChild(x)});}
+
+/* ---------- ……於是…… ---------- */
+const YS=[['小朋友告訴赤腳國王這個主意','國王叫人做了好多「隨身地毯」'],['奶奶最近學會包粽子','送給我們許多美味的粽子'],['家裡突然停電','我們拿出手電筒照明']];
+const YC={A:['天黑了','弟弟肚子餓了','外面下起大雨','我的鉛筆斷了'],B:['我們打開電燈','媽媽煮了一碗麵','我們撐起雨傘','我拿出削鉛筆機']};
+let ya='',yb='';
+function buildYS(){$('#ysl').innerHTML='<h4>句子練習：……，於是……</h4><div class="note">用「……，於是……」可以連接<b>接連發生</b>的動作或事情：<span style="color:#C8362B">先發生的事</span>，於是<span style="color:#2E6FB3">接著發生的事</span>。點一點，聽聽看！</div>'+
+  YS.map(([a,b])=>`<div class="sent"><span class="c1">${a}</span>，<em>於是</em><span class="c2">${b}</span>。</div>`).join('');
+  $$('#ysl .sent').forEach((d,i)=>d.onclick=()=>speak(YS[i][0]+'，於是'+YS[i][1]));ya=yb='';renderYS();}
+function renderYS(){const r=$('#ysr');r.innerHTML=`<h4>我來造句</h4><div class="note">看課本的圖，用「……，於是……」說一說。點一點，或自己寫！</div>
+  <div class="slot"><h5>先發生了什麼事？</h5><div class="chips" id="yA">${YC.A.map(x=>`<button class="${x===ya?'on':''}">${x}</button>`).join('')}</div><input id="yi1" placeholder="自己寫"></div>
+  <div class="slot"><h5>於是，接著發生了什麼事？</h5><div class="chips" id="yB">${YC.B.map(x=>`<button class="${x===yb?'on':''}">${x}</button>`).join('')}</div><input id="yi2" placeholder="自己寫"></div>
+  <div class="mysent" id="ysent"></div>`;
+  $$('#yA button').forEach(b=>b.onclick=()=>{ya=b.textContent;renderYS()});$$('#yB button').forEach(b=>b.onclick=()=>{yb=b.textContent;renderYS()});
+  ['yi1','yi2'].forEach(i=>$('#'+i).oninput=updYS);updYS();}
+function updYS(){const a=$('#yi1').value.trim()||ya,b=$('#yi2').value.trim()||yb;const B=x=>x?x:'<span class="bl">＿＿＿</span>';$('#ysent').innerHTML=`${B(a)}，<span class="g">於是</span>${B(b)}。`;}
+
+/* ---------- steps ---------- */
+const S=[
+ {st:0,sc:'1',tag:'第一段',no:'赤腳國'},
+ {st:1,sc:'2',tag:'第二段',no:'國王的腳'},
+ {st:2,sc:'3',tag:'第三段',no:'馬車壞了'},
+ {st:3,sc:'4',tag:'第四段',no:'國王的願望'},
+ {st:4,sc:'5',tag:'第五段',no:'好主意'},
+ {st:5,sc:'6',tag:'第六段',no:'隨身地毯',extra:[['🤔 隨身地毯是什麼？',()=>{$('#v6').classList.add('reveal');speak('想一想，隨身地毯就是我們現在穿的，鞋子！')}]]},
+ {sc:'map',tag:'故事重點',no:'找出重點',guide:['主角是誰？','開始、經過、結果，','發生了什麼事？','點一點「看答案」，','也可以點「看動畫」。'],enter(){buildTL()},acts:[['📖 全部看答案',()=>buildTL(1)],['🙈 全部蓋起來',()=>buildTL()]]},
+ {sc:'idiom',tag:'成語',no:'從生字學成語',guide:['從課文的生字，','認識四個成語：','赤、熱、馬、壞，','找找它們藏在','哪個成語裡！'],enter(){buildIdiom(0)},acts:[['🎯 考考你',idiomQuiz],['📖 看成語卡',()=>buildIdiom(0)]]},
+ {sc:'ys',tag:'句子練習',no:'……於是……',guide:['他們把這個想法，','告訴了國王，','於是，國王叫人','做了好多好多','「隨身地毯」。'],enter(){buildYS()},acts:[['🔊 念我的句子',()=>speak($('#ysent').innerText.replace(/＿+/g,''))],['🧹 清空重寫',()=>{ya=yb='';renderYS()}]]}
+];
+
+/* ---------- navigation ---------- */
+const TABS=[['赤腳國',0,1],['國王的腳',1,2],['馬車壞了',2,3],['願望',3,4],['好主意',4,5],['隨身地毯',5,6],['故事重點',6],['成語',7],['……於是……',8]];
+TABS.forEach(([n,i,num],k)=>{if(k===6)$('#tabs').insertAdjacentHTML('beforeend','<span class="sep">｜</span>');else if(k>0&&k<6)$('#tabs').insertAdjacentHTML('beforeend','<span class="sep">›</span>');
+  const b=document.createElement('button');b.innerHTML=(num?`<i>${num}</i>`:'')+n;b.onclick=()=>go(i);b.dataset.i=i;$('#tabs').appendChild(b)});
+let cur=0;
+function lineHTML(t){return t.replace(/\[\[(.+?)\]\]/g,(m,w)=>`<span class="v" role="button" tabindex="0" data-w="${w}">${w}</span>`).replace(/\{\{(.+?)\}\}/g,(m,w)=>`<span class="v b" role="button" tabindex="0" data-w="${w}">${w}</span>`)}
+function go(i){
+  stopAll();cur=Math.max(0,Math.min(S.length-1,i));const st=S[cur];
+  $$('.scene').forEach(s=>s.classList.toggle('on',s.id==='sc-'+st.sc));
+  $('#ptag').textContent=st.tag;$('#pno').textContent=st.no;
+  const isT=st.st!==undefined;const lines=isT?ST[st.st].lines:st.guide;
+  const t=$('#txt');t.classList.toggle('guide',!isT);
+  t.innerHTML=lines.map((l,k)=>`<span class="ln" data-k="${k}" ${isT?'tabindex="0"':''}>${lineHTML(l)}</span>`).join('');
+  t.querySelectorAll('.v').forEach(v=>{v.onclick=e=>{e.stopPropagation();showVocab(v.dataset.w)};v.onkeydown=e=>{if(e.key==='Enter'){e.stopPropagation();showVocab(v.dataset.w)}}});
+  if(isT){t.querySelectorAll('.ln').forEach(l=>{l.onclick=()=>{autoOn=false;playLine(+l.dataset.k)};l.onkeydown=e=>{if(e.key==='Enter')l.onclick()}});lineIdx=-1;$('#v'+(st.st+1)).setAttribute('class','');}
+  t.scrollTop=0;t.scrollLeft=0;
+  const A=$('#acts');A.innerHTML='';
+  const acts=isT?[['▶ 下一句',nextLine,1],['🎬 整段自動播',autoPlay],['🔁 從頭來',()=>{stopAll();lineIdx=-1;$('#v'+(st.st+1)).setAttribute('class','');$$('#txt .ln').forEach(l=>l.classList.remove('on','done'))}],...(st.extra||[])]:(st.acts||[]);
+  acts.forEach(([l,f,m])=>{const b=document.createElement('button');b.textContent=l;if(m)b.className='main';b.onclick=f;A.appendChild(b)});
+  if(isT)A.insertAdjacentHTML('beforeend','<span class="hint" id="lineNo">點右邊的句子，也可以一句一句看</span>');
+  let active=0;TABS.forEach(([n,ti])=>{if(cur>=ti)active=ti});
+  $$('#tabs button').forEach(b=>b.classList.toggle('on',+b.dataset.i===active));
+  $('#prev').disabled=cur===0;$('#next').disabled=cur===S.length-1;
+  st.enter&&st.enter();
+}
+$('#prev').onclick=()=>go(cur-1);$('#next').onclick=()=>go(cur+1);
+$('#say').onclick=()=>{const st=S[cur];const lines=st.st!==undefined?ST[st.st].lines:st.guide;speak(lines.join(''))};
+document.addEventListener('keydown',e=>{if(e.target.closest('input,.v,.ln'))return;if(e.key===' '&&S[cur].st!==undefined){e.preventDefault();nextLine()}if(e.key==='ArrowRight'||e.key==='PageDown')go(cur+1);if(e.key==='ArrowLeft'||e.key==='PageUp')go(cur-1);});
+try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>{}}catch(e){}
+go(0);
+</script>
+</body>
+</html>

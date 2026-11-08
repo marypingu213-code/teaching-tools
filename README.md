@@ -17,6 +17,8 @@
 
 2上國語課文大廳在：<https://marypingu213-code.github.io/teaching-tools/g2-chinese/>
 
+4上國語課文大廳在：<https://marypingu213-code.github.io/teaching-tools/g4-chinese/>
+
 練字卡在：<https://marypingu213-code.github.io/teaching-tools/practice-card/>
 
 若網址顯示 404，請確認 `main` 分支根目錄已經有 `index.html`，而且 Pages 的來源是 **main / root**。公開倉庫可以直接開 Pages；私有倉庫需要 GitHub 方案支援 Pages。
@@ -76,6 +78,7 @@ Word 為 A4。字型是標楷體（DFKai-SB），東亞字型設成標楷體。�
 | `css/site.css` | 全站樣式 |
 | `worksheet-generator/` | 分層學習單產生器 |
 | `g2-chinese/` | 2上國語課文大廳 |
+| `g4-chinese/` | 4上國語課文大廳 |
 | `practice-card/` | 練字卡修改工具 |
 | `vendor/docx.js` | 在瀏覽器產生 Word（docx，MIT） |
 | `vendor/jszip.min.js` | 把三份 Word 包成壓縮檔（JSZip，MIT） |
