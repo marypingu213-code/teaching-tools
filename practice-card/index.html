@@ -59,10 +59,18 @@ button.primary{background:var(--accent); color:#fff; border-color:var(--accent)}
 :root[data-theme="dark"] button.primary{color:#13202B}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) button.primary{color:#13202B}}
 .btn input{display:none}
-main{flex:1; display:flex; min-height:0}
+main{
+  flex:1; display:grid; min-height:0;
+  grid-template-columns:250px minmax(0,1fr) 280px;
+  grid-template-rows:minmax(0,1fr);
+}
 aside{
-  width:250px; flex-shrink:0; background:var(--panel); border-right:1px solid var(--rule);
+  min-height:0; background:var(--panel); border-right:1px solid var(--rule);
   padding:14px; overflow-y:auto; display:flex; flex-direction:column; gap:18px;
+}
+aside.stk-panel{
+  border-right:0; border-left:1px solid var(--rule); gap:8px;
+  position:sticky; top:0; max-height:100%; overflow-y:auto;
 }
 aside h2{font-size:13px; font-weight:700; color:var(--muted); margin:0 0 8px}
 .tools{display:grid; gap:6px}
@@ -104,10 +112,21 @@ input[type=range]{width:100%; accent-color:var(--pink)}
 }
 #toast.show{opacity:1}
 @media (prefers-reduced-motion: reduce){#toast{transition:none}}
+@media (max-width:900px){
+  main{grid-template-columns:250px minmax(0,1fr); grid-template-rows:minmax(0,1fr) auto}
+  aside.stk-panel{
+    grid-column:1 / -1; grid-row:2; position:static; max-height:46vh; align-self:stretch;
+    border-left:0; border-top:1px solid var(--rule);
+  }
+}
 @media (max-width:760px){
-  main{flex-direction:column}
-  aside{width:auto; border-right:0; border-bottom:1px solid var(--rule); max-height:44vh}
+  main{grid-template-columns:1fr; grid-template-rows:auto minmax(180px,1fr) auto}
+  aside{border-right:0; border-bottom:1px solid var(--rule); max-height:44vh}
+  aside.stk-panel{grid-row:3; border-bottom:0; max-height:46vh}
   .tools{grid-template-columns:1fr 1fr}
+}
+@media print{
+  aside.stk-panel{display:none !important}
 }
 .stk-fields{display:grid; gap:8px}
 .stk-fields label{display:flex; justify-content:space-between; align-items:center; gap:8px; font-size:13px}
@@ -201,28 +220,6 @@ input.num{
       <button id="reclean" style="margin-top:10px" disabled>用目前選項重新整理</button>
       <p class="hint">重新整理會清掉手動修改。</p>
     </section>
-
-    <section>
-      <h2>部件貼紙</h2>
-      <p class="hint">擦掉要學生自己寫的部件後，用「做成貼紙」點那一格。印出來的字格預設是 1.5 公分見方，跟練習格一樣大。換一張圖可以再加別的字。</p>
-      <label class="check"><input type="checkbox" id="stkGuide" checked><span>貼紙包含米字格虛線</span></label>
-      <label class="check" style="margin-top:6px"><input type="checkbox" id="stkZhuyin"><span>貼紙包含右邊注音</span></label>
-      <div class="stk-fields" style="margin-top:10px">
-        <label>新貼紙每生張數 <input class="num" id="stkPer" type="number" min="1" max="20" value="2"></label>
-        <label>學生人數 <input class="num" id="stkStudents" type="number" min="1" max="40" value="1"></label>
-        <label>貼紙邊長（公分） <input class="num" id="stkCm" type="number" min="0.8" max="5" step="0.1" value="1.5"></label>
-        <label>頁面邊界（毫米） <input class="num" id="stkMargin" type="number" min="0" max="25" step="1" value="10"></label>
-        <label>貼紙間距（毫米） <input class="num" id="stkGap" type="number" min="0" max="8" step="0.5" value="2"></label>
-      </div>
-      <div id="stkList"></div>
-      <p class="hint" id="stkEmpty">還沒有貼紙。</p>
-      <div class="row" style="margin-top:8px">
-        <button id="stkPreview" class="primary" disabled>預覽／列印</button>
-        <button id="stkPdf" disabled>下載 PDF</button>
-        <button id="stkClear" disabled>清空</button>
-      </div>
-      <p class="hint" id="stkMath"></p>
-    </section>
   </aside>
 
   <div id="stage">
@@ -242,6 +239,28 @@ input.num{
       <canvas id="overlay"></canvas>
     </div>
   </div>
+
+  <aside class="stk-panel" aria-label="部件貼紙">
+    <h2>部件貼紙</h2>
+    <p class="hint">擦掉要學生自己寫的部件後，用「做成貼紙」點那一格。印出來的字格預設是 1.5 公分見方，跟練習格一樣大。換一張圖可以再加別的字。</p>
+    <label class="check"><input type="checkbox" id="stkGuide" checked><span>貼紙包含米字格虛線</span></label>
+    <label class="check" style="margin-top:6px"><input type="checkbox" id="stkZhuyin"><span>貼紙包含右邊注音</span></label>
+    <div class="stk-fields" style="margin-top:10px">
+      <label>新貼紙每生張數 <input class="num" id="stkPer" type="number" min="1" max="20" value="2"></label>
+      <label>學生人數 <input class="num" id="stkStudents" type="number" min="1" max="40" value="1"></label>
+      <label>貼紙邊長（公分） <input class="num" id="stkCm" type="number" min="0.8" max="5" step="0.1" value="1.5"></label>
+      <label>頁面邊界（毫米） <input class="num" id="stkMargin" type="number" min="0" max="25" step="1" value="10"></label>
+      <label>貼紙間距（毫米） <input class="num" id="stkGap" type="number" min="0" max="8" step="0.5" value="2"></label>
+    </div>
+    <div id="stkList"></div>
+    <p class="hint" id="stkEmpty">還沒有貼紙。</p>
+    <div class="row" style="margin-top:8px">
+      <button id="stkPreview" class="primary" disabled>預覽／列印</button>
+      <button id="stkPdf" disabled>下載 PDF</button>
+      <button id="stkClear" disabled>清空</button>
+    </div>
+    <p class="hint" id="stkMath"></p>
+  </aside>
 </main>
 <div id="sheetModal" hidden>
   <div class="sheet-bar">
