@@ -26,7 +26,7 @@ window.TOOLBOX_TOOLS = [
     id: "practice-card",
     href: "practice-card/",
     title: "練字卡修改工具",
-    summary: "開啟練字卡截圖，自動去掉藍色筆順數字、把右邊格子整理成白底置中的注音。再用筆刷、框選或整格清空擦掉筆畫，下載或列印。",
+    summary: "開啟練字卡截圖，自動去掉筆順數字、整理注音格，擦掉部件後下載。也可以把字格印成 1.5 公分的部件貼紙。",
     subject: "國語文",
     status: "ready",
   },

@@ -109,6 +109,40 @@ input[type=range]{width:100%; accent-color:var(--pink)}
   aside{width:auto; border-right:0; border-bottom:1px solid var(--rule); max-height:44vh}
   .tools{grid-template-columns:1fr 1fr}
 }
+.stk-fields{display:grid; gap:8px}
+.stk-fields label{display:flex; justify-content:space-between; align-items:center; gap:8px; font-size:13px}
+input.num{
+  width:4.8em; font:inherit; font-size:13px; padding:4px 6px;
+  border:1px solid var(--rule); border-radius:6px; background:var(--panel); color:var(--ink);
+}
+.stk-row{display:grid; grid-template-columns:44px 1fr; gap:8px; padding:8px 0; border-top:1px solid var(--rule)}
+.stk-row img{width:44px; height:44px; object-fit:contain; background:#fff; border:1px solid var(--rule); border-radius:4px}
+.stk-name{font-size:13px; font-weight:500}
+.ops{display:flex; flex-wrap:wrap; gap:4px 6px; align-items:center; font-size:12px; color:var(--muted)}
+.ops button{padding:3px 8px; font-size:12px}
+#sheetModal{
+  position:fixed; inset:0; z-index:40; overflow:auto; padding:16px 16px 48px;
+  background:rgba(20,24,28,.55);
+}
+#sheetModal[hidden]{display:none !important}
+.sheet-bar{
+  display:flex; flex-wrap:wrap; gap:8px; align-items:center;
+  max-width:210mm; margin:0 auto 12px; padding:10px 12px;
+  background:var(--panel); color:var(--ink); border:1px solid var(--rule); border-radius:10px;
+}
+.sheet-bar strong{font-size:15px}
+.sheet-bar .spacer{flex:1}
+.print-note{
+  max-width:210mm; margin:0 auto 8px; padding:8px 10px;
+  background:#fff6d8; color:#3f3420; border-radius:8px; font-size:13px;
+}
+.sheet-page{
+  position:relative; width:210mm; height:297mm; margin:0 auto 16px;
+  background:#fff; box-shadow:0 8px 30px rgba(0,0,0,.28); overflow:hidden;
+}
+.stk{position:absolute}
+.stk img{width:100%; height:100%; display:block}
+.sheet-page .stk{outline:0.15mm solid #222}
 </style>
 </head>
 <body>
@@ -143,6 +177,9 @@ input[type=range]{width:100%; accent-color:var(--pink)}
         <button class="tool" data-tool="restore" aria-pressed="false">
           <b>修復筆刷（F）</b><small>把擦過頭的地方畫回來，例如交叉的筆畫。</small>
         </button>
+        <button class="tool" data-tool="sticker" aria-pressed="false">
+          <b>做成貼紙（S）</b><small>點一下改好的字格，加到貼紙頁。</small>
+        </button>
       </div>
     </section>
 
@@ -164,6 +201,28 @@ input[type=range]{width:100%; accent-color:var(--pink)}
       <button id="reclean" style="margin-top:10px" disabled>用目前選項重新整理</button>
       <p class="hint">重新整理會清掉手動修改。</p>
     </section>
+
+    <section>
+      <h2>部件貼紙</h2>
+      <p class="hint">擦掉要學生自己寫的部件後，用「做成貼紙」點那一格。印出來的字格預設是 1.5 公分見方，跟練習格一樣大。換一張圖可以再加別的字。</p>
+      <label class="check"><input type="checkbox" id="stkGuide" checked><span>貼紙包含米字格虛線</span></label>
+      <label class="check" style="margin-top:6px"><input type="checkbox" id="stkZhuyin"><span>貼紙包含右邊注音</span></label>
+      <div class="stk-fields" style="margin-top:10px">
+        <label>新貼紙每生張數 <input class="num" id="stkPer" type="number" min="1" max="20" value="2"></label>
+        <label>學生人數 <input class="num" id="stkStudents" type="number" min="1" max="40" value="1"></label>
+        <label>貼紙邊長（公分） <input class="num" id="stkCm" type="number" min="0.8" max="5" step="0.1" value="1.5"></label>
+        <label>頁面邊界（毫米） <input class="num" id="stkMargin" type="number" min="0" max="25" step="1" value="10"></label>
+        <label>貼紙間距（毫米） <input class="num" id="stkGap" type="number" min="0" max="8" step="0.5" value="2"></label>
+      </div>
+      <div id="stkList"></div>
+      <p class="hint" id="stkEmpty">還沒有貼紙。</p>
+      <div class="row" style="margin-top:8px">
+        <button id="stkPreview" class="primary" disabled>預覽／列印</button>
+        <button id="stkPdf" disabled>下載 PDF</button>
+        <button id="stkClear" disabled>清空</button>
+      </div>
+      <p class="hint" id="stkMath"></p>
+    </section>
   </aside>
 
   <div id="stage">
@@ -184,6 +243,17 @@ input[type=range]{width:100%; accent-color:var(--pink)}
     </div>
   </div>
 </main>
+<div id="sheetModal" hidden>
+  <div class="sheet-bar">
+    <strong>部件貼紙</strong>
+    <span id="sheetSummary"></span>
+    <div class="spacer"></div>
+    <button id="sheetPrint" class="primary" type="button">列印</button>
+    <button id="sheetPdf" type="button">下載 PDF</button>
+    <button id="sheetClose" type="button">關閉</button>
+  </div>
+  <div id="sheetPages"></div>
+</div>
 <div id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -196,10 +266,13 @@ input[type=range]{width:100%; accent-color:var(--pink)}
   let orig = null;   // ImageData: the image as opened
   let base = null;   // ImageData: after auto clean (restore source)
   let cur = null;    // ImageData: being edited
-  let cells = [];    // character areas {x0,y0,x1,y1}
+  let cells = [];    // character areas {x0,y0,x1,y1, box}
   let tool = 'brush', size = 7, zoom = 1, fileName = '練字卡';
   const undoStack = [], redoStack = [];
   const MAXH = 25;
+  const stickers = [];
+  let stickerSeq = 1;
+  const A4_W = 210, A4_H = 297; // mm
 
   // ---------- helpers ----------
   const toast = msg => { const t = $('toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('show'), 2200); };
@@ -301,9 +374,12 @@ input[type=range]{width:100%; accent-color:var(--pink)}
     for (const bx of boxes){
       bx_ = bx; let left = 0;
       for (let x=bx.x0-6; x>=0; x--){ if (isBorderCol(x)){ left=x; break; } }
-      found.push({x0:left+2, y0:bx.y0, x1:bx.x0-3, y1:bx.bottom});
+      found.push({
+        x0:left+2, y0:bx.y0, x1:bx.x0-3, y1:bx.bottom,
+        box:{x0:bx.x0, y0:bx.y0, x1:bx.x1, y1:bx.bottom}
+      });
     }
-    return { img: out, cells: found, boxes: boxes.length };
+    return { img: out, cells: found, boxes };
   }
 
   // ---------- loading ----------
@@ -330,7 +406,7 @@ input[type=range]{width:100%; accent-color:var(--pink)}
     base = r.img; cells = r.cells; cur = copyImg(base);
     undoStack.length = 0; redoStack.length = 0; syncHistory();
     wctx.putImageData(cur, 0, 0);
-    toast(r.boxes ? `已整理，找到 ${r.boxes} 個字格` : '已開啟。沒有找到注音格，「整格清空」無法使用');
+    toast(r.boxes.length ? `已整理，找到 ${r.boxes.length} 個字格` : '已開啟。沒有找到注音格，「整格清空」和「做成貼紙」無法使用');
   }
 
   // ---------- history ----------
@@ -377,19 +453,28 @@ input[type=range]{width:100%; accent-color:var(--pink)}
       octx.beginPath(); octx.arc(p.x,p.y,size,0,Math.PI*2); octx.stroke();
     } else {
       const c = cellAt(p);
-      octx.strokeStyle='#2F6E9E';
-      if (tool==='cell' && c){ octx.fillStyle='rgba(47,110,158,.10)'; octx.fillRect(c.x0,c.y0,c.x1-c.x0,c.y1-c.y0); octx.strokeRect(c.x0,c.y0,c.x1-c.x0,c.y1-c.y0); }
+      octx.strokeStyle = tool==='sticker' ? '#E2729B' : '#2F6E9E';
+      if ((tool==='cell' || tool==='sticker') && c){
+        octx.fillStyle = tool==='sticker' ? 'rgba(226,114,155,.12)' : 'rgba(47,110,158,.10)';
+        octx.fillRect(c.x0,c.y0,c.x1-c.x0,c.y1-c.y0);
+        octx.strokeRect(c.x0,c.y0,c.x1-c.x0,c.y1-c.y0);
+        if (tool==='sticker' && $('stkZhuyin').checked && c.box){
+          octx.strokeRect(c.box.x0, c.y0, c.box.x1-c.box.x0, c.y1-c.y0);
+        }
+      }
       octx.beginPath(); octx.moveTo(p.x-6,p.y); octx.lineTo(p.x+6,p.y); octx.moveTo(p.x,p.y-6); octx.lineTo(p.x,p.y+6); octx.stroke();
     }
   }
   const cellAt = p => cells.find(c => p.x>=c.x0 && p.x<=c.x1 && p.y>=c.y0 && p.y<=c.y1);
   work.addEventListener('pointerdown', e => {
-    if (!cur) return; work.setPointerCapture(e.pointerId);
+    if (!cur) return;
     const p = pos(e);
-    if (tool==='cell'){
+    if (tool==='cell' || tool==='sticker'){
       const c = cellAt(p); if (!c){ toast('這裡不是字格'); return; }
+      if (tool==='sticker'){ addSticker(c); return; }
       pushHistory(); eraseRect(c.x0, c.y0+2, c.x1, c.y1-2, true); toast('已清空這一格'); return;
     }
+    work.setPointerCapture(e.pointerId);
     pushHistory(); down = true; last = p; start = p;
     if (tool==='brush' || tool==='restore') paintSegment(p.x,p.y,p.x,p.y,size,tool==='restore');
     drawOverlay(p);
@@ -436,13 +521,366 @@ input[type=range]{width:100%; accent-color:var(--pink)}
     w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>${fileName}</title><style>@page{size:A4;margin:10mm}html,body{margin:0}img{width:100%;height:auto;display:block}</style></head><body><img src="${url}" onload="setTimeout(()=>{window.print()},200)"></body></html>`);
     w.document.close();
   };
+  // ---------- 部件貼紙 ----------
+  // A printed character cell is `size` mm square (default 15 mm = 1.5 cm).
+  // Columns fit when (usable + gap) / (size + gap) is whole: the last sticker has no trailing gap.
+  function clampInt(v, min, max){
+    const n = Math.round(+v);
+    if (!Number.isFinite(n)) return min;
+    return Math.min(max, Math.max(min, n));
+  }
+  function numVal(id, fallback, min, max){
+    const n = +$(id).value;
+    if (!Number.isFinite(n)) return fallback;
+    return Math.min(max, Math.max(min, n));
+  }
+  function readSettings(){
+    return {
+      size: Math.round(numVal('stkCm', 1.5, 0.8, 5) * 10 * 100) / 100, // mm
+      margin: numVal('stkMargin', 10, 0, 25),
+      gap: numVal('stkGap', 2, 0, 8),
+      students: clampInt($('stkStudents').value, 1, 40),
+    };
+  }
+  function isLightGuide(r, g, b){
+    const max = Math.max(r, g, b), min = Math.min(r, g, b);
+    return max - min < 22 && r >= 168 && r <= 238;
+  }
+  function cropSticker(x0, y0, x1, y1, guides){
+    x0 = Math.max(0, x0); y0 = Math.max(0, y0);
+    x1 = Math.min(W - 1, x1); y1 = Math.min(H - 1, y1);
+    const w = x1 - x0 + 1, h = y1 - y0 + 1;
+    const c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    const ctx = c.getContext('2d');
+    const img = ctx.createImageData(w, h);
+    const src = cur.data;
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++){
+      const si = ((y0 + y) * W + (x0 + x)) * 4;
+      const di = (y * w + x) * 4;
+      let r = src[si], g = src[si + 1], b = src[si + 2];
+      const edge = x < 3 || y < 3 || x >= w - 3 || y >= h - 3;
+      if (!guides && !edge && isLightGuide(r, g, b)) r = g = b = 255;
+      img.data[di] = r; img.data[di + 1] = g; img.data[di + 2] = b; img.data[di + 3] = 255;
+    }
+    ctx.putImageData(img, 0, 0);
+    return c;
+  }
+  function addSticker(cell){
+    const x0 = Math.max(0, Math.round(cell.x0));
+    const y0 = Math.max(0, Math.round(cell.y0));
+    const cellX1 = Math.min(W - 1, Math.round(cell.x1));
+    const y1 = Math.min(H - 1, Math.round(cell.y1));
+    const withZy = $('stkZhuyin').checked && cell.box;
+    const x1 = withZy ? Math.min(W - 1, Math.round(cell.box.x1)) : cellX1;
+    const cellW = cellX1 - x0 + 1;
+    if (cellW < 2 || y1 - y0 < 2){ toast('這個字格太小，無法做成貼紙'); return; }
+    const canvas = cropSticker(x0, y0, x1, y1, $('stkGuide').checked);
+    const per = clampInt($('stkPer').value, 1, 20);
+    const name = fileName + ' ' + (cells.indexOf(cell) + 1);
+    stickers.push({ id: stickerSeq++, name, canvas, cellW, perStudent: per, zhuyin: !!withZy });
+    if (!canvas._url) canvas._url = canvas.toDataURL('image/png');
+    renderStickerList();
+    $('stkList').lastElementChild?.scrollIntoView({ block: 'nearest' });
+    const students = clampInt($('stkStudents').value, 1, 40);
+    toast(`已加入「${name}」，每生 ${per} 張 × ${students} 人`);
+  }
+  function renderStickerList(){
+    const list = $('stkList');
+    list.replaceChildren();
+    const students = clampInt($('stkStudents').value, 1, 40);
+    stickers.forEach(s => {
+      const row = document.createElement('div');
+      row.className = 'stk-row';
+      const img = document.createElement('img');
+      img.src = s.canvas._url || (s.canvas._url = s.canvas.toDataURL('image/png'));
+      img.alt = '';
+      const body = document.createElement('div');
+      const name = document.createElement('div');
+      name.className = 'stk-name';
+      name.textContent = s.name + (s.zhuyin ? '（含注音）' : '');
+      const ops = document.createElement('div');
+      ops.className = 'ops';
+      const lab = document.createElement('label');
+      lab.append('每生 ');
+      const input = document.createElement('input');
+      input.className = 'num';
+      input.type = 'number';
+      input.min = '1';
+      input.max = '20';
+      input.value = String(s.perStudent);
+      input.setAttribute('aria-label', s.name + ' 每位學生張數');
+      const total = document.createElement('span');
+      total.className = 'stk-total';
+      const del = document.createElement('button');
+      del.type = 'button';
+      del.textContent = '刪除';
+      const sync = () => { total.textContent = '共 ' + (s.perStudent * students) + ' 張'; };
+      input.addEventListener('change', () => {
+        s.perStudent = clampInt(input.value, 1, 20);
+        input.value = String(s.perStudent);
+        sync();
+        updateMath();
+      });
+      del.onclick = () => {
+        const i = stickers.findIndex(x => x.id === s.id);
+        if (i >= 0) stickers.splice(i, 1);
+        renderStickerList();
+      };
+      sync();
+      lab.append(input);
+      ops.append(lab, total, del);
+      body.append(name, ops);
+      row.append(img, body);
+      list.append(row);
+    });
+    const empty = !stickers.length;
+    $('stkEmpty').hidden = !empty;
+    $('stkPreview').disabled = $('stkPdf').disabled = $('stkClear').disabled = empty;
+    updateMath();
+  }
+  function updateMath(){
+    const { size, margin, gap, students } = readSettings();
+    const cols = Math.floor((A4_W - 2 * margin + gap) / (size + gap));
+    const rows = Math.floor((A4_H - 2 * margin + gap) / (size + gap));
+    const copies = stickers.reduce((n, s) => n + s.perStudent * students, 0);
+    const el = $('stkMath');
+    if (cols < 1 || rows < 1){
+      el.textContent = '這個尺寸超出 A4，請縮小貼紙或邊界。';
+      return;
+    }
+    el.textContent = `字格印成 ${size.toFixed(1)} × ${size.toFixed(1)} mm（${(size / 10).toFixed(2)} 公分）。邊界 ${margin} mm，間距 ${gap} mm。一頁約 ${cols} 欄 × ${rows} 列。目前 ${copies} 張。`;
+  }
+  function stickerItems(){
+    const { size, students } = readSettings();
+    const items = [];
+    for (const s of stickers){
+      const copies = s.perStudent * students;
+      const w = Math.round(size * (s.canvas.width / s.cellW) * 100) / 100;
+      const h = size;
+      for (let i = 0; i < copies; i++) items.push({ canvas: s.canvas, w, h, name: s.name });
+    }
+    return items;
+  }
+  function layoutPages(items, margin, gap){
+    const pages = [];
+    let page = { items: [] };
+    let x = margin, y = margin, rowH = 0;
+    const maxX = A4_W - margin, maxY = A4_H - margin;
+    for (const it of items){
+      let nx = x, ny = y, nh = rowH;
+      if (x > margin + 0.001 && x + it.w > maxX + 0.05){
+        nx = margin;
+        ny = y + rowH + gap;
+        nh = 0;
+      }
+      if ((ny > margin + 0.001 && ny + it.h > maxY + 0.05) || nx + it.w > maxX + 0.05){
+        if (page.items.length) pages.push(page);
+        page = { items: [] };
+        nx = margin;
+        ny = margin;
+        nh = 0;
+      }
+      page.items.push({ canvas: it.canvas, w: it.w, h: it.h, name: it.name, x: nx, y: ny });
+      x = nx + it.w + gap;
+      y = ny;
+      rowH = Math.max(nh, it.h);
+    }
+    if (page.items.length) pages.push(page);
+    return pages;
+  }
+  function buildPages(){
+    if (!stickers.length){ toast('請先把字格做成貼紙'); return null; }
+    const { size, margin, gap } = readSettings();
+    const items = stickerItems();
+    if (items.some(it => it.w + 2 * margin > A4_W + 0.05 || it.h + 2 * margin > A4_H + 0.05)){
+      toast('貼紙加上邊界放不進 A4，請縮小邊長或邊界。');
+      return null;
+    }
+    const pages = layoutPages(items, margin, gap);
+    pages.size = size;
+    pages.margin = margin;
+    pages.gap = gap;
+    return pages;
+  }
+  function fillSheet(host, pages){
+    host.replaceChildren();
+    const note = document.createElement('p');
+    note.className = 'print-note';
+    note.textContent = '列印時請選 A4、邊界無、縮放 100%（實際大小）。不要選「符合頁面」或「縮放至紙張」。';
+    host.appendChild(note);
+    pages.forEach((page, i) => {
+      const sec = document.createElement('section');
+      sec.className = 'sheet-page';
+      sec.setAttribute('aria-label', '第 ' + (i + 1) + ' 頁');
+      page.items.forEach(it => {
+        const d = document.createElement('div');
+        d.className = 'stk';
+        d.style.left = it.x + 'mm';
+        d.style.top = it.y + 'mm';
+        d.style.width = it.w + 'mm';
+        d.style.height = it.h + 'mm';
+        const img = document.createElement('img');
+        img.alt = it.name || '貼紙';
+        img.src = it.canvas._url || (it.canvas._url = it.canvas.toDataURL('image/png'));
+        d.appendChild(img);
+        sec.appendChild(d);
+      });
+      host.appendChild(sec);
+    });
+  }
+  function openPreview(){
+    const pages = buildPages();
+    if (!pages) return;
+    fillSheet($('sheetPages'), pages);
+    const copies = pages.reduce((n, p) => n + p.items.length, 0);
+    $('sheetSummary').textContent = `共 ${copies} 張，${pages.length} 頁。字格 ${pages.size.toFixed(1)} mm 見方。`;
+    $('sheetModal').hidden = false;
+  }
+  const SHEET_CSS = `@page{size:A4;margin:0}html,body{margin:0;padding:0;background:#fff}
+.note{font-family:"Noto Sans TC","PingFang TC",sans-serif;font-size:11pt;padding:6mm 10mm;background:#fff6d8;color:#3f3420}
+@media print{.note{display:none}}
+.page{position:relative;width:210mm;height:297mm;page-break-after:always;background:#fff;overflow:hidden}
+.stk{position:absolute;outline:0.15mm solid #222}
+.stk img{width:100%;height:100%;display:block}`;
+  function printSheet(){
+    const pages = buildPages();
+    if (!pages) return;
+    const w = window.open('', '_blank');
+    if (!w){ toast('瀏覽器擋住了列印視窗，請允許彈出視窗'); return; }
+    const body = pages.map(page => {
+      const bits = page.items.map(it => {
+        const src = it.canvas._url || (it.canvas._url = it.canvas.toDataURL('image/png'));
+        return `<div class="stk" style="left:${it.x}mm;top:${it.y}mm;width:${it.w}mm;height:${it.h}mm"><img src="${src}" alt=""></div>`;
+      }).join('');
+      return `<section class="page">${bits}</section>`;
+    }).join('');
+    w.document.write(`<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>部件貼紙</title><style>${SHEET_CSS}</style></head><body><p class="note">列印時請選 A4、邊界無、縮放 100%（實際大小）。不要選「符合頁面」或「縮放至紙張」。</p>${body}</body></html>`);
+    w.document.close();
+    w.onload = () => setTimeout(() => w.print(), 200);
+  }
+  const DPI = 300;
+  const PX_PER_MM = DPI / 25.4;
+  function renderPageCanvas(page){
+    const w = Math.round(A4_W * PX_PER_MM), h = Math.round(A4_H * PX_PER_MM);
+    const c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    const ctx = c.getContext('2d', { willReadFrequently: true });
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, w, h);
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.strokeStyle = '#222';
+    ctx.lineWidth = Math.max(1, 0.15 * PX_PER_MM);
+    for (const it of page.items){
+      const x = it.x * PX_PER_MM, y = it.y * PX_PER_MM, sw = it.w * PX_PER_MM, sh = it.h * PX_PER_MM;
+      ctx.drawImage(it.canvas, x, y, sw, sh);
+      ctx.strokeRect(x, y, sw, sh);
+    }
+    return c;
+  }
+  function canvasToJpeg(canvas){
+    return new Promise((resolve, reject) => {
+      canvas.toBlob(blob => {
+        if (!blob) reject(new Error('no-jpeg'));
+        else blob.arrayBuffer().then(buf => resolve(new Uint8Array(buf)));
+      }, 'image/jpeg', 0.92);
+    });
+  }
+  async function canvasesToPdf(canvases){
+    const enc = new TextEncoder();
+    const images = [];
+    for (const c of canvases){
+      images.push({ w: c.width, h: c.height, data: await canvasToJpeg(c) });
+    }
+    const parts = [];
+    const offsets = [];
+    let pos = 0;
+    const pushStr = s => { const b = enc.encode(s); parts.push(b); pos += b.length; };
+    const pushBytes = b => { parts.push(b); pos += b.length; };
+    pushStr('%PDF-1.4\n%\xFF\xFF\xFF\xFF\n');
+    const n = images.length;
+    const pageW = (A4_W * 72 / 25.4).toFixed(4);
+    const pageH = (A4_H * 72 / 25.4).toFixed(4);
+    const kids = [];
+    for (let i = 0; i < n; i++) kids.push(`${3 + i * 3} 0 R`);
+    const startObj = id => { offsets[id] = pos; };
+    startObj(1);
+    pushStr('1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n');
+    startObj(2);
+    pushStr(`2 0 obj\n<< /Type /Pages /Count ${n} /Kids [${kids.join(' ')}] >>\nendobj\n`);
+    for (let i = 0; i < n; i++){
+      const pageId = 3 + i * 3, contentId = pageId + 1, imageId = pageId + 2;
+      const content = enc.encode(`q\n${pageW} 0 0 ${pageH} 0 0 cm\n/Im0 Do\nQ\n`);
+      const img = images[i];
+      startObj(pageId);
+      pushStr(`${pageId} 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageW} ${pageH}] /Resources << /XObject << /Im0 ${imageId} 0 R >> >> /Contents ${contentId} 0 R >>\nendobj\n`);
+      startObj(contentId);
+      pushStr(`${contentId} 0 obj\n<< /Length ${content.length} >>\nstream\n`);
+      pushBytes(content);
+      pushStr('\nendstream\nendobj\n');
+      startObj(imageId);
+      pushStr(`${imageId} 0 obj\n<< /Type /XObject /Subtype /Image /Width ${img.w} /Height ${img.h} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${img.data.length} >>\nstream\n`);
+      pushBytes(img.data);
+      pushStr('\nendstream\nendobj\n');
+    }
+    const xrefPos = pos;
+    const total = 2 + n * 3;
+    pushStr(`xref\n0 ${total + 1}\n`);
+    pushStr('0000000000 65535 f \n');
+    for (let i = 1; i <= total; i++) pushStr(String(offsets[i]).padStart(10, '0') + ' 00000 n \n');
+    pushStr(`trailer\n<< /Size ${total + 1} /Root 1 0 R >>\nstartxref\n${xrefPos}\n%%EOF`);
+    return new Blob(parts, { type: 'application/pdf' });
+  }
+  async function downloadPdf(){
+    const pages = buildPages();
+    if (!pages) return;
+    try {
+      const canvases = pages.map(renderPageCanvas);
+      const blob = await canvasesToPdf(canvases);
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = '部件貼紙.pdf';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+      toast('已下載 PDF（300 dpi）');
+    } catch (err) {
+      toast('這個瀏覽器無法產生 PDF，請改用列印');
+    }
+  }
+  $('stkPreview').onclick = openPreview;
+  $('stkPdf').onclick = downloadPdf;
+  $('sheetPrint').onclick = printSheet;
+  $('sheetPdf').onclick = downloadPdf;
+  $('sheetClose').onclick = () => { $('sheetModal').hidden = true; };
+  $('sheetModal').addEventListener('click', e => { if (e.target === $('sheetModal')) $('sheetModal').hidden = true; });
+  $('stkClear').onclick = () => {
+    if (!stickers.length) return;
+    if (!confirm('要清空貼紙頁上的字嗎？練字卡上的修改會留著。')) return;
+    stickers.splice(0, stickers.length);
+    renderStickerList();
+  };
+  ['stkStudents', 'stkCm', 'stkMargin', 'stkGap', 'stkPer'].forEach(id => $(id).addEventListener('input', () => {
+    if (id === 'stkStudents'){
+      const students = clampInt($('stkStudents').value, 1, 40);
+      document.querySelectorAll('.stk-total').forEach((el, i) => {
+        if (stickers[i]) el.textContent = '共 ' + (stickers[i].perStudent * students) + ' 張';
+      });
+    }
+    updateMath();
+  }));
+  renderStickerList();
+
   document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && !$('sheetModal').hidden){ $('sheetModal').hidden = true; return; }
     if (e.target.tagName==='INPUT') return;
     const k = e.key.toLowerCase();
     if ((e.ctrlKey||e.metaKey) && k==='z' && !e.shiftKey){ e.preventDefault(); undo(); return; }
     if ((e.ctrlKey||e.metaKey) && (k==='y' || (k==='z' && e.shiftKey))){ e.preventDefault(); redo(); return; }
     if (e.ctrlKey||e.metaKey||e.altKey) return;
-    if (k==='b') setTool('brush'); else if (k==='r') setTool('rect'); else if (k==='c') setTool('cell'); else if (k==='f') setTool('restore');
+    if (k==='b') setTool('brush'); else if (k==='r') setTool('rect'); else if (k==='c') setTool('cell'); else if (k==='f') setTool('restore'); else if (k==='s') setTool('sticker');
     else if (k==='[') { $('size').value = size = Math.max(2,size-1); $('sizeVal').textContent=size; }
     else if (k===']') { $('size').value = size = Math.min(20,size+1); $('sizeVal').textContent=size; }
   });
