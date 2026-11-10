@@ -23,6 +23,14 @@ window.TOOLBOX_TOOLS = [
     status: "ready",
   },
   {
+    id: "word-sentence-cards",
+    href: "word-sentence-cards/",
+    title: "造詞造句分層卡",
+    summary: "貼上生字，做出低、中、高三組的認讀、填空和造句卡。可請 AI 造詞造句，也可自己打，再下載 Word。",
+    subject: "國語文",
+    status: "ready",
+  },
+  {
     id: "practice-card",
     href: "practice-card/",
     title: "練字卡修改工具",

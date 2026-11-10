@@ -1,0 +1,213 @@
+:root {
+  --kai: "DFKai-SB", "BiauKai", "標楷體", "KaiTi", "STKaiti", "AR PL UKai TW", "AR PL UKai", "Noto Serif CJK TC", "Noto Serif TC", serif;
+}
+
+.editor-wrap {
+  overflow-x: auto;
+  margin-top: 0.8rem;
+}
+
+.editor-table {
+  width: 100%;
+  min-width: 52rem;
+  border-collapse: collapse;
+  background: #fffdf9;
+}
+
+.editor-table th {
+  text-align: left;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  font-weight: 700;
+  padding: 0.45rem;
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.editor-table td {
+  vertical-align: top;
+  padding: 0.55rem 0.45rem 0.7rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.char-input {
+  width: 3.5rem;
+  font-family: var(--kai);
+  font-size: 1.85rem;
+  text-align: center;
+  padding: 0.15rem;
+}
+
+.zhuyin-input { min-width: 6.5rem; }
+
+.parts-input,
+.hint-input { min-width: 8rem; }
+
+.word-block {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.5rem 0;
+  border-top: 1px dashed var(--line);
+}
+
+.word-block:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.word-line,
+.sentence-line,
+.hint-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.5rem;
+  align-items: center;
+}
+
+.word-line input[type="text"],
+.sentence-line input[type="text"],
+.hint-line input[type="text"] {
+  width: auto;
+  flex: 1 1 8rem;
+}
+
+.word-text {
+  font-family: var(--kai);
+  font-size: 1.15rem;
+  min-width: 7rem;
+}
+
+.hint-line { margin-top: 0.35rem; }
+
+.lv-low { color: var(--low); }
+.lv-mid { color: var(--mid); }
+.lv-high { color: var(--high); }
+
+.level-tabs { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+.level-tabs .btn[aria-selected="true"] {
+  background: var(--pine);
+  color: #fffaf3;
+  border-color: transparent;
+}
+
+.preview-stack { display: grid; gap: 1rem; }
+
+.a4-page {
+  width: min(210mm, 100%);
+  min-height: 240mm;
+  margin: 0 auto;
+  padding: 12mm 14mm 14mm;
+  background: white;
+  color: #1a1a1a;
+  border: 1px solid #e6e0d8;
+  box-shadow: var(--shadow);
+  font-family: "DFKai-SB", "BiauKai", "標楷體", "KaiTi", "STKaiti", "AR PL UKai TW", "AR PL UKai", "Noto Serif TC", serif;
+  line-height: 1.55;
+}
+
+.a4-page .sheet-title { font-size: 1.25em; }
+
+.sheet-name,
+.sheet-instruction { text-align: center; }
+
+.sheet-instruction { margin: 0.2rem 0 0.6rem; }
+
+.char-card {
+  border: 2.5px solid;
+  border-radius: 14px;
+  margin: 0.85rem 0 0;
+  overflow: hidden;
+  break-inside: avoid;
+}
+
+.char-card header {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.45rem 0.85rem;
+}
+
+.big-char {
+  font-size: 2.5em;
+  font-weight: 700;
+  line-height: 1;
+  min-width: 1.35em;
+  text-align: center;
+}
+
+.card-kicker { font-weight: 700; }
+
+.card-zhuyin { letter-spacing: 0.06em; }
+
+.card-body { padding: 0.45rem 0.95rem 0.85rem; }
+
+.line { margin: 0.12em 0; }
+
+.line-cloze {
+  font-size: 1.55em;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  margin: 0.15em 0 0.2em;
+}
+
+.line-choice { padding: 0.08em 0 0.08em 1.2em; }
+
+.line-ruby {
+  font-size: 0.78em;
+  letter-spacing: 0.12em;
+}
+
+.line-write { letter-spacing: 0.08em; }
+
+.line-hint,
+.line-note { color: #5e534a; }
+
+.line-lead,
+.line-bank { font-weight: 700; }
+
+.answer-page { background: #fffdf6; }
+
+.key-preview { white-space: pre-wrap; }
+
+.print-only { display: none; }
+
+@media print {
+  body { background: white; }
+  .site-header,
+  .site-footer,
+  .page-intro,
+  .settings,
+  .form-panel,
+  .options-panel,
+  .no-print { display: none !important; }
+  #preview-section {
+    display: block !important;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: white;
+  }
+  #preview-pages { display: none !important; }
+  .print-only { display: block !important; }
+  .a4-page {
+    width: auto;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-shadow: none;
+    break-after: page;
+    page-break-after: always;
+  }
+  .a4-page:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+  .char-card,
+  .a4-page {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
+@page { size: A4; margin: 12mm; }
