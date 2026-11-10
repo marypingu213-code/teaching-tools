@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>造詞造句分層卡｜教學設計工具箱</title>
+  <meta name="description" content="貼上生字，做出低、中、高三組的認讀、填空和造句卡，並下載成 Word。">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/site.css">
+  <link rel="stylesheet" href="cards.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="../">
+        <span class="seal" aria-hidden="true">箱</span>
+        <span>教學設計工具箱</span>
+      </a>
+      <p class="crumb">造詞造句分層卡</p>
+    </div>
+  </header>
+  <main>
+    <div class="wrap">
+      <section class="page-intro">
+        <p class="eyebrow">國語文</p>
+        <h1>造詞造句分層卡</h1>
+        <p class="lede">同一批生字，做成低、中、高三組。低組圈出正確的字，中組選詞填空再仿寫，高組自己造詞、造句。可以請 AI 先寫，也可以自己打。</p>
+        <ol class="steps">
+          <li><strong>1</strong>貼上生字。年級可以不填。</li>
+          <li><strong>2</strong>放進表格，自己打詞語，或請 AI 寫。</li>
+          <li><strong>3</strong>不對的詞和句子直接改。</li>
+          <li><strong>4</strong>選程度，下載 Word 或列印。</li>
+        </ol>
+      </section>
+
+      <details class="settings" id="settings">
+        <summary>AI 設定 <span id="settings-status">尚未儲存金鑰</span></summary>
+        <p class="note">金鑰和學習單產生器共用，只存在這台瀏覽器的 localStorage，不會送到這個教學網站。按下「請 AI 造詞造句」時，生字會從這台電腦直接傳給你選的 AI。不呼叫 AI 也可以，自己在表格裡打。共用電腦請用完按「清除金鑰」。</p>
+        <div class="provider-row">
+          <label class="choice"><input type="radio" name="provider" value="gemini" checked> Google Gemini（預設，有免費額度）</label>
+          <label class="choice"><input type="radio" name="provider" value="openai"> OpenAI（選用）</label>
+        </div>
+        <div class="settings-grid two" id="gemini-fields">
+          <label class="field">模型
+            <input id="gemini-model" type="text" value="gemini-2.5-flash" autocomplete="off" spellcheck="false">
+            <small>預設 gemini-2.5-flash。若名稱失效，可改成 AI Studio 裡看得到的模型。</small>
+          </label>
+          <label class="field">Gemini API 金鑰
+            <input id="gemini-key" type="password" autocomplete="off" spellcheck="false" placeholder="貼上 AI Studio 的金鑰">
+            <small><a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">到 Google AI Studio 取得金鑰</a></small>
+          </label>
+        </div>
+        <div class="settings-grid two" id="openai-fields" hidden>
+          <label class="field">模型
+            <input id="openai-model" type="text" value="gpt-4o-mini" autocomplete="off" spellcheck="false">
+          </label>
+          <label class="field">OpenAI API 金鑰
+            <input id="openai-key" type="password" autocomplete="off" spellcheck="false" placeholder="貼上 OpenAI 的金鑰">
+            <small>從網頁直接呼叫 OpenAI，常會被瀏覽器擋住。若失敗，請改回 Gemini。<a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer">OpenAI 金鑰頁</a></small>
+          </label>
+        </div>
+        <div class="inline-actions">
+          <button type="button" class="btn small" id="save-settings">儲存金鑰</button>
+          <button type="button" class="btn secondary small" id="toggle-key">顯示金鑰</button>
+          <button type="button" class="btn secondary small" id="clear-settings">清除金鑰</button>
+        </div>
+      </details>
+
+      <section class="form-panel" aria-labelledby="form-heading">
+        <h2 id="form-heading">生字</h2>
+        <div class="form-grid two">
+          <label class="field">年級（選填）
+            <input id="grade" type="text" maxlength="40" placeholder="例如：二年級、中年級">
+            <small>會出現在學習單標題和下載檔名。</small>
+          </label>
+          <label class="field span-2">生字
+            <textarea id="chars" maxlength="500" placeholder="例如：渡、度、鍍。頓號、逗號、空白、換行都可以。"></textarea>
+            <small id="chars-count">讀到 0 個不重複的字</small>
+          </label>
+        </div>
+        <p id="form-error" class="banner error" hidden role="alert"></p>
+        <p id="form-status" class="banner ok" hidden role="status"></p>
+        <div class="actions">
+          <button type="button" class="btn secondary" id="add-chars">放進表格</button>
+          <button type="button" class="btn" id="generate">請 AI 造詞造句</button>
+          <button type="button" class="btn secondary" id="add-row">新增一個字</button>
+          <button type="button" class="btn secondary" id="fill-sample">填入示例（不呼叫 AI）</button>
+        </div>
+        <p id="editor-empty" class="hint">還沒有生字。貼在上面後按「放進表格」，或直接在下面新增，自己打詞語和例句。</p>
+        <div id="editor" class="editor-wrap" hidden></div>
+        <p class="hint">低組用標成「低組挖空」的那個詞。中組用例句做填空和仿寫。高組的提示可以改，留空就不會印出來。部件用來判斷哪些字可以當低組的選項。</p>
+        <div class="inline-actions">
+          <button type="button" class="btn secondary small" id="fill-hints">沒有提示的字，補上提示</button>
+        </div>
+      </section>
+
+      <section class="form-panel options-panel" aria-labelledby="options-heading">
+        <h2 id="options-heading">出卡</h2>
+        <fieldset>
+          <legend>程度</legend>
+          <div class="choice-row">
+            <label class="choice"><input type="checkbox" id="level-low" checked> <span class="lv-low">低組</span>（認讀＋選擇）</label>
+            <label class="choice"><input type="checkbox" id="level-mid" checked> <span class="lv-mid">中組</span>（填空＋仿寫）</label>
+            <label class="choice"><input type="checkbox" id="level-high" checked> <span class="lv-high">高組</span>（造詞＋造句）</label>
+          </div>
+          <p class="hint">每個勾選的程度各出一份 Word。</p>
+        </fieldset>
+        <div class="form-grid two">
+          <fieldset>
+            <legend>版面</legend>
+            <div class="choice-row">
+              <label class="choice"><input type="radio" name="layout" value="card" checked> 一張卡一個字</label>
+              <label class="choice"><input type="radio" name="layout" value="sheet"> 一頁多個字</label>
+            </div>
+          </fieldset>
+          <label class="field">字級
+            <select id="font-size">
+              <option value="sm">小（12 點）</option>
+              <option value="md">中（14 點）</option>
+              <option value="lg" selected>大（18 點）</option>
+              <option value="xl">特大（22 點）</option>
+            </select>
+          </label>
+          <fieldset class="span-2">
+            <legend>其他</legend>
+            <div class="choice-row">
+              <label class="choice"><input type="checkbox" id="opt-zhuyin" checked> 顯示注音</label>
+              <label class="choice"><input type="checkbox" id="opt-answers" checked> 最後一頁附答案</label>
+              <label class="choice"><input type="checkbox" id="opt-hint" checked> 高組顯示造句提示</label>
+              <label class="choice"><input type="checkbox" id="opt-same"> 只出部件相同的字</label>
+            </div>
+            <p class="hint">勾選「只出部件相同的字」後，低組的干擾項只從這份生字裡、部件相同的字來出。例如「渡、度、鍍」都跟「度」有關。氵、扌、口這類常見部首不算。部件可以請 AI 填，也可以自己改。</p>
+          </fieldset>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn" id="make-cards">做出卡片</button>
+        </div>
+      </section>
+
+      <section class="preview-panel" id="preview-section" aria-labelledby="preview-heading" hidden>
+        <div class="section-row">
+          <h2 id="preview-heading">預覽</h2>
+          <div class="toolbar no-print">
+            <button type="button" class="btn" id="download-selected">下載勾選的程度</button>
+            <button type="button" class="btn secondary" id="download-one">下載這個程度</button>
+            <button type="button" class="btn secondary" id="print-preview">列印</button>
+          </div>
+        </div>
+        <p class="hint no-print">畫面上一次看一個程度。勾了好幾個程度時，下載會各出一份 Word，多份就包成壓縮檔。列印會把勾選的程度一起送去印表機。</p>
+        <p id="preview-warnings" class="banner warn no-print" hidden></p>
+        <div id="level-tabs" class="level-tabs no-print"></div>
+        <div id="preview-pages" class="preview-stack"></div>
+        <div id="print-all" class="print-only"></div>
+        <h3 class="no-print">對答案</h3>
+        <p id="key-note" class="hint no-print"></p>
+        <pre id="preview-key" class="key-preview no-print"></pre>
+      </section>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>生字和詞語不會留在這個網站。金鑰只留在你的瀏覽器。</p>
+    </div>
+  </footer>
+  <script src="../vendor/docx.js"></script>
+  <script src="../vendor/jszip.min.js"></script>
+  <script src="docx-export.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
