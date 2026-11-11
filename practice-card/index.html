@@ -159,9 +159,9 @@ input.num{
   position:relative; width:210mm; height:297mm; margin:0 auto 16px;
   background:#fff; box-shadow:0 8px 30px rgba(0,0,0,.28); overflow:hidden;
 }
-.stk{position:absolute}
-.stk img{width:100%; height:100%; display:block}
-.sheet-page .stk{outline:0.15mm solid #222}
+.pair{position:absolute; line-height:0}
+.pair img{display:block; width:100%; height:50%}
+.cuts{position:absolute; left:0; top:0; width:210mm; height:297mm; pointer-events:none}
 </style>
 </head>
 <body>
@@ -242,16 +242,16 @@ input.num{
 
   <aside class="stk-panel" aria-label="部件貼紙">
     <h2>部件貼紙</h2>
-    <p class="hint">擦掉要學生自己寫的部件後，用「做成貼紙」點那一格。印出來預設寬 1.9 公分、高 1.8 公分。字保持原來的比例、放在格子正中；米字格虛線畫滿整張貼紙。換一張圖可以再加別的字。</p>
+    <p class="hint">擦掉要學生自己寫的部件後，用「做成貼紙」點那一格。每一組是同一個字上下兩格（預設各 1.7 公分），中間不留白、不畫切線，給第一、二個練習格。切線只畫在整組外框。換一張圖可以再加別的字。</p>
     <label class="check"><input type="checkbox" id="stkGuide" checked><span>貼紙包含米字格虛線</span></label>
     <label class="check" style="margin-top:6px"><input type="checkbox" id="stkZhuyin"><span>貼紙包含右邊注音</span></label>
     <div class="stk-fields" style="margin-top:10px">
-      <label>新貼紙每生張數 <input class="num" id="stkPer" type="number" min="1" max="20" value="2"></label>
+        <label>新貼紙每生組數 <input class="num" id="stkPer" type="number" min="1" max="20" value="1"></label>
       <label>學生人數 <input class="num" id="stkStudents" type="number" min="1" max="40" value="1"></label>
-        <label>貼紙寬（公分） <input class="num" id="stkWcm" type="number" min="0.8" max="6" step="0.1" value="1.9"></label>
-        <label>貼紙高（公分） <input class="num" id="stkHcm" type="number" min="0.8" max="6" step="0.1" value="1.8"></label>
+        <label>貼紙寬（公分） <input class="num" id="stkWcm" type="number" min="0.8" max="6" step="0.1" value="1.7"></label>
+        <label>貼紙高（公分） <input class="num" id="stkHcm" type="number" min="0.8" max="6" step="0.1" value="1.7"></label>
       <label>頁面邊界（毫米） <input class="num" id="stkMargin" type="number" min="0" max="25" step="1" value="10"></label>
-      <label>貼紙間距（毫米） <input class="num" id="stkGap" type="number" min="0" max="8" step="0.5" value="2"></label>
+      <label>貼紙間距（毫米） <input class="num" id="stkGap" type="number" min="0" max="8" step="0.5" value="0"></label>
     </div>
     <div id="stkList"></div>
     <p class="hint" id="stkEmpty">還沒有貼紙。</p>
@@ -559,16 +559,17 @@ input.num{
   }
   function readSettings(){
     return {
-      w: roundMm(numVal('stkWcm', 1.9, 0.8, 6) * 10),
-      h: roundMm(numVal('stkHcm', 1.8, 0.8, 6) * 10),
+      w: roundMm(numVal('stkWcm', 1.7, 0.8, 6) * 10),
+      h: roundMm(numVal('stkHcm', 1.7, 0.8, 6) * 10),
       margin: numVal('stkMargin', 10, 0, 25),
-      gap: numVal('stkGap', 2, 0, 8),
+      gap: numVal('stkGap', 0, 0, 8),
       students: clampInt($('stkStudents').value, 1, 40),
     };
   }
   function pageGrid(w, h, margin, gap){
+    const pairH = h * 2;
     const cols = Math.floor((A4_W - 2 * margin + gap) / (w + gap));
-    const rows = Math.floor((A4_H - 2 * margin + gap) / (h + gap));
+    const rows = Math.floor((A4_H - 2 * margin + gap) / (pairH + gap));
     return { cols, rows };
   }
   function isLightGuide(r, g, b){
@@ -654,7 +655,7 @@ input.num{
     renderStickerList();
     $('stkList').lastElementChild?.scrollIntoView({ block: 'nearest' });
     const students = clampInt($('stkStudents').value, 1, 40);
-    toast(`已加入「${name}」，每生 ${per} 張 × ${students} 人`);
+    toast(`已加入「${name}」，每生 ${per} 組 × ${students} 人`);
   }
   function renderStickerList(){
     const list = $('stkList');
@@ -673,20 +674,20 @@ input.num{
       const ops = document.createElement('div');
       ops.className = 'ops';
       const lab = document.createElement('label');
-      lab.append('每生 ');
+      lab.append('每生組數 ');
       const input = document.createElement('input');
       input.className = 'num';
       input.type = 'number';
       input.min = '1';
       input.max = '20';
       input.value = String(s.perStudent);
-      input.setAttribute('aria-label', s.name + ' 每位學生張數');
+      input.setAttribute('aria-label', s.name + ' 每位學生組數');
       const total = document.createElement('span');
       total.className = 'stk-total';
       const del = document.createElement('button');
       del.type = 'button';
       del.textContent = '刪除';
-      const sync = () => { total.textContent = '共 ' + (s.perStudent * students) + ' 張'; };
+      const sync = () => { total.textContent = '共 ' + (s.perStudent * students) + ' 組'; };
       input.addEventListener('change', () => {
         s.perStudent = clampInt(input.value, 1, 20);
         input.value = String(s.perStudent);
@@ -720,7 +721,7 @@ input.num{
       el.textContent = '這個尺寸超出 A4，請縮小貼紙或邊界。';
       return;
     }
-    el.textContent = `字格印成寬 ${w.toFixed(1)} × 高 ${h.toFixed(1)} mm（${(w / 10).toFixed(2)} × ${(h / 10).toFixed(2)} 公分）。邊界 ${margin} mm，間距 ${gap} mm。一頁約 ${cols} 欄 × ${rows} 列。目前 ${copies} 張。${zy}`;
+    el.textContent = `每格寬 ${w.toFixed(1)} × 高 ${h.toFixed(1)} mm（${(w / 10).toFixed(2)} 公分）。一組上下兩格，高 ${(h * 2).toFixed(1)} mm。邊界 ${margin} mm，間距 ${gap} mm。一頁約 ${cols} 欄 × ${rows} 組。目前 ${copies} 組。${zy}`;
   }
   function stickerItems(){
     const { w, h, students } = readSettings();
@@ -728,36 +729,54 @@ input.num{
     for (const s of stickers){
       const composed = composeSticker(s, w, h);
       const copies = s.perStudent * students;
-      for (let i = 0; i < copies; i++) items.push({ canvas: composed.canvas, w: composed.w, h: composed.h, name: s.name });
+      for (let i = 0; i < copies; i++) items.push({ canvas: composed.canvas, w: composed.w, h: roundMm(composed.h * 2), cellH: composed.h, name: s.name });
     }
     return items;
   }
   function layoutPages(items, margin, gap){
     const pages = [];
     let page = { items: [] };
-    let x = margin, y = margin, rowH = 0;
+    let x = margin, y = margin, colW = 0;
     const maxX = A4_W - margin, maxY = A4_H - margin;
     for (const it of items){
-      let nx = x, ny = y, nh = rowH;
-      if (x > margin + 0.001 && x + it.w > maxX + 0.05){
-        nx = margin;
-        ny = y + rowH + gap;
-        nh = 0;
+      let nx = x, ny = y, nw = colW;
+      if (y > margin + 0.001 && y + it.h > maxY + 0.05){
+        nx = x + colW + gap;
+        ny = margin;
+        nw = 0;
       }
-      if ((ny > margin + 0.001 && ny + it.h > maxY + 0.05) || nx + it.w > maxX + 0.05){
+      if (nx + it.w > maxX + 0.05 && (nx > margin + 0.001 || page.items.length)){
         if (page.items.length) pages.push(page);
         page = { items: [] };
         nx = margin;
         ny = margin;
-        nh = 0;
+        nw = 0;
       }
-      page.items.push({ canvas: it.canvas, w: it.w, h: it.h, name: it.name, x: nx, y: ny });
-      x = nx + it.w + gap;
-      y = ny;
-      rowH = Math.max(nh, it.h);
+      page.items.push({ canvas: it.canvas, w: it.w, h: it.h, cellH: it.cellH, name: it.name, x: nx, y: ny });
+      x = nx;
+      y = ny + it.h + gap;
+      colW = Math.max(nw, it.w);
     }
     if (page.items.length) pages.push(page);
     return pages;
+  }
+  function cutSegments(items){
+    const seen = new Set();
+    const segs = [];
+    const key = (x1, y1, x2, y2) => [x1, y1, x2, y2].map(n => roundMm(n).toFixed(2)).join(',');
+    const add = (x1, y1, x2, y2) => {
+      const a = key(x1, y1, x2, y2), b = key(x2, y2, x1, y1);
+      if (seen.has(a) || seen.has(b)) return;
+      seen.add(a);
+      segs.push({ x1, y1, x2, y2 });
+    };
+    for (const it of items){
+      add(it.x, it.y, it.x + it.w, it.y);
+      add(it.x, it.y + it.h, it.x + it.w, it.y + it.h);
+      add(it.x, it.y, it.x, it.y + it.h);
+      add(it.x + it.w, it.y, it.x + it.w, it.y + it.h);
+    }
+    return segs;
   }
   function buildPages(){
     if (!stickers.length){ toast('請先把字格做成貼紙'); return null; }
@@ -786,17 +805,21 @@ input.num{
       sec.setAttribute('aria-label', '第 ' + (i + 1) + ' 頁');
       page.items.forEach(it => {
         const d = document.createElement('div');
-        d.className = 'stk';
+        d.className = 'pair';
         d.style.left = it.x + 'mm';
         d.style.top = it.y + 'mm';
         d.style.width = it.w + 'mm';
         d.style.height = it.h + 'mm';
-        const img = document.createElement('img');
-        img.alt = it.name || '貼紙';
-        img.src = it.canvas._url || (it.canvas._url = it.canvas.toDataURL('image/png'));
-        d.appendChild(img);
+        const src = it.canvas._url || (it.canvas._url = it.canvas.toDataURL('image/png'));
+        for (let n = 0; n < 2; n++){
+          const img = document.createElement('img');
+          img.alt = it.name || '貼紙';
+          img.src = src;
+          d.appendChild(img);
+        }
         sec.appendChild(d);
       });
+      sec.appendChild(cutSvg(page.items));
       host.appendChild(sec);
     });
   }
@@ -805,15 +828,32 @@ input.num{
     if (!pages) return;
     fillSheet($('sheetPages'), pages);
     const copies = pages.reduce((n, p) => n + p.items.length, 0);
-    $('sheetSummary').textContent = `共 ${copies} 張，${pages.length} 頁。每張寬 ${pages.w.toFixed(1)} × 高 ${pages.h.toFixed(1)} mm。`;
+    $('sheetSummary').textContent = `共 ${copies} 組，${pages.length} 頁。每組上下兩格，每格寬 ${pages.w.toFixed(1)} × 高 ${pages.h.toFixed(1)} mm。`;
     $('sheetModal').hidden = false;
+  }
+  function cutSvg(items){
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('class', 'cuts');
+    svg.setAttribute('viewBox', '0 0 210 297');
+    cutSegments(items).forEach(seg => {
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', String(seg.x1));
+      line.setAttribute('y1', String(seg.y1));
+      line.setAttribute('x2', String(seg.x2));
+      line.setAttribute('y2', String(seg.y2));
+      line.setAttribute('stroke', '#222');
+      line.setAttribute('stroke-width', '0.15');
+      svg.appendChild(line);
+    });
+    return svg;
   }
   const SHEET_CSS = `@page{size:A4;margin:0}html,body{margin:0;padding:0;background:#fff}
 .note{font-family:"Noto Sans TC","PingFang TC",sans-serif;font-size:11pt;padding:6mm 10mm;background:#fff6d8;color:#3f3420}
 @media print{.note{display:none}}
 .page{position:relative;width:210mm;height:297mm;page-break-after:always;background:#fff;overflow:hidden}
-.stk{position:absolute;outline:0.15mm solid #222}
-.stk img{width:100%;height:100%;display:block}`;
+.pair{position:absolute;line-height:0}
+.pair img{display:block;width:100%;height:50%}
+.cuts{position:absolute;left:0;top:0;width:210mm;height:297mm}`;
   function printSheet(){
     const pages = buildPages();
     if (!pages) return;
@@ -822,9 +862,10 @@ input.num{
     const body = pages.map(page => {
       const bits = page.items.map(it => {
         const src = it.canvas._url || (it.canvas._url = it.canvas.toDataURL('image/png'));
-        return `<div class="stk" style="left:${it.x}mm;top:${it.y}mm;width:${it.w}mm;height:${it.h}mm"><img src="${src}" alt=""></div>`;
+        return `<div class="pair" style="left:${it.x}mm;top:${it.y}mm;width:${it.w}mm;height:${it.h}mm"><img src="${src}" alt=""><img src="${src}" alt=""></div>`;
       }).join('');
-      return `<section class="page">${bits}</section>`;
+      const lines = cutSegments(page.items).map(seg => `<line x1="${seg.x1}" y1="${seg.y1}" x2="${seg.x2}" y2="${seg.y2}" stroke="#222" stroke-width="0.15"/>`).join('');
+      return `<section class="page">${bits}<svg class="cuts" viewBox="0 0 210 297">${lines}</svg></section>`;
     }).join('');
     w.document.write(`<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>部件貼紙</title><style>${SHEET_CSS}</style></head><body><p class="note">列印時請選 A4、邊界無、縮放 100%（實際大小）。不要選「符合頁面」或「縮放至紙張」。</p>${body}</body></html>`);
     w.document.close();
@@ -842,10 +883,16 @@ input.num{
     ctx.strokeStyle = '#222';
     ctx.lineWidth = Math.max(1, 0.15 * PX_PER_MM);
     for (const it of page.items){
-      const x = it.x * PX_PER_MM, y = it.y * PX_PER_MM, sw = it.w * PX_PER_MM, sh = it.h * PX_PER_MM;
+      const x = it.x * PX_PER_MM, y = it.y * PX_PER_MM, sw = it.w * PX_PER_MM, sh = it.cellH * PX_PER_MM;
       ctx.drawImage(it.canvas, x, y, sw, sh);
-      ctx.strokeRect(x, y, sw, sh);
+      ctx.drawImage(it.canvas, x, y + sh, sw, sh);
     }
+    ctx.beginPath();
+    cutSegments(page.items).forEach(seg => {
+      ctx.moveTo(seg.x1 * PX_PER_MM, seg.y1 * PX_PER_MM);
+      ctx.lineTo(seg.x2 * PX_PER_MM, seg.y2 * PX_PER_MM);
+    });
+    ctx.stroke();
     return c;
   }
   function canvasToJpeg(canvas){
@@ -935,7 +982,7 @@ input.num{
     if (id === 'stkStudents'){
       const students = clampInt($('stkStudents').value, 1, 40);
       document.querySelectorAll('.stk-total').forEach((el, i) => {
-        if (stickers[i]) el.textContent = '共 ' + (stickers[i].perStudent * students) + ' 張';
+        if (stickers[i]) el.textContent = '共 ' + (stickers[i].perStudent * students) + ' 組';
       });
     }
     updateMath();
