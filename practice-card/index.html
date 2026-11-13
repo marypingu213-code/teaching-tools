@@ -274,14 +274,14 @@ input.glyph{width:2.6em; text-align:center}
     <p class="hint" id="stkMath"></p>
     <details class="word-fold" id="wordFold">
       <summary>課本語詞貼紙</summary>
-      <p class="hint">貼在國語課本的語詞練習格。課本是直書：同一個詞由上到下排成一欄（劇在上、場在下），切線只框整欄。旁邊的注音不印。格裡可以畫米字格。</p>
+      <p class="hint">貼在國語課本的語詞練習格。直書：同一個詞由上到下（劇在上、場在下）。按「放到畫面上修改」後，用左邊的筆畫擦除改每一格。畫面和列印都只有字，沒有注音。</p>
       <textarea id="wordText" placeholder="劇場、光芒、陶器、晴朗" aria-label="語詞"></textarea>
       <label class="check" style="margin-top:8px"><input type="checkbox" id="wordGuide" checked><span>包含米字格虛線</span></label>
       <div class="row" style="margin-top:8px" role="radiogroup" aria-label="印法">
         <label class="choice"><input type="radio" name="wordMode" value="full" checked> 整字</label>
         <label class="choice"><input type="radio" name="wordMode" value="part"> 部件</label>
       </div>
-      <p class="hint">選部件時，用上面已做成貼紙、而且填了「字」的那一格。沒對到的字改印整字。</p>
+      <p class="hint">先放到畫面上，再用筆畫擦除。選「整字」會印完整的字；選「部件」會印畫面上擦過的樣子。沒有放到畫面上時，部件改用已填「字」的貼紙，沒有才印整字。</p>
       <div class="stk-fields" style="margin-top:8px">
         <label>每生份數 <input class="num" id="wordPer" type="number" min="1" max="40" value="1"></label>
         <label>學生人數 <input class="num" id="wordStudents" type="number" min="1" max="40" value="1"></label>
@@ -290,7 +290,8 @@ input.glyph{width:2.6em; text-align:center}
       </div>
       <p class="hint">頁面邊界和間距用上面的設定。預設邊界 10 毫米、間距 0。</p>
       <div class="row" style="margin-top:8px">
-        <button id="wordPreview" class="primary" type="button">預覽／列印</button>
+        <button id="wordEdit" class="primary" type="button">放到畫面上修改</button>
+        <button id="wordPreview" type="button">預覽／列印</button>
         <button id="wordPdf" type="button">下載 PDF</button>
       </div>
       <p class="hint" id="wordMath"></p>
@@ -322,6 +323,9 @@ input.glyph{width:2.6em; text-align:center}
   let base = null;   // ImageData: after auto clean (restore source)
   let cur = null;    // ImageData: being edited
   let cells = [];    // character areas {x0,y0,x1,y1, box}
+  let vocabActive = false;
+  let vocabSig = '';
+  let vocabCells = [];
   let tool = 'brush', size = 7, zoom = 1, fileName = '練字卡';
   const undoStack = [], redoStack = [];
   const MAXH = 25;
@@ -440,6 +444,9 @@ input.glyph{width:2.6em; text-align:center}
   // ---------- loading ----------
   function loadFile(file){
     if (!file || !file.type.startsWith('image/')) { toast('請選擇圖片檔'); return; }
+    vocabActive = false;
+    vocabCells = [];
+    vocabSig = '';
     fileName = (file.name || '練字卡').replace(/\.[^.]+$/, '') || '練字卡';
     const img = new Image();
     img.onload = () => {
@@ -566,7 +573,12 @@ input.glyph{width:2.6em; text-align:center}
   $('file').onchange = e => loadFile(e.target.files[0]);
   $('undo').onclick = undo; $('redo').onclick = redo;
   $('reset').onclick = () => { if(!base) return; pushHistory(); cur = copyImg(base); wctx.putImageData(cur,0,0); toast('已回到自動整理後的樣子，可按復原取消'); };
-  $('reclean').onclick = () => { if (!orig) return; if (undoStack.length && !confirm('重新整理會清掉目前的手動修改，要繼續嗎？')) return; runClean(); };
+  $('reclean').onclick = () => {
+    if (vocabActive){ toast('語詞貼紙不用重新整理。擦錯了按復原，或用修復筆刷。'); return; }
+    if (!orig) return;
+    if (undoStack.length && !confirm('重新整理會清掉目前的手動修改，要繼續嗎？')) return;
+    runClean();
+  };
   $('download').onclick = () => {
     work.toBlob(b => { const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=fileName+'_修改.png'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href), 2000); toast('已下載'); }, 'image/png');
   };
@@ -685,7 +697,7 @@ input.glyph{width:2.6em; text-align:center}
     const guides = $('stkGuide').checked;
     const per = clampInt($('stkPer').value, 1, 20);
     const name = fileName + ' ' + (cells.indexOf(cell) + 1);
-    stickers.push({ id: stickerSeq++, name, canvas, cellW, perStudent: per, zhuyin: !!withZy, guides });
+    stickers.push({ id: stickerSeq++, name, canvas, cellW, perStudent: per, zhuyin: !!withZy, guides, glyph: cell.ch || '' });
     if (!canvas._url) canvas._url = canvas.toDataURL('image/png');
     renderStickerList();
     $('stkList').lastElementChild?.scrollIntoView({ block: 'nearest' });
@@ -1143,6 +1155,118 @@ input.glyph{width:2.6em; text-align:center}
     if (page.items.length) pages.push(page);
     return pages;
   }
+  function vocabSignature(){
+    return parseWords($('wordText').value).join('\n') + '|' + ($('wordGuide').checked ? 'g' : 'n');
+  }
+  async function drawVocabCanvas(words, sig){
+    await ensureKai();
+    const CELL = 240;
+    const PAD = 16;
+    const guides = $('wordGuide').checked;
+    const strips = words.map((word, wordIndex) => ({ word, wordIndex, n: word.length }));
+    const placed = [];
+    let x = PAD, y = PAD, colW = 0, maxX = PAD, maxY = PAD;
+    const colLimit = PAD + CELL * 8;
+    for (const s of strips){
+      const sh = CELL * s.n;
+      if (y > PAD && y + sh > colLimit){
+        x += colW;
+        y = PAD;
+        colW = 0;
+      }
+      placed.push({ ...s, x, y });
+      colW = CELL;
+      maxX = Math.max(maxX, x + CELL);
+      maxY = Math.max(maxY, y + sh);
+      y += sh;
+    }
+    W = maxX + PAD;
+    H = maxY + PAD;
+    work.width = ov.width = W;
+    work.height = ov.height = H;
+    wctx.fillStyle = '#fff';
+    wctx.fillRect(0, 0, W, H);
+    wctx.textAlign = 'center';
+    wctx.textBaseline = 'middle';
+    const next = [];
+    for (const s of placed){
+      for (let i = 0; i < s.n; i++){
+        const ch = s.word[i];
+        const x0 = s.x;
+        const y0 = s.y + i * CELL;
+        const x1 = x0 + CELL - 1;
+        const y1 = y0 + CELL - 1;
+        if (guides) drawRiceGrid(wctx, x0, y0, CELL, CELL);
+        wctx.fillStyle = '#111';
+        wctx.font = `${Math.floor(CELL * 0.68)}px ${KAI_FONT}`;
+        wctx.fillText(ch, x0 + CELL / 2, y0 + CELL / 2 + CELL * 0.04);
+        if (i > 0){
+          wctx.strokeStyle = '#d0d0d0';
+          wctx.lineWidth = 1;
+          wctx.setLineDash([]);
+          wctx.beginPath();
+          wctx.moveTo(x0, y0 + 0.5);
+          wctx.lineTo(x1, y0 + 0.5);
+          wctx.stroke();
+        }
+        next.push({ x0, y0, x1, y1, ch, word: s.word, wordIndex: s.wordIndex, charIndex: i });
+      }
+    }
+    orig = wctx.getImageData(0, 0, W, H);
+    base = copyImg(orig);
+    cur = copyImg(orig);
+    cells = next;
+    vocabCells = next;
+    vocabActive = true;
+    vocabSig = sig;
+    fileName = '語詞貼紙';
+    undoStack.length = 0;
+    redoStack.length = 0;
+    syncHistory();
+    $('empty').hidden = true;
+    $('wrap').hidden = false;
+    $('zoomBar').hidden = false;
+    ['reset', 'print', 'download', 'reclean'].forEach(id => $(id).disabled = false);
+    octx.clearRect(0, 0, W, H);
+    fitZoom();
+    setTool('brush');
+    toast(`已放上 ${words.length} 個詞、${cells.length} 個字格。沒有注音，可以用筆畫擦除。`);
+    return true;
+  }
+  async function ensureVocabCanvas(){
+    const words = parseWords($('wordText').value);
+    if (!words.length){ toast('請先輸入語詞'); return false; }
+    const sig = vocabSignature();
+    if (vocabActive && vocabSig === sig) return true;
+    if (vocabActive && undoStack.length && !confirm('重新放上會清掉畫面上的修改，要繼續嗎？')) return false;
+    if (!vocabActive && cur && !confirm('畫面上的圖會換成語詞貼紙，要繼續嗎？')) return false;
+    return drawVocabCanvas(words, sig);
+  }
+  function stitchVocabWord(wordIndex, wMm, hMm, src){
+    const parts = vocabCells.filter(c => c.wordIndex === wordIndex).sort((a, b) => a.charIndex - b.charIndex);
+    const pw = parts[0].x1 - parts[0].x0 + 1;
+    const ph = parts[0].y1 - parts[0].y0 + 1;
+    const c = document.createElement('canvas');
+    c.width = pw;
+    c.height = ph * parts.length;
+    const ctx = c.getContext('2d');
+    const data = src.data;
+    parts.forEach((cell, i) => {
+      const img = ctx.createImageData(pw, ph);
+      for (let y = 0; y < ph; y++){
+        for (let x = 0; x < pw; x++){
+          const si = ((cell.y0 + y) * W + (cell.x0 + x)) * 4;
+          const di = (y * pw + x) * 4;
+          img.data[di] = data[si];
+          img.data[di + 1] = data[si + 1];
+          img.data[di + 2] = data[si + 2];
+          img.data[di + 3] = 255;
+        }
+      }
+      ctx.putImageData(img, 0, i * ph);
+    });
+    return { canvas: c, w: wMm, h: roundMm(hMm * parts.length), fallbacks: [] };
+  }
   async function buildWordPages(){
     const words = parseWords($('wordText').value);
     if (!words.length){ toast('請先輸入語詞'); return null; }
@@ -1150,11 +1274,19 @@ input.glyph{width:2.6em; text-align:center}
     const tooTall = words.find(word => word.length * h + 2 * margin > A4_H + 0.05 || w + 2 * margin > A4_W + 0.05);
     if (tooTall){ toast('「' + tooTall + '」加上邊界放不進 A4'); return null; }
     await ensureKai();
+    const sig = vocabSignature();
+    const fromCanvas = vocabActive && vocabSig === sig;
     const items = [];
     const fallbacks = [];
-    for (const word of words){
-      const strip = composeWordStrip(word, w, h, guides, mode);
-      fallbacks.push(...strip.fallbacks);
+    for (let wi = 0; wi < words.length; wi++){
+      const word = words[wi];
+      let strip;
+      if (fromCanvas){
+        strip = stitchVocabWord(wi, w, h, mode === 'part' ? cur : base);
+      } else {
+        strip = composeWordStrip(word, w, h, guides, mode);
+        fallbacks.push(...strip.fallbacks);
+      }
       for (let i = 0; i < copies; i++) items.push({ canvas: strip.canvas, w: strip.w, h: strip.h, name: word });
     }
     const uniq = [...new Set(fallbacks)];
@@ -1170,6 +1302,7 @@ input.glyph{width:2.6em; text-align:center}
   }
   async function openWordPreview(){
     sheetSource = 'word';
+    if (!await ensureVocabCanvas()) return;
     const pages = await buildWordPages();
     if (!pages) return;
     fillSheet($('sheetPages'), pages);
@@ -1178,6 +1311,7 @@ input.glyph{width:2.6em; text-align:center}
     $('sheetSummary').textContent = `共 ${pages.words} 個詞、${strips} 條。每格寬 ${pages.w.toFixed(1)} × 高 ${pages.h.toFixed(1)} mm。`;
     $('sheetModal').hidden = false;
   }
+  $('wordEdit').onclick = ensureVocabCanvas;
   $('wordPreview').onclick = openWordPreview;
   $('wordPdf').onclick = () => { sheetSource = 'word'; downloadPdf(); };
   ['wordPer', 'wordStudents', 'wordWcm', 'wordHcm'].forEach(id => $(id).addEventListener('input', updateWordMath));
