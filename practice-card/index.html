@@ -7,7 +7,7 @@
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#EEF2F5; --panel:#FFFFFF; --ink:#23262D; --muted:#5E6673;
@@ -162,6 +162,17 @@ input.num{
 .pair{position:absolute; line-height:0}
 .pair img{display:block; width:100%; height:50%}
 .cuts{position:absolute; left:0; top:0; width:210mm; height:297mm; pointer-events:none}
+.word{position:absolute; line-height:0}
+.word img{display:block; width:100%; height:100%}
+.word-fold{border-top:1px solid var(--rule); margin-top:12px; padding-top:10px}
+.word-fold summary{cursor:pointer; font-size:13px; font-weight:700; color:var(--muted)}
+.word-fold summary:hover{color:var(--accent)}
+.word-fold textarea{
+  width:100%; min-height:4.6rem; margin-top:8px; font:inherit; color:var(--ink);
+  background:var(--panel); border:1px solid var(--rule); border-radius:6px; padding:6px; resize:vertical;
+}
+label.choice{display:inline-flex; gap:4px; align-items:center; font-size:13px}
+input.glyph{width:2.6em; text-align:center}
 </style>
 </head>
 <body>
@@ -261,11 +272,35 @@ input.num{
       <button id="stkClear" disabled>清空</button>
     </div>
     <p class="hint" id="stkMath"></p>
+    <details class="word-fold" id="wordFold">
+      <summary>課本語詞貼紙</summary>
+      <p class="hint">貼在國語課本的語詞練習格。課本是直書：同一個詞由上到下排成一欄（劇在上、場在下），切線只框整欄。旁邊的注音不印。格裡可以畫米字格。</p>
+      <textarea id="wordText" placeholder="劇場、光芒、陶器、晴朗" aria-label="語詞"></textarea>
+      <label class="check" style="margin-top:8px"><input type="checkbox" id="wordGuide" checked><span>包含米字格虛線</span></label>
+      <div class="row" style="margin-top:8px" role="radiogroup" aria-label="印法">
+        <label class="choice"><input type="radio" name="wordMode" value="full" checked> 整字</label>
+        <label class="choice"><input type="radio" name="wordMode" value="part"> 部件</label>
+      </div>
+      <p class="hint">選部件時，用上面已做成貼紙、而且填了「字」的那一格。沒對到的字改印整字。</p>
+      <div class="stk-fields" style="margin-top:8px">
+        <label>每生份數 <input class="num" id="wordPer" type="number" min="1" max="40" value="1"></label>
+        <label>學生人數 <input class="num" id="wordStudents" type="number" min="1" max="40" value="1"></label>
+        <label>貼紙寬（公分） <input class="num" id="wordWcm" type="number" min="0.8" max="6" step="0.1" value="1.9"></label>
+        <label>貼紙高（公分） <input class="num" id="wordHcm" type="number" min="0.8" max="6" step="0.1" value="1.9"></label>
+      </div>
+      <p class="hint">頁面邊界和間距用上面的設定。預設邊界 10 毫米、間距 0。</p>
+      <div class="row" style="margin-top:8px">
+        <button id="wordPreview" class="primary" type="button">預覽／列印</button>
+        <button id="wordPdf" type="button">下載 PDF</button>
+      </div>
+      <p class="hint" id="wordMath"></p>
+      <p class="hint" id="wordFallback"></p>
+    </details>
   </aside>
 </main>
 <div id="sheetModal" hidden>
   <div class="sheet-bar">
-    <strong>部件貼紙</strong>
+    <strong id="sheetTitle">部件貼紙</strong>
     <span id="sheetSummary"></span>
     <div class="spacer"></div>
     <button id="sheetPrint" class="primary" type="button">列印</button>
@@ -616,7 +651,7 @@ input.num{
     const cellH = s.canvas.height;
     const scale = Math.min(wMm / s.cellW, hMm / cellH);
     const imgW = s.cellW * scale, imgH = cellH * scale;
-    const zyPx = Math.max(0, s.canvas.width - s.cellW);
+    const zyPx = s.cellOnly ? 0 : Math.max(0, s.canvas.width - s.cellW);
     const zyW = zyPx * scale;
     const totalW = roundMm(wMm + zyW), totalH = hMm;
     const c = document.createElement('canvas');
@@ -673,6 +708,18 @@ input.num{
       name.textContent = s.name + (s.zhuyin ? '（含注音）' : '');
       const ops = document.createElement('div');
       ops.className = 'ops';
+      const glyph = document.createElement('input');
+      glyph.className = 'num glyph';
+      glyph.maxLength = 2;
+      glyph.placeholder = '字';
+      glyph.value = s.glyph || '';
+      glyph.title = '這個字。課本語詞貼紙選「部件」時會用這一格。';
+      glyph.setAttribute('aria-label', s.name + ' 對應的字');
+      glyph.addEventListener('input', () => {
+        const chars = [...glyph.value].filter(ch => /[\u3400-\u9FFF\uF900-\uFAFF]/.test(ch));
+        s.glyph = chars.length ? chars[chars.length - 1] : '';
+        glyph.value = s.glyph;
+      });
       const lab = document.createElement('label');
       lab.append('每生組數 ');
       const input = document.createElement('input');
@@ -701,7 +748,7 @@ input.num{
       };
       sync();
       lab.append(input);
-      ops.append(lab, total, del);
+      ops.append(glyph, lab, total, del);
       body.append(name, ops);
       row.append(img, body);
       list.append(row);
@@ -805,13 +852,14 @@ input.num{
       sec.setAttribute('aria-label', '第 ' + (i + 1) + ' 頁');
       page.items.forEach(it => {
         const d = document.createElement('div');
-        d.className = 'pair';
+        d.className = it.kind === 'word' ? 'word' : 'pair';
         d.style.left = it.x + 'mm';
         d.style.top = it.y + 'mm';
         d.style.width = it.w + 'mm';
         d.style.height = it.h + 'mm';
         const src = it.canvas._url || (it.canvas._url = it.canvas.toDataURL('image/png'));
-        for (let n = 0; n < 2; n++){
+        const copies = it.kind === 'word' ? 1 : 2;
+        for (let n = 0; n < copies; n++){
           const img = document.createElement('img');
           img.alt = it.name || '貼紙';
           img.src = src;
@@ -823,11 +871,14 @@ input.num{
       host.appendChild(sec);
     });
   }
+  let sheetSource = 'part';
   function openPreview(){
+    sheetSource = 'part';
     const pages = buildPages();
     if (!pages) return;
     fillSheet($('sheetPages'), pages);
     const copies = pages.reduce((n, p) => n + p.items.length, 0);
+    $('sheetTitle').textContent = '部件貼紙';
     $('sheetSummary').textContent = `共 ${copies} 組，${pages.length} 頁。每組上下兩格，每格寬 ${pages.w.toFixed(1)} × 高 ${pages.h.toFixed(1)} mm。`;
     $('sheetModal').hidden = false;
   }
@@ -853,21 +904,25 @@ input.num{
 .page{position:relative;width:210mm;height:297mm;page-break-after:always;background:#fff;overflow:hidden}
 .pair{position:absolute;line-height:0}
 .pair img{display:block;width:100%;height:50%}
+.word{position:absolute;line-height:0}
+.word img{display:block;width:100%;height:100%}
 .cuts{position:absolute;left:0;top:0;width:210mm;height:297mm}`;
-  function printSheet(){
-    const pages = buildPages();
+  async function printSheet(){
+    const pages = sheetSource === 'word' ? await buildWordPages() : buildPages();
     if (!pages) return;
     const w = window.open('', '_blank');
     if (!w){ toast('瀏覽器擋住了列印視窗，請允許彈出視窗'); return; }
     const body = pages.map(page => {
       const bits = page.items.map(it => {
         const src = it.canvas._url || (it.canvas._url = it.canvas.toDataURL('image/png'));
+        if (it.kind === 'word') return `<div class="word" style="left:${it.x}mm;top:${it.y}mm;width:${it.w}mm;height:${it.h}mm"><img src="${src}" alt=""></div>`;
         return `<div class="pair" style="left:${it.x}mm;top:${it.y}mm;width:${it.w}mm;height:${it.h}mm"><img src="${src}" alt=""><img src="${src}" alt=""></div>`;
       }).join('');
       const lines = cutSegments(page.items).map(seg => `<line x1="${seg.x1}" y1="${seg.y1}" x2="${seg.x2}" y2="${seg.y2}" stroke="#222" stroke-width="0.15"/>`).join('');
       return `<section class="page">${bits}<svg class="cuts" viewBox="0 0 210 297">${lines}</svg></section>`;
     }).join('');
-    w.document.write(`<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>部件貼紙</title><style>${SHEET_CSS}</style></head><body><p class="note">列印時請選 A4、邊界無、縮放 100%（實際大小）。不要選「符合頁面」或「縮放至紙張」。</p>${body}</body></html>`);
+    const title = sheetSource === 'word' ? '課本語詞貼紙' : '部件貼紙';
+    w.document.write(`<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>${title}</title><style>${SHEET_CSS}</style></head><body><p class="note">列印時請選 A4、邊界無、縮放 100%（實際大小）。不要選「符合頁面」或「縮放至紙張」。</p>${body}</body></html>`);
     w.document.close();
     w.onload = () => setTimeout(() => w.print(), 200);
   }
@@ -883,9 +938,14 @@ input.num{
     ctx.strokeStyle = '#222';
     ctx.lineWidth = Math.max(1, 0.15 * PX_PER_MM);
     for (const it of page.items){
-      const x = it.x * PX_PER_MM, y = it.y * PX_PER_MM, sw = it.w * PX_PER_MM, sh = it.cellH * PX_PER_MM;
-      ctx.drawImage(it.canvas, x, y, sw, sh);
-      ctx.drawImage(it.canvas, x, y + sh, sw, sh);
+      const x = it.x * PX_PER_MM, y = it.y * PX_PER_MM;
+      if (it.kind === 'word'){
+        ctx.drawImage(it.canvas, x, y, it.w * PX_PER_MM, it.h * PX_PER_MM);
+      } else {
+        const sw = it.w * PX_PER_MM, sh = it.cellH * PX_PER_MM;
+        ctx.drawImage(it.canvas, x, y, sw, sh);
+        ctx.drawImage(it.canvas, x, y + sh, sw, sh);
+      }
     }
     ctx.beginPath();
     cutSegments(page.items).forEach(seg => {
@@ -949,14 +1009,14 @@ input.num{
     return new Blob(parts, { type: 'application/pdf' });
   }
   async function downloadPdf(){
-    const pages = buildPages();
+    const pages = sheetSource === 'word' ? await buildWordPages() : buildPages();
     if (!pages) return;
     try {
       const canvases = pages.map(renderPageCanvas);
       const blob = await canvasesToPdf(canvases);
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = '部件貼紙.pdf';
+      a.download = (sheetSource === 'word' ? '課本語詞貼紙' : '部件貼紙') + '.pdf';
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -966,6 +1026,164 @@ input.num{
       toast('這個瀏覽器無法產生 PDF，請改用列印');
     }
   }
+  const KAI_FONT = '"DFKai-SB","BiauKai","標楷體","KaiTi","STKaiti","Noto Serif TC","Droid Sans Fallback",serif';
+  function parseWords(text){
+    const words = [];
+    let cur = '';
+    for (const ch of text){
+      if (/[\u3400-\u9FFF\uF900-\uFAFF]/.test(ch)) cur += ch;
+      else if (cur){ words.push(cur); cur = ''; }
+    }
+    if (cur) words.push(cur);
+    return words;
+  }
+  function wordSettings(){
+    const page = readSettings();
+    return {
+      w: roundMm(numVal('wordWcm', 1.9, 0.8, 6) * 10),
+      h: roundMm(numVal('wordHcm', 1.9, 0.8, 6) * 10),
+      margin: page.margin,
+      gap: page.gap,
+      copies: clampInt($('wordPer').value, 1, 40) * clampInt($('wordStudents').value, 1, 40),
+      guides: $('wordGuide').checked,
+      mode: document.querySelector('input[name="wordMode"]:checked').value,
+    };
+  }
+  function updateWordMath(){
+    const { w, h, margin, gap, copies } = wordSettings();
+    const cols = Math.floor((A4_W - 2 * margin + gap) / (w + gap));
+    const rows = Math.floor((A4_H - 2 * margin + gap) / (h + gap));
+    const two = Math.floor((A4_H - 2 * margin + gap) / (h * 2 + gap));
+    const el = $('wordMath');
+    if (cols < 1 || rows < 1 || two < 1){
+      el.textContent = '這個尺寸超出 A4，請縮小貼紙或邊界。';
+      return;
+    }
+    const words = parseWords($('wordText').value);
+    el.textContent = `直書，字由上到下。單字一頁 ${cols} 欄 × ${rows} 列，共 ${cols * rows} 格。兩字詞一欄 ${two} 條、一頁 ${cols * two} 條。邊界 ${margin} mm，間距 ${gap} mm。${words.length ? `目前 ${words.length} 個詞、各 ${copies} 份。` : ''}`;
+  }
+  function captureFor(ch){
+    for (let i = stickers.length - 1; i >= 0; i--) if (stickers[i].glyph === ch) return stickers[i];
+    return null;
+  }
+  async function ensureKai(){
+    try {
+      if (document.fonts && document.fonts.load){
+        await document.fonts.load('64px "Noto Serif TC"');
+        await document.fonts.ready;
+      }
+    } catch (err) {}
+  }
+  function composeWordStrip(word, wMm, hMm, guides, mode){
+    const n = word.length;
+    const k = PX_PER_MM;
+    const cw = Math.max(1, Math.round(wMm * k));
+    const ch = Math.max(1, Math.round(hMm * k));
+    const c = document.createElement('canvas');
+    c.width = cw;
+    c.height = ch * n;
+    const ctx = c.getContext('2d');
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, c.width, c.height);
+    const fallbacks = [];
+    for (let i = 0; i < n; i++){
+      const char = word[i];
+      const dy = i * ch;
+      const cap = mode === 'part' ? captureFor(char) : null;
+      if (cap){
+        const one = composeSticker({ canvas: cap.canvas, cellW: cap.cellW, guides, cellOnly: true }, wMm, hMm);
+        ctx.drawImage(one.canvas, 0, dy, cw, ch);
+      } else {
+        if (mode === 'part') fallbacks.push(char);
+        if (guides) drawRiceGrid(ctx, 0, dy, cw, ch);
+        ctx.fillStyle = '#111';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.font = `${Math.floor(ch * 0.68)}px ${KAI_FONT}`;
+        ctx.fillText(char, cw / 2, dy + ch / 2 + ch * 0.04);
+      }
+    }
+    ctx.save();
+    ctx.strokeStyle = '#c4c4c4';
+    ctx.lineWidth = Math.max(1, 0.15 * k);
+    ctx.setLineDash([]);
+    ctx.beginPath();
+    for (let i = 1; i < n; i++){
+      ctx.moveTo(0, i * ch);
+      ctx.lineTo(cw, i * ch);
+    }
+    ctx.stroke();
+    ctx.restore();
+    return { canvas: c, w: wMm, h: roundMm(hMm * n), fallbacks };
+  }
+  function layoutWordPages(items, margin, gap){
+    const pages = [];
+    let page = { items: [] };
+    let x = margin, y = margin, colW = 0;
+    const maxX = A4_W - margin, maxY = A4_H - margin;
+    for (const it of items){
+      let nx = x, ny = y, nw = colW;
+      if (y > margin + 0.001 && y + it.h > maxY + 0.05){
+        nx = x + colW + gap;
+        ny = margin;
+        nw = 0;
+      }
+      if (nx + it.w > maxX + 0.05 && (nx > margin + 0.001 || page.items.length)){
+        if (page.items.length) pages.push(page);
+        page = { items: [] };
+        nx = margin;
+        ny = margin;
+        nw = 0;
+      }
+      page.items.push({ kind: 'word', canvas: it.canvas, w: it.w, h: it.h, name: it.name, x: nx, y: ny });
+      x = nx;
+      y = ny + it.h + gap;
+      colW = Math.max(nw, it.w);
+    }
+    if (page.items.length) pages.push(page);
+    return pages;
+  }
+  async function buildWordPages(){
+    const words = parseWords($('wordText').value);
+    if (!words.length){ toast('請先輸入語詞'); return null; }
+    const { w, h, margin, gap, copies, guides, mode } = wordSettings();
+    const tooTall = words.find(word => word.length * h + 2 * margin > A4_H + 0.05 || w + 2 * margin > A4_W + 0.05);
+    if (tooTall){ toast('「' + tooTall + '」加上邊界放不進 A4'); return null; }
+    await ensureKai();
+    const items = [];
+    const fallbacks = [];
+    for (const word of words){
+      const strip = composeWordStrip(word, w, h, guides, mode);
+      fallbacks.push(...strip.fallbacks);
+      for (let i = 0; i < copies; i++) items.push({ canvas: strip.canvas, w: strip.w, h: strip.h, name: word });
+    }
+    const uniq = [...new Set(fallbacks)];
+    $('wordFallback').textContent = mode === 'part'
+      ? (uniq.length ? '這些字沒有部件貼紙，已改印整字：' + uniq.join('、') : '部件都對到了。')
+      : '';
+    const pages = layoutWordPages(items, margin, gap);
+    pages.w = w;
+    pages.h = h;
+    pages.words = words.length;
+    pages.copies = copies;
+    return pages;
+  }
+  async function openWordPreview(){
+    sheetSource = 'word';
+    const pages = await buildWordPages();
+    if (!pages) return;
+    fillSheet($('sheetPages'), pages);
+    const strips = pages.reduce((n, p) => n + p.items.length, 0);
+    $('sheetTitle').textContent = '課本語詞貼紙';
+    $('sheetSummary').textContent = `共 ${pages.words} 個詞、${strips} 條。每格寬 ${pages.w.toFixed(1)} × 高 ${pages.h.toFixed(1)} mm。`;
+    $('sheetModal').hidden = false;
+  }
+  $('wordPreview').onclick = openWordPreview;
+  $('wordPdf').onclick = () => { sheetSource = 'word'; downloadPdf(); };
+  ['wordPer', 'wordStudents', 'wordWcm', 'wordHcm'].forEach(id => $(id).addEventListener('input', updateWordMath));
+  $('wordText').addEventListener('input', updateWordMath);
+  updateWordMath();
+
   $('stkPreview').onclick = openPreview;
   $('stkPdf').onclick = downloadPdf;
   $('sheetPrint').onclick = printSheet;
@@ -986,12 +1204,13 @@ input.num{
       });
     }
     updateMath();
+    if (id === 'stkMargin' || id === 'stkGap') updateWordMath();
   }));
   renderStickerList();
 
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && !$('sheetModal').hidden){ $('sheetModal').hidden = true; return; }
-    if (e.target.tagName==='INPUT') return;
+    if (e.target.tagName==='INPUT' || e.target.tagName==='TEXTAREA') return;
     const k = e.key.toLowerCase();
     if ((e.ctrlKey||e.metaKey) && k==='z' && !e.shiftKey){ e.preventDefault(); undo(); return; }
     if ((e.ctrlKey||e.metaKey) && (k==='y' || (k==='z' && e.shiftKey))){ e.preventDefault(); redo(); return; }
