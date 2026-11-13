@@ -26,7 +26,7 @@ window.TOOLBOX_TOOLS = [
     id: "practice-card",
     href: "practice-card/",
     title: "練字卡修改工具",
-    summary: "開啟練字卡截圖，自動去掉筆順數字、整理注音格，擦掉部件後下載。也可以把字格印成 1.7 公分的貼紙，同一個字上下兩格成一組。",
+    summary: "開啟練字卡截圖，擦掉部件後可印成上下兩格的貼紙，也可以把語詞印成 1.9 公分的課本貼紙。",
     subject: "國語文",
     status: "ready",
   },
