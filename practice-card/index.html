@@ -780,7 +780,8 @@ input.glyph{width:2.6em; text-align:center}
       el.textContent = '這個尺寸超出 A4，請縮小貼紙或邊界。';
       return;
     }
-    el.textContent = `每格寬 ${w.toFixed(1)} × 高 ${h.toFixed(1)} mm（${(w / 10).toFixed(2)} 公分）。一組上下兩格，高 ${(h * 2).toFixed(1)} mm。邊界 ${margin} mm，間距 ${gap} mm。一頁約 ${cols} 欄 × ${rows} 組。目前 ${copies} 組。${zy}`;
+    const word = wordSettings();
+    el.textContent = `部件每格 ${w.toFixed(1)} mm，一組高 ${(h * 2).toFixed(1)} mm。整頁 ${cols} 欄 × ${rows} 組。語詞另用 ${word.w.toFixed(1)} mm 寬的欄，不會縮成部件的大小。邊界 ${margin} mm，間距 ${gap} mm。目前 ${copies} 組。${zy}`;
   }
   function stickerItems(){
     const { w, h, students } = readSettings();
@@ -788,7 +789,7 @@ input.glyph{width:2.6em; text-align:center}
     for (const s of stickers){
       const composed = composeSticker(s, w, h);
       const copies = s.perStudent * students;
-      for (let i = 0; i < copies; i++) items.push({ canvas: composed.canvas, w: composed.w, h: roundMm(composed.h * 2), cellH: composed.h, name: s.name });
+      for (let i = 0; i < copies; i++) items.push({ kind: 'pair', canvas: composed.canvas, w: composed.w, h: roundMm(composed.h * 2), cellW: composed.w, cellH: composed.h, name: s.name });
     }
     return items;
   }
@@ -811,7 +812,7 @@ input.glyph{width:2.6em; text-align:center}
         ny = margin;
         nw = 0;
       }
-      page.items.push({ canvas: it.canvas, w: it.w, h: it.h, cellH: it.cellH, name: it.name, x: nx, y: ny });
+      page.items.push({ kind: it.kind || 'pair', canvas: it.canvas, w: it.w, h: it.h, cellW: it.cellW, cellH: it.cellH, name: it.name, x: nx, y: ny });
       x = nx;
       y = ny + it.h + gap;
       colW = Math.max(nw, it.w);
@@ -884,15 +885,9 @@ input.glyph{width:2.6em; text-align:center}
     });
   }
   let sheetSource = 'part';
-  function openPreview(){
-    sheetSource = 'part';
-    const pages = buildPages();
-    if (!pages) return;
-    fillSheet($('sheetPages'), pages);
-    const copies = pages.reduce((n, p) => n + p.items.length, 0);
-    $('sheetTitle').textContent = '部件貼紙';
-    $('sheetSummary').textContent = `共 ${copies} 組，${pages.length} 頁。每組上下兩格，每格寬 ${pages.w.toFixed(1)} × 高 ${pages.h.toFixed(1)} mm。`;
-    $('sheetModal').hidden = false;
+  async function openPreview(){
+    sheetSource = 'sheet';
+    showSheet(await buildMixedPages());
   }
   function cutSvg(items){
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -920,7 +915,7 @@ input.glyph{width:2.6em; text-align:center}
 .word img{display:block;width:100%;height:100%}
 .cuts{position:absolute;left:0;top:0;width:210mm;height:297mm}`;
   async function printSheet(){
-    const pages = sheetSource === 'word' ? await buildWordPages() : buildPages();
+    const pages = await buildMixedPages();
     if (!pages) return;
     const w = window.open('', '_blank');
     if (!w){ toast('瀏覽器擋住了列印視窗，請允許彈出視窗'); return; }
@@ -933,7 +928,7 @@ input.glyph{width:2.6em; text-align:center}
       const lines = cutSegments(page.items).map(seg => `<line x1="${seg.x1}" y1="${seg.y1}" x2="${seg.x2}" y2="${seg.y2}" stroke="#222" stroke-width="0.15"/>`).join('');
       return `<section class="page">${bits}<svg class="cuts" viewBox="0 0 210 297">${lines}</svg></section>`;
     }).join('');
-    const title = sheetSource === 'word' ? '課本語詞貼紙' : '部件貼紙';
+    const title = pages.partCount && pages.wordCount ? '貼紙' : (pages.wordCount ? '課本語詞貼紙' : '部件貼紙');
     w.document.write(`<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>${title}</title><style>${SHEET_CSS}</style></head><body><p class="note">列印時請選 A4、邊界無、縮放 100%（實際大小）。不要選「符合頁面」或「縮放至紙張」。</p>${body}</body></html>`);
     w.document.close();
     w.onload = () => setTimeout(() => w.print(), 200);
@@ -949,20 +944,26 @@ input.glyph{width:2.6em; text-align:center}
     ctx.imageSmoothingQuality = 'high';
     ctx.strokeStyle = '#222';
     ctx.lineWidth = Math.max(1, 0.15 * PX_PER_MM);
+    const mmPx = mm => Math.round(mm * PX_PER_MM);
     for (const it of page.items){
-      const x = it.x * PX_PER_MM, y = it.y * PX_PER_MM;
+      const x = mmPx(it.x), y = mmPx(it.y);
       if (it.kind === 'word'){
-        ctx.drawImage(it.canvas, x, y, it.w * PX_PER_MM, it.h * PX_PER_MM);
+        const n = Math.max(1, Math.round(it.h / it.cellH));
+        const cw = mmPx(it.cellW), ch = mmPx(it.cellH);
+        const slice = it.canvas.height / n;
+        for (let i = 0; i < n; i++){
+          ctx.drawImage(it.canvas, 0, Math.round(i * slice), it.canvas.width, Math.round(slice), x, y + i * ch, cw, ch);
+        }
       } else {
-        const sw = it.w * PX_PER_MM, sh = it.cellH * PX_PER_MM;
+        const sw = mmPx(it.w), sh = mmPx(it.cellH);
         ctx.drawImage(it.canvas, x, y, sw, sh);
         ctx.drawImage(it.canvas, x, y + sh, sw, sh);
       }
     }
     ctx.beginPath();
     cutSegments(page.items).forEach(seg => {
-      ctx.moveTo(seg.x1 * PX_PER_MM, seg.y1 * PX_PER_MM);
-      ctx.lineTo(seg.x2 * PX_PER_MM, seg.y2 * PX_PER_MM);
+      ctx.moveTo(mmPx(seg.x1), mmPx(seg.y1));
+      ctx.lineTo(mmPx(seg.x2), mmPx(seg.y2));
     });
     ctx.stroke();
     return c;
@@ -1021,14 +1022,15 @@ input.glyph{width:2.6em; text-align:center}
     return new Blob(parts, { type: 'application/pdf' });
   }
   async function downloadPdf(){
-    const pages = sheetSource === 'word' ? await buildWordPages() : buildPages();
+    const pages = await buildMixedPages();
     if (!pages) return;
     try {
       const canvases = pages.map(renderPageCanvas);
       const blob = await canvasesToPdf(canvases);
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = (sheetSource === 'word' ? '課本語詞貼紙' : '部件貼紙') + '.pdf';
+      const pdfName = pages.partCount && pages.wordCount ? '貼紙' : (pages.wordCount ? '課本語詞貼紙' : '部件貼紙');
+      a.download = pdfName + '.pdf';
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -1072,7 +1074,10 @@ input.glyph{width:2.6em; text-align:center}
       return;
     }
     const words = parseWords($('wordText').value);
-    el.textContent = `直書，字由上到下。單字一頁 ${cols} 欄 × ${rows} 列，共 ${cols * rows} 格。兩字詞一欄 ${two} 條、一頁 ${cols * two} 條。邊界 ${margin} mm，間距 ${gap} mm。${words.length ? `目前 ${words.length} 個詞、各 ${copies} 份。` : ''}`;
+    const part = readSettings();
+    const partCols = Math.floor((A4_W - 2 * margin + gap) / (part.w + gap));
+    const partRows = Math.floor((A4_H - 2 * margin + gap) / (part.h * 2 + gap));
+    el.textContent = `直書。語詞每格 ${w.toFixed(1)} mm，單字 ${cols} 欄 × ${rows} 列，共 ${cols * rows} 格；兩字詞一欄 ${two} 條、整頁 ${cols * two} 條。部件每格 ${part.w.toFixed(1)} mm，整頁 ${partCols} 欄 × ${partRows} 組。同一頁時部件欄 ${part.w.toFixed(1)} mm、語詞欄 ${w.toFixed(1)} mm，各印各的，中間不留白。邊界 ${margin} mm，間距 ${gap} mm。${words.length ? `目前 ${words.length} 個詞、各 ${copies} 份。` : ''}`;
   }
   function captureFor(ch){
     for (let i = stickers.length - 1; i >= 0; i--) if (stickers[i].glyph === ch) return stickers[i];
@@ -1147,12 +1152,46 @@ input.glyph{width:2.6em; text-align:center}
         ny = margin;
         nw = 0;
       }
-      page.items.push({ kind: 'word', canvas: it.canvas, w: it.w, h: it.h, name: it.name, x: nx, y: ny });
+      page.items.push({ kind: 'word', canvas: it.canvas, w: it.w, h: it.h, cellW: it.cellW, cellH: it.cellH, name: it.name, x: nx, y: ny });
       x = nx;
       y = ny + it.h + gap;
       colW = Math.max(nw, it.w);
     }
     if (page.items.length) pages.push(page);
+    return pages;
+  }
+  function packColumns(items, margin, gap, xStart, maxX, maxY){
+    const placed = [];
+    let x = xStart, y = margin, colW = 0, i = 0;
+    for (; i < items.length; i++){
+      const it = items[i];
+      let nx = x, ny = y, nw = colW;
+      if (y > margin + 0.001 && y + it.h > maxY + 0.05){
+        nx = roundMm(x + colW + gap);
+        ny = margin;
+        nw = 0;
+      }
+      if (nx + it.w > maxX + 0.05) break;
+      placed.push(Object.assign({}, it, { x: nx, y: ny }));
+      x = nx;
+      y = roundMm(ny + it.h + gap);
+      colW = Math.max(nw, it.w);
+    }
+    const nextX = placed.length ? roundMm(Math.max.apply(null, placed.map(p => p.x + p.w)) + gap) : xStart;
+    return { placed, rest: items.slice(i), nextX };
+  }
+  function layoutMixedPages(parts, words, margin, gap){
+    const pages = [];
+    let partRest = parts.slice(), wordRest = words.slice();
+    for (let guard = 0; guard < 40 && (partRest.length || wordRest.length); guard++){
+      const maxX = A4_W - margin, maxY = A4_H - margin;
+      const partPack = packColumns(partRest, margin, gap, margin, maxX, maxY);
+      const wordPack = packColumns(wordRest, margin, gap, partPack.nextX, maxX, maxY);
+      if (!partPack.placed.length && !wordPack.placed.length) break;
+      pages.push({ items: partPack.placed.concat(wordPack.placed) });
+      partRest = partPack.rest;
+      wordRest = wordPack.rest;
+    }
     return pages;
   }
   function vocabSignature(){
@@ -1287,7 +1326,7 @@ input.glyph{width:2.6em; text-align:center}
         strip = composeWordStrip(word, w, h, guides, mode);
         fallbacks.push(...strip.fallbacks);
       }
-      for (let i = 0; i < copies; i++) items.push({ canvas: strip.canvas, w: strip.w, h: strip.h, name: word });
+      for (let i = 0; i < copies; i++) items.push({ kind: 'word', canvas: strip.canvas, w: strip.w, h: strip.h, cellW: w, cellH: h, name: word });
     }
     const uniq = [...new Set(fallbacks)];
     $('wordFallback').textContent = mode === 'part'
@@ -1300,16 +1339,50 @@ input.glyph{width:2.6em; text-align:center}
     pages.copies = copies;
     return pages;
   }
-  async function openWordPreview(){
-    sheetSource = 'word';
-    if (!await ensureVocabCanvas()) return;
-    const pages = await buildWordPages();
+  async function buildMixedPages(){
+    const words = parseWords($('wordText').value);
+    let wordItems = [];
+    if (words.length){
+      if (!await ensureVocabCanvas()){
+        if (!stickers.length) return null;
+      } else {
+        const built = await buildWordPages();
+        if (!built && !stickers.length) return null;
+        if (built) wordItems = built.reduce((list, page) => list.concat(page.items), []);
+      }
+    }
+    let partItems = [];
+    if (stickers.length){
+      const built = buildPages();
+      if (!built && !wordItems.length) return null;
+      if (built) partItems = built.reduce((list, page) => list.concat(page.items), []);
+    }
+    if (!partItems.length && !wordItems.length){ toast('請先做部件貼紙或輸入語詞'); return null; }
+    const { margin, gap, w: partW } = readSettings();
+    const wordW = words.length ? wordSettings().w : 0;
+    let pages;
+    if (partItems.length && wordItems.length) pages = layoutMixedPages(partItems, wordItems, margin, gap);
+    else if (partItems.length) pages = layoutPages(partItems, margin, gap);
+    else pages = layoutWordPages(wordItems, margin, gap);
+    pages.partCount = partItems.length;
+    pages.wordCount = wordItems.length;
+    pages.partW = partW;
+    pages.wordW = wordW;
+    return pages;
+  }
+  function showSheet(pages){
     if (!pages) return;
     fillSheet($('sheetPages'), pages);
-    const strips = pages.reduce((n, p) => n + p.items.length, 0);
-    $('sheetTitle').textContent = '課本語詞貼紙';
-    $('sheetSummary').textContent = `共 ${pages.words} 個詞、${strips} 條。每格寬 ${pages.w.toFixed(1)} × 高 ${pages.h.toFixed(1)} mm。`;
+    const bits = [];
+    if (pages.partCount) bits.push(`部件 ${pages.partCount} 組，每格寬 ${pages.partW.toFixed(1)} mm`);
+    if (pages.wordCount) bits.push(`語詞 ${pages.wordCount} 條，每格寬 ${pages.wordW.toFixed(1)} mm`);
+    $('sheetTitle').textContent = pages.partCount && pages.wordCount ? '貼紙' : (pages.wordCount ? '課本語詞貼紙' : '部件貼紙');
+    $('sheetSummary').textContent = bits.join('。') + `。${pages.length} 頁。`;
     $('sheetModal').hidden = false;
+  }
+  async function openWordPreview(){
+    sheetSource = 'sheet';
+    showSheet(await buildMixedPages());
   }
   $('wordEdit').onclick = ensureVocabCanvas;
   $('wordPreview').onclick = openWordPreview;
