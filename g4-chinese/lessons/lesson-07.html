@@ -256,6 +256,7 @@ aside{background:var(--panel);border-radius:20px;padding:1.6vh 1.4vh;display:gri
 @media (max-width:820px), (max-aspect-ratio:1/1){.rcards{grid-template-columns:repeat(2,1fr)}.rex{top:52%}}
 a.hall-back{position:fixed;z-index:40;top:0;right:0;font-family:var(--kai);font-size:1.7vh;line-height:1.2;padding:.45vh .8vw;white-space:nowrap;background:var(--panel);color:var(--soft);text-decoration:none;border:1px solid var(--soft);border-top:0;border-right:0;border-bottom-left-radius:12px}a.hall-back:hover,a.hall-back:focus-visible{color:var(--ink)}
 </style>
+<script src="../../js/zh-tw-voice.js"></script>
 </head>
 <body>
 <a class="hall-back" href="../">← 回課文大廳</a>
@@ -577,7 +578,7 @@ function stopAll(){timers.forEach(clearTimeout);loops.forEach(clearInterval);tim
 function ov(html,style,cls='badge'){const d=document.createElement('div');d.className=cls;d.innerHTML=html;Object.assign(d.style,style);$('#ov').appendChild(d);return d;}
 function clearBadges(sel='.badge'){$('#ov').querySelectorAll(sel).forEach(b=>b.remove())}
 function bubbles(words,area){words.forEach((w,i)=>later(()=>{const b=ov(w,{left:(area.x+Math.random()*area.w)+'%',top:(area.y+Math.random()*area.h)+'%'},'bub');setTimeout(()=>b.remove(),1900)},i*260))}
-function speak(text){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(rhStrip(text).replace(/\[\[|\]\]|\{\{|\}\}/g,''));u.lang='zh-TW';u.rate=.8;const v=speechSynthesis.getVoices().find(v=>/zh[-_]TW/i.test(v.lang));if(v)u.voice=v;speechSynthesis.speak(u);}catch(e){}}
+function speak(text){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(rhStrip(text).replace(/\[\[|\]\]|\{\{|\}\}/g,''));u.lang='zh-TW';u.rate=.8;zhTwSpeak(u);}catch(e){}}
 function replay(node,cls,ms){node.classList.remove(cls);void node.getBoundingClientRect();node.classList.add(cls);if(ms)later(()=>node.classList.remove(cls),ms);}
 
 /* kid figure */
@@ -817,7 +818,6 @@ function go(i){
 $('#prev').onclick=()=>go(cur-1);$('#next').onclick=()=>go(cur+1);
 $('#say').onclick=()=>speak(S[cur].text);
 document.addEventListener('keydown',e=>{if(e.target.closest('.v,.cell,.item'))return;if(e.key==='ArrowRight'||e.key==='PageDown')go(cur+1);if(e.key==='ArrowLeft'||e.key==='PageUp')go(cur-1);});
-try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>{}}catch(e){}
 go(0);
 </script>
 </body>
