@@ -182,6 +182,7 @@ aside{background:var(--panel);border-radius:20px;padding:1.4vh 1.4vh;display:gri
 @media (prefers-reduced-motion: reduce){ .flake,#steam5 path{animation:none} }
 a.hall-back{position:fixed;z-index:40;top:0;right:0;font-family:var(--kai);font-size:1.7vh;line-height:1.2;padding:.45vh .8vw;white-space:nowrap;background:var(--panel);color:var(--soft);text-decoration:none;border:1px solid var(--soft);border-top:0;border-right:0;border-bottom-left-radius:12px}a.hall-back:hover,a.hall-back:focus-visible{color:var(--ink)}
 </style>
+<script src="../../js/zh-tw-voice.js"></script>
 </head>
 <body>
 <a class="hall-back" href="../">← 回課文大廳</a>
@@ -258,7 +259,7 @@ function temp(html,style,cls,ms=2000){const d=ov(html,style,cls);setTimeout(()=>
 function say1(html,cls=''){$('#ov').querySelectorAll('.badge').forEach(b=>b.remove());return ov(html,{left:'3%',top:'4%'},'badge '+cls)}
 function bubbles(words,area){words.forEach((w,i)=>later(()=>temp(w,{left:(area.x+Math.random()*area.w)+'%',top:(area.y+Math.random()*area.h)+'%'},'bub',1950),i*(area.gap||300)))}
 const clean=t=>t.replace(/\(@[^|]+\|/g,'').replace(/@\)/g,'').replace(/\[\[|\]\]|\{\{|\}\}/g,'');
-function speak(text,pitch=1){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(clean(text));u.lang='zh-TW';u.rate=.8;u.pitch=pitch;const v=speechSynthesis.getVoices().find(v=>/zh[-_]TW/i.test(v.lang));if(v)u.voice=v;speechSynthesis.speak(u);}catch(e){}}
+function speak(text,pitch=1){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(clean(text));u.lang='zh-TW';u.rate=.8;u.pitch=pitch;zhTwSpeak(u);}catch(e){}}
 function replay(node,c,ms){node.classList.remove(c);void node.getBoundingClientRect();node.classList.add(c);if(ms)later(()=>node.classList.remove(c),ms);}
 function bubbleAt(id,who,text,ms=3800,cls=''){later(()=>{const n=$('#'+id+' .bd')||$('#'+id);const b=n.getBoundingClientRect(),s=$('#stage').getBoundingClientRect();const d=ov(`<b>${who}</b>${text}`,{},'bubble '+cls);const W=d.offsetWidth,H=d.offsetHeight;let x=b.left-s.left+b.width/2-W/2,y=b.top-s.top-H-12;x=Math.max(8,Math.min(s.width-W-8,x));if(y<8)y=8;d.style.left=x+'px';d.style.top=y+'px';later(()=>d.remove(),ms)},60);}
 
@@ -494,7 +495,6 @@ $('#rhBtn').onclick=()=>{rhOn=!rhOn;$('#txt').classList.toggle('rhon',rhOn);$('#
 $('#prev').onclick=()=>go(cur-1);$('#next').onclick=()=>go(cur+1);
 $('#say').onclick=()=>speak(S[cur].text);
 document.addEventListener('keydown',e=>{if(e.target.closest('.v,.rh,.cell'))return;if(e.key==='ArrowRight'||e.key==='PageDown')go(cur+1);if(e.key==='ArrowLeft'||e.key==='PageUp')go(cur-1);});
-try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>{}}catch(e){}
 go(0);
 </script>
 </body>
