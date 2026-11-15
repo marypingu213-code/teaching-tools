@@ -189,19 +189,70 @@
     var voices = [];
     var lastSig = '';
     var settled = false;
-    var epoch = 0;
-    var waiters = [];
+    var token = 0;
+    var kept = null;
+    var held = [];
+    var upgradeToken = 0;
     var select = null;
     var hint = null;
 
-    var nativeCancel = function () {};
-    try { nativeCancel = synth.cancel.bind(synth); } catch (e) {}
-    try {
-      synth.cancel = function () {
-        epoch += 1;
-        try { nativeCancel(); } catch (err) {}
+    /* 不要改寫 speak 會呼叫到的 cancel。
+       只在頁面自己按下停止時把排隊中的朗讀作廢，並呼叫原型上原本的 cancel。 */
+    var protoCancel = null;
+    try { protoCancel = Object.getPrototypeOf(synth).cancel; } catch (e) {}
+    if (protoCancel) {
+      try {
+        synth.cancel = function () {
+          token += 1;
+          upgradeToken = 0;
+          try { protoCancel.call(synth); } catch (err) {}
+        };
+      } catch (e) {}
+    }
+
+    function freshVoices() {
+      var list = [];
+      try { list = synth.getVoices() || []; } catch (e) { list = []; }
+      if (list.length) adopt(list);
+      return list;
+    }
+
+    function retain(u) {
+      /* Edge／Chrome 若沒人留著這段 utterance，會在念出來之前把它回收，聲音就沒了。 */
+      kept = u;
+      held.push(u);
+      var prevEnd = u.onend;
+      var prevErr = u.onerror;
+      u.onend = function (ev) {
+        root.setTimeout(function () {
+          held = held.filter(function (x) { return x !== u; });
+          if (kept === u) kept = null;
+        }, 1000);
+        if (typeof prevEnd === 'function') prevEnd.call(this, ev);
       };
-    } catch (e) {}
+      u.onerror = function (ev) {
+        if (typeof prevErr === 'function') prevErr.call(this, ev);
+      };
+    }
+
+    function resume() {
+      try { synth.resume(); } catch (e) {}
+    }
+
+    /* 聲音物件必須來自「這一次」getVoices()。用舊清單裡的物件，Edge 會把朗讀吃掉。 */
+    function speakNow(u, list) {
+      var voice = list && list.length ? pickVoice(list, loadChoice()) : null;
+      u.lang = 'zh-TW';
+      if (voice) {
+        try { u.voice = voice; } catch (e) {}
+      }
+      kept = u;
+      resume();
+      synth.speak(u);
+      resume();
+      try { if (synth.paused) resume(); } catch (e) {}
+      return !!(voice && u.voice);
+    }
 
     function signature(list) {
       var parts = [];
@@ -210,13 +261,6 @@
         parts.push((v.voiceURI || '') + '\t' + (v.name || '') + '\t' + (v.lang || ''));
       }
       return parts.join('\n');
-    }
-
-    function flush() {
-      var queued = waiters.splice(0, waiters.length);
-      for (var i = 0; i < queued.length; i++) {
-        try { queued[i](); } catch (e) {}
-      }
     }
 
     function render() {
@@ -228,7 +272,8 @@
       select.textContent = '';
       var auto = root.document.createElement('option');
       auto.value = '';
-      auto.textContent = '自動（台灣國語）';
+      auto.textContent = '自動';
+      auto.title = '自動（台灣國語）';
       select.appendChild(auto);
       appendGroup('台灣國語', groups.taiwan);
       appendGroup('其他中文', groups.other);
@@ -242,7 +287,7 @@
         hint.textContent = showHint ? HINT : '';
       }
       var current = select.options[select.selectedIndex];
-      select.title = current ? current.textContent : '朗讀語音';
+      select.title = select.value ? (current ? current.textContent : '朗讀語音') : '自動（台灣國語）';
     }
 
     function appendGroup(label, list) {
@@ -279,15 +324,24 @@
         lastSig = sig;
         render();
       }
-      if (waiters.length) flush();
       return true;
     }
 
-    function readVoices() {
-      var list = [];
-      try { list = synth.getVoices() || []; } catch (e) { list = []; }
-      if (list.length) adopt(list);
-      return list.length ? list : voices;
+    function upgradeKept() {
+      if (!kept || !upgradeToken || upgradeToken !== token) return;
+      var list = freshVoices();
+      var voice = list.length ? pickVoice(list, loadChoice()) : null;
+      if (!voice || !isTaiwanVoice(voice)) return;
+      var u = kept;
+      var my = token;
+      upgradeToken = 0;
+      /* 先前只能先念、還沒配到台灣國語。清單到了就改用正確的聲音再念一次。 */
+      root.setTimeout(function () {
+        if (my !== token) return;
+        var now = freshVoices();
+        try { if (protoCancel) protoCancel.call(synth); } catch (e) {}
+        speakNow(u, now);
+      }, 80);
     }
 
     function markSettled() {
@@ -296,22 +350,23 @@
       render();
     }
 
-    function onVoices() { readVoices(); }
+    function onVoices() {
+      freshVoices();
+      upgradeKept();
+    }
 
     if (typeof synth.addEventListener === 'function') synth.addEventListener('voiceschanged', onVoices);
     else synth.onvoiceschanged = onVoices;
 
-    try { readVoices(); } catch (e) {}
+    try { freshVoices(); } catch (e) {}
 
     var polls = 0;
     var pollTimer = root.setInterval(function () {
       polls += 1;
-      var list = [];
-      try { list = synth.getVoices() || []; } catch (e) {}
-      if (list.length) adopt(list);
+      var list = freshVoices();
       var hasTw = false;
-      var current = list.length ? list : voices;
-      for (var i = 0; i < current.length; i++) if (isTaiwanVoice(current[i])) hasTw = true;
+      for (var i = 0; i < list.length; i++) if (isTaiwanVoice(list[i])) hasTw = true;
+      if (hasTw) upgradeKept();
       /* 清單可能分批出現。有台灣國語就停；否則最多再等大約三秒。 */
       if (hasTw || polls >= 25) {
         root.clearInterval(pollTimer);
@@ -322,27 +377,23 @@
 
     root.zhTwSpeak = function (u) {
       if (!u) return;
+      var my = ++token;
+      retain(u);
       u.lang = 'zh-TW';
-      var my = ++epoch;
-      var fired = false;
-      function fire() {
-        if (fired || my !== epoch) return;
-        fired = true;
-        var list = readVoices();
-        var voice = pickVoice(list, loadChoice());
-        u.lang = 'zh-TW';
-        if (voice) {
-          try { u.voice = voice; } catch (e) {}
-        }
-        synth.speak(u);
+      var list = freshVoices();
+      var voice = list.length ? pickVoice(list, loadChoice()) : null;
+      if (!voice) {
+        /* 清單還沒到：先在點擊當下念出來，避免 Edge 把延後的朗讀擋掉。 */
+        upgradeToken = my;
+        try { speakNow(u, []); } catch (e) {}
+        return;
       }
-      if (readVoices().length) fire();
-      else {
-        waiters.push(fire);
-        root.setTimeout(function () {
-          try { fire(); } catch (e) {}
-        }, 2500);
-      }
+      /* 課文會先 cancel() 再念。Edge 若在同一個回合又指定聲音，這次朗讀會被清掉，
+         所以等取消做完再念。聲音物件只用這時候重新查到的那一份。 */
+      root.setTimeout(function () {
+        if (my !== token) return;
+        try { speakNow(u, freshVoices()); } catch (e) {}
+      }, 80);
     };
 
     ready(function () { mount(synthControl); });
@@ -378,12 +429,13 @@
     }
     var style = root.document.createElement('style');
     style.textContent = [
-      '#zh-voice-dock{position:relative;z-index:41;margin-left:auto;align-self:center;display:flex;flex-direction:column;align-items:flex-end;max-width:min(92vw,36rem);flex:0 0 auto;pointer-events:none}',
+      /* 浮在角落，不進文件流，課文格子維持原來的高度。 */
+      '#zh-voice-dock{position:fixed;z-index:45;top:0;right:0;display:flex;flex-direction:column;align-items:flex-end;width:max-content;max-width:min(42vw,15rem);pointer-events:none}',
       '#zh-voice-dock .zh-voice-bar,#zh-voice-dock .zh-voice-hint{pointer-events:auto}',
-      '#zh-voice-dock .zh-voice-bar{display:inline-flex;align-items:center;gap:.35em;font-family:inherit;font-size:clamp(12px,1.7vh,16px);line-height:1.2;padding:.35vh .6vw;background:var(--panel,#fff);color:var(--soft,#5f6e58);border:1px solid var(--soft,#5f6e58);border-radius:10px;white-space:nowrap}',
-      '#zh-voice-dock .zh-voice-bar select{font:inherit;color:var(--ink,#24301f);background:transparent;border:0;max-width:34vw;cursor:pointer}',
+      '#zh-voice-dock .zh-voice-bar{display:inline-flex;align-items:center;gap:.3em;font-family:inherit;font-size:13px;line-height:1.2;padding:3px 8px;background:var(--panel,#fff);color:var(--soft,#5f6e58);border:1px solid var(--soft,#5f6e58);border-top:0;border-bottom-left-radius:10px;border-bottom-right-radius:10px;white-space:nowrap}',
+      '#zh-voice-dock .zh-voice-bar select{font:inherit;font-size:13px;color:var(--ink,#24301f);background:transparent;border:0;width:4.5rem;max-width:16vw;cursor:pointer}',
       '#zh-voice-dock .zh-voice-bar select:focus-visible{outline:3px solid var(--gold,#E8A33A);outline-offset:2px}',
-      '#zh-voice-dock .zh-voice-hint{margin:.4vh 0 0;padding:.5vh .7vw;background:var(--panel,#fff);color:var(--ink,#24301f);border:1px solid var(--gold,#E8A33A);border-radius:10px;font-family:inherit;font-size:clamp(12px,1.5vh,15px);line-height:1.45;max-width:min(88vw,28rem);box-shadow:0 4px 14px rgba(0,0,0,.12)}'
+      '#zh-voice-dock .zh-voice-hint{margin:4px 0 0;padding:6px 8px;background:var(--panel,#fff);color:var(--ink,#24301f);border:1px solid var(--gold,#E8A33A);border-radius:10px;font-family:inherit;font-size:13px;line-height:1.45;width:min(88vw,22rem);box-shadow:0 4px 14px rgba(0,0,0,.12)}'
     ].join('');
     root.document.head.appendChild(style);
 
@@ -406,15 +458,14 @@
     hint.setAttribute('role', 'status');
     dock.appendChild(bar);
     dock.appendChild(hint);
-    var header = root.document.querySelector('header');
-    if (header) header.appendChild(dock);
-    else root.document.body.appendChild(dock);
+    root.document.body.appendChild(dock);
 
     function place() {
       var back = root.document.querySelector('a.hall-back');
-      var gap = 8;
-      if (back) gap += Math.ceil(back.getBoundingClientRect().width);
-      dock.style.marginRight = gap + 'px';
+      var gap = 0;
+      if (back) gap = Math.ceil(back.getBoundingClientRect().width);
+      dock.style.right = gap + 'px';
+      dock.style.top = '0px';
     }
     place();
     root.addEventListener('resize', place);
