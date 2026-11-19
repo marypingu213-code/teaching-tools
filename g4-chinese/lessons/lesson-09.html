@@ -110,6 +110,16 @@ aside{background:var(--panel);border-radius:20px;padding:1.6vh 1.4vh;display:gri
 #book .pgR{transform-origin:0 50%;transform:scaleX(0)}
 .bopen #book .pgR{transform:scaleX(1)}
 .mo{transition:fill .4s}.mo.on{fill:#F2C14E}
+.mo.key{stroke:#C8362B;stroke-width:5}
+.mo.key.on{animation:keyp .5s ease-in-out 3 alternate}
+@keyframes keyp{to{stroke-width:9}}
+.modal{position:fixed;inset:0;background:rgba(10,20,10,.85);display:none;align-items:center;justify-content:center;z-index:30;padding:3vh 3vw}
+.modal.on{display:flex}
+.mbox{background:#fff;color:#22301F;border-radius:18px;padding:2vh 2vw;max-width:94vw;max-height:94vh;display:flex;flex-direction:column;align-items:center;gap:1.2vh}
+.mbox h3{margin:0;color:#3B7F30;font-size:3.4vh}
+.mbox iframe{border:0;border-radius:10px;background:#000;width:min(80vw,120vh);height:min(45vw,67vh)}
+.mbox .mrow{display:flex;gap:1vw}
+.mbox .mrow a,.mbox .mrow button{font:inherit;font-size:2.6vh;border-radius:12px;border:3px solid #3B7F30;background:#fff;color:#3B7F30;padding:.6vh 1.4vw;cursor:pointer;text-decoration:none}
 #fem,#hearts4{opacity:0;transition:opacity .8s}
 .court #fem,.court #hearts4{opacity:1}
 .heart{animation:hrt 1.8s ease-out infinite}
@@ -419,6 +429,7 @@ a.hall-back{position:fixed;z-index:40;top:0;right:0;font-family:var(--kai);font-
 </main>
 
 <div id="pop"></div>
+<div class="modal" id="modal"><div class="mbox" id="mbox"></div></div>
 
 <script>
 const $=s=>document.querySelector(s);
@@ -427,7 +438,14 @@ const NS="http://www.w3.org/2000/svg";
 function el(tag,attrs={},parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;}
 let timers=[];
 function later(fn,ms){const t=setTimeout(fn,ms);timers.push(t);return t;}
-function stopAll(){timers.forEach(clearTimeout);timers=[];try{speechSynthesis.cancel()}catch(e){};$('#ov').innerHTML='';$('#pop').classList.remove('on');}
+function closeModal(){$('#modal').classList.remove('on');$('#mbox').innerHTML='';}
+function video(title,id,start){try{speechSynthesis.cancel()}catch(e){}
+  const src=`https://www.youtube-nocookie.com/embed/${id}?rel=0${start?'&start='+start:''}`,url=`https://www.youtube.com/watch?v=${id}${start?'&t='+start+'s':''}`;
+  $('#mbox').innerHTML=`<h3>🎬 ${title}</h3><iframe src="${src}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe><div class="mrow"><a href="${url}" target="_blank" rel="noopener">影片播不出來？到 YouTube 看</a><button id="mClose">關閉</button></div>`;
+  $('#modal').classList.add('on');$('#mClose').onclick=closeModal;$('#mClose').focus();}
+document.addEventListener('click',e=>{if(e.target&&e.target.id==='modal')closeModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+function stopAll(){closeModal();timers.forEach(clearTimeout);timers=[];try{speechSynthesis.cancel()}catch(e){};$('#ov').innerHTML='';$('#pop').classList.remove('on');}
 function ov(html,style,cls='badge'){const d=document.createElement('div');d.className=cls;d.innerHTML=html;Object.assign(d.style,style||{});$('#ov').appendChild(d);return d;}
 function temp(html,style,cls,ms=2000){const d=ov(html,style,cls);setTimeout(()=>d.remove(),ms);return d;}
 function clearBadges(){$('#ov').querySelectorAll('.badge').forEach(b=>b.remove())}
@@ -515,7 +533,7 @@ function chicks(parent){const g=el('g',{},parent);[[-26,-6],[0,-12],[26,-6]].for
   bird($('#bird3'),480,402,2.6,{id:'b3'});
   // 4
   bird($('#bookBird'),175,330,1.6);
-  const mg=$('#months');for(let m=1;m<=12;m++){const r=Math.floor((m-1)/4),c=(m-1)%4,x=345+c*52,y=140+r*70;el('rect',{class:'mo','data-m':m,x,y,width:44,height:56,rx:8,fill:'#EEF3E8',stroke:'#7A5A2A','stroke-width':2},mg);el('text',{x:x+22,y:y+38,'text-anchor':'middle','font-size':22,class:'lbl',fill:'#22301F'},mg).textContent=m+'月';}
+  const mg=$('#months');for(let m=1;m<=12;m++){const r=Math.floor((m-1)/4),c=(m-1)%4,x=345+c*52,y=140+r*70;el('rect',{class:'mo'+(m>=3&&m<=5?' key':''),'data-m':m,x,y,width:44,height:56,rx:8,fill:'#EEF3E8',stroke:'#7A5A2A','stroke-width':2},mg);el('text',{x:x+22,y:y+38,'text-anchor':'middle','font-size':22,class:'lbl',fill:'#22301F'},mg).textContent=m+'月';}
   bird($('#male4'),760,428,1.6,{id:'b4'});
   bird($('#fem'),920,428,1.4,{flip:true});
   const hg=$('#hearts4');[0,1,2].forEach(i=>el('path',{class:'heart',d:`M${850+i*20},${250-i*10} c-8,-10 -24,0 -14,12 l14,12 l14,-12 c10,-12 -6,-22 -14,-12Z`,style:`animation-delay:${i*.5}s`},hg));
@@ -624,7 +642,7 @@ $('#qclose').onclick=()=>$('#quiz').classList.remove('on');
 /* ---------- steps ---------- */
 const S=[
  {sc:'1',tag:'清晨的歌聲',no:'第1段',time:'春天・清晨五點半',text:'春天時，每天清晨五點半，(@擬人|a1|熱情的阿白總是準時在我家陽臺唱歌@)。啾！啾！一陣陣清亮而[[急促]]的叫聲，在安靜的清晨裡聽起來特別響亮，讓我{{不得不}}起床。(@感嘆|a2|唉！@)',
-  acts:[['⏰ 清晨五點半',()=>{V(1).classList.add('dawn');say1('清晨五點半，天才剛亮')}],['🐦 啾！啾！',()=>{replay(V(1),'sing',4200);SND.jiu();bubbles(['啾！','啾！','啾！','啾！','啾！'],{x:45,y:20,w:30,h:25,gap:350})}],['😩 不得不起床',()=>{V(1).classList.add('up','dawn');temp('唉！',{left:'8%',top:'38%'},'bub',1900);say1('被吵醒了，不得不起床')}]]},
+  acts:[['⏰ 清晨五點半',()=>{V(1).classList.add('dawn');say1('清晨五點半，天才剛亮')}],['🐦 啾！啾！',()=>{replay(V(1),'sing',4200);SND.jiu();bubbles(['啾！','啾！','啾！','啾！','啾！'],{x:45,y:20,w:30,h:25,gap:350})}],['😩 不得不起床',()=>{V(1).classList.add('up','dawn');temp('唉！',{left:'8%',top:'38%'},'bub',1900);say1('被吵醒了，不得不起床')}],['🎬 聽聽白頭翁的叫聲',()=>video('白頭翁的叫聲','SZyJRCTdK70',8)]]},
  {sc:'2',tag:'阿白的穿著',no:'第2段',time:'春天・清晨',text:'(@擬人,譬喻|a3|阿白總是穿著灰色上衣，灰綠色夾克，頭上還戴著一頂白色毛帽@)，在微亮的天色中唱著「不理不理」。(@設問|a4|我很好奇牠到底要唱到什麼時候？@)反正也無法再睡，我決定看看牠到底在做什麼。',
   acts:[['🧢 白色毛帽',()=>hl(2,'b2','b-cap','hl-cap')],['👕 灰色上衣',()=>hl(2,'b2','b-shirt','hl-shirt')],['🧥 灰綠色夾克',()=>hl(2,'b2','b-wing','hl-jacket')],['🎵 不理不理',()=>{replay(V(2),'sing',2600);SND.buli();bubbles(['不理','不理','不理','不理'],{x:15,y:20,w:30,h:20,gap:300})}],['❓ 我很好奇',()=>{V(2).classList.add('ask');say1('牠到底要唱到什麼時候？<small>我決定看看牠到底在做什麼！</small>')}]]},
  {sc:'3',tag:'舞林高手',no:'第3段',time:'觀察了好幾天',long:1,text:'觀察了好幾天，(@擬人,感嘆|a5|我發現阿白不只是歌唱家，還是{{舞林高手}}呢！@)牠站在細枝上，放低身體，展開尾羽，頭、身、尾成一直線。在輕快叫聲中，牠快速[[振動]]微微張開的雙翅，雙腳[[碎步]]走動，(@譬喻|a6|看起來像林間的[[舞者]]，又像動力十足的戰鬥機@)。',
@@ -692,6 +710,7 @@ function go(i){
 $('#prev').onclick=()=>go(cur-1);$('#next').onclick=()=>go(cur+1);
 $('#say').onclick=()=>speak(S[cur].text);
 document.addEventListener('keydown',e=>{if(e.target.closest('.v,.cell'))return;if(e.key==='ArrowRight'||e.key==='PageDown')go(cur+1);if(e.key==='ArrowLeft'||e.key==='PageUp')go(cur-1);});
+try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>{}}catch(e){}
 go(0);
 </script>
 </body>
