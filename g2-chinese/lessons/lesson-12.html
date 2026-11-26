@@ -185,6 +185,36 @@ aside{background:var(--panel);border-radius:20px;padding:1.6vh 1.4vh;display:gri
 }
 @media (prefers-reduced-motion: reduce){ .fly1,.fly2,.wing,.bwing,.photo,.fish{animation:none} }
 a.hall-back{position:fixed;z-index:40;top:0;right:0;font-family:var(--kai);font-size:1.7vh;line-height:1.2;padding:.45vh .8vw;white-space:nowrap;background:var(--panel);color:var(--soft);text-decoration:none;border:1px solid var(--soft);border-top:0;border-right:0;border-bottom-left-radius:12px}a.hall-back:hover,a.hall-back:focus-visible{color:var(--ink)}
+/* ===== 流暢動畫加強（只動 transform／opacity、緩動、淡入淡出；內容不變） ===== */
+.scene{display:block!important;opacity:0;visibility:hidden;transition:opacity .55s ease,visibility 0s linear .55s}
+.scene.on{opacity:1;visibility:visible;transition:opacity .55s ease,visibility 0s}
+.scene:not(.on) *{animation-play-state:paused!important}
+#ov{container-type:size}
+#ov>.ovbye{opacity:0!important;transition:opacity .38s ease!important;pointer-events:none!important}
+.bd{animation:breatheS 3.8s ease-in-out var(--bdl,0s) infinite}
+@keyframes breatheS{0%,100%{scale:1 1}50%{scale:1.012 1.026}}
+@keyframes blinkS{0%,93%,100%{scale:1 1}96%{scale:1 .12}}
+@keyframes popS{from{scale:.4;opacity:0}to{scale:1;opacity:1}}
+
+#insects{display:inline!important;opacity:0;transition:opacity .8s ease}
+#F.s1.a3 #insects,#F.s2 #insects{opacity:1}
+.wing{animation:flap .15s ease-in-out infinite alternate}
+.bwing{animation:bflap .42s ease-in-out infinite alternate}
+#kids{transition:transform 2.6s cubic-bezier(.3,.1,.3,1)}
+#F.s1.a0:not(.a1) .kid .bd{animation:bob .48s ease-in-out infinite alternate}
+#F.s2.a2 #kidB .arm{animation:paint .62s ease-in-out infinite alternate}
+#F.s3.a1 #mazeKids>g{animation:maze 7s linear infinite alternate}
+.fly1,.fly2{animation-timing-function:cubic-bezier(.45,.05,.55,.95)}
+.ani{transition:transform .65s cubic-bezier(.34,1.45,.6,1)}
+.ov{transition:opacity 1s ease}
+.lens{left:0!important;top:0!important;animation:searchT 3s ease-in-out forwards}
+@keyframes searchT{0%{transform:translate(15cqw,55cqh)}33%{transform:translate(60cqw,25cqh)}66%{transform:translate(30cqw,20cqh)}100%{transform:translate(70cqw,50cqh);opacity:0}}
+
+@media (prefers-reduced-motion: reduce){
+  .scene svg *{animation:none!important;transition-duration:.25s!important;transition-delay:0s!important}
+  .scene{transition:none!important}
+  #ov>.ovbye{transition:none!important}
+}
 </style>
 <script src="../../js/zh-tw-voice.js"></script>
 </head>
@@ -228,10 +258,10 @@ const NS="http://www.w3.org/2000/svg";
 function el(tag,attrs={},parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;}
 let timers=[];let autoOn=false;
 function later(fn,ms){const t=setTimeout(fn,ms);timers.push(t);return t;}
-function stopAll(){timers.forEach(clearTimeout);timers=[];autoOn=false;try{speechSynthesis.cancel()}catch(e){};$('#ov').innerHTML='';$('#pop').classList.remove('on');}
+function stopAll(){timers.forEach(clearTimeout);timers=[];autoOn=false;try{speechSynthesis.cancel()}catch(e){};fadeOv();$('#pop').classList.remove('on');}
 function ov(html,style,cls='badge'){const d=document.createElement('div');d.className=cls;d.innerHTML=html;Object.assign(d.style,style||{});$('#ov').appendChild(d);return d;}
 function temp(html,style,cls,ms=2000){const d=ov(html,style,cls);setTimeout(()=>d.remove(),ms);return d;}
-function say1(html,cls=''){$('#ov').querySelectorAll('.badge').forEach(b=>b.remove());return ov(html,{left:'3%',top:'4%'},'badge '+cls)}
+function say1(html,cls=''){$('#ov').querySelectorAll('.badge').forEach(b=>fadeEl(b));return ov(html,{left:'3%',top:'4%'},'badge '+cls)}
 const clean=t=>t.replace(/\[\[|\]\]|\{\{|\}\}/g,'');
 function speak(text,onend){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(clean(text));u.lang='zh-TW';u.rate=.72;if(onend)u.onend=onend;zhTwSpeak(u);}catch(e){onend&&setTimeout(onend,1500)}}
 
@@ -321,7 +351,7 @@ function stateTo(sn,k){$('#F').setAttribute('class',['s'+(sn+1),...Array.from({l
 function playLine(k,{onend}={}){
   const st=S[cur];if(st.st===undefined)return;const S_=ST[st.st];
   timers.forEach(clearTimeout);timers=[];try{speechSynthesis.cancel()}catch(e){}
-  lineIdx=k;$('#ov').innerHTML='';stateTo(st.st,k);S_.fx[k]();
+  lineIdx=k;fadeOv();stateTo(st.st,k);S_.fx[k]();
   $$('#txt .ln').forEach((l,i)=>{l.classList.toggle('on',i===k);l.classList.toggle('done',i<k)});
   $('#lineNo').textContent=`第 ${k+1} 句／共 ${S_.lines.length} 句`;
   let done=false;const fin=()=>{if(done)return;done=true;onend&&onend()};
@@ -427,6 +457,11 @@ $('#prev').onclick=()=>go(cur-1);$('#next').onclick=()=>go(cur+1);
 $('#say').onclick=()=>{const st=S[cur];const lines=st.st!==undefined?ST[st.st].lines:st.guide;speak(lines.join(''))};
 document.addEventListener('keydown',e=>{if(e.target.closest('input,.v,.ln'))return;if(e.key===' '&&S[cur].st!==undefined){e.preventDefault();nextLine()}if(e.key==='ArrowRight'||e.key==='PageDown')go(cur+1);if(e.key==='ArrowLeft'||e.key==='PageUp')go(cur-1);});
 go(0);
+
+/* ===== 流暢動畫加強：舊的提示框淡出、角色呼吸錯開 ===== */
+function fadeEl(n){if(!n||!n.classList||n.classList.contains('ovbye'))return;if(matchMedia('(prefers-reduced-motion: reduce)').matches){n.remove();return}n.classList.add('ovbye');setTimeout(()=>n.remove(),420)}
+function fadeOv(){const o=document.getElementById('ov');if(!o)return;[...o.children].forEach(fadeEl)}
+document.querySelectorAll('.bd').forEach(b=>b.style.setProperty('--bdl',(-Math.random()*3.8).toFixed(2)+'s'));
 </script>
 </body>
 </html>
