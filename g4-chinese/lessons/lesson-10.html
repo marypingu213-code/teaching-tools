@@ -339,14 +339,113 @@ function el(tag,attrs={},parent){const e=document.createElementNS(NS,tag);for(co
 let timers=[];let INSTANT=false;let autoOn=false;
 function later(fn,ms){const t=setTimeout(fn,ms);timers.push(t);return t;}
 function seq(fn,ms){if(INSTANT)fn();else later(fn,ms);}
-function stopAll(){timers.forEach(clearTimeout);timers=[];autoOn=false;try{speechSynthesis.cancel()}catch(e){};fadeOv();$('#pop').classList.remove('on');}
+function stopAll(){timers.forEach(clearTimeout);timers=[];autoOn=false;spkStop();fadeOv();$('#pop').classList.remove('on');}
 function ov(html,style,cls){const d=document.createElement('div');d.className=cls;d.innerHTML=html;Object.assign(d.style,style||{});$('#ov').appendChild(d);return d;}
 function temp(html,style,cls,ms=2000){if(INSTANT)return;const d=ov(html,style,cls);setTimeout(()=>d.remove(),ms);return d;}
 function bubbles(words,area){if(INSTANT)return;words.forEach((w,i)=>later(()=>temp(w,{left:(area.x+Math.random()*area.w)+'%',top:(area.y+Math.random()*area.h)+'%'},'bub',1950),i*(area.gap||260)))}
 const clean=t=>rhStrip(t).replace(/\[\[|\]\]|\{\{|\}\}/g,'');
 const noDir=t=>clean(t).replace(/（[^）]*）/g,'').replace(/△/g,'');
-const VOICE={'鼠爸':[.75,.85],'鼠媽':[1.25,.85],'鼠妞':[1.6,.85],'鼠郎':[1.1,.9],'黑貓':[.5,.85],'太陽':[1,.8],'烏雲':[.6,.8],'大風':[.85,.9],'牆壁':[.45,.75],'村中老鼠們':[1.5,1],'全體':[1.3,.9],'旁白':[1,.8]};
-function speak(text,who,onend){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='zh-TW';const p=VOICE[who]||[1,.8];u.pitch=p[0];u.rate=p[1];if(onend)u.onend=onend;zhTwSpeak(u);}catch(e){onend&&setTimeout(onend,1500)}}
+/* ---------- 朗讀：劇本語氣（抑揚頓挫）----------
+   Web Speech 沒有 SSML，所以把每句臺詞依標點切成小段，每一段各自設定 pitch / rate / volume，
+   段與段之間用計時器停頓。語音選擇仍交給共用的 zhTwSpeak（js/zh-tw-voice.js 不改）。 */
+/* 角色聲線：p 音高、r 語速、v 音量、pg 句中停頓倍率、gap 這句念完到下一句的停頓(ms) */
+const ROLE={
+ '鼠爸':{p:.72,r:.88,v:1,pg:1.15,gap:560},      // 村長／爸爸：低沉穩重、慢、停頓長
+ '鼠媽':{p:1.2,r:.98,v:1,pg:.95,gap:480},       // 溫暖、較快、起伏大
+ '鼠妞':{p:1.55,r:.9,v:.92,pg:1.05,gap:540},    // 年輕女孩：高、輕、略慢（害羞）
+ '鼠郎':{p:1.12,r:1.05,v:1,pg:.85,gap:440},     // 年輕男孩：明快有精神
+ '黑貓':{p:.52,r:.82,v:1,pg:1.25,gap:540},      // 陰險：低、拖慢
+ '太陽':{p:.95,r:.86,v:1,pg:1.1,gap:540},       // 溫暖莊重
+ '烏雲':{p:.58,r:.8,v:1,pg:1.15,gap:540},       // 悶悶的低音
+ '大風':{p:.9,r:1.1,v:1,pg:.8,gap:440},         // 呼呼快速、有氣勢
+ '牆壁':{p:.4,r:.72,v:1,pg:1.35,gap:620},       // 厚重、最慢
+ '村中老鼠們':{p:1.5,r:1.12,v:1,pg:.7,gap:420}, // 吵嚷、快、尖
+ '全體':{p:1.3,r:.92,v:1,pg:1,gap:640},         // 齊唱／齊聲
+ '旁白':{p:1,r:.8,v:.92,pg:1.25,gap:760},       // 旁白：平穩、慢、停頓足
+ '舞台':{p:.9,r:.76,v:.8,pg:1.3,gap:820}        // 舞臺指示、時間地點角色、報幕：最慢最輕
+};
+const roleOf=w=>ROLE[w]?w:(w==='△'||w==='info'||w==='act'?'舞台':'旁白');
+/* 只改「唸出來的字」，畫面上的字不動。多音字被 TTS 唸錯時，換成同音字。 */
+const SPOKEN_FIX=[
+ [/鬧哄哄/g,'鬧轟轟'],[/哄哄/g,'轟轟'],   // 鬧哄哄 → hōng hōng
+ [/為(?=小女|了)/g,'位'],                  // 為小女招親／為了 → wèi（難為情的「為」wéi 不動）
+ [/羞答答/g,'羞搭搭'],                     // dā dā，不是 dá dá
+ [/角色/g,'絕色'],                         // jué sè，不是 jiǎo sè
+ [/哪(?=[！，])/g,'啊']                      // 「烏雲哪！」語氣詞 na，不是 nǎ（念成「啊」接在 n 後面就是 na）
+];
+const spoken=t=>SPOKEN_FIX.reduce((x,[a,b])=>x.replace(a,b),t);
+/* 句中停頓 (ms)，再乘上角色的 pg */
+const PAUSE={'、':90,'，':170,'；':260,'：':300,'。':380,'！':430,'？':430,'…':650,' ':280};
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+/* 舞臺說明（括號）→ 語氣修飾。dp 音高倍率增減、dr 語速增減、v 音量上限 */
+function dirMod(d){const m={dp:0,dr:0,v:1,song:false};if(!d)return m;
+  if(/大喊|喊/.test(d)){m.dp+=.08;m.dr+=.06}
+  if(/變小|小聲/.test(d)){m.v=.55;m.dr-=.08}
+  if(/愁|嘆/.test(d)){m.dp-=.1;m.dr-=.1}
+  if(/羞/.test(d)){m.dp+=.08;m.dr-=.1;m.v=Math.min(m.v,.85)}
+  if(/睜大眼/.test(d)){m.dp+=.12}
+  if(/低頭|拍頭|抹汗/.test(d)){m.dr-=.05}
+  if(/微笑|舉起|拋球/.test(d)){m.dp+=.05}
+  if(/跳起/.test(d)){m.dp+=.08;m.dr+=.05}
+  if(/齊唱|拍手/.test(d)){m.song=true;m.dr-=.05}
+  return m}
+/* 把一句話切成「朗讀小段」：[{t,p,r,v,gap}] */
+function planSpeech(text,who,opt){
+  opt=opt||{};const R=ROLE[roleOf(who)];const lead=dirMod(opt.dir),trail=opt.dirEnd?dirMod(opt.dirEnd):null;
+  const src=spoken(String(text)).replace(/[「」『』]/g,'').replace(/\s+/g,'　');
+  const out=[];const re=/([^。！？，、；：…　]+)([。！？，、；：…　]*)/g;let m;
+  while((m=re.exec(src))){
+    const part=m[1].trim(),run=m[2];if(!part)continue;
+    const kind=/…/.test(run)?'…':/？/.test(run)?'？':/！/.test(run)?'！':/。/.test(run)?'。':/；/.test(run)?'；':/：/.test(run)?'：':/，/.test(run)?'，':/、/.test(run)?'、':run?' ':'';
+    let dp=lead.dp,dr=lead.dr,v=Math.min(R.v,lead.v);
+    if(kind==='？'){dp+=.18}
+    else if(kind==='！'){dp+=.12;dr+=.07;v=Math.max(v,Math.min(1,R.v+.08));if(part.length<=3){dp+=.1;dr-=.08}}  // 短嘆詞（唉！哇！喵！）拉長一點
+    else if(kind==='。'){dp-=.04;dr-=.03}                           // 句尾略降、略慢
+    else if(kind==='，'||kind==='、'){dp+=.02}
+    else if(kind==='…'){dp-=.06;dr-=.12}                              // 話說到一半，語氣漸弱
+    if(lead.song||opt.song){dr-=.02;dp+=(out.length%2?.1:0)}          // 齊唱：忽高忽低、有節奏
+    let t=part+(kind==='！'?'！':kind==='？'?'？':kind==='。'?'。':kind==='…'||kind==='，'||kind==='；'||kind==='：'||kind==='、'?'，':'');
+    let gap=(PAUSE[kind]||0)*R.pg*(part.length<=3&&kind==='！'?1.25:1);
+    const c={t,p:R.p*(1+dp),r:R.r+dr,v,gap,kind};
+    /* 疑問句句尾語助詞（嗎／呢／吧／啊／嘛）單獨拆出來，音調往上揚 */
+    if(kind==='？'&&part.length>=3&&/[嗎呢吧啊嘛]$/.test(part)){
+      c.t=part.slice(0,-1);c.p=R.p*(1+dp+.04);out.push(c);
+      out.push({t:part.slice(-1)+'？',p:R.p*(1+dp+.42),r:R.r+dr-.08,v,gap,kind:'？',tail:true});continue}
+    out.push(c)}
+  if(!out.length)out.push({t:String(text),p:R.p,r:R.r,v:R.v,gap:0,kind:''});
+  if(trail&&out.length){const c=out[out.length-1];c.p*=1+trail.dp;c.r+=trail.dr;c.v=Math.min(c.v,trail.v)}
+  out.forEach((c,i)=>{c.p=+clamp(c.p,.1,1.8).toFixed(3);c.r=+clamp(c.r,.55,1.5).toFixed(3);c.v=+clamp(c.v,.3,1).toFixed(2);c.gap=Math.round(c.gap)});
+  out[out.length-1].gap=0;   // 最後一段後面的停頓，由「下一句」的 gap 負責
+  return out}
+const planMs=p=>p.reduce((a,c)=>a+c.t.length*330/c.r+c.gap,0);
+let SPK_GEN=0,SPK_T=null;
+function spkStop(){SPK_GEN++;clearTimeout(SPK_T);try{speechSynthesis.cancel()}catch(e){}}
+/* speak(文字, 角色, 念完的回呼, {dir,dirEnd,song})；回傳預估念多久(ms) */
+function speak(text,who,onend,opt){
+  spkStop();const gen=SPK_GEN;let plan;
+  try{plan=planSpeech(text,who,opt)}catch(e){plan=[{t:spoken(String(text)),p:1,r:.8,v:.92,gap:0}]}
+  let i=0;
+  const step=()=>{
+    if(gen!==SPK_GEN)return;
+    if(i>=plan.length){onend&&onend();return}
+    const c=plan[i++];
+    try{
+      const u=new SpeechSynthesisUtterance(c.t);u.lang='zh-TW';u.pitch=c.p;u.rate=c.r;u.volume=c.v;
+      let done=false,wd=null;
+      const next=()=>{if(done||gen!==SPK_GEN)return;done=true;clearTimeout(wd);SPK_T=setTimeout(step,c.gap)};
+      u.onend=next;u.onerror=e=>{if(e&&(e.error==='interrupted'||e.error==='canceled'))return;next()};
+      wd=setTimeout(next,c.t.length*330/c.r+2500);    // 萬一瀏覽器沒送出 end 事件，也不會卡住
+      zhTwSpeak(u);
+    }catch(e){clearTimeout(SPK_T);SPK_T=setTimeout(()=>{if(gen===SPK_GEN)onend&&onend()},1500)}
+  };
+  step();return planMs(plan)}
+/* 念一句劇本臺詞：依角色與括號裡的舞臺說明決定語氣 */
+function speakLine(l,onend){
+  const raw=clean(l.t),dirs=[...raw.matchAll(/（([^）]*)）/g)];
+  const lead=dirs.length&&dirs[0].index===0?dirs[0][1]:'';
+  const last=dirs.length?dirs[dirs.length-1]:null;
+  const trail=last&&last.index>0&&last.index+last[0].length===raw.length?last[1]:'';
+  return speak(noDir(l.t),l.w==='△'||l.w==='info'||l.w==='act'?'舞台':l.w,onend,{dir:lead,dirEnd:trail,song:l.w==='全體'})}
 
 /* ---------- music ---------- */
 let AC=null;
@@ -565,12 +664,12 @@ function playLine(k,{speakIt=true,onend}={}){
     if(isMine){autoWait=true;temp('輪到你了！請念出你的臺詞 🎤',{left:'50%',top:'40%',transform:'translateX(-50%)'},'badge',2600);return;}
     talkOn(l,true);
     const fin=()=>{talkOn(l,false);onend&&onend()};
-    if(speakIt&&txt.trim()){let done=false;const once=()=>{if(done)return;done=true;fin()};speak(txt,l.w==='△'||l.w==='info'||l.w==='act'?'旁白':l.w,()=>later(once,500));later(once,Math.max(2500,txt.length*420+1500));}
+    if(speakIt&&txt.trim()){let done=false;const once=()=>{if(done)return;done=true;fin()};const est=speakLine(l,()=>later(once,ROLE[roleOf(l.w)].gap));later(once,Math.max(2500,est*1.6+2500));}
     else later(fin,1800);
   });
 }
 let autoWait=false;
-function stopTimersOnly(){timers.forEach(clearTimeout);timers=[];try{speechSynthesis.cancel()}catch(e){}}
+function stopTimersOnly(){timers.forEach(clearTimeout);timers=[];spkStop()}
 function nextLine(){const L=ACTS[curAct()];if(!L)return;autoWait=false;if(lineIdx<L.length-1){playLine(lineIdx+1,{onend:autoOn?()=>{if(autoOn)nextLine()}:null})}else{autoOn=false;}}
 function autoPlay(){autoOn=true;lineIdx=-1;nextLineAuto();}
 function nextLineAuto(){const L=ACTS[curAct()];if(!autoOn)return;if(lineIdx>=L.length-1){autoOn=false;return}
@@ -675,7 +774,7 @@ function go(i){
   st.enter&&st.enter();
 }
 $('#prev').onclick=()=>go(cur-1);$('#next').onclick=()=>go(cur+1);
-$('#say').onclick=()=>{const st=S[cur];if(st.act){const l=ACTS[st.act][Math.max(0,lineIdx)];speak(noDir(l.t),l.w==='△'?'旁白':l.w)}else speak(st.guide.join(''))};
+$('#say').onclick=()=>{const st=S[cur];if(st.act){const l=ACTS[st.act][Math.max(0,lineIdx)];speakLine(l)}else speak(st.guide.join(''))};
 document.addEventListener('keydown',e=>{if(e.target.closest('select,.v,.ln'))return;if(e.key===' '&&S[cur].act){e.preventDefault();ac();continueAfterMine()}if(e.key==='ArrowRight'||e.key==='PageDown')go(cur+1);if(e.key==='ArrowLeft'||e.key==='PageUp')go(cur-1);});
 go(0);
 
